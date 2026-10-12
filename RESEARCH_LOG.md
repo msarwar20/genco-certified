@@ -686,6 +686,34 @@ Grouped 5-fold CV by load scenario, correct outage locations, controls, 3 Base s
 - **New lead:** GENCO's |ΔVm| errors are largely bus-specific (systematic). A per-bus bias correction may help; this needs a check on signed errors (open).
 - Old files `case118_ieee_base_probe.json` and `_pca.parquet` are stale. Do not cite them.
 
+## 2026-10-11: Batch 2, data (agent D; `results/notes/data_D.md`)
+
+**New IEEE 118 sets** (configs in `configs/datakit/`; all `splits_all`; ids contiguous). "Violating" means a branch above 1.01 of rate.
+
+| Set | Seed | Load scenarios | Scenarios | Violating |
+|---|---|---|---|---|
+| `data/calib/n1` (N-1 calibration) | 3101 | 100 | 2,200 | 31.5% |
+| `data/stress100/n1` | 3111 | 100 | 2,200 | 33.0% |
+| `data/stress100/n2` | 3102 | 100 | 2,199 | 55.8% |
+| `data/stress100/n3` | 3103 | 100 | 2,199 | 67.9% |
+| `data/stress100/n5` | 3105 | 100 | 2,194 | 84.5% |
+
+**Exhaustive N-1**
+- `data/exhaustive/n1` (seed 3201, 30 load scenarios):
+  - datakit's `NMinusKGenerator` enumerates N-0 plus every branch outage but ignores generators.
+  - Islanding outages (9 radial branches) are skipped silently.
+  - 178 scenarios per load scenario (5,340 total).
+- `data/exhaustive/n1_gen`: 1,620 generator outages, via a patched enumerator (`data/exhaustive/run_exhaustive_gen.py`). N-0 states pair with the branch set.
+
+**GOC grids**
+- GOC 500: 30 partitions fetched. The paper test set for seed 0 is 638 scenarios / 29 load scenarios. `fetch_data.py --seeds` writes per-seed splits.
+- GOC 2000: 20 partitions. `splits_heldout` (seed 0) now holds **879 scenarios / 40 load scenarios**, up from 198 / 9.
+
+**Caveats**
+- **Per-seed splits.** Released seed-1 and seed-42 checkpoints have different train/test splits. The default `splits_paper_test` is clean only for seed 0. Use `splits_paper_test_seed{1,42}`. Agent F was warned mid-run.
+- **Shared load trajectory.** datakit takes the first n hours of the aggregate load profile and uses the seed only for noise. So calibration and test sets share the global load trajectory (correlation 0.95). This weakens the conformal exchangeability argument, which must be stated.
+- About 4% of random N-1 rows are duplicate draws within a load scenario.
+
 ## Open questions / TODO
 
 - [ ] Re-run IEEE 118 exp01/exp02 with the fixed DC start for consistent DC numbers.
