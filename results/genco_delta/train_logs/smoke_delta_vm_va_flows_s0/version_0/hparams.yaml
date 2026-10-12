@@ -1,0 +1,63 @@
+args: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
+  callbacks: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
+    patience: 100
+    tol: 0
+  data: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
+    baseMVA: 100
+    basecase_store: /Users/msarwar/Desktop/webDev/GridFMChallenge/data/pf/case118_ieee/basecase_store.pt
+    delta_inputs: vm_va_flows
+    mask_value: 0.0
+    networks:
+    - case118_ieee
+    normalization: HeteroDataMVANormalizer
+    scenarios:
+    - 250000
+    split_by_load_scenario_idx: false
+    split_from_existing_files: /Users/msarwar/Desktop/webDev/GridFMChallenge/data/pf/case118_ieee/splits_paper_test
+    test_ratio: 0.1
+    val_ratio: 0.1
+    workers: 0
+  model: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
+    attention_head: 8
+    edge_dim: 10
+    hidden_size: 48
+    input_bus_dim: 15
+    input_gen_dim: 6
+    num_layers: 12
+    output_bus_dim: 2
+    output_gen_dim: 1
+    type: GNS_heterogeneous
+  optimizer: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
+    learning_rate: 0.0001
+    optimizer_params: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
+      betas:
+      - 0.9
+      - 0.999
+    scheduler_params: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
+      factor: 0.7
+      mode: min
+      patience: 5
+    scheduler_type: ReduceLROnPlateau
+    type: AdamW
+  seed: 0
+  task: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
+    task_name: PowerFlowContingencyAware
+  training: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
+    accelerator: cpu
+    batch_size: 32
+    devices: auto
+    epochs: 1
+    loss_args:
+    - !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
+      base_weight: 0.5
+    - !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace {}
+    loss_weights:
+    - 0.1
+    - 0.9
+    losses:
+    - LayeredWeightedPhysics
+    - MaskedBusMSE
+    strategy: auto
+  verbose: true
+  version: 1
+data_normalizers: []

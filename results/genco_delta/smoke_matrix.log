@@ -1,0 +1,234 @@
+== 2026-10-11 23:16:01 GENCO-Delta matrix: arms=[control delta_vm_va delta_vm_va_flows] seeds=[0 1] epochs=1 sets=[paper n3] smoke=1
+torch 2.12.1 mps True
+  /Users/msarwar/Desktop/webDev/GridFMChallenge/data/pf/case118_ieee/splits_paper_test_seed1: train 4416, val 770, test 814
+  /Users/msarwar/Desktop/webDev/GridFMChallenge/data/pf/case118_ieee/splits_paper_test_seed42: train 4790, val 594, test 616
+/Users/msarwar/Desktop/webDev/GridFMChallenge/data/pf/case118_ieee/basecase_store.pt exists (use --force to rebuild)
+  probe (200 scenarios): base vs post-contingency label | median of per-scenario max |dVm| at PQ 4.25e-03 p.u., |dVa| 2.40e-02 rad | max |dVm| at PV setpoints 6.0e-08, at REF 5.7e-08
+/Users/msarwar/Desktop/webDev/GridFMChallenge/data/stress/n1/case118_ieee/basecase_store.pt exists (use --force to rebuild)
+  probe (200 scenarios): base vs post-contingency label | median of per-scenario max |dVm| at PQ 4.50e-03 p.u., |dVa| 3.25e-02 rad | max |dVm| at PV setpoints 6.0e-08, at REF 5.6e-08
+/Users/msarwar/Desktop/webDev/GridFMChallenge/data/stress/n2/case118_ieee/basecase_store.pt exists (use --force to rebuild)
+  probe (200 scenarios): base vs post-contingency label | median of per-scenario max |dVm| at PQ 9.59e-03 p.u., |dVa| 5.23e-02 rad | max |dVm| at PV setpoints 6.0e-08, at REF 6.0e-08
+/Users/msarwar/Desktop/webDev/GridFMChallenge/data/stress/n3/case118_ieee/basecase_store.pt exists (use --force to rebuild)
+  probe (200 scenarios): base vs post-contingency label | median of per-scenario max |dVm| at PQ 1.37e-02 p.u., |dVa| 9.46e-02 rad | max |dVm| at PV setpoints 6.0e-08, at REF 5.9e-08
+/Users/msarwar/Desktop/webDev/GridFMChallenge/data/stress/n5/case118_ieee/basecase_store.pt exists (use --force to rebuild)
+  probe (200 scenarios): base vs post-contingency label | median of per-scenario max |dVm| at PQ 1.82e-02 p.u., |dVa| 1.29e-01 rad | max |dVm| at PV setpoints 5.9e-08, at REF 5.8e-08
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_released_s0__paper: 638 scenarios in 15s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_released_s0__paper.json
+     638 scenarios / 29 load scenarios | truth: 484 violating elements in 225 contingencies
+     NR iters to 1e-2 MW: model 1.72 [1.58, 1.85] | base 2.04 [2, 2.07] | flat 3.01 [3, 3.02] | model-base -0.318 [-0.453, -0.191]
+     NR iters to 1e-4 MW: model 2 [2, 2.01] | base 2.49 [2.45, 2.53] | flat 4 [4, 4] | model-base -0.489 [-0.53, -0.448]
+     NR iters to 1e-6 MW: model 2.15 [2.06, 2.25] | base 2.88 [2.83, 2.93] | flat 4 [4, 4.01] | model-base -0.734 [-0.831, -0.625]
+     state error l2 (median): model 0.0494 | base 0.0502 | mean ratio model/base 0.343 [0.259, 0.452]
+     g0: element misses 47 (rate 0.0971 [0.0553, 0.15]), false alarms 285, contingency misses 14
+     g1: element misses 1 (rate 0.00207 [0, 0.00677]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 33 (rate 0.0682 [0.0468, 0.0915]), false alarms 6, contingency misses 4
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_released_s0__n3: 660 scenarios in 16s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_released_s0__n3.json
+     660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
+     NR iters to 1e-2 MW: model 1.73 [1.63, 1.81] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base -0.565 [-0.664, -0.47]
+     NR iters to 1e-4 MW: model 2.01 [2, 2.02] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base -0.886 [-0.921, -0.85]
+     NR iters to 1e-6 MW: model 2.19 [2.13, 2.28] | base 3.17 [3.14, 3.2] | flat 4.01 [4, 4.01] | model-base -0.979 [-1.06, -0.888]
+     state error l2 (median): model 0.0627 | base 0.182 | mean ratio model/base 0.199 [0.159, 0.246]
+     g0: element misses 55 (rate 0.0579 [0.034, 0.0827]), false alarms 128, contingency misses 16
+     g1: element misses 1 (rate 0.00105 [0, 0.00323]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
+     b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
+== 2026-10-11 23:16:41 train smoke_control_s0
+   fit done in 33s; best val 0.00048632180551066995
+   saved /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/smoke_control_s0/best_model_state_dict.pt
+   run record /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/runs/smoke_control_s0.json
+== 2026-10-11 23:17:19 evaluate smoke_control_s0
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_control_s0__paper: 638 scenarios in 23s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_control_s0__paper.json
+     638 scenarios / 29 load scenarios | truth: 484 violating elements in 225 contingencies
+     NR iters to 1e-2 MW: model 1.95 [1.87, 2] | base 2.04 [2, 2.07] | flat 3.01 [3, 3.02] | model-base -0.0909 [-0.166, -0.0298]
+     NR iters to 1e-4 MW: model 2.01 [2, 2.01] | base 2.49 [2.45, 2.53] | flat 4 [4, 4] | model-base -0.487 [-0.527, -0.447]
+     NR iters to 1e-6 MW: model 2.3 [2.17, 2.44] | base 2.88 [2.83, 2.93] | flat 4 [4, 4.01] | model-base -0.582 [-0.718, -0.434]
+     state error l2 (median): model 0.103 | base 0.0502 | mean ratio model/base 0.62 [0.508, 0.768]
+     g0: element misses 35 (rate 0.0723 [0.0434, 0.109]), false alarms 645, contingency misses 7
+     g1: element misses 1 (rate 0.00207 [0, 0.00677]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 33 (rate 0.0682 [0.0468, 0.0915]), false alarms 6, contingency misses 4
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_control_s0__n3: 660 scenarios in 24s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_control_s0__n3.json
+     660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
+     NR iters to 1e-2 MW: model 1.95 [1.91, 1.98] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base -0.342 [-0.388, -0.3]
+     NR iters to 1e-4 MW: model 2.03 [2.01, 2.04] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base -0.871 [-0.908, -0.832]
+     NR iters to 1e-6 MW: model 2.33 [2.24, 2.42] | base 3.17 [3.14, 3.2] | flat 4.01 [4, 4.01] | model-base -0.845 [-0.944, -0.742]
+     state error l2 (median): model 0.116 | base 0.182 | mean ratio model/base 0.305 [0.258, 0.361]
+     g0: element misses 52 (rate 0.0547 [0.0364, 0.0732]), false alarms 241, contingency misses 9
+     g1: element misses 1 (rate 0.00105 [0, 0.00323]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
+     b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
+== 2026-10-11 23:18:13 train smoke_delta_vm_va_s0
+   fit done in 33s; best val 0.03908318653702736
+   saved /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/smoke_delta_vm_va_s0/best_model_state_dict.pt
+   run record /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/runs/smoke_delta_vm_va_s0.json
+== 2026-10-11 23:18:52 evaluate smoke_delta_vm_va_s0
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_delta_vm_va_s0__paper: 638 scenarios in 31s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_delta_vm_va_s0__paper.json
+     638 scenarios / 29 load scenarios | truth: 484 violating elements in 225 contingencies
+     NR iters to 1e-2 MW: model 3.01 [3, 3.01] | base 2.04 [2, 2.07] | flat 3.01 [3, 3.02] | model-base 0.969 [0.936, 1]
+     NR iters to 1e-4 MW: model 3.08 [3.03, 3.15] | base 2.49 [2.45, 2.53] | flat 4 [4, 4] | model-base 0.585 [0.522, 0.668]
+     NR iters to 1e-6 MW: model 3.58 [3.42, 3.74] | base 2.88 [2.83, 2.93] | flat 4 [4, 4.01] | model-base 0.697 [0.544, 0.851]
+     state error l2 (median): model 1.53 | base 0.0502 | mean ratio model/base 7.62 [6.23, 9.48]
+     g0: element misses 340 (rate 0.702 [0.624, 0.767]), false alarms 2249, contingency misses 0
+     g1: element misses 146 (rate 0.302 [0.235, 0.362]), false alarms 487, contingency misses 19
+     g2: element misses 2 (rate 0.00413 [0, 0.0104]), false alarms 0, contingency misses 0
+     b1: element misses 33 (rate 0.0682 [0.0468, 0.0915]), false alarms 6, contingency misses 4
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_delta_vm_va_s0__n3: 660 scenarios in 23s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_delta_vm_va_s0__n3.json
+     660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
+     NR iters to 1e-2 MW: model 3 [3, 3.01] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base 0.712 [0.682, 0.747]
+     NR iters to 1e-4 MW: model 3.13 [3.09, 3.19] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base 0.233 [0.182, 0.298]
+     NR iters to 1e-6 MW: model 3.77 [3.66, 3.88] | base 3.17 [3.14, 3.2] | flat 4.01 [4, 4.01] | model-base 0.602 [0.48, 0.711]
+     state error l2 (median): model 1.55 | base 0.182 | mean ratio model/base 3.61 [3.09, 4.24]
+     g0: element misses 641 (rate 0.675 [0.59, 0.752]), false alarms 1823, contingency misses 4
+     g1: element misses 193 (rate 0.203 [0.136, 0.279]), false alarms 689, contingency misses 24
+     g2: element misses 5 (rate 0.00526 [0, 0.0143]), false alarms 1, contingency misses 0
+     b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
+     b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
+== skip training smoke_delta_vm_va_flows_s0 (run record exists)
+== 2026-10-11 23:19:53 evaluate smoke_delta_vm_va_flows_s0
+   skip eval smoke_delta_vm_va_flows_s0__paper
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_delta_vm_va_flows_s0__n3: 660 scenarios in 28s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_delta_vm_va_flows_s0__n3.json
+     660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
+     NR iters to 1e-2 MW: model 3.01 [3.01, 3.02] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base 0.723 [0.692, 0.756]
+     NR iters to 1e-4 MW: model 3.3 [3.21, 3.41] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base 0.405 [0.315, 0.511]
+     NR iters to 1e-6 MW: model 4 [3.98, 4.01] | base 3.17 [3.14, 3.2] | flat 4.01 [4, 4.01] | model-base 0.824 [0.795, 0.856]
+     state error l2 (median): model 1.69 | base 0.182 | mean ratio model/base 3.88 [3.29, 4.62]
+     g0: element misses 701 (rate 0.738 [0.67, 0.8]), false alarms 2925, contingency misses 0
+     g1: element misses 264 (rate 0.278 [0.203, 0.359]), false alarms 981, contingency misses 27
+     g2: element misses 12 (rate 0.0126 [0.00348, 0.0246]), false alarms 3, contingency misses 1
+     b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
+     b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_released_s1__paper: 814 scenarios in 51s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_released_s1__paper.json
+     814 scenarios / 37 load scenarios | truth: 680 violating elements in 295 contingencies
+     NR iters to 1e-2 MW: model 1.61 [1.48, 1.73] | base 2.07 [2.03, 2.1] | flat 3.01 [3, 3.02] | model-base -0.453 [-0.586, -0.333]
+     NR iters to 1e-4 MW: model 2 [2, 2.01] | base 2.51 [2.47, 2.55] | flat 4 [4, 4] | model-base -0.51 [-0.553, -0.466]
+     NR iters to 1e-6 MW: model 2.07 [2.04, 2.1] | base 2.92 [2.88, 2.95] | flat 4 [4, 4.01] | model-base -0.849 [-0.893, -0.801]
+     state error l2 (median): model 0.0407 | base 0.0563 | mean ratio model/base 0.245 [0.197, 0.308]
+     g0: element misses 45 (rate 0.0662 [0.0391, 0.0975]), false alarms 349, contingency misses 5
+     g1: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 49 (rate 0.0721 [0.051, 0.0945]), false alarms 17, contingency misses 6
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_released_s1__n3: 660 scenarios in 47s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_released_s1__n3.json
+     660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
+     NR iters to 1e-2 MW: model 1.78 [1.7, 1.85] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base -0.514 [-0.594, -0.438]
+     NR iters to 1e-4 MW: model 2.02 [2.01, 2.03] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base -0.879 [-0.912, -0.842]
+     NR iters to 1e-6 MW: model 2.25 [2.17, 2.32] | base 3.17 [3.14, 3.2] | flat 4.01 [4, 4.01] | model-base -0.927 [-1, -0.845]
+     state error l2 (median): model 0.0654 | base 0.182 | mean ratio model/base 0.195 [0.164, 0.23]
+     g0: element misses 79 (rate 0.0832 [0.0524, 0.112]), false alarms 101, contingency misses 17
+     g1: element misses 2 (rate 0.00211 [0, 0.0054]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
+     b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
+== 2026-10-11 23:22:15 train smoke_control_s1
+   fit done in 34s; best val 0.00027175573632121086
+   saved /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/smoke_control_s1/best_model_state_dict.pt
+   run record /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/runs/smoke_control_s1.json
+== 2026-10-11 23:22:56 evaluate smoke_control_s1
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_control_s1__paper: 814 scenarios in 36s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_control_s1__paper.json
+     814 scenarios / 37 load scenarios | truth: 680 violating elements in 295 contingencies
+     NR iters to 1e-2 MW: model 1.69 [1.57, 1.79] | base 2.07 [2.03, 2.1] | flat 3.01 [3, 3.02] | model-base -0.378 [-0.504, -0.264]
+     NR iters to 1e-4 MW: model 2 [2, 2.01] | base 2.51 [2.47, 2.55] | flat 4 [4, 4] | model-base -0.509 [-0.552, -0.464]
+     NR iters to 1e-6 MW: model 2.15 [2.07, 2.24] | base 2.92 [2.88, 2.95] | flat 4 [4, 4.01] | model-base -0.767 [-0.848, -0.674]
+     state error l2 (median): model 0.061 | base 0.0563 | mean ratio model/base 0.346 [0.278, 0.436]
+     g0: element misses 40 (rate 0.0588 [0.035, 0.0857]), false alarms 557, contingency misses 6
+     g1: element misses 0 (rate 0 [0, 0]), false alarms 1, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 49 (rate 0.0721 [0.051, 0.0945]), false alarms 17, contingency misses 6
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_control_s1__n3: 660 scenarios in 28s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_control_s1__n3.json
+     660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
+     NR iters to 1e-2 MW: model 1.88 [1.81, 1.93] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base -0.415 [-0.48, -0.353]
+     NR iters to 1e-4 MW: model 2.02 [2.01, 2.03] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base -0.88 [-0.914, -0.844]
+     NR iters to 1e-6 MW: model 2.29 [2.2, 2.38] | base 3.17 [3.14, 3.2] | flat 4.01 [4, 4.01] | model-base -0.886 [-0.979, -0.792]
+     state error l2 (median): model 0.0777 | base 0.182 | mean ratio model/base 0.238 [0.195, 0.286]
+     g0: element misses 66 (rate 0.0695 [0.0457, 0.0938]), false alarms 209, contingency misses 11
+     g1: element misses 1 (rate 0.00105 [0, 0.00323]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
+     b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
+== 2026-10-11 23:24:08 train smoke_delta_vm_va_s1
+   fit done in 32s; best val 0.03082437813282013
+   saved /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/smoke_delta_vm_va_s1/best_model_state_dict.pt
+   run record /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/runs/smoke_delta_vm_va_s1.json
+== 2026-10-11 23:24:46 evaluate smoke_delta_vm_va_s1
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_delta_vm_va_s1__paper: 814 scenarios in 34s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_delta_vm_va_s1__paper.json
+     814 scenarios / 37 load scenarios | truth: 680 violating elements in 295 contingencies
+     NR iters to 1e-2 MW: model 2.98 [2.92, 3] | base 2.07 [2.03, 2.1] | flat 3.01 [3, 3.02] | model-base 0.909 [0.844, 0.961]
+     NR iters to 1e-4 MW: model 3.81 [3.67, 3.92] | base 2.51 [2.47, 2.55] | flat 4 [4, 4] | model-base 1.3 [1.16, 1.42]
+     NR iters to 1e-6 MW: model 3.87 [3.75, 3.96] | base 2.92 [2.88, 2.95] | flat 4 [4, 4.01] | model-base 0.951 [0.844, 1.04]
+     state error l2 (median): model 1.09 | base 0.0563 | mean ratio model/base 5.08 [4.28, 6.14]
+     g0: element misses 426 (rate 0.626 [0.571, 0.68]), false alarms 2646, contingency misses 0
+     g1: element misses 130 (rate 0.191 [0.147, 0.236]), false alarms 921, contingency misses 4
+     g2: element misses 2 (rate 0.00294 [0, 0.00733]), false alarms 2, contingency misses 0
+     b1: element misses 49 (rate 0.0721 [0.051, 0.0945]), false alarms 17, contingency misses 6
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_delta_vm_va_s1__n3: 660 scenarios in 26s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_delta_vm_va_s1__n3.json
+     660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
+     NR iters to 1e-2 MW: model 3 [2.99, 3] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base 0.706 [0.674, 0.742]
+     NR iters to 1e-4 MW: model 3.76 [3.61, 3.89] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base 0.864 [0.717, 0.998]
+     NR iters to 1e-6 MW: model 3.9 [3.8, 3.98] | base 3.17 [3.14, 3.2] | flat 4.01 [4, 4.01] | model-base 0.726 [0.623, 0.815]
+     state error l2 (median): model 1.39 | base 0.182 | mean ratio model/base 3.23 [2.78, 3.81]
+     g0: element misses 551 (rate 0.58 [0.502, 0.645]), false alarms 2026, contingency misses 2
+     g1: element misses 147 (rate 0.155 [0.107, 0.206]), false alarms 689, contingency misses 17
+     g2: element misses 1 (rate 0.00105 [0, 0.00323]), false alarms 6, contingency misses 0
+     b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
+     b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
+== 2026-10-11 23:25:53 train smoke_delta_vm_va_flows_s1
+   fit done in 30s; best val 0.03425811603665352
+   saved /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/smoke_delta_vm_va_flows_s1/best_model_state_dict.pt
+   run record /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/runs/smoke_delta_vm_va_flows_s1.json
+== 2026-10-11 23:26:28 evaluate smoke_delta_vm_va_flows_s1
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_delta_vm_va_flows_s1__paper: 814 scenarios in 23s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_delta_vm_va_flows_s1__paper.json
+     814 scenarios / 37 load scenarios | truth: 680 violating elements in 295 contingencies
+     NR iters to 1e-2 MW: model 2.98 [2.94, 3] | base 2.07 [2.03, 2.1] | flat 3.01 [3, 3.02] | model-base 0.91 [0.864, 0.952]
+     NR iters to 1e-4 MW: model 3.55 [3.39, 3.7] | base 2.51 [2.47, 2.55] | flat 4 [4, 4] | model-base 1.03 [0.87, 1.2]
+     NR iters to 1e-6 MW: model 3.61 [3.47, 3.74] | base 2.92 [2.88, 2.95] | flat 4 [4, 4.01] | model-base 0.694 [0.544, 0.843]
+     state error l2 (median): model 1.22 | base 0.0563 | mean ratio model/base 5.64 [4.76, 6.76]
+     g0: element misses 486 (rate 0.715 [0.664, 0.764]), false alarms 2253, contingency misses 13
+     g1: element misses 135 (rate 0.199 [0.154, 0.241]), false alarms 663, contingency misses 20
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 1, contingency misses 0
+     b1: element misses 49 (rate 0.0721 [0.051, 0.0945]), false alarms 17, contingency misses 6
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   smoke_delta_vm_va_flows_s1__n3: 660 scenarios in 22s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_delta_vm_va_flows_s1__n3.json
+     660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
+     NR iters to 1e-2 MW: model 2.97 [2.92, 3] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base 0.68 [0.627, 0.729]
+     NR iters to 1e-4 MW: model 3.6 [3.45, 3.76] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base 0.706 [0.547, 0.859]
+     NR iters to 1e-6 MW: model 3.73 [3.6, 3.86] | base 3.17 [3.14, 3.2] | flat 4.01 [4, 4.01] | model-base 0.562 [0.435, 0.688]
+     state error l2 (median): model 1.37 | base 0.182 | mean ratio model/base 3.23 [2.75, 3.83]
+     g0: element misses 579 (rate 0.609 [0.534, 0.674]), false alarms 1805, contingency misses 11
+     g1: element misses 140 (rate 0.147 [0.0995, 0.196]), false alarms 562, contingency misses 25
+     g2: element misses 1 (rate 0.00105 [0, 0.00323]), false alarms 7, contingency misses 0
+     b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
+     b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
+| set | arm | seeds | iters_g_e2 | iters_g_e4 | iters_g_e6 | iters_b_e6 | iters_g_minus_b_e6 | err_l2_median_g | g1_el_miss | b1_el_miss | g2_el_miss |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| n3 | released | 2 | 1.75 ± 0.036 | 2.02 ± 0.0054 | 2.22 ± 0.036 | 3.17 ± 0 | -0.953 ± 0.036 | 0.064 ± 0.0019 | 1.5 ± 0.71 | 60 ± 0 | 0 ± 0 |
+| n3 | control | 2 | 1.91 ± 0.051 | 2.02 ± 0.0064 | 2.31 ± 0.029 | 3.17 ± 0 | -0.866 ± 0.029 | 0.0969 ± 0.027 | 1 ± 0 | 60 ± 0 | 0 ± 0 |
+| n3 | delta_vm_va | 2 | 3 ± 0.0043 | 3.45 ± 0.45 | 3.84 ± 0.088 | 3.17 ± 0 | 0.664 ± 0.088 | 1.47 ± 0.11 | 170 ± 33 | 60 ± 0 | 3 ± 2.8 |
+| n3 | delta_vm_va_flows | 2 | 2.99 ± 0.03 | 3.45 ± 0.21 | 3.87 ± 0.19 | 3.17 ± 0 | 0.693 ± 0.19 | 1.53 ± 0.22 | 202 ± 88 | 60 ± 0 | 6.5 ± 7.8 |
+| paper | released | 2 | 1.67 ± 0.075 | 2 ± 0.0025 | 2.11 ± 0.057 | 2.9 ± 0.024 | -0.791 ± 0.082 | 0.045 ± 0.0062 | 0.5 ± 0.71 | 41 ± 11 | 0 ± 0 |
+| paper | control | 2 | 1.82 ± 0.18 | 2 ± 0.0027 | 2.22 ± 0.11 | 2.9 ± 0.024 | -0.674 ± 0.13 | 0.082 ± 0.03 | 0.5 ± 0.71 | 41 ± 11 | 0 ± 0 |
+| paper | delta_vm_va | 2 | 2.99 ± 0.022 | 3.44 ± 0.52 | 3.72 ± 0.2 | 2.9 ± 0.024 | 0.824 ± 0.18 | 1.31 ± 0.31 | 138 ± 11 | 41 ± 11 | 2 ± 0 |
+| paper | delta_vm_va_flows | 2 | 2.99 ± 0.022 | 3.39 ± 0.22 | 3.78 ± 0.24 | 2.9 ± 0.024 | 0.878 ± 0.26 | 1.52 ± 0.42 | 169 ± 48 | 41 ± 11 | 2.5 ± 3.5 |
+wrote results/genco_delta/smoke_summary_runs.csv, smoke_summary_by_arm.csv, smoke_summary_by_arm.md
+== 2026-10-11 23:27:21 done

@@ -740,6 +740,54 @@ Grouped 5-fold CV by load scenario, correct outage locations, controls, 3 Base s
 - `scripts/run_genco_delta.sh`: arms {control, Δ vm_va, Δ vm_va_flows} × init seeds {0, 1, 42}, each with its own per-seed split, then evaluated on the paper set and stress n1–n5.
 - About 6.5 h on the M4, resumable. Launched after agent F's timing benchmark.
 
+## 2026-10-11: Batch 2, industry-style baselines, seeds and CIs (agent F; `results/notes/ws1_F_baselines_stats.md`)
+
+**Factor-reuse solvers** (`src/genco_certified/fastpf.py`, `scripts/exp07_industrial_baselines.py`)
+- Chord Newton with one cached factorization per (pv, pq) pattern, plus a Schur-bordered variant with outage compensation.
+- Fast-decoupled XB with Woodbury outage compensation.
+- 16 tests; 58 pass in total.
+- Plain chord is weak: its convergence rate equals the outaged branch's self-PTDF. From the base case it fails within 50 iterations for 20% of contingencies (70% at N-5).
+
+**Paired savings of a GENCO start vs a base-case start** (triangular solves to 1e-4 MW; paper set, 638 contingencies)
+
+| Solver | Saving (95% CI) | N-5 | Exhaustive N-1 (6,900 contingencies) |
+|---|---|---|---|
+| Full NR | 20% (18–21) | 32% | 19% |
+| Compensated chord | 21% (20–21) | 11% | 20% |
+| FDLF | **5% (2–8)** | 10% | 5% |
+
+- With FDLF, the GENCO start is worse than the base-case start in 23% of contingencies.
+
+**Break-even GENCO inference per contingency** (what the solver saves)
+- Paper set: 0.31 ms (full NR), 0.04 ms (compensated chord), 0.015 ms (FDLF).
+- N-5: 0.63 / 0.06 / 0.04 ms.
+- The cheapest base-start solver (FDLF) takes 0.35 ms per contingency. GENCO inference is 7.7–24 ms on the M4 (CPU/MPS), which is 12× to 1,600× above break-even.
+- **No wall-clock benefit on this hardware under any classical solver.**
+- "GENCO ≈ one Newton iteration" becomes ≈ 0.5 full-NR, 1.3 compensated-chord, or 0.3 FDLF iterations.
+- Timings are provisional: load average 2.3–5; python/scipy.
+
+**Seeds and sizes** (paper set and stress, Base seeds 0/1/42 on their own per-seed splits; Small/Tiny)
+- GENCO sequential LU (conformal α = 0.10): 1.24 ± 0.08 on the paper set, up to 1.62 ± 0.08 at N-5. Base case: 2.18–2.95.
+- Zero misses everywhere.
+- The max-rule c varies by seed: 0.35 / 1.87 / 0.22.
+- Equal-cost ladder, mean element misses on stress N-1/2/3/5: GENCO + 1 step 1.3 / 0.7 / 1.3 / 6.3, vs base + 2 steps 1 / 0 / 2 / 6. **Holds across seeds and sizes.**
+
+**Confidence intervals** (`results/policy_v3_ci.log`, `results/exp02/v3_ci_*`, `v3_seeds_*`). Calibrated policies, pooled over each checkpoint's five sets:
+- 0 / 4,346 element misses (95% Clopper–Pearson upper bound 0.07%);
+- 0 / 1,770 contingency misses (0.17%);
+- 0 / 149 load scenarios with a miss (2.0%).
+
+**Not yet done**
+- exp07 for seeds 1/42.
+- exp02 on `data/calib/n1` and `data/stress100`.
+- `run_all.sh` hooks for exp07 and `--ci`.
+
+## 2026-10-11: GENCO-Δ matrix launched (detached, PID 18674)
+
+- Command: `nohup ./scripts/run_genco_delta.sh > results/genco_delta/run_matrix.log`.
+- Arms {control, slack_aware, Δ vm_va, Δ vm_va_flows} × seeds {0, 1, 42}. About 8–9 h on the M4 GPU. Resumable (re-run the script; `FORCE=1` redoes runs).
+- Summaries appear in `results/genco_delta/`.
+
 ## Open questions / TODO
 
 - [ ] Re-run IEEE 118 exp01/exp02 with the fixed DC start for consistent DC numbers.

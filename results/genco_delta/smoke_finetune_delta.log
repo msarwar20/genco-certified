@@ -1,0 +1,31 @@
+Seed set to 0
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+GPU available: True (mps), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
+split='train' len(split_indices)=4724
+split='val' len(split_indices)=638
+split='test' len(split_indices)=638
+Restoring normalizer for case118_ieee from saved stats
+Setup already done for stage=TrainerFn.FITTING, skipping...
+┏━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━┳━━━━━━━┓
+┃   ┃ Name    ┃ Type              ┃ Params ┃ Mode ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━╇━━━━━━━┩
+│ 0 │ model   │ GNS_heterogeneous │ 20.1 M │ eval │     0 │
+│ 1 │ loss_fn │ MixedLoss         │      0 │ eval │     0 │
+└───┴─────────┴───────────────────┴────────┴──────┴───────┘
+Trainable params: 20.1 M                                                        
+Non-trainable params: 0                                                         
+Total params: 20.1 M                                                            
+Total estimated model params size (MB): 80.277                                  
+Modules in train mode: 0                                                        
+Modules in eval mode: 353                                                       
+Total FLOPs: 0                                                                  
+`Trainer.fit` stopped: `max_epochs=1` reached.
+creating train dataloader for rank  not distributed
+fit done in 48s; best val 0.056433770805597305
+saved /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/smoke_delta_vm_va_flows_s0/best_model_state_dict.pt
+run record /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/runs/smoke_delta_vm_va_flows_s0.json
+done

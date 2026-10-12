@@ -1,0 +1,73 @@
+set,method,start,n,n_fail,iters_max
+paper N-1,nr,flat,638,0,4.0
+paper N-1,nr,base,638,0,4.0
+paper N-1,nr,genco,638,0,3.0
+paper N-1,chord,base,638,126,50.0
+paper N-1,chord,genco,638,52,50.0
+paper N-1,chordC,base,638,0,32.0
+paper N-1,chordC,genco,638,0,19.0
+paper N-1,fdlf,base,638,0,14.0
+paper N-1,fdlf,genco,638,0,11.0
+stress N-1,nr,flat,660,0,5.0
+stress N-1,nr,base,660,0,4.0
+stress N-1,nr,genco,660,0,2.0
+stress N-1,chord,base,660,140,50.0
+stress N-1,chord,genco,660,59,50.0
+stress N-1,chordC,base,660,0,30.0
+stress N-1,chordC,genco,660,0,13.0
+stress N-1,fdlf,base,660,0,19.5
+stress N-1,fdlf,genco,660,0,15.5
+stress N-2,nr,flat,659,0,5.0
+stress N-2,nr,base,659,0,5.0
+stress N-2,nr,genco,659,0,4.0
+stress N-2,chord,base,659,254,50.0
+stress N-2,chord,genco,659,124,50.0
+stress N-2,chordC,base,659,0,34.0
+stress N-2,chordC,genco,659,0,30.0
+stress N-2,fdlf,base,659,0,28.5
+stress N-2,fdlf,genco,659,0,28.5
+stress N-3,nr,flat,660,0,4.0
+stress N-3,nr,base,660,0,4.0
+stress N-3,nr,genco,660,0,3.0
+stress N-3,chord,base,660,330,50.0
+stress N-3,chord,genco,660,165,50.0
+stress N-3,chordC,base,660,4,42.0
+stress N-3,chordC,genco,660,1,37.0
+stress N-3,fdlf,base,660,0,11.5
+stress N-3,fdlf,genco,660,0,10.5
+stress N-5,nr,flat,660,0,5.0
+stress N-5,nr,base,660,0,4.0
+stress N-5,nr,genco,660,0,4.0
+stress N-5,chord,base,660,459,50.0
+stress N-5,chord,genco,660,308,50.0
+stress N-5,chordC,base,660,1,38.0
+stress N-5,chordC,genco,660,0,43.0
+stress N-5,fdlf,base,660,0,26.5
+stress N-5,fdlf,genco,660,0,24.5
+"exhaustive N-1, branches",nr,flat,5310,0,5.0
+"exhaustive N-1, branches",nr,base,5310,0,5.0
+"exhaustive N-1, branches",nr,genco,5310,0,3.0
+"exhaustive N-1, branches",chord,base,5310,1432,50.0
+"exhaustive N-1, branches",chord,genco,5310,594,50.0
+"exhaustive N-1, branches",chordC,base,5310,0,30.0
+"exhaustive N-1, branches",chordC,genco,5310,0,27.0
+"exhaustive N-1, branches",fdlf,base,5310,0,32.5
+"exhaustive N-1, branches",fdlf,genco,5310,0,29.5
+"exhaustive N-1, generators",nr,flat,1590,0,4.0
+"exhaustive N-1, generators",nr,base,1590,0,4.0
+"exhaustive N-1, generators",nr,genco,1590,0,2.0
+"exhaustive N-1, generators",chord,base,1590,10,47.0
+"exhaustive N-1, generators",chord,genco,1590,3,31.0
+"exhaustive N-1, generators",chordC,base,1590,10,47.0
+"exhaustive N-1, generators",chordC,genco,1590,3,31.0
+"exhaustive N-1, generators",fdlf,base,1590,0,12.0
+"exhaustive N-1, generators",fdlf,genco,1590,0,10.0
+"exhaustive N-1, branches + generators",nr,flat,6900,0,5.0
+"exhaustive N-1, branches + generators",nr,base,6900,0,5.0
+"exhaustive N-1, branches + generators",nr,genco,6900,0,3.0
+"exhaustive N-1, branches + generators",chord,base,6900,1442,50.0
+"exhaustive N-1, branches + generators",chord,genco,6900,597,50.0
+"exhaustive N-1, branches + generators",chordC,base,6900,10,47.0
+"exhaustive N-1, branches + generators",chordC,genco,6900,3,31.0
+"exhaustive N-1, branches + generators",fdlf,base,6900,0,32.5
+"exhaustive N-1, branches + generators",fdlf,genco,6900,0,29.5

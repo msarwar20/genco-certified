@@ -19,6 +19,9 @@ Calibration of c (the unit of exchangeability is the LOAD SCENARIO, never the si
 
 Usage:
     python scripts/analyze_exp02.py --v3                 # full corrected analysis -> results/policy_v3.log + CSVs
+    python scripts/analyze_exp02.py --ci                 # v3 tables with cluster-bootstrap CIs (over load scenarios), Clopper-Pearson miss-rate
+                                                         # bounds, mean +- SD over the 3 released Base seeds and Small/Tiny
+                                                         # -> results/policy_v3_ci.log, results/exp02/v3_ci_*.csv, v3_seeds_*.csv
     python scripts/analyze_exp02.py --tag stress_n2_base --cal_tag case118_ieee_base_seed0 --tau 1.01
                                                          # legacy single-set table (format used by make_figures)
 """
@@ -129,6 +132,52 @@ def tune_threshold(load, truth, beta: float = 3.0, recall_target: float = 0.99, 
     ok = np.flatnonzero(rec >= recall_target)
     i_r = int(ok[-1]) if len(ok) else 0
     return {"fbeta": float(th[i_f]), "recall": float(th[i_r])}
+
+
+def cluster_bootstrap(num, den=None, groups=None, B: int = 2000, seed: int = 0, alpha: float = 0.05):
+    """Cluster bootstrap of a ratio estimator sum(num)/sum(den) (a mean when den is None).
+
+    The resampling unit is the cluster (here: the load scenario), resampled with replacement; rows with
+    NaN in num or den are dropped first. Returns (point, lo, hi) with percentile limits at alpha/2, 1-alpha/2.
+    """
+    num = np.asarray(num, dtype=float)
+    den = np.ones_like(num) if den is None else np.asarray(den, dtype=float)
+    g = np.arange(len(num)) if groups is None else np.asarray(groups)
+    ok = np.isfinite(num) & np.isfinite(den)
+    num, den, g = num[ok], den[ok], g[ok]
+    if len(num) == 0:
+        return np.nan, np.nan, np.nan
+    _, code = np.unique(g, return_inverse=True)
+    G = code.max() + 1
+    sn, sd = np.bincount(code, weights=num, minlength=G), np.bincount(code, weights=den, minlength=G)
+    point = sn.sum() / sd.sum() if sd.sum() != 0 else np.nan
+    if G < 2:
+        return point, np.nan, np.nan
+    idx = np.random.default_rng(seed).integers(0, G, size=(B, G))
+    with np.errstate(invalid="ignore", divide="ignore"):
+        stat = sn[idx].sum(1) / sd[idx].sum(1)
+    lo, hi = np.nanquantile(stat, [alpha / 2, 1 - alpha / 2])
+    return float(point), float(lo), float(hi)
+
+
+def clopper_pearson(k: int, n: int, alpha: float = 0.05, two_sided: bool = True):
+    """Exact (Clopper-Pearson) limits for k events in n trials: (lower, upper).
+
+    two_sided=True: the central 1 - alpha interval. two_sided=False: one-sided limits, each at confidence 1 - alpha
+    (the upper one is the usual "95% upper confidence bound"; with k = 0 it is 1 - alpha^(1/n) ~ 3/n for alpha = 0.05).
+    """
+    from scipy.stats import beta
+
+    if n <= 0:
+        return np.nan, np.nan
+    a = alpha / 2 if two_sided else alpha
+    lo = 0.0 if k == 0 else float(beta.ppf(a, k, n - k + 1))
+    hi = 1.0 if k >= n else float(beta.ppf(1 - a, k + 1, n - k))
+    return lo, hi
+
+
+def fmt_ci(p, lo, hi, nd: int = 3) -> str:
+    return f"{p:.{nd}f} [{lo:.{nd}f}, {hi:.{nd}f}]" if np.isfinite(lo) else f"{p:.{nd}f} [n/a]"
 
 
 # ---------------------------------------------------------------------------
@@ -851,6 +900,315 @@ def main_v3(args):
     Path(args.log).write_text("\n".join(log.lines) + "\n")
 
 
+# ---------------------------------------------------------------------------
+# v3 with confidence intervals, miss-rate bounds, seeds and sizes (--ci)
+# ---------------------------------------------------------------------------
+
+CI_SETS = ["paper", "n1", "n2", "n3", "n5"]
+CI_LABEL = {"paper": "paper N-1", "n1": "stress N-1", "n2": "stress N-2", "n3": "stress N-3", "n5": "stress N-5"}
+CI_MODELS = {"base seed 0": ("base", 0), "base seed 1": ("base", 1), "base seed 42": ("base", 42),
+             "small seed 0": ("small", 0), "tiny seed 0": ("tiny", 0)}
+BASE_MODELS = ["base seed 0", "base seed 1", "base seed 42"]
+# test split of each released IEEE 118 checkpoint (seed 1 / 42 were trained on other splits than seed 0)
+CI_SPLIT = {"base seed 0": "splits_paper_test", "base seed 1": "splits_paper_test_seed1",
+            "base seed 42": "splits_paper_test_seed42", "small seed 0": "splits_paper_test", "tiny seed 0": "splits_paper_test"}
+CI_RULES_SHOWN = ("max", "conf0.10")
+
+
+def ci_tags(size: str, seed: int) -> dict:
+    suf = "" if (size != "base" or seed == 0) else f"_seed{seed}"
+    return {"paper": f"case118_ieee_{size}_seed{seed}", **{f"n{k}": f"stress_n{k}_{size}{suf}" for k in (1, 2, 3, 5)}}
+
+
+def decision_stats(S: RawSet, scr: Screen, cnt, B: int = 2000) -> dict:
+    """Element- and contingency-level decision metrics of per-scenario counts, with cluster-bootstrap CIs
+    (clusters = load scenarios) and Clopper-Pearson bounds on the miss rates.
+
+    bounds: `*_cp_hi` two-sided 95% upper limit, `*_cp_hi1` one-sided 95% upper limit; `load_*` count LOAD SCENARIOS that
+    contain at least one miss (cluster-level bound, valid without independence between the scenarios of one load scenario).
+    """
+    tp = (cnt[:, 0] + cnt[:, 3]).astype(float)
+    fn = (cnt[:, 2] + cnt[:, 5]).astype(float)
+    fp = (cnt[:, 1] + cnt[:, 4]).astype(float)
+    pred_any = (cnt[:, 0] + cnt[:, 1] + cnt[:, 3] + cnt[:, 4]) > 0
+    ta = scr.truth_any
+    cm, cf = (ta & ~pred_any).astype(float), (~ta & pred_any).astype(float)
+    g = S.load_idx
+    _, code = np.unique(g, return_inverse=True)
+    n_loads = int(code.max()) + 1
+    r = dict(el_truth=int((tp + fn).sum()), el_miss=int(fn.sum()), el_fa=int(fp.sum()), cont_truth=int(ta.sum()),
+             cont_miss=int(cm.sum()), cont_fa=int(cf.sum()), n_scen=S.n, n_loads=n_loads)
+    for name, num, den in (("recall", tp, tp + fn), ("el_miss_rate", fn, tp + fn), ("cont_miss_rate", cm, ta.astype(float)),
+                           ("cont_fa_rate", cf, (~ta).astype(float))):
+        pt, lo, hi = cluster_bootstrap(num, den=den, groups=g, B=B)
+        r.update({name: pt, f"{name}_lo": lo, f"{name}_hi": hi})
+    for lvl, k, n in (("el", r["el_miss"], r["el_truth"]), ("cont", r["cont_miss"], r["cont_truth"])):
+        r[f"{lvl}_cp_hi"] = clopper_pearson(k, n)[1]
+        r[f"{lvl}_cp_hi1"] = clopper_pearson(k, n, two_sided=False)[1]
+    lm = int((np.bincount(code, weights=fn) > 0).sum())
+    lcm = int((np.bincount(code, weights=cm) > 0).sum())
+    r.update(load_miss=lm, load_cp_hi=clopper_pearson(lm, n_loads)[1], load_cp_hi1=clopper_pearson(lm, n_loads, two_sided=False)[1],
+             load_contmiss=lcm, load_contmiss_cp_hi=clopper_pearson(lcm, n_loads)[1])
+    return r
+
+
+def _c_const(Scal: RawSet, prior, rule, ref):
+    old, Scal.ref = Scal.ref, ref
+    try:
+        return cross_c(Scal, prior, rule)[0]
+    finally:
+        Scal.ref = old
+
+
+def ci_model(label, sets, tau, eps, rules, K, B):
+    """All CI tables of one released checkpoint: policies, equal-cost ladder, NR iterations."""
+    size, seed = CI_MODELS[label]
+    paper = sets["paper"]
+    pol, lad, nri = [], [], []
+    for key, S in sets.items():
+        scr = Screen(S, tau, eps)
+        g = S.load_idx
+        base = dict(model=label, size=size, seed=seed, set=CI_LABEL[key], set_key=key)
+        # --- policies
+        for rule in rules:
+            for name, prior, ks in POLICIES:
+                for ref in (("true",) if prior == "g" else ("true", "nr")):
+                    old = {id(x): x.ref for x in (S, paper)}
+                    S.ref = paper.ref = ref
+                    try:
+                        if key == "paper":
+                            c_s, _, info = kfold_c(S, prior, rule, K, 0)
+                            c_rep = float(np.median(info["c_folds"]))
+                            exc_k = int(round(info["exc_load"] * info["n_loads"]))
+                            scheme = f"{min(K, S.n_loads)}-fold CV by load scenario"
+                        else:
+                            c_rep = _c_const(paper, prior, rule, ref)
+                            c_s = np.full(S.n, c_rep)
+                            exc_l, _ = exceedance(S, prior, c_rep)
+                            exc_k = int(round(exc_l * S.n_loads))
+                            scheme = f"c from {CI_LABEL['paper']} ({paper.n_loads} load scen.)"
+                    finally:
+                        S.ref, paper.ref = old[id(S)], old[id(paper)]
+                    o = run_policy(scr, prior, ks, c_s)
+                    st = decision_stats(S, scr, o.cnt, B)
+                    lu = cluster_bootstrap(o.cost, groups=g, B=B)
+                    a1 = cluster_bootstrap((o.acc == 1).astype(float), groups=g, B=B)
+                    aa = cluster_bootstrap((o.acc > 0).astype(float), groups=g, B=B)
+                    pol.append(dict(**base, policy=name, rule=rule, c_ref=("datakit" if ref == "true" else "own NR") if prior == "b" else "datakit",
+                                    scheme=scheme, c=c_rep, LU=lu[0], LU_lo=lu[1], LU_hi=lu[2], acc1=a1[0], acc1_lo=a1[1], acc1_hi=a1[2],
+                                    acc_any=aa[0], exc_load_k=exc_k, exc_load=exc_k / S.n_loads,
+                                    exc_load_cp_hi=clopper_pearson(exc_k, S.n_loads)[1], **st))
+        # --- equal-cost ladder
+        spec = [("GENCO as published", "raw", 0), ("GENCO, setpoint enforced", "phys", 0), ("GENCO + 1 step", "g1", 1),
+                ("GENCO + 2 steps", "g2", 2), ("Base case + 1 step", "b1", 1), ("Base case + 2 steps", "b2", 2)]
+        for name, m, lu_ in spec:
+            lad.append(dict(**base, method=name, LU=float(lu_), **decision_stats(S, scr, scr.counts(m), B)))
+        # --- NR iterations to tolerance
+        for e in (2, 4, 6):
+            tol = {2: "1e-2", 4: "1e-4", 6: "1e-6"}[e]
+            v = {s_: S.nri(s_, e) for s_ in ("flat", "dc", "base", "genco")}
+            for s_, x in v.items():
+                pt, lo, hi = cluster_bootstrap(x, groups=g, B=B)
+                nri.append(dict(**base, tol_MW=tol, start=s_, iters=pt, iters_lo=lo, iters_hi=hi, kind="mean"))
+            for a_, b_ in (("genco", "base"), ("genco", "flat"), ("base", "flat")):
+                d = cluster_bootstrap(v[a_] - v[b_], groups=g, B=B)
+                rt = cluster_bootstrap(v[a_], den=v[b_], groups=g, B=B)
+                nri.append(dict(**base, tol_MW=tol, start=f"{a_} - {b_}", iters=d[0], iters_lo=d[1], iters_hi=d[2], kind="paired difference",
+                                ratio=rt[0], ratio_lo=rt[1], ratio_hi=rt[2],
+                                frac_a_fewer=float((v[a_] < v[b_]).mean()), frac_a_more=float((v[a_] > v[b_]).mean())))
+    return pol, lad, nri
+
+
+def pooled_bounds(df, keys):
+    """Pool miss counts over the five test sets of one checkpoint (sets use disjoint load scenarios)."""
+    rows = []
+    for k, g in df.groupby(keys, sort=False):
+        r = dict(zip(keys, k if isinstance(k, tuple) else (k,)))
+        for lvl, a, b in (("el", "el_miss", "el_truth"), ("cont", "cont_miss", "cont_truth")):
+            ks, ns = int(g[a].sum()), int(g[b].sum())
+            r.update({f"{lvl}_miss": ks, f"{lvl}_truth": ns, f"{lvl}_rate": ks / max(ns, 1),
+                      f"{lvl}_cp_hi": clopper_pearson(ks, ns)[1], f"{lvl}_cp_hi1": clopper_pearson(ks, ns, two_sided=False)[1]})
+        lm, nl = int(g.load_miss.sum()), int(g.n_loads.sum())
+        lcm = int(g.load_contmiss.sum())
+        r.update(load_miss=lm, load_contmiss=lcm, n_loads=nl, n_scen=int(g.n_scen.sum()), load_cp_hi=clopper_pearson(lm, nl)[1],
+                 load_cp_hi1=clopper_pearson(lm, nl, two_sided=False)[1], load_contmiss_cp_hi1=clopper_pearson(lcm, nl, two_sided=False)[1])
+        rows.append(r)
+    return pd.DataFrame(rows)
+
+
+def msd(x, nd=3, force_int=False):
+    x = np.asarray(x, dtype=float)
+    if len(x) == 1:
+        return f"{x[0]:.{nd}f}"
+    m, sd = x.mean(), x.std(ddof=1)
+    return f"{m:.{nd}f} ± {sd:.{nd}f}"
+
+
+def main_ci(args):
+    log = Log()
+    out = Path(args.out) if args.out else D
+    d = Path(args.dir) if args.dir else D
+    out.mkdir(parents=True, exist_ok=True)
+    tau, eps, K, B = args.tau, args.eps_v, args.kfold, args.boot
+    rules = ["max"] + [f"conf{a:.2f}" for a in args.alphas]
+    log(f"policy_v3_ci: v3 tables with cluster-bootstrap CIs ({B} resamples over load scenarios), Clopper-Pearson miss-rate bounds, seeds and sizes")
+    log(f"tau={tau} eps_v={eps}; policies calibrated with c from the checkpoint's own paper set (cross-set, evaluated on the stress sets) or {K}-fold CV grouped by load scenario (paper set itself)")
+    log("Base-case policies use c measured against our own converged NR ('own NR', the stronger baseline) and against datakit's labels ('datakit').")
+    log("Bounds: cp_hi = Clopper-Pearson two-sided 95% upper limit, cp_hi1 = one-sided 95% upper limit; 'load' = fraction of LOAD SCENARIOS with >= 1 miss (cluster-level, no independence assumption).")
+    log("Test splits: " + "; ".join(f"{m}: {CI_SPLIT[m]}" for m in CI_MODELS) + "; stress sets: data/stress/n{1,2,3,5} splits_all.")
+    log("(paper sets of Base seed 1 / 42 are DIFFERENT test sets from seed 0: those checkpoints were trained on other splits; stress sets are identical for all checkpoints)\n")
+    P_, L_, N_ = [], [], []
+    for label, (size, seed) in CI_MODELS.items():
+        tags = ci_tags(size, seed)
+        sets = {k: RawSet(t, d) for k, t in tags.items() if (d / f"{t}_scenarios.parquet").exists()}
+        if "paper" not in sets:
+            log(f"[skip {label}: no paper-set parquet]")
+            continue
+        log(f"[{label}] sets: " + ", ".join(f"{CI_LABEL[k]} ({S.n} scen, {S.n_loads} load scen)" for k, S in sets.items()))
+        p_, l_, n_ = ci_model(label, sets, tau, eps, rules, K, B)
+        P_ += p_; L_ += l_; N_ += n_
+    pol, lad, nri = pd.DataFrame(P_), pd.DataFrame(L_), pd.DataFrame(N_)
+    pol.to_csv(out / "v3_ci_policies.csv", index=False)
+    lad.to_csv(out / "v3_ci_ladder.csv", index=False)
+    nri.to_csv(out / "v3_ci_nr_iterations.csv", index=False)
+
+    # ---------------- per-model tables with CIs -------------------------------------------------------------------
+    show_pol = pol[pol.rule.isin(CI_RULES_SHOWN) & pol.policy.isin(["genco_tiered", "genco_seq", "base_seq"]) &
+                   ~((pol.policy == "base_seq") & (pol.c_ref == "datakit"))]
+    for label in CI_MODELS:
+        sub = show_pol[show_pol.model == label]
+        if sub.empty:
+            continue
+        log("\n" + "=" * 110)
+        log(f"A. POLICIES, {label}: LU per contingency and tier-1 share with 95% cluster-bootstrap CIs; miss counts with Clopper-Pearson bounds")
+        t = pd.DataFrame(dict(
+            set=sub.set, policy=sub.policy.map(POL_NAME), rule=sub.rule, c=sub.c.map(lambda x: f"{x:.3g}"),
+            LU=[fmt_ci(a, b, c_) for a, b, c_ in zip(sub.LU, sub.LU_lo, sub.LU_hi)],
+            tier1=[fmt_ci(a, b, c_, 2) for a, b, c_ in zip(sub.acc1, sub.acc1_lo, sub.acc1_hi)],
+            el_miss=[f"{k}/{n}" for k, n in zip(sub.el_miss, sub.el_truth)], el_ub=sub.el_cp_hi.map(lambda x: f"{x:.2%}"),
+            cont_miss=[f"{k}/{n}" for k, n in zip(sub.cont_miss, sub.cont_truth)], cont_ub=sub.cont_cp_hi.map(lambda x: f"{x:.2%}"),
+            load_miss=[f"{k}/{n}" for k, n in zip(sub.load_miss, sub.n_loads)], load_ub=sub.load_cp_hi.map(lambda x: f"{x:.1%}"),
+            exceed=[f"{k}/{n}" for k, n in zip(sub.exc_load_k, sub.n_loads)]))
+        log.table(t)
+    for label in CI_MODELS:
+        sub = lad[lad.model == label]
+        if sub.empty:
+            continue
+        log("\n" + "=" * 110)
+        log(f"B. EQUAL-COST LADDER, {label}: element recall and miss rate with 95% cluster-bootstrap CIs, Clopper-Pearson upper bounds (ub)")
+        t = pd.DataFrame(dict(
+            set=sub.set, method=sub.method, LU=sub.LU, recall=[fmt_ci(a, b, c_, 4) for a, b, c_ in zip(sub.recall, sub.recall_lo, sub.recall_hi)],
+            el_miss=[f"{k}/{n}" for k, n in zip(sub.el_miss, sub.el_truth)], el_ub=sub.el_cp_hi.map(lambda x: f"{x:.2%}"),
+            el_fa=sub.el_fa, cont_miss=[f"{k}/{n}" for k, n in zip(sub.cont_miss, sub.cont_truth)], cont_ub=sub.cont_cp_hi.map(lambda x: f"{x:.2%}"),
+            load_miss=[f"{k}/{n}" for k, n in zip(sub.load_miss, sub.n_loads)], load_ub=sub.load_cp_hi.map(lambda x: f"{x:.1%}")))
+        log.table(t)
+    for label in CI_MODELS:
+        sub = nri[(nri.model == label)]
+        if sub.empty:
+            continue
+        log("\n" + "=" * 110)
+        log(f"C. NR ITERATIONS BY TOLERANCE, {label}: mean [95% cluster CI]; paired GENCO - base start (iterations) and GENCO/base ratio")
+        rows = []
+        for (setl, tol), g in sub.groupby(["set", "tol_MW"], sort=False):
+            r = dict(set=setl, tol=tol)
+            for s_ in ("flat", "dc", "base", "genco"):
+                x = g[(g.start == s_) & (g.kind == "mean")].iloc[0]
+                r[s_] = fmt_ci(x.iters, x.iters_lo, x.iters_hi, 2)
+            x = g[g.start == "genco - base"].iloc[0]
+            r["genco - base"] = fmt_ci(x.iters, x.iters_lo, x.iters_hi, 2)
+            r["ratio"] = fmt_ci(x.ratio, x.ratio_lo, x.ratio_hi, 2)
+            r["GENCO fewer/more"] = f"{x.frac_a_fewer:.0%}/{x.frac_a_more:.0%}"
+            rows.append(r)
+        log.table(pd.DataFrame(rows))
+
+    # ---------------- pooled bounds ----------------------------------------------------------------------------------
+    log("\n" + "=" * 110)
+    log("D. POOLED MISS-RATE BOUNDS over the five test sets of each checkpoint (paper + stress N-1/2/3/5): Clopper-Pearson at element, contingency and load-scenario level")
+    log("   (element and contingency trials are not independent within a load scenario, so the load-scenario bound is the one to quote)")
+    pp = pooled_bounds(show_pol[show_pol.policy.isin(["genco_tiered", "genco_seq", "base_seq"])], ["model", "policy", "rule", "c_ref"])
+    pl = pooled_bounds(lad, ["model", "method"])
+    pp.to_csv(out / "v3_ci_pooled_bounds_policies.csv", index=False)
+    pl.to_csv(out / "v3_ci_pooled_bounds_ladder.csv", index=False)
+    cols = ["model", "el_miss", "el_truth", "el_cp_hi1", "cont_miss", "cont_truth", "cont_cp_hi1", "load_miss", "n_loads", "load_cp_hi1"]
+    fm = lambda x: f"{x:.2%}"
+    t = pp.assign(policy=pp.policy.map(POL_NAME))[["policy", "rule", "c_ref"] + cols]
+    log.table(t, floatfmt=lambda x: f"{x:.4f}")
+    log("")
+    log.table(pl[["method"] + cols], floatfmt=lambda x: f"{x:.4f}")
+    # all five checkpoints pooled (distinct models are distinct predictors but share the stress data, so this is a count of tests, not of independent data)
+    # ---------------- seeds and sizes --------------------------------------------------------------------------------
+    log("\n" + "=" * 110)
+    log("E. SEEDS AND SIZES. Base: mean ± SD over the 3 released seeds (0, 1, 42; n = 3). Small and Tiny: seed 0 only (no SD).")
+    log("   Stress sets are identical across checkpoints; the paper sets of seeds 1/42 are different test sets (37 and 28 load scenarios, 814 and 616 contingencies).")
+    log("   Seed-0 point values are in the per-checkpoint tables above and in results/exp02/v3_ci_*.csv.")
+    seeds_tabs = {}
+
+    def agg(df, keys, vals, name):
+        rows = []
+        for k, g in df.groupby(keys, sort=False):
+            r = dict(zip(keys, k if isinstance(k, tuple) else (k,)))
+            gb = g[g.model.isin(BASE_MODELS)]
+            for v in vals:
+                r[f"base_mean_{v}"] = float(gb[v].mean()) if len(gb) else np.nan
+                r[f"base_sd_{v}"] = float(gb[v].std(ddof=1)) if len(gb) > 1 else np.nan
+                r[f"base_min_{v}"] = float(gb[v].min()) if len(gb) else np.nan
+                r[f"base_max_{v}"] = float(gb[v].max()) if len(gb) else np.nan
+                r[f"base_n_{v}"] = int(len(gb))
+                for sz in ("small seed 0", "tiny seed 0"):
+                    gs = g[g.model == sz]
+                    r[f"{sz.split()[0]}_{v}"] = float(gs[v].iloc[0]) if len(gs) else np.nan
+            rows.append(r)
+        res = pd.DataFrame(rows)
+        res.to_csv(out / f"v3_seeds_{name}.csv", index=False)
+        seeds_tabs[name] = res
+        return res
+
+    def show(res, keys, vals, nd_map=None, title=None):
+        nd_map = nd_map or {}
+        rows = []
+        for _, r in res.iterrows():
+            row = {k: r[k] for k in keys}
+            for v in vals:
+                nd = nd_map.get(v, 3)
+                row[f"{v} Base"] = f"{r[f'base_mean_{v}']:.{nd}f} ± {r[f'base_sd_{v}']:.{nd}f}" if r[f"base_n_{v}"] > 1 else f"{r[f'base_mean_{v}']:.{nd}f}"
+                row[f"{v} Small"] = f"{r[f'small_{v}']:.{nd}f}"
+                row[f"{v} Tiny"] = f"{r[f'tiny_{v}']:.{nd}f}"
+            rows.append(row)
+        log.table(pd.DataFrame(rows))
+
+    # E1 sequential LU / tiered LU
+    ps = pol[pol.rule.isin(CI_RULES_SHOWN) & pol.policy.isin(["genco_seq", "genco_tiered", "base_seq"]) & ~((pol.policy == "base_seq") & (pol.c_ref == "datakit"))].copy()
+    ps["policy_name"] = ps.policy.map(POL_NAME)
+    log("\nE1. Cost in LU per contingency (c from the checkpoint's own paper set; 5-fold grouped CV on the paper set itself), tier-1 share, element misses")
+    res = agg(ps, ["set", "policy_name", "rule"], ["LU", "acc1", "el_miss", "cont_miss", "el_truth", "exc_load"], "policies")
+    show(res, ["set", "policy_name", "rule"], ["LU", "acc1", "el_miss", "cont_miss", "exc_load"], {"el_miss": 1, "cont_miss": 1, "LU": 3, "acc1": 3, "exc_load": 3})
+    log("\nE1b. Calibration constants c from each checkpoint's own paper set (the 'max' rule is the largest per-load-scenario ratio and moves with the calibration sample):")
+    cs = pol[(pol.set_key == "n1") & pol.policy.isin(["genco_seq", "base_seq"]) & ~((pol.policy == "base_seq") & (pol.c_ref == "datakit"))]
+    cs = cs.assign(prior=cs.policy.map({"genco_seq": "GENCO", "base_seq": "base case (error vs own NR)"}))
+    ct = cs.pivot_table(index=["prior", "rule"], columns="model", values="c", sort=False).reset_index()
+    ct = ct[["prior", "rule"] + [m for m in CI_MODELS if m in ct.columns]]
+    ct.to_csv(out / "v3_seeds_calibration_constants.csv", index=False)
+    log.table(ct, floatfmt=lambda x: f"{x:.4g}")
+    # E2 ladder
+    lsel = lad[lad.method.isin(["GENCO + 1 step", "GENCO + 2 steps", "Base case + 1 step", "Base case + 2 steps", "GENCO, setpoint enforced"])]
+    log("\nE2. Equal-cost ladder: element misses (violating elements missed) and contingency-level misses; element total of violating elements in the last block")
+    res = agg(lsel, ["set", "method"], ["el_miss", "el_truth", "cont_miss", "cont_truth", "el_fa", "recall", "el_cp_hi"], "ladder")
+    show(res, ["set", "method"], ["el_miss", "cont_miss", "recall"], {"el_miss": 1, "cont_miss": 1, "recall": 4})
+    log("   violating elements / violating contingencies in the test set:")
+    show(res.drop_duplicates("set"), ["set"], ["el_truth", "cont_truth"], {"el_truth": 0, "cont_truth": 0})
+    # E3 NR iterations
+    ns = nri[nri.kind == "mean"].copy()
+    log("\nE3. Newton-Raphson iterations by tolerance (mean per contingency)")
+    res = agg(ns, ["set", "tol_MW", "start"], ["iters"], "nr_iterations")
+    show(res, ["set", "tol_MW", "start"], ["iters"], {"iters": 3})
+    nd = nri[nri.start == "genco - base"].copy()
+    log("\nE4. GENCO minus base-case start, NR iterations (negative = GENCO saves iterations)")
+    res = agg(nd, ["set", "tol_MW"], ["iters", "ratio"], "nr_genco_minus_base")
+    show(res, ["set", "tol_MW"], ["iters", "ratio"], {"iters": 3, "ratio": 3})
+    log("\nDone.")
+    Path(args.log).write_text("\n".join(log.lines) + "\n")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--v3", action="store_true", help="full corrected analysis (grouped/conformal calibration, ladder, DC, sensitivity, Pareto)")
@@ -865,11 +1223,18 @@ def main():
     ap.add_argument("--alphas", type=float, nargs="+", default=[0.10, 0.05])
     ap.add_argument("--dir", default=None, help="folder holding the exp02 parquet files (default results/exp02)")
     ap.add_argument("--out", default=None, help="v3: folder for CSV outputs (default results/exp02)")
-    ap.add_argument("--log", default=str(ROOT / "results" / "policy_v3.log"))
+    ap.add_argument("--log", default=None, help="log file (default results/policy_v3.log, or results/policy_v3_ci.log with --ci)")
+    ap.add_argument("--ci", action="store_true", help="v3 tables with cluster-bootstrap CIs, Clopper-Pearson miss-rate bounds, seeds (Base 0/1/42) and sizes (Small/Tiny)")
+    ap.add_argument("--boot", type=int, default=2000, help="--ci: bootstrap resamples over load scenarios")
     args = ap.parse_args()
-    if args.v3:
+    if args.ci:
+        args.tau = TAU if args.tau is None else args.tau
+        args.log = args.log or str(ROOT / "results" / "policy_v3_ci.log")
+        main_ci(args)
+    elif args.v3:
         args.tau = TAU if args.tau is None else args.tau
         args.cal_tag = args.cal_tag or PAPER
+        args.log = args.log or str(ROOT / "results" / "policy_v3.log")
         main_v3(args)
     else:
         args.tau = 1.001 if args.tau is None else args.tau

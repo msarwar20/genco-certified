@@ -1,0 +1,421 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed1/normalizer_stats.pt
+split='train' len(split_indices)=4724
+split='val' len(split_indices)=638
+split='test' len(split_indices)=638
+Restoring normalizer for case118_ieee from saved stats
+case118_ieee_base_seed1: 638 scenarios (29 load scenarios), 113780 branch-rows in 19s
+  overloaded branches: 1600 (1.41%); scenarios with >=1 overload: 92.9%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 3.77e-07, graphkit problem 5.62e-03; our NR vs datakit state: 1.15e-06
+  dc       recall 0.3219 precision 0.5839 missed 1085 | loading abs err: median 1.76e-02 p99 1.89e-01 max 6.00e-01
+  dc_ours  recall 0.3175 precision 0.5819 missed 1092 | loading abs err: median 1.77e-02 p99 1.90e-01 max 6.00e-01
+  raw      recall 0.7869 precision 0.7989 missed  341 | loading abs err: median 2.54e-04 p99 1.29e-02 max 9.78e-02
+  phys     recall 0.7225 precision 0.7790 missed  444 | loading abs err: median 2.54e-04 p99 1.41e-02 max 7.67e-02
+  g1       recall 0.9281 precision 0.9980 missed  115 | loading abs err: median 2.00e-07 p99 3.43e-05 max 7.57e-04
+  g2       recall 0.9519 precision 0.9980 missed   77 | loading abs err: median 1.08e-07 p99 2.39e-06 max 1.28e-05
+  g3       recall 0.9519 precision 0.9980 missed   77 | loading abs err: median 1.08e-07 p99 2.39e-06 max 1.28e-05
+  b1       recall 0.8500 precision 0.9611 missed  240 | loading abs err: median 4.98e-06 p99 7.67e-03 max 2.89e-01
+  b2       recall 0.9519 precision 0.9980 missed   77 | loading abs err: median 1.39e-07 p99 6.00e-05 max 1.22e-02
+  b3       recall 0.9519 precision 0.9980 missed   77 | loading abs err: median 1.09e-07 p99 2.58e-06 max 5.80e-05
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.01/4.00/4.00; base 2.04/2.49/2.88; genco 1.29/1.98/2.03; dc 3.00/3.72/3.97
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed1/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n1_base_seed1: 660 scenarios (30 load scenarios), 117654 branch-rows in 19s
+  overloaded branches: 1231 (1.05%); scenarios with >=1 overload: 84.5%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.92e-07, graphkit problem 5.65e-03; our NR vs datakit state: 9.95e-07
+  dc       recall 0.4541 precision 0.6302 missed  672 | loading abs err: median 1.48e-02 p99 1.71e-01 max 9.19e-01
+  dc_ours  recall 0.4387 precision 0.6294 missed  691 | loading abs err: median 1.50e-02 p99 1.71e-01 max 9.18e-01
+  raw      recall 0.6832 precision 0.7371 missed  390 | loading abs err: median 7.89e-04 p99 2.20e-02 max 1.71e-01
+  phys     recall 0.6288 precision 0.7140 missed  457 | loading abs err: median 7.90e-04 p99 2.46e-02 max 1.03e-01
+  g1       recall 0.9374 precision 0.9747 missed   77 | loading abs err: median 5.08e-07 p99 6.28e-05 max 2.64e-03
+  g2       recall 0.9829 precision 0.9424 missed   21 | loading abs err: median 1.06e-07 p99 2.39e-06 max 1.08e-05
+  g3       recall 0.9829 precision 0.9424 missed   21 | loading abs err: median 1.06e-07 p99 2.39e-06 max 1.08e-05
+  b1       recall 0.8920 precision 0.9188 missed  133 | loading abs err: median 5.22e-06 p99 1.02e-02 max 3.96e-01
+  b2       recall 0.9829 precision 0.9424 missed   21 | loading abs err: median 1.36e-07 p99 1.04e-04 max 2.85e-02
+  b3       recall 0.9829 precision 0.9424 missed   21 | loading abs err: median 1.06e-07 p99 2.53e-06 max 1.79e-04
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.01/4.00/4.00; base 2.03/2.50/2.88; genco 1.80/2.00/2.10; dc 3.00/3.80/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed1/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=659
+Restoring normalizer for case118_ieee from saved stats
+stress_n2_base_seed1: 659 scenarios (30 load scenarios), 116981 branch-rows in 31s
+  overloaded branches: 1402 (1.20%); scenarios with >=1 overload: 87.4%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 8.75e-07, graphkit problem 5.88e-03; our NR vs datakit state: 1.92e-06
+  dc       recall 0.4337 precision 0.7187 missed  794 | loading abs err: median 1.53e-02 p99 1.80e-01 max 7.15e-01
+  dc_ours  recall 0.4272 precision 0.7182 missed  803 | loading abs err: median 1.54e-02 p99 1.83e-01 max 7.20e-01
+  raw      recall 0.8081 precision 0.8790 missed  269 | loading abs err: median 6.25e-04 p99 2.61e-02 max 6.68e-01
+  phys     recall 0.7725 precision 0.8755 missed  319 | loading abs err: median 6.27e-04 p99 2.78e-02 max 6.68e-01
+  g1       recall 0.9650 precision 0.9985 missed   49 | loading abs err: median 4.16e-07 p99 1.39e-04 max 1.17e-01
+  g2       recall 0.9793 precision 0.9993 missed   29 | loading abs err: median 1.08e-07 p99 2.59e-06 max 5.98e-03
+  g3       recall 0.9793 precision 0.9993 missed   29 | loading abs err: median 1.07e-07 p99 2.37e-06 max 1.72e-05
+  b1       recall 0.9087 precision 0.9823 missed  128 | loading abs err: median 2.49e-05 p99 1.51e-02 max 7.10e-01
+  b2       recall 0.9793 precision 0.9993 missed   29 | loading abs err: median 1.67e-07 p99 1.81e-04 max 1.28e-01
+  b3       recall 0.9793 precision 0.9993 missed   29 | loading abs err: median 1.08e-07 p99 2.67e-06 max 7.07e-03
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.03/4.00/4.01; base 2.19/2.74/3.08; genco 1.63/2.01/2.20; dc 3.00/3.90/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed1/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n3_base_seed1: 660 scenarios (30 load scenarios), 116738 branch-rows in 92s
+  overloaded branches: 1373 (1.18%); scenarios with >=1 overload: 87.6%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.71e-07, graphkit problem 6.32e-03; our NR vs datakit state: 1.99e-06
+  dc       recall 0.5805 precision 0.7091 missed  576 | loading abs err: median 1.45e-02 p99 1.70e-01 max 5.97e-01
+  dc_ours  recall 0.5601 precision 0.7147 missed  604 | loading abs err: median 1.45e-02 p99 1.71e-01 max 5.90e-01
+  raw      recall 0.8842 precision 0.8842 missed  159 | loading abs err: median 8.61e-04 p99 3.16e-02 max 1.79e+00
+  phys     recall 0.8390 precision 0.8868 missed  221 | loading abs err: median 8.61e-04 p99 3.30e-02 max 1.79e+00
+  g1       recall 0.9731 precision 1.0000 missed   37 | loading abs err: median 5.55e-07 p99 1.93e-04 max 1.84e-02
+  g2       recall 0.9752 precision 0.9875 missed   34 | loading abs err: median 1.05e-07 p99 2.44e-06 max 1.38e-05
+  g3       recall 0.9752 precision 0.9875 missed   34 | loading abs err: median 1.05e-07 p99 2.40e-06 max 1.00e-05
+  b1       recall 0.9155 precision 0.9617 missed  116 | loading abs err: median 6.04e-05 p99 2.57e-02 max 3.11e-01
+  b2       recall 0.9752 precision 0.9875 missed   34 | loading abs err: median 2.11e-07 p99 4.95e-04 max 2.95e-02
+  b3       recall 0.9752 precision 0.9875 missed   34 | loading abs err: median 1.07e-07 p99 2.91e-06 max 4.02e-04
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.03/4.00/4.01; base 2.29/2.90/3.17; genco 1.78/2.02/2.25; dc 3.00/3.88/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed1/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n5_base_seed1: 660 scenarios (30 load scenarios), 115781 branch-rows in 67s
+  overloaded branches: 2081 (1.80%); scenarios with >=1 overload: 93.8%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.79e-07, graphkit problem 5.61e-03; our NR vs datakit state: 1.86e-06
+  dc       recall 0.5742 precision 0.8281 missed  886 | loading abs err: median 1.67e-02 p99 1.94e-01 max 1.22e+00
+  dc_ours  recall 0.5569 precision 0.8249 missed  922 | loading abs err: median 1.67e-02 p99 1.97e-01 max 1.22e+00
+  raw      recall 0.8717 precision 0.9303 missed  267 | loading abs err: median 1.24e-03 p99 5.55e-02 max 1.11e+00
+  phys     recall 0.8361 precision 0.9300 missed  341 | loading abs err: median 1.25e-03 p99 6.21e-02 max 1.08e+00
+  g1       recall 0.9914 precision 0.9990 missed   18 | loading abs err: median 1.10e-06 p99 8.12e-04 max 1.36e-01
+  g2       recall 0.9938 precision 0.9928 missed   13 | loading abs err: median 1.16e-07 p99 3.92e-06 max 6.85e-03
+  g3       recall 0.9938 precision 0.9928 missed   13 | loading abs err: median 1.13e-07 p99 2.70e-06 max 5.45e-05
+  b1       recall 0.9332 precision 0.9793 missed  139 | loading abs err: median 1.96e-04 p99 3.83e-02 max 6.32e-01
+  b2       recall 0.9923 precision 0.9928 missed   16 | loading abs err: median 4.20e-07 p99 9.42e-04 max 8.54e-02
+  b3       recall 0.9938 precision 0.9928 missed   13 | loading abs err: median 1.17e-07 p99 4.09e-06 max 2.15e-03
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.08/4.01/4.03; base 2.49/3.08/3.32; genco 1.88/2.08/2.45; dc 3.00/3.76/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed42/normalizer_stats.pt
+split='train' len(split_indices)=4724
+split='val' len(split_indices)=638
+split='test' len(split_indices)=638
+Restoring normalizer for case118_ieee from saved stats
+case118_ieee_base_seed42: 638 scenarios (29 load scenarios), 113780 branch-rows in 91s
+  overloaded branches: 1602 (1.41%); scenarios with >=1 overload: 93.1%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 3.77e-07, graphkit problem 5.57e-03; our NR vs datakit state: 1.55e-06
+  dc       recall 0.3227 precision 0.5862 missed 1085 | loading abs err: median 1.76e-02 p99 1.89e-01 max 6.00e-01
+  dc_ours  recall 0.3184 precision 0.5842 missed 1092 | loading abs err: median 1.77e-02 p99 1.90e-01 max 6.00e-01
+  raw      recall 0.8115 precision 0.7567 missed  302 | loading abs err: median 8.56e-04 p99 2.19e-02 max 3.27e-01
+  phys     recall 0.7335 precision 0.7465 missed  427 | loading abs err: median 8.56e-04 p99 2.53e-02 max 3.10e-01
+  g1       recall 0.8858 precision 0.9958 missed  183 | loading abs err: median 4.95e-07 p99 9.24e-05 max 5.80e-03
+  g2       recall 0.9519 precision 0.9987 missed   77 | loading abs err: median 1.07e-07 p99 2.33e-06 max 8.53e-06
+  g3       recall 0.9519 precision 0.9987 missed   77 | loading abs err: median 1.07e-07 p99 2.33e-06 max 8.53e-06
+  b1       recall 0.8477 precision 0.9645 missed  244 | loading abs err: median 4.97e-06 p99 7.66e-03 max 2.89e-01
+  b2       recall 0.9519 precision 0.9987 missed   77 | loading abs err: median 1.39e-07 p99 6.00e-05 max 1.22e-02
+  b3       recall 0.9519 precision 0.9987 missed   77 | loading abs err: median 1.08e-07 p99 2.51e-06 max 5.76e-05
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.01/4.00/4.00; base 2.04/2.49/2.88; genco 1.74/2.01/2.19; dc 3.00/3.72/3.97
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed42/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n1_base_seed42: 660 scenarios (30 load scenarios), 117654 branch-rows in 55s
+  overloaded branches: 1247 (1.06%); scenarios with >=1 overload: 84.8%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.92e-07, graphkit problem 7.43e-03; our NR vs datakit state: 3.08e-06
+  dc       recall 0.4499 precision 0.6325 missed  686 | loading abs err: median 1.48e-02 p99 1.71e-01 max 9.19e-01
+  dc_ours  recall 0.4346 precision 0.6317 missed  705 | loading abs err: median 1.50e-02 p99 1.71e-01 max 9.18e-01
+  raw      recall 0.7578 precision 0.7252 missed  302 | loading abs err: median 1.19e-03 p99 2.80e-02 max 6.13e-01
+  phys     recall 0.6055 precision 0.7281 missed  492 | loading abs err: median 1.19e-03 p99 3.04e-02 max 5.03e-01
+  g1       recall 0.9206 precision 0.9804 missed   99 | loading abs err: median 8.06e-07 p99 1.33e-04 max 7.05e-02
+  g2       recall 0.9808 precision 0.9570 missed   24 | loading abs err: median 1.04e-07 p99 2.51e-06 max 1.02e-03
+  g3       recall 0.9808 precision 0.9570 missed   24 | loading abs err: median 1.04e-07 p99 2.42e-06 max 9.91e-06
+  b1       recall 0.8917 precision 0.9290 missed  135 | loading abs err: median 5.23e-06 p99 1.02e-02 max 3.96e-01
+  b2       recall 0.9808 precision 0.9570 missed   24 | loading abs err: median 1.35e-07 p99 1.05e-04 max 2.85e-02
+  b3       recall 0.9808 precision 0.9570 missed   24 | loading abs err: median 1.05e-07 p99 2.53e-06 max 1.79e-04
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.01/4.00/4.00; base 2.03/2.50/2.88; genco 1.87/2.01/2.25; dc 3.00/3.80/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed42/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=659
+Restoring normalizer for case118_ieee from saved stats
+stress_n2_base_seed42: 659 scenarios (30 load scenarios), 116981 branch-rows in 53s
+  overloaded branches: 1403 (1.20%); scenarios with >=1 overload: 87.4%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 8.75e-07, graphkit problem 6.63e-03; our NR vs datakit state: 2.90e-06
+  dc       recall 0.4341 precision 0.7199 missed  794 | loading abs err: median 1.53e-02 p99 1.80e-01 max 7.15e-01
+  dc_ours  recall 0.4277 precision 0.7194 missed  803 | loading abs err: median 1.54e-02 p99 1.83e-01 max 7.20e-01
+  raw      recall 0.8161 precision 0.8208 missed  258 | loading abs err: median 1.41e-03 p99 3.81e-02 max 1.35e+00
+  phys     recall 0.7206 precision 0.8383 missed  392 | loading abs err: median 1.41e-03 p99 4.12e-02 max 1.35e+00
+  g1       recall 0.9544 precision 0.9955 missed   64 | loading abs err: median 9.73e-07 p99 3.71e-04 max 3.04e-01
+  g2       recall 0.9786 precision 0.9978 missed   30 | loading abs err: median 1.09e-07 p99 2.74e-06 max 3.31e-02
+  g3       recall 0.9786 precision 0.9978 missed   30 | loading abs err: median 1.07e-07 p99 2.48e-06 max 5.25e-04
+  b1       recall 0.9081 precision 0.9823 missed  129 | loading abs err: median 2.49e-05 p99 1.51e-02 max 7.10e-01
+  b2       recall 0.9786 precision 0.9978 missed   30 | loading abs err: median 1.68e-07 p99 1.81e-04 max 1.28e-01
+  b3       recall 0.9786 precision 0.9978 missed   30 | loading abs err: median 1.08e-07 p99 2.72e-06 max 7.07e-03
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.03/4.00/4.01; base 2.19/2.74/3.08; genco 1.82/2.04/2.30; dc 3.00/3.90/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed42/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n3_base_seed42: 660 scenarios (30 load scenarios), 116738 branch-rows in 85s
+  overloaded branches: 1376 (1.18%); scenarios with >=1 overload: 87.7%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.71e-07, graphkit problem 6.93e-03; our NR vs datakit state: 1.30e-06
+  dc       recall 0.5792 precision 0.7091 missed  579 | loading abs err: median 1.45e-02 p99 1.70e-01 max 5.97e-01
+  dc_ours  recall 0.5589 precision 0.7147 missed  607 | loading abs err: median 1.45e-02 p99 1.71e-01 max 5.90e-01
+  raw      recall 0.8379 precision 0.8373 missed  223 | loading abs err: median 1.74e-03 p99 4.97e-02 max 4.78e-01
+  phys     recall 0.7740 precision 0.8493 missed  311 | loading abs err: median 1.74e-03 p99 5.05e-02 max 4.48e-01
+  g1       recall 0.9673 precision 0.9992 missed   45 | loading abs err: median 1.52e-06 p99 4.13e-04 max 9.35e-03
+  g2       recall 0.9753 precision 0.9803 missed   34 | loading abs err: median 1.06e-07 p99 2.48e-06 max 1.19e-05
+  g3       recall 0.9753 precision 0.9803 missed   34 | loading abs err: median 1.05e-07 p99 2.45e-06 max 1.19e-05
+  b1       recall 0.9157 precision 0.9538 missed  116 | loading abs err: median 6.04e-05 p99 2.57e-02 max 3.11e-01
+  b2       recall 0.9753 precision 0.9803 missed   34 | loading abs err: median 2.12e-07 p99 4.95e-04 max 2.95e-02
+  b3       recall 0.9753 precision 0.9803 missed   34 | loading abs err: median 1.08e-07 p99 2.93e-06 max 4.04e-04
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.03/4.00/4.01; base 2.29/2.90/3.17; genco 1.92/2.05/2.45; dc 3.00/3.88/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed42/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n5_base_seed42: 660 scenarios (30 load scenarios), 115781 branch-rows in 29s
+  overloaded branches: 2090 (1.81%); scenarios with >=1 overload: 94.1%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.79e-07, graphkit problem 5.84e-03; our NR vs datakit state: 2.61e-06
+  dc       recall 0.5718 precision 0.8281 missed  895 | loading abs err: median 1.67e-02 p99 1.94e-01 max 1.22e+00
+  dc_ours  recall 0.5545 precision 0.8249 missed  931 | loading abs err: median 1.67e-02 p99 1.97e-01 max 1.22e+00
+  raw      recall 0.8426 precision 0.9087 missed  329 | loading abs err: median 2.36e-03 p99 7.79e-02 max 1.23e+00
+  phys     recall 0.7727 precision 0.9145 missed  475 | loading abs err: median 2.37e-03 p99 8.68e-02 max 1.23e+00
+  g1       recall 0.9861 precision 0.9995 missed   29 | loading abs err: median 2.97e-06 p99 1.75e-03 max 1.41e-01
+  g2       recall 0.9895 precision 0.9928 missed   22 | loading abs err: median 1.21e-07 p99 5.30e-06 max 5.11e-03
+  g3       recall 0.9895 precision 0.9928 missed   22 | loading abs err: median 1.14e-07 p99 2.79e-06 max 3.01e-05
+  b1       recall 0.9292 precision 0.9793 missed  148 | loading abs err: median 1.96e-04 p99 3.83e-02 max 6.32e-01
+  b2       recall 0.9880 precision 0.9928 missed   25 | loading abs err: median 4.24e-07 p99 9.42e-04 max 8.54e-02
+  b3       recall 0.9895 precision 0.9928 missed   22 | loading abs err: median 1.18e-07 p99 4.12e-06 max 2.15e-03
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.08/4.01/4.03; base 2.49/3.08/3.32; genco 1.99/2.16/2.65; dc 3.00/3.76/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/small/seed0/normalizer_stats.pt
+split='train' len(split_indices)=4724
+split='val' len(split_indices)=638
+split='test' len(split_indices)=638
+Restoring normalizer for case118_ieee from saved stats
+case118_ieee_small_seed0: 638 scenarios (29 load scenarios), 113780 branch-rows in 53s
+  overloaded branches: 1599 (1.41%); scenarios with >=1 overload: 92.9%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 3.77e-07, graphkit problem 6.47e-03; our NR vs datakit state: 1.28e-06
+  dc       recall 0.3221 precision 0.5839 missed 1084 | loading abs err: median 1.76e-02 p99 1.89e-01 max 6.00e-01
+  dc_ours  recall 0.3177 precision 0.5819 missed 1091 | loading abs err: median 1.77e-02 p99 1.90e-01 max 6.00e-01
+  raw      recall 0.7323 precision 0.7639 missed  428 | loading abs err: median 7.77e-04 p99 2.29e-02 max 2.33e-01
+  phys     recall 0.7255 precision 0.7370 missed  439 | loading abs err: median 7.78e-04 p99 2.81e-02 max 2.45e-01
+  g1       recall 0.8799 precision 0.9901 missed  192 | loading abs err: median 4.97e-07 p99 9.67e-05 max 7.09e-03
+  g2       recall 0.9537 precision 0.9980 missed   74 | loading abs err: median 1.08e-07 p99 2.46e-06 max 8.85e-06
+  g3       recall 0.9537 precision 0.9980 missed   74 | loading abs err: median 1.08e-07 p99 2.46e-06 max 8.85e-06
+  b1       recall 0.8499 precision 0.9631 missed  240 | loading abs err: median 4.96e-06 p99 7.67e-03 max 2.89e-01
+  b2       recall 0.9537 precision 0.9980 missed   74 | loading abs err: median 1.40e-07 p99 6.00e-05 max 1.22e-02
+  b3       recall 0.9537 precision 0.9980 missed   74 | loading abs err: median 1.09e-07 p99 2.65e-06 max 5.75e-05
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.01/4.00/4.00; base 2.04/2.49/2.88; genco 1.68/2.00/2.22; dc 3.00/3.72/3.97
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/small/seed0/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n1_small: 660 scenarios (30 load scenarios), 117654 branch-rows in 21s
+  overloaded branches: 1233 (1.05%); scenarios with >=1 overload: 84.4%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.92e-07, graphkit problem 7.54e-03; our NR vs datakit state: 1.24e-06
+  dc       recall 0.4534 precision 0.6302 missed  674 | loading abs err: median 1.48e-02 p99 1.71e-01 max 9.19e-01
+  dc_ours  recall 0.4380 precision 0.6294 missed  693 | loading abs err: median 1.50e-02 p99 1.71e-01 max 9.18e-01
+  raw      recall 0.6529 precision 0.7481 missed  428 | loading abs err: median 8.03e-04 p99 2.20e-02 max 3.51e-01
+  phys     recall 0.5872 precision 0.7456 missed  509 | loading abs err: median 8.04e-04 p99 2.48e-02 max 2.82e-01
+  g1       recall 0.9367 precision 0.9780 missed   78 | loading abs err: median 5.04e-07 p99 6.81e-05 max 1.96e-02
+  g2       recall 0.9789 precision 0.9452 missed   26 | loading abs err: median 1.05e-07 p99 2.35e-06 max 8.07e-05
+  g3       recall 0.9789 precision 0.9452 missed   26 | loading abs err: median 1.05e-07 p99 2.31e-06 max 1.26e-05
+  b1       recall 0.8881 precision 0.9217 missed  138 | loading abs err: median 5.23e-06 p99 1.02e-02 max 3.96e-01
+  b2       recall 0.9789 precision 0.9452 missed   26 | loading abs err: median 1.36e-07 p99 1.04e-04 max 2.85e-02
+  b3       recall 0.9789 precision 0.9452 missed   26 | loading abs err: median 1.06e-07 p99 2.44e-06 max 1.79e-04
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.01/4.00/4.00; base 2.03/2.50/2.88; genco 1.76/2.00/2.13; dc 3.00/3.80/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/small/seed0/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=659
+Restoring normalizer for case118_ieee from saved stats
+stress_n2_small: 659 scenarios (30 load scenarios), 116981 branch-rows in 17s
+  overloaded branches: 1413 (1.21%); scenarios with >=1 overload: 87.6%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 8.75e-07, graphkit problem 7.43e-03; our NR vs datakit state: 1.47e-06
+  dc       recall 0.4310 precision 0.7199 missed  804 | loading abs err: median 1.53e-02 p99 1.80e-01 max 7.15e-01
+  dc_ours  recall 0.4246 precision 0.7194 missed  813 | loading abs err: median 1.54e-02 p99 1.83e-01 max 7.20e-01
+  raw      recall 0.8167 precision 0.8625 missed  259 | loading abs err: median 8.11e-04 p99 2.72e-02 max 1.08e+00
+  phys     recall 0.7629 precision 0.8569 missed  335 | loading abs err: median 8.13e-04 p99 3.00e-02 max 1.08e+00
+  g1       recall 0.9618 precision 0.9993 missed   54 | loading abs err: median 5.50e-07 p99 1.44e-04 max 2.32e-01
+  g2       recall 0.9866 precision 0.9979 missed   19 | loading abs err: median 1.09e-07 p99 2.52e-06 max 2.07e-02
+  g3       recall 0.9866 precision 0.9979 missed   19 | loading abs err: median 1.08e-07 p99 2.41e-06 max 2.07e-04
+  b1       recall 0.9165 precision 0.9825 missed  118 | loading abs err: median 2.49e-05 p99 1.51e-02 max 7.10e-01
+  b2       recall 0.9866 precision 0.9979 missed   19 | loading abs err: median 1.69e-07 p99 1.81e-04 max 1.28e-01
+  b3       recall 0.9866 precision 0.9979 missed   19 | loading abs err: median 1.09e-07 p99 2.66e-06 max 7.07e-03
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.03/4.00/4.01; base 2.19/2.74/3.08; genco 1.71/2.01/2.18; dc 3.00/3.90/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/small/seed0/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n3_small: 660 scenarios (30 load scenarios), 116738 branch-rows in 15s
+  overloaded branches: 1378 (1.18%); scenarios with >=1 overload: 87.6%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.71e-07, graphkit problem 5.54e-03; our NR vs datakit state: 1.19e-06
+  dc       recall 0.5784 precision 0.7091 missed  581 | loading abs err: median 1.45e-02 p99 1.70e-01 max 5.97e-01
+  dc_ours  recall 0.5581 precision 0.7147 missed  609 | loading abs err: median 1.45e-02 p99 1.71e-01 max 5.90e-01
+  raw      recall 0.8469 precision 0.8742 missed  211 | loading abs err: median 1.04e-03 p99 3.66e-02 max 4.92e-01
+  phys     recall 0.8374 precision 0.8690 missed  224 | loading abs err: median 1.05e-03 p99 3.68e-02 max 4.92e-01
+  g1       recall 0.9673 precision 0.9993 missed   45 | loading abs err: median 7.42e-07 p99 2.16e-04 max 7.21e-03
+  g2       recall 0.9717 precision 1.0000 missed   39 | loading abs err: median 1.04e-07 p99 2.31e-06 max 1.18e-05
+  g3       recall 0.9717 precision 1.0000 missed   39 | loading abs err: median 1.04e-07 p99 2.28e-06 max 1.18e-05
+  b1       recall 0.9122 precision 0.9737 missed  121 | loading abs err: median 6.04e-05 p99 2.57e-02 max 3.11e-01
+  b2       recall 0.9717 precision 1.0000 missed   39 | loading abs err: median 2.11e-07 p99 4.95e-04 max 2.95e-02
+  b3       recall 0.9717 precision 1.0000 missed   39 | loading abs err: median 1.06e-07 p99 2.79e-06 max 4.02e-04
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.03/4.00/4.01; base 2.29/2.90/3.17; genco 1.78/2.02/2.30; dc 3.00/3.88/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/small/seed0/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n5_small: 660 scenarios (30 load scenarios), 115781 branch-rows in 14s
+  overloaded branches: 2089 (1.80%); scenarios with >=1 overload: 94.1%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.79e-07, graphkit problem 7.21e-03; our NR vs datakit state: 2.65e-06
+  dc       recall 0.5720 precision 0.8281 missed  894 | loading abs err: median 1.67e-02 p99 1.94e-01 max 1.22e+00
+  dc_ours  recall 0.5548 precision 0.8249 missed  930 | loading abs err: median 1.67e-02 p99 1.97e-01 max 1.22e+00
+  raw      recall 0.8894 precision 0.9230 missed  231 | loading abs err: median 1.43e-03 p99 5.34e-02 max 1.09e+00
+  phys     recall 0.8550 precision 0.9187 missed  303 | loading abs err: median 1.43e-03 p99 5.64e-02 max 1.07e+00
+  g1       recall 0.9866 precision 1.0000 missed   28 | loading abs err: median 1.38e-06 p99 8.08e-04 max 1.35e-01
+  g2       recall 0.9899 precision 0.9928 missed   21 | loading abs err: median 1.17e-07 p99 4.27e-06 max 3.51e-03
+  g3       recall 0.9899 precision 0.9928 missed   21 | loading abs err: median 1.13e-07 p99 2.72e-06 max 1.39e-05
+  b1       recall 0.9296 precision 0.9793 missed  147 | loading abs err: median 1.96e-04 p99 3.83e-02 max 6.32e-01
+  b2       recall 0.9885 precision 0.9928 missed   24 | loading abs err: median 4.24e-07 p99 9.42e-04 max 8.54e-02
+  b3       recall 0.9899 precision 0.9928 missed   21 | loading abs err: median 1.18e-07 p99 4.24e-06 max 2.15e-03
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.08/4.01/4.03; base 2.49/3.08/3.32; genco 1.89/2.07/2.47; dc 3.00/3.76/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/tiny/seed0/normalizer_stats.pt
+split='train' len(split_indices)=4724
+split='val' len(split_indices)=638
+split='test' len(split_indices)=638
+Restoring normalizer for case118_ieee from saved stats
+case118_ieee_tiny_seed0: 638 scenarios (29 load scenarios), 113780 branch-rows in 12s
+  overloaded branches: 1599 (1.41%); scenarios with >=1 overload: 92.9%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 3.77e-07, graphkit problem 6.47e-03; our NR vs datakit state: 1.28e-06
+  dc       recall 0.3221 precision 0.5839 missed 1084 | loading abs err: median 1.76e-02 p99 1.89e-01 max 6.00e-01
+  dc_ours  recall 0.3177 precision 0.5819 missed 1091 | loading abs err: median 1.77e-02 p99 1.90e-01 max 6.00e-01
+  raw      recall 0.6773 precision 0.7741 missed  516 | loading abs err: median 9.85e-04 p99 2.45e-02 max 4.28e-01
+  phys     recall 0.7148 precision 0.7485 missed  456 | loading abs err: median 9.85e-04 p99 2.76e-02 max 3.82e-01
+  g1       recall 0.8743 precision 0.9887 missed  201 | loading abs err: median 6.64e-07 p99 9.82e-05 max 1.40e-02
+  g2       recall 0.9537 precision 0.9980 missed   74 | loading abs err: median 1.09e-07 p99 2.48e-06 max 1.84e-05
+  g3       recall 0.9537 precision 0.9980 missed   74 | loading abs err: median 1.08e-07 p99 2.46e-06 max 8.85e-06
+  b1       recall 0.8499 precision 0.9631 missed  240 | loading abs err: median 4.96e-06 p99 7.67e-03 max 2.89e-01
+  b2       recall 0.9537 precision 0.9980 missed   74 | loading abs err: median 1.40e-07 p99 6.00e-05 max 1.22e-02
+  b3       recall 0.9537 precision 0.9980 missed   74 | loading abs err: median 1.09e-07 p99 2.65e-06 max 5.75e-05
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.01/4.00/4.00; base 2.04/2.49/2.88; genco 1.83/2.01/2.18; dc 3.00/3.72/3.97
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/tiny/seed0/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n1_tiny: 660 scenarios (30 load scenarios), 117654 branch-rows in 13s
+  overloaded branches: 1233 (1.05%); scenarios with >=1 overload: 84.4%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.92e-07, graphkit problem 7.54e-03; our NR vs datakit state: 1.24e-06
+  dc       recall 0.4534 precision 0.6302 missed  674 | loading abs err: median 1.48e-02 p99 1.71e-01 max 9.19e-01
+  dc_ours  recall 0.4380 precision 0.6294 missed  693 | loading abs err: median 1.50e-02 p99 1.71e-01 max 9.18e-01
+  raw      recall 0.6902 precision 0.7212 missed  382 | loading abs err: median 1.05e-03 p99 2.77e-02 max 5.62e-01
+  phys     recall 0.6391 precision 0.7236 missed  445 | loading abs err: median 1.05e-03 p99 2.90e-02 max 4.86e-01
+  g1       recall 0.9254 precision 0.9836 missed   92 | loading abs err: median 7.00e-07 p99 1.16e-04 max 6.17e-02
+  g2       recall 0.9789 precision 0.9452 missed   26 | loading abs err: median 1.06e-07 p99 2.42e-06 max 7.87e-04
+  g3       recall 0.9789 precision 0.9452 missed   26 | loading abs err: median 1.05e-07 p99 2.31e-06 max 1.26e-05
+  b1       recall 0.8881 precision 0.9217 missed  138 | loading abs err: median 5.23e-06 p99 1.02e-02 max 3.96e-01
+  b2       recall 0.9789 precision 0.9452 missed   26 | loading abs err: median 1.36e-07 p99 1.04e-04 max 2.85e-02
+  b3       recall 0.9789 precision 0.9452 missed   26 | loading abs err: median 1.06e-07 p99 2.44e-06 max 1.79e-04
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.01/4.00/4.00; base 2.03/2.50/2.88; genco 1.77/2.01/2.20; dc 3.00/3.80/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/tiny/seed0/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=659
+Restoring normalizer for case118_ieee from saved stats
+stress_n2_tiny: 659 scenarios (30 load scenarios), 116981 branch-rows in 18s
+  overloaded branches: 1413 (1.21%); scenarios with >=1 overload: 87.6%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 8.75e-07, graphkit problem 7.43e-03; our NR vs datakit state: 1.47e-06
+  dc       recall 0.4310 precision 0.7199 missed  804 | loading abs err: median 1.53e-02 p99 1.80e-01 max 7.15e-01
+  dc_ours  recall 0.4246 precision 0.7194 missed  813 | loading abs err: median 1.54e-02 p99 1.83e-01 max 7.20e-01
+  raw      recall 0.7742 precision 0.8338 missed  319 | loading abs err: median 1.11e-03 p99 3.44e-02 max 9.54e-01
+  phys     recall 0.7297 precision 0.8315 missed  382 | loading abs err: median 1.11e-03 p99 3.52e-02 max 9.54e-01
+  g1       recall 0.9483 precision 0.9985 missed   73 | loading abs err: median 7.97e-07 p99 2.12e-04 max 1.96e-01
+  g2       recall 0.9866 precision 0.9979 missed   19 | loading abs err: median 1.09e-07 p99 2.66e-06 max 1.53e-02
+  g3       recall 0.9866 precision 0.9979 missed   19 | loading abs err: median 1.08e-07 p99 2.40e-06 max 1.14e-04
+  b1       recall 0.9165 precision 0.9825 missed  118 | loading abs err: median 2.49e-05 p99 1.51e-02 max 7.10e-01
+  b2       recall 0.9866 precision 0.9979 missed   19 | loading abs err: median 1.69e-07 p99 1.81e-04 max 1.28e-01
+  b3       recall 0.9866 precision 0.9979 missed   19 | loading abs err: median 1.09e-07 p99 2.66e-06 max 7.07e-03
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.03/4.00/4.01; base 2.19/2.74/3.08; genco 1.81/2.02/2.29; dc 3.00/3.90/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/tiny/seed0/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n3_tiny: 660 scenarios (30 load scenarios), 116738 branch-rows in 16s
+  overloaded branches: 1378 (1.18%); scenarios with >=1 overload: 87.6%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.71e-07, graphkit problem 5.54e-03; our NR vs datakit state: 1.19e-06
+  dc       recall 0.5784 precision 0.7091 missed  581 | loading abs err: median 1.45e-02 p99 1.70e-01 max 5.97e-01
+  dc_ours  recall 0.5581 precision 0.7147 missed  609 | loading abs err: median 1.45e-02 p99 1.71e-01 max 5.90e-01
+  raw      recall 0.8599 precision 0.8675 missed  193 | loading abs err: median 1.49e-03 p99 4.49e-02 max 2.93e-01
+  phys     recall 0.8048 precision 0.8719 missed  269 | loading abs err: median 1.49e-03 p99 4.54e-02 max 2.93e-01
+  g1       recall 0.9681 precision 0.9993 missed   44 | loading abs err: median 1.22e-06 p99 3.16e-04 max 5.77e-03
+  g2       recall 0.9717 precision 1.0000 missed   39 | loading abs err: median 1.04e-07 p99 2.29e-06 max 1.18e-05
+  g3       recall 0.9717 precision 1.0000 missed   39 | loading abs err: median 1.04e-07 p99 2.28e-06 max 1.18e-05
+  b1       recall 0.9122 precision 0.9737 missed  121 | loading abs err: median 6.04e-05 p99 2.57e-02 max 3.11e-01
+  b2       recall 0.9717 precision 1.0000 missed   39 | loading abs err: median 2.11e-07 p99 4.95e-04 max 2.95e-02
+  b3       recall 0.9717 precision 1.0000 missed   39 | loading abs err: median 1.06e-07 p99 2.79e-06 max 4.02e-04
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.03/4.00/4.01; base 2.29/2.90/3.17; genco 1.89/2.03/2.39; dc 3.00/3.88/4.00
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/tiny/seed0/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=660
+Restoring normalizer for case118_ieee from saved stats
+stress_n5_tiny: 660 scenarios (30 load scenarios), 115781 branch-rows in 15s
+  overloaded branches: 2089 (1.80%); scenarios with >=1 overload: 94.1%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.79e-07, graphkit problem 7.21e-03; our NR vs datakit state: 2.65e-06
+  dc       recall 0.5720 precision 0.8281 missed  894 | loading abs err: median 1.67e-02 p99 1.94e-01 max 1.22e+00
+  dc_ours  recall 0.5548 precision 0.8249 missed  930 | loading abs err: median 1.67e-02 p99 1.97e-01 max 1.22e+00
+  raw      recall 0.8540 precision 0.9168 missed  305 | loading abs err: median 1.98e-03 p99 6.82e-02 max 1.06e+00
+  phys     recall 0.8171 precision 0.9163 missed  382 | loading abs err: median 1.98e-03 p99 7.29e-02 max 1.06e+00
+  g1       recall 0.9866 precision 1.0000 missed   28 | loading abs err: median 2.24e-06 p99 1.28e-03 max 1.36e-01
+  g2       recall 0.9899 precision 0.9928 missed   21 | loading abs err: median 1.18e-07 p99 4.85e-06 max 4.76e-03
+  g3       recall 0.9899 precision 0.9928 missed   21 | loading abs err: median 1.13e-07 p99 2.74e-06 max 2.65e-05
+  b1       recall 0.9296 precision 0.9793 missed  147 | loading abs err: median 1.96e-04 p99 3.83e-02 max 6.32e-01
+  b2       recall 0.9885 precision 0.9928 missed   24 | loading abs err: median 4.24e-07 p99 9.42e-04 max 8.54e-02
+  b3       recall 0.9899 precision 0.9928 missed   21 | loading abs err: median 1.18e-07 p99 4.24e-06 max 2.15e-03
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.08/4.01/4.03; base 2.49/3.08/3.32; genco 1.96/2.10/2.58; dc 3.00/3.76/4.00
+ALLDONE

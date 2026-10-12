@@ -1,0 +1,24 @@
+set,method,start,reason,count
+paper N-1,chord,base,max_it,126
+paper N-1,chord,genco,max_it,52
+stress N-1,chord,base,max_it,140
+stress N-1,chord,genco,max_it,59
+stress N-2,chord,base,max_it,254
+stress N-2,chord,genco,max_it,124
+stress N-3,chord,base,max_it,330
+stress N-3,chord,genco,max_it,165
+stress N-3,chordC,base,max_it,4
+stress N-3,chordC,genco,max_it,1
+stress N-5,chord,base,max_it,459
+stress N-5,chord,genco,max_it,308
+stress N-5,chordC,base,max_it,1
+"exhaustive N-1, branches",chord,base,max_it,1432
+"exhaustive N-1, branches",chord,genco,max_it,594
+"exhaustive N-1, generators",chord,base,max_it,10
+"exhaustive N-1, generators",chord,genco,max_it,3
+"exhaustive N-1, generators",chordC,base,max_it,10
+"exhaustive N-1, generators",chordC,genco,max_it,3
+"exhaustive N-1, branches + generators",chord,base,max_it,1442
+"exhaustive N-1, branches + generators",chord,genco,max_it,597
+"exhaustive N-1, branches + generators",chordC,base,max_it,10
+"exhaustive N-1, branches + generators",chordC,genco,max_it,3

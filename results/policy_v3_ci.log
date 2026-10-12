@@ -1,0 +1,679 @@
+policy_v3_ci: v3 tables with cluster-bootstrap CIs (2000 resamples over load scenarios), Clopper-Pearson miss-rate bounds, seeds and sizes
+tau=1.01 eps_v=0.001; policies calibrated with c from the checkpoint's own paper set (cross-set, evaluated on the stress sets) or 5-fold CV grouped by load scenario (paper set itself)
+Base-case policies use c measured against our own converged NR ('own NR', the stronger baseline) and against datakit's labels ('datakit').
+Bounds: cp_hi = Clopper-Pearson two-sided 95% upper limit, cp_hi1 = one-sided 95% upper limit; 'load' = fraction of LOAD SCENARIOS with >= 1 miss (cluster-level, no independence assumption).
+Test splits: base seed 0: splits_paper_test; base seed 1: splits_paper_test_seed1; base seed 42: splits_paper_test_seed42; small seed 0: splits_paper_test; tiny seed 0: splits_paper_test; stress sets: data/stress/n{1,2,3,5} splits_all.
+(paper sets of Base seed 1 / 42 are DIFFERENT test sets from seed 0: those checkpoints were trained on other splits; stress sets are identical for all checkpoints)
+
+[base seed 0] sets: paper N-1 (638 scen, 29 load scen), stress N-1 (660 scen, 30 load scen), stress N-2 (659 scen, 30 load scen), stress N-3 (660 scen, 30 load scen), stress N-5 (660 scen, 30 load scen)
+[base seed 1] sets: paper N-1 (814 scen, 37 load scen), stress N-1 (660 scen, 30 load scen), stress N-2 (659 scen, 30 load scen), stress N-3 (660 scen, 30 load scen), stress N-5 (660 scen, 30 load scen)
+[base seed 42] sets: paper N-1 (616 scen, 28 load scen), stress N-1 (660 scen, 30 load scen), stress N-2 (659 scen, 30 load scen), stress N-3 (660 scen, 30 load scen), stress N-5 (660 scen, 30 load scen)
+[small seed 0] sets: paper N-1 (638 scen, 29 load scen), stress N-1 (660 scen, 30 load scen), stress N-2 (659 scen, 30 load scen), stress N-3 (660 scen, 30 load scen), stress N-5 (660 scen, 30 load scen)
+[tiny seed 0] sets: paper N-1 (638 scen, 29 load scen), stress N-1 (660 scen, 30 load scen), stress N-2 (659 scen, 30 load scen), stress N-3 (660 scen, 30 load scen), stress N-5 (660 scen, 30 load scen)
+
+==============================================================================================================
+A. POLICIES, base seed 0: LU per contingency and tier-1 share with 95% cluster-bootstrap CIs; miss counts with Clopper-Pearson bounds
+         set                           policy     rule     c                   LU             tier1 el_miss el_ub cont_miss cont_ub load_miss load_ub exceed
+   paper N-1   GENCO tiered (1 step, then NR)      max 0.347 1.545 [1.339, 1.788] 0.60 [0.45, 0.74]   0/484 0.76%     0/225   1.63%      0/29   11.9%   2/29
+   paper N-1     GENCO sequential (<=3 steps)      max 0.347 1.403 [1.262, 1.555] 0.60 [0.45, 0.74]   0/484 0.76%     0/225   1.63%      0/29   11.9%   2/29
+   paper N-1 Base case sequential (<=3 steps)      max  42.1 2.210 [2.149, 2.265] 0.11 [0.08, 0.14]   0/484 0.76%     0/225   1.63%      0/29   11.9%   1/29
+   paper N-1   GENCO tiered (1 step, then NR) conf0.10 0.167 1.342 [1.161, 1.566] 0.79 [0.66, 0.89]   0/484 0.76%     0/225   1.63%      0/29   11.9%   2/29
+   paper N-1     GENCO sequential (<=3 steps) conf0.10 0.167 1.215 [1.113, 1.339] 0.79 [0.66, 0.89]   0/484 0.76%     0/225   1.63%      0/29   11.9%   2/29
+   paper N-1 Base case sequential (<=3 steps) conf0.10  29.5 2.165 [2.105, 2.219] 0.13 [0.10, 0.16]   0/484 0.76%     0/225   1.63%      0/29   11.9%   2/29
+  stress N-1   GENCO tiered (1 step, then NR)      max 0.347 1.585 [1.412, 1.777] 0.52 [0.39, 0.65]   0/435 0.84%     0/217   1.69%      0/30   11.6%   0/30
+  stress N-1     GENCO sequential (<=3 steps)      max 0.347 1.477 [1.353, 1.608] 0.52 [0.39, 0.65]   0/435 0.84%     0/217   1.69%      0/30   11.6%   0/30
+  stress N-1 Base case sequential (<=3 steps)      max  42.1 2.220 [2.158, 2.282] 0.10 [0.07, 0.13]   0/435 0.84%     0/217   1.69%      0/30   11.6%   0/30
+  stress N-1   GENCO tiered (1 step, then NR) conf0.10 0.126 1.318 [1.162, 1.494] 0.78 [0.67, 0.87]   0/435 0.84%     0/217   1.69%      0/30   11.6%   2/30
+  stress N-1     GENCO sequential (<=3 steps) conf0.10 0.126 1.224 [1.126, 1.335] 0.78 [0.67, 0.87]   0/435 0.84%     0/217   1.69%      0/30   11.6%   2/30
+  stress N-1 Base case sequential (<=3 steps) conf0.10  26.2 2.141 [2.074, 2.208] 0.13 [0.10, 0.17]   0/435 0.84%     0/217   1.69%      0/30   11.6%   1/30
+  stress N-2   GENCO tiered (1 step, then NR)      max 0.347 1.619 [1.463, 1.785] 0.52 [0.39, 0.64]   0/714 0.52%     0/334   1.10%      0/30   11.6%   4/30
+  stress N-2     GENCO sequential (<=3 steps)      max 0.347 1.487 [1.366, 1.614] 0.52 [0.39, 0.64]   0/714 0.52%     0/334   1.10%      0/30   11.6%   4/30
+  stress N-2 Base case sequential (<=3 steps)      max  42.1 2.537 [2.483, 2.592] 0.01 [0.01, 0.02]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-2   GENCO tiered (1 step, then NR) conf0.10 0.126 1.428 [1.274, 1.602] 0.69 [0.57, 0.80]   0/714 0.52%     0/334   1.10%      0/30   11.6%  10/30
+  stress N-2     GENCO sequential (<=3 steps) conf0.10 0.126 1.311 [1.200, 1.434] 0.69 [0.57, 0.80]   0/714 0.52%     0/334   1.10%      0/30   11.6%  10/30
+  stress N-2 Base case sequential (<=3 steps) conf0.10  26.2 2.476 [2.426, 2.527] 0.02 [0.01, 0.03]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-3   GENCO tiered (1 step, then NR)      max 0.347 1.777 [1.632, 1.936] 0.41 [0.31, 0.51]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3     GENCO sequential (<=3 steps)      max 0.347 1.588 [1.486, 1.691] 0.41 [0.31, 0.51]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3 Base case sequential (<=3 steps)      max  42.1 2.755 [2.705, 2.803] 0.00 [0.00, 0.00]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3   GENCO tiered (1 step, then NR) conf0.10 0.126 1.538 [1.389, 1.706] 0.63 [0.54, 0.72]   0/950 0.39%     0/455   0.81%      0/30   11.6%   7/30
+  stress N-3     GENCO sequential (<=3 steps) conf0.10 0.126 1.365 [1.276, 1.462] 0.63 [0.54, 0.72]   0/950 0.39%     0/455   0.81%      0/30   11.6%   7/30
+  stress N-3 Base case sequential (<=3 steps) conf0.10  26.2 2.682 [2.629, 2.732] 0.00 [0.00, 0.00]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-5   GENCO tiered (1 step, then NR)      max 0.347 2.124 [2.014, 2.232] 0.26 [0.19, 0.33]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   1/30
+  stress N-5     GENCO sequential (<=3 steps)      max 0.347 1.755 [1.683, 1.821] 0.26 [0.19, 0.33]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   1/30
+  stress N-5 Base case sequential (<=3 steps)      max  42.1 3.003 [2.967, 3.039] 0.00 [0.00, 0.00]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+  stress N-5   GENCO tiered (1 step, then NR) conf0.10 0.126 1.912 [1.797, 2.030] 0.45 [0.38, 0.52]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   4/30
+  stress N-5     GENCO sequential (<=3 steps) conf0.10 0.126 1.559 [1.488, 1.630] 0.45 [0.38, 0.52]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   4/30
+  stress N-5 Base case sequential (<=3 steps) conf0.10  26.2 2.952 [2.912, 2.992] 0.00 [0.00, 0.00]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+
+==============================================================================================================
+A. POLICIES, base seed 1: LU per contingency and tier-1 share with 95% cluster-bootstrap CIs; miss counts with Clopper-Pearson bounds
+         set                           policy     rule     c                   LU             tier1 el_miss el_ub cont_miss cont_ub load_miss load_ub exceed
+   paper N-1   GENCO tiered (1 step, then NR)      max  1.87 1.801 [1.685, 1.910] 0.27 [0.17, 0.37]   0/680 0.54%     0/295   1.24%      0/37    9.5%   1/37
+   paper N-1     GENCO sequential (<=3 steps)      max  1.87 1.735 [1.629, 1.832] 0.27 [0.17, 0.37]   0/680 0.54%     0/295   1.24%      0/37    9.5%   1/37
+   paper N-1 Base case sequential (<=3 steps)      max  37.7 2.284 [2.230, 2.335] 0.09 [0.07, 0.11]   0/680 0.54%     0/295   1.24%      0/37    9.5%   1/37
+   paper N-1   GENCO tiered (1 step, then NR) conf0.10 0.135 1.225 [1.128, 1.349] 0.83 [0.72, 0.91]   0/680 0.54%     0/295   1.24%      0/37    9.5%   4/37
+   paper N-1     GENCO sequential (<=3 steps) conf0.10 0.135 1.174 [1.093, 1.276] 0.83 [0.72, 0.91]   0/680 0.54%     0/295   1.24%      0/37    9.5%   4/37
+   paper N-1 Base case sequential (<=3 steps) conf0.10  18.6 2.157 [2.100, 2.213] 0.14 [0.11, 0.17]   0/680 0.54%     0/295   1.24%      0/37    9.5%   4/37
+  stress N-1   GENCO tiered (1 step, then NR)      max  1.87 1.998 [1.895, 2.088] 0.10 [0.03, 0.18]   0/435 0.84%     0/217   1.69%      0/30   11.6%   0/30
+  stress N-1     GENCO sequential (<=3 steps)      max  1.87 1.898 [1.815, 1.967] 0.10 [0.03, 0.18]   0/435 0.84%     0/217   1.69%      0/30   11.6%   0/30
+  stress N-1 Base case sequential (<=3 steps)      max  37.7 2.200 [2.136, 2.264] 0.11 [0.08, 0.14]   0/435 0.84%     0/217   1.69%      0/30   11.6%   0/30
+  stress N-1   GENCO tiered (1 step, then NR) conf0.10 0.139 1.327 [1.217, 1.458] 0.75 [0.63, 0.84]   0/435 0.84%     0/217   1.69%      0/30   11.6%   2/30
+  stress N-1     GENCO sequential (<=3 steps) conf0.10 0.139 1.253 [1.156, 1.367] 0.75 [0.63, 0.84]   0/435 0.84%     0/217   1.69%      0/30   11.6%   2/30
+  stress N-1 Base case sequential (<=3 steps) conf0.10  20.1 2.115 [2.048, 2.180] 0.14 [0.10, 0.18]   0/435 0.84%     0/217   1.69%      0/30   11.6%   3/30
+  stress N-2   GENCO tiered (1 step, then NR)      max  1.87 1.973 [1.818, 2.138] 0.22 [0.14, 0.31]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-2     GENCO sequential (<=3 steps)      max  1.87 1.781 [1.692, 1.866] 0.22 [0.14, 0.31]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-2 Base case sequential (<=3 steps)      max  37.7 2.531 [2.478, 2.584] 0.01 [0.01, 0.02]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-2   GENCO tiered (1 step, then NR) conf0.10 0.139 1.489 [1.295, 1.709] 0.70 [0.57, 0.81]   0/714 0.52%     0/334   1.10%      0/30   11.6%   8/30
+  stress N-2     GENCO sequential (<=3 steps) conf0.10 0.139 1.307 [1.193, 1.431] 0.70 [0.57, 0.81]   0/714 0.52%     0/334   1.10%      0/30   11.6%   8/30
+  stress N-2 Base case sequential (<=3 steps) conf0.10  20.1 2.434 [2.387, 2.483] 0.02 [0.01, 0.03]   0/714 0.52%     0/334   1.10%      0/30   11.6%   1/30
+  stress N-3   GENCO tiered (1 step, then NR)      max  1.87 2.097 [1.976, 2.220] 0.15 [0.09, 0.21]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3     GENCO sequential (<=3 steps)      max  1.87 1.853 [1.791, 1.912] 0.15 [0.09, 0.21]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3 Base case sequential (<=3 steps)      max  37.7 2.744 [2.692, 2.792] 0.00 [0.00, 0.00]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3   GENCO tiered (1 step, then NR) conf0.10 0.139 1.630 [1.455, 1.829] 0.60 [0.48, 0.70]   0/950 0.39%     0/455   0.81%      0/30   11.6%   7/30
+  stress N-3     GENCO sequential (<=3 steps) conf0.10 0.139 1.403 [1.297, 1.517] 0.60 [0.48, 0.70]   0/950 0.39%     0/455   0.81%      0/30   11.6%   7/30
+  stress N-3 Base case sequential (<=3 steps) conf0.10  20.1 2.655 [2.602, 2.705] 0.00 [0.00, 0.00]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-5   GENCO tiered (1 step, then NR)      max  1.87 2.368 [2.267, 2.470] 0.08 [0.05, 0.12]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+  stress N-5     GENCO sequential (<=3 steps)      max  1.87 1.941 [1.903, 1.973] 0.08 [0.05, 0.12]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+  stress N-5 Base case sequential (<=3 steps)      max  37.7 2.994 [2.958, 3.032] 0.00 [0.00, 0.00]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+  stress N-5   GENCO tiered (1 step, then NR) conf0.10 0.139 1.995 [1.835, 2.153] 0.42 [0.34, 0.51]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   4/30
+  stress N-5     GENCO sequential (<=3 steps) conf0.10 0.139 1.583 [1.495, 1.665] 0.42 [0.34, 0.51]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   4/30
+  stress N-5 Base case sequential (<=3 steps) conf0.10  20.1 2.929 [2.891, 2.967] 0.00 [0.00, 0.00]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+
+==============================================================================================================
+A. POLICIES, base seed 42: LU per contingency and tier-1 share with 95% cluster-bootstrap CIs; miss counts with Clopper-Pearson bounds
+         set                           policy     rule     c                   LU             tier1 el_miss el_ub cont_miss cont_ub load_miss load_ub exceed
+   paper N-1   GENCO tiered (1 step, then NR)      max 0.225 1.765 [1.558, 1.995] 0.46 [0.33, 0.59]   0/536 0.69%     0/229   1.60%      0/28   12.3%   3/28
+   paper N-1     GENCO sequential (<=3 steps)      max 0.225 1.536 [1.411, 1.672] 0.46 [0.33, 0.59]   0/536 0.69%     0/229   1.60%      0/28   12.3%   3/28
+   paper N-1 Base case sequential (<=3 steps)      max  37.2 2.281 [2.230, 2.333] 0.08 [0.06, 0.10]   0/536 0.69%     0/229   1.60%      0/28   12.3%   1/28
+   paper N-1   GENCO tiered (1 step, then NR) conf0.10 0.106 1.552 [1.347, 1.789] 0.67 [0.54, 0.78]   0/536 0.69%     0/229   1.60%      0/28   12.3%   3/28
+   paper N-1     GENCO sequential (<=3 steps) conf0.10 0.106 1.328 [1.216, 1.458] 0.67 [0.54, 0.78]   0/536 0.69%     0/229   1.60%      0/28   12.3%   3/28
+   paper N-1 Base case sequential (<=3 steps) conf0.10  26.6 2.206 [2.148, 2.265] 0.11 [0.08, 0.13]   0/536 0.69%     0/229   1.60%      0/28   12.3%   3/28
+  stress N-1   GENCO tiered (1 step, then NR)      max 0.225 1.661 [1.464, 1.865] 0.55 [0.42, 0.67]   0/435 0.84%     0/217   1.69%      0/30   11.6%   1/30
+  stress N-1     GENCO sequential (<=3 steps)      max 0.225 1.456 [1.330, 1.582] 0.55 [0.42, 0.67]   0/435 0.84%     0/217   1.69%      0/30   11.6%   1/30
+  stress N-1 Base case sequential (<=3 steps)      max  37.2 2.198 [2.136, 2.262] 0.11 [0.08, 0.14]   0/435 0.84%     0/217   1.69%      0/30   11.6%   0/30
+  stress N-1   GENCO tiered (1 step, then NR) conf0.10 0.106 1.491 [1.301, 1.697] 0.70 [0.58, 0.81]   0/435 0.84%     0/217   1.69%      0/30   11.6%   6/30
+  stress N-1     GENCO sequential (<=3 steps) conf0.10 0.106 1.302 [1.192, 1.417] 0.70 [0.58, 0.81]   0/435 0.84%     0/217   1.69%      0/30   11.6%   6/30
+  stress N-1 Base case sequential (<=3 steps) conf0.10  26.6 2.145 [2.077, 2.212] 0.13 [0.10, 0.17]   0/435 0.84%     0/217   1.69%      0/30   11.6%   1/30
+  stress N-2   GENCO tiered (1 step, then NR)      max 0.225 1.801 [1.635, 1.986] 0.46 [0.36, 0.56]   0/714 0.52%     0/334   1.10%      0/30   11.6%   2/30
+  stress N-2     GENCO sequential (<=3 steps)      max 0.225 1.539 [1.444, 1.645] 0.46 [0.36, 0.56]   0/714 0.52%     0/334   1.10%      0/30   11.6%   2/30
+  stress N-2 Base case sequential (<=3 steps)      max  37.2 2.531 [2.478, 2.584] 0.01 [0.01, 0.02]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-2   GENCO tiered (1 step, then NR) conf0.10 0.106 1.618 [1.459, 1.805] 0.63 [0.53, 0.72]   0/714 0.52%     0/334   1.10%      0/30   11.6%   8/30
+  stress N-2     GENCO sequential (<=3 steps) conf0.10 0.106 1.372 [1.282, 1.472] 0.63 [0.53, 0.72]   0/714 0.52%     0/334   1.10%      0/30   11.6%   8/30
+  stress N-2 Base case sequential (<=3 steps) conf0.10  26.6 2.478 [2.429, 2.529] 0.02 [0.01, 0.03]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-3   GENCO tiered (1 step, then NR)      max 0.225 2.111 [1.929, 2.294] 0.32 [0.23, 0.41]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3     GENCO sequential (<=3 steps)      max 0.225 1.680 [1.591, 1.768] 0.32 [0.23, 0.41]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3 Base case sequential (<=3 steps)      max  37.2 2.742 [2.691, 2.791] 0.00 [0.00, 0.00]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3   GENCO tiered (1 step, then NR) conf0.10 0.106 1.926 [1.721, 2.139] 0.47 [0.36, 0.58]   0/950 0.39%     0/455   0.81%      0/30   11.6%   3/30
+  stress N-3     GENCO sequential (<=3 steps) conf0.10 0.106 1.526 [1.420, 1.638] 0.47 [0.36, 0.58]   0/950 0.39%     0/455   0.81%      0/30   11.6%   3/30
+  stress N-3 Base case sequential (<=3 steps) conf0.10  26.6 2.683 [2.629, 2.733] 0.00 [0.00, 0.00]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-5   GENCO tiered (1 step, then NR)      max 0.225 2.464 [2.330, 2.592] 0.17 [0.11, 0.24]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   1/30
+  stress N-5     GENCO sequential (<=3 steps)      max 0.225 1.845 [1.774, 1.906] 0.17 [0.11, 0.24]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   1/30
+  stress N-5 Base case sequential (<=3 steps)      max  37.2 2.989 [2.955, 3.026] 0.00 [0.00, 0.00]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+  stress N-5   GENCO tiered (1 step, then NR) conf0.10 0.106 2.283 [2.133, 2.426] 0.31 [0.24, 0.38]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   5/30
+  stress N-5     GENCO sequential (<=3 steps) conf0.10 0.106 1.703 [1.624, 1.776] 0.31 [0.24, 0.38]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   5/30
+  stress N-5 Base case sequential (<=3 steps) conf0.10  26.6 2.955 [2.915, 2.995] 0.00 [0.00, 0.00]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+
+==============================================================================================================
+A. POLICIES, small seed 0: LU per contingency and tier-1 share with 95% cluster-bootstrap CIs; miss counts with Clopper-Pearson bounds
+         set                           policy     rule     c                   LU             tier1 el_miss el_ub cont_miss cont_ub load_miss load_ub exceed
+   paper N-1   GENCO tiered (1 step, then NR)      max 0.195 1.610 [1.371, 1.868] 0.59 [0.44, 0.74]   0/484 0.76%     0/225   1.63%      0/29   11.9%   2/29
+   paper N-1     GENCO sequential (<=3 steps)      max 0.195 1.406 [1.262, 1.563] 0.59 [0.44, 0.74]   0/484 0.76%     0/225   1.63%      0/29   11.9%   2/29
+   paper N-1 Base case sequential (<=3 steps)      max  42.1 2.210 [2.149, 2.265] 0.11 [0.08, 0.14]   0/484 0.76%     0/225   1.63%      0/29   11.9%   1/29
+   paper N-1   GENCO tiered (1 step, then NR) conf0.10  0.18 1.588 [1.353, 1.845] 0.62 [0.45, 0.76]   0/484 0.76%     0/225   1.63%      0/29   11.9%   3/29
+   paper N-1     GENCO sequential (<=3 steps) conf0.10  0.18 1.384 [1.241, 1.545] 0.62 [0.45, 0.76]   0/484 0.76%     0/225   1.63%      0/29   11.9%   3/29
+   paper N-1 Base case sequential (<=3 steps) conf0.10  29.5 2.165 [2.105, 2.219] 0.13 [0.10, 0.16]   0/484 0.76%     0/225   1.63%      0/29   11.9%   2/29
+  stress N-1   GENCO tiered (1 step, then NR)      max 0.195 1.533 [1.368, 1.705] 0.58 [0.45, 0.70]   0/435 0.84%     0/217   1.69%      0/30   11.6%   1/30
+  stress N-1     GENCO sequential (<=3 steps)      max 0.195 1.424 [1.302, 1.553] 0.58 [0.45, 0.70]   0/435 0.84%     0/217   1.69%      0/30   11.6%   1/30
+  stress N-1 Base case sequential (<=3 steps)      max  42.1 2.220 [2.158, 2.282] 0.10 [0.07, 0.13]   0/435 0.84%     0/217   1.69%      0/30   11.6%   0/30
+  stress N-1   GENCO tiered (1 step, then NR) conf0.10 0.157 1.456 [1.301, 1.627] 0.64 [0.52, 0.75]   0/435 0.84%     0/217   1.69%      0/30   11.6%   3/30
+  stress N-1     GENCO sequential (<=3 steps) conf0.10 0.157 1.359 [1.247, 1.483] 0.64 [0.52, 0.75]   0/435 0.84%     0/217   1.69%      0/30   11.6%   3/30
+  stress N-1 Base case sequential (<=3 steps) conf0.10  26.2 2.141 [2.074, 2.208] 0.13 [0.10, 0.17]   0/435 0.84%     0/217   1.69%      0/30   11.6%   1/30
+  stress N-2   GENCO tiered (1 step, then NR)      max 0.195 1.643 [1.479, 1.830] 0.53 [0.41, 0.64]   0/714 0.52%     0/334   1.10%      0/30   11.6%   3/30
+  stress N-2     GENCO sequential (<=3 steps)      max 0.195 1.470 [1.357, 1.591] 0.53 [0.41, 0.64]   0/714 0.52%     0/334   1.10%      0/30   11.6%   3/30
+  stress N-2 Base case sequential (<=3 steps)      max  42.1 2.537 [2.483, 2.592] 0.01 [0.01, 0.02]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-2   GENCO tiered (1 step, then NR) conf0.10 0.157 1.590 [1.426, 1.778] 0.58 [0.47, 0.69]   0/714 0.52%     0/334   1.10%      0/30   11.6%   4/30
+  stress N-2     GENCO sequential (<=3 steps) conf0.10 0.157 1.417 [1.306, 1.536] 0.58 [0.47, 0.69]   0/714 0.52%     0/334   1.10%      0/30   11.6%   4/30
+  stress N-2 Base case sequential (<=3 steps) conf0.10  26.2 2.476 [2.426, 2.527] 0.02 [0.01, 0.03]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-3   GENCO tiered (1 step, then NR)      max 0.195 1.818 [1.627, 2.015] 0.47 [0.37, 0.57]   0/950 0.39%     0/455   0.81%      0/30   11.6%   1/30
+  stress N-3     GENCO sequential (<=3 steps)      max 0.195 1.530 [1.432, 1.629] 0.47 [0.37, 0.57]   0/950 0.39%     0/455   0.81%      0/30   11.6%   1/30
+  stress N-3 Base case sequential (<=3 steps)      max  42.1 2.755 [2.705, 2.803] 0.00 [0.00, 0.00]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3   GENCO tiered (1 step, then NR) conf0.10 0.157 1.762 [1.567, 1.965] 0.52 [0.42, 0.62]   0/950 0.39%     0/455   0.81%      0/30   11.6%   2/30
+  stress N-3     GENCO sequential (<=3 steps) conf0.10 0.157 1.479 [1.379, 1.580] 0.52 [0.42, 0.62]   0/950 0.39%     0/455   0.81%      0/30   11.6%   2/30
+  stress N-3 Base case sequential (<=3 steps) conf0.10  26.2 2.682 [2.629, 2.732] 0.00 [0.00, 0.00]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-5   GENCO tiered (1 step, then NR)      max 0.195 2.064 [1.939, 2.188] 0.36 [0.30, 0.43]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   1/30
+  stress N-5     GENCO sequential (<=3 steps)      max 0.195 1.648 [1.580, 1.714] 0.36 [0.30, 0.43]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   1/30
+  stress N-5 Base case sequential (<=3 steps)      max  42.1 3.003 [2.967, 3.039] 0.00 [0.00, 0.00]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+  stress N-5   GENCO tiered (1 step, then NR) conf0.10 0.157 2.024 [1.895, 2.155] 0.40 [0.33, 0.47]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   2/30
+  stress N-5     GENCO sequential (<=3 steps) conf0.10 0.157 1.615 [1.545, 1.679] 0.40 [0.33, 0.47]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   2/30
+  stress N-5 Base case sequential (<=3 steps) conf0.10  26.2 2.952 [2.912, 2.992] 0.00 [0.00, 0.00]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+
+==============================================================================================================
+A. POLICIES, tiny seed 0: LU per contingency and tier-1 share with 95% cluster-bootstrap CIs; miss counts with Clopper-Pearson bounds
+         set                           policy     rule     c                   LU             tier1 el_miss el_ub cont_miss cont_ub load_miss load_ub exceed
+   paper N-1   GENCO tiered (1 step, then NR)      max 0.755 1.915 [1.760, 2.066] 0.26 [0.15, 0.37]   0/484 0.76%     0/225   1.63%      0/29   11.9%   1/29
+   paper N-1     GENCO sequential (<=3 steps)      max 0.755 1.743 [1.625, 1.853] 0.26 [0.15, 0.37]   0/484 0.76%     0/225   1.63%      0/29   11.9%   1/29
+   paper N-1 Base case sequential (<=3 steps)      max  42.1 2.210 [2.149, 2.265] 0.11 [0.08, 0.14]   0/484 0.76%     0/225   1.63%      0/29   11.9%   1/29
+   paper N-1   GENCO tiered (1 step, then NR) conf0.10 0.257 1.611 [1.442, 1.792] 0.54 [0.41, 0.66]   0/484 0.76%     0/225   1.63%      0/29   11.9%   3/29
+   paper N-1     GENCO sequential (<=3 steps) conf0.10 0.257 1.461 [1.335, 1.591] 0.54 [0.41, 0.66]   0/484 0.76%     0/225   1.63%      0/29   11.9%   3/29
+   paper N-1 Base case sequential (<=3 steps) conf0.10  29.5 2.165 [2.105, 2.219] 0.13 [0.10, 0.16]   0/484 0.76%     0/225   1.63%      0/29   11.9%   2/29
+  stress N-1   GENCO tiered (1 step, then NR)      max 0.755 1.953 [1.808, 2.109] 0.25 [0.16, 0.35]   0/435 0.84%     0/217   1.69%      0/30   11.6%   0/30
+  stress N-1     GENCO sequential (<=3 steps)      max 0.755 1.756 [1.656, 1.842] 0.25 [0.16, 0.35]   0/435 0.84%     0/217   1.69%      0/30   11.6%   0/30
+  stress N-1 Base case sequential (<=3 steps)      max  42.1 2.220 [2.158, 2.282] 0.10 [0.07, 0.13]   0/435 0.84%     0/217   1.69%      0/30   11.6%   0/30
+  stress N-1   GENCO tiered (1 step, then NR) conf0.10 0.153 1.536 [1.362, 1.745] 0.63 [0.51, 0.74]   0/435 0.84%     0/217   1.69%      0/30   11.6%   2/30
+  stress N-1     GENCO sequential (<=3 steps) conf0.10 0.153 1.374 [1.264, 1.494] 0.63 [0.51, 0.74]   0/435 0.84%     0/217   1.69%      0/30   11.6%   2/30
+  stress N-1 Base case sequential (<=3 steps) conf0.10  26.2 2.141 [2.074, 2.208] 0.13 [0.10, 0.17]   0/435 0.84%     0/217   1.69%      0/30   11.6%   1/30
+  stress N-2   GENCO tiered (1 step, then NR)      max 0.755 2.080 [1.945, 2.226] 0.20 [0.14, 0.26]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-2     GENCO sequential (<=3 steps)      max 0.755 1.804 [1.740, 1.865] 0.20 [0.14, 0.26]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-2 Base case sequential (<=3 steps)      max  42.1 2.537 [2.483, 2.592] 0.01 [0.01, 0.02]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-2   GENCO tiered (1 step, then NR) conf0.10 0.153 1.701 [1.540, 1.875] 0.55 [0.45, 0.64]   0/714 0.52%     0/334   1.10%      0/30   11.6%   7/30
+  stress N-2     GENCO sequential (<=3 steps) conf0.10 0.153 1.454 [1.365, 1.550] 0.55 [0.45, 0.64]   0/714 0.52%     0/334   1.10%      0/30   11.6%   7/30
+  stress N-2 Base case sequential (<=3 steps) conf0.10  26.2 2.476 [2.426, 2.527] 0.02 [0.01, 0.03]   0/714 0.52%     0/334   1.10%      0/30   11.6%   0/30
+  stress N-3   GENCO tiered (1 step, then NR)      max 0.755 2.279 [2.158, 2.405] 0.11 [0.07, 0.16]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3     GENCO sequential (<=3 steps)      max 0.755 1.889 [1.838, 1.930] 0.11 [0.07, 0.16]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3 Base case sequential (<=3 steps)      max  42.1 2.755 [2.705, 2.803] 0.00 [0.00, 0.00]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-3   GENCO tiered (1 step, then NR) conf0.10 0.153 1.976 [1.806, 2.147] 0.40 [0.32, 0.49]   0/950 0.39%     0/455   0.81%      0/30   11.6%   2/30
+  stress N-3     GENCO sequential (<=3 steps) conf0.10 0.153 1.600 [1.514, 1.680] 0.40 [0.32, 0.49]   0/950 0.39%     0/455   0.81%      0/30   11.6%   2/30
+  stress N-3 Base case sequential (<=3 steps) conf0.10  26.2 2.682 [2.629, 2.732] 0.00 [0.00, 0.00]   0/950 0.39%     0/455   0.81%      0/30   11.6%   0/30
+  stress N-5   GENCO tiered (1 step, then NR)      max 0.755 2.500 [2.417, 2.576] 0.08 [0.05, 0.12]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+  stress N-5     GENCO sequential (<=3 steps)      max 0.755 1.944 [1.905, 1.976] 0.08 [0.05, 0.12]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+  stress N-5 Base case sequential (<=3 steps)      max  42.1 3.003 [2.967, 3.039] 0.00 [0.00, 0.00]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+  stress N-5   GENCO tiered (1 step, then NR) conf0.10 0.153 2.265 [2.132, 2.383] 0.27 [0.21, 0.35]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   4/30
+  stress N-5     GENCO sequential (<=3 steps) conf0.10 0.153 1.736 [1.665, 1.795] 0.27 [0.21, 0.35]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   4/30
+  stress N-5 Base case sequential (<=3 steps) conf0.10  26.2 2.952 [2.912, 2.992] 0.00 [0.00, 0.00]  0/1763 0.21%     0/539   0.68%      0/30   11.6%   0/30
+
+==============================================================================================================
+B. EQUAL-COST LADDER, base seed 0: element recall and miss rate with 95% cluster-bootstrap CIs, Clopper-Pearson upper bounds (ub)
+         set                   method    LU                  recall  el_miss  el_ub  el_fa cont_miss cont_ub load_miss load_ub
+   paper N-1       GENCO as published 0.000 0.9360 [0.9034, 0.9620]   31/484  8.97%    178     6/225   5.71%     16/29   73.6%
+   paper N-1 GENCO, setpoint enforced 0.000 0.9029 [0.8496, 0.9447]   47/484 12.70%    285    14/225  10.22%     19/29   82.1%
+   paper N-1           GENCO + 1 step 1.000 0.9979 [0.9932, 1.0000]    1/484  1.15%      0     0/225   1.63%      1/29   17.8%
+   paper N-1          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/484  0.76%      0     0/225   1.63%      0/29   11.9%
+   paper N-1       Base case + 1 step 1.000 0.9318 [0.9085, 0.9532]   33/484  9.44%      6     4/225   4.49%     21/29   87.3%
+   paper N-1      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/484  0.76%      0     0/225   1.63%      0/29   11.9%
+  stress N-1       GENCO as published 0.000 0.9540 [0.9343, 0.9758]   20/435  7.01%    129    12/217   9.46%     11/30   56.1%
+  stress N-1 GENCO, setpoint enforced 0.000 0.9149 [0.8801, 0.9528]   37/435 11.53%    113    16/217  11.70%     13/30   62.6%
+  stress N-1           GENCO + 1 step 1.000 0.9977 [0.9929, 1.0000]    1/435  1.27%      0     0/217   1.69%      1/30   17.2%
+  stress N-1          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/435  0.84%      0     0/217   1.69%      0/30   11.6%
+  stress N-1       Base case + 1 step 1.000 0.9517 [0.9232, 0.9744]   21/435  7.29%     12     3/217   3.99%     13/30   62.6%
+  stress N-1      Base case + 2 steps 2.000 0.9977 [0.9926, 1.0000]    1/435  1.27%      0     0/217   1.69%      1/30   17.2%
+  stress N-2       GENCO as published 0.000 0.9314 [0.9028, 0.9571]   49/714  8.97%     92    15/334   7.30%     20/30   82.7%
+  stress N-2 GENCO, setpoint enforced 0.000 0.8950 [0.8651, 0.9265]   75/714 12.99%     92    17/334   8.02%     24/30   92.3%
+  stress N-2           GENCO + 1 step 1.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      0     0/334   1.10%      0/30   11.6%
+  stress N-2          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      0     0/334   1.10%      0/30   11.6%
+  stress N-2       Base case + 1 step 1.000 0.9482 [0.9234, 0.9714]   37/714  7.07%     20     3/334   2.60%     15/30   68.7%
+  stress N-2      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      1     0/334   1.10%      0/30   11.6%
+  stress N-3       GENCO as published 0.000 0.9453 [0.9230, 0.9659]   52/950  7.12%     97    14/455   5.11%     18/30   77.3%
+  stress N-3 GENCO, setpoint enforced 0.000 0.9421 [0.9173, 0.9660]   55/950  7.47%    128    16/455   5.65%     16/30   71.7%
+  stress N-3           GENCO + 1 step 1.000 0.9989 [0.9968, 1.0000]    1/950  0.59%      0     0/455   0.81%      1/30   17.2%
+  stress N-3          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/950  0.39%      0     0/455   0.81%      0/30   11.6%
+  stress N-3       Base case + 1 step 1.000 0.9368 [0.9206, 0.9521]   60/950  8.06%     32     6/455   2.85%     24/30   92.3%
+  stress N-3      Base case + 2 steps 2.000 0.9979 [0.9946, 1.0000]    2/950  0.76%      0     0/455   0.81%      2/30   22.1%
+  stress N-5       GENCO as published 0.000 0.8968 [0.8765, 0.9168] 182/1763 11.84%    106    13/539   4.09%     29/30   99.9%
+  stress N-5 GENCO, setpoint enforced 0.000 0.8639 [0.8407, 0.8865] 240/1763 15.30%     95    24/539   6.55%     30/30  100.0%
+  stress N-5           GENCO + 1 step 1.000 0.9966 [0.9926, 1.0000]   6/1763  0.74%      0     0/539   0.68%      3/30   26.5%
+  stress N-5          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/1763  0.21%      0     0/539   0.68%      0/30   11.6%
+  stress N-5       Base case + 1 step 1.000 0.9268 [0.9087, 0.9438] 129/1763  8.63%     46     5/539   2.15%     26/30   96.2%
+  stress N-5      Base case + 2 steps 2.000 0.9966 [0.9914, 1.0000]   6/1763  0.74%      0     0/539   0.68%      2/30   22.1%
+
+==============================================================================================================
+B. EQUAL-COST LADDER, base seed 1: element recall and miss rate with 95% cluster-bootstrap CIs, Clopper-Pearson upper bounds (ub)
+         set                   method    LU                  recall  el_miss  el_ub  el_fa cont_miss cont_ub load_miss load_ub
+   paper N-1       GENCO as published 0.000 0.9529 [0.9320, 0.9723]   32/680  6.58%    177     6/295   4.37%     16/37   60.5%
+   paper N-1 GENCO, setpoint enforced 0.000 0.9338 [0.9025, 0.9609]   45/680  8.76%    349     5/295   3.91%     20/37   70.5%
+   paper N-1           GENCO + 1 step 1.000 1.0000 [1.0000, 1.0000]    0/680  0.54%      0     0/295   1.24%      0/37    9.5%
+   paper N-1          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/680  0.54%      0     0/295   1.24%      0/37    9.5%
+   paper N-1       Base case + 1 step 1.000 0.9279 [0.9055, 0.9490]   49/680  9.41%     17     6/295   4.37%     25/37   82.0%
+   paper N-1      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/680  0.54%      0     0/295   1.24%      0/37    9.5%
+  stress N-1       GENCO as published 0.000 0.9310 [0.8955, 0.9637]   30/435  9.70%    103    12/217   9.46%     13/30   62.6%
+  stress N-1 GENCO, setpoint enforced 0.000 0.9080 [0.8705, 0.9496]   40/435 12.31%    141    14/217  10.59%     13/30   62.6%
+  stress N-1           GENCO + 1 step 1.000 0.9977 [0.9929, 1.0000]    1/435  1.27%      0     0/217   1.69%      1/30   17.2%
+  stress N-1          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/435  0.84%      0     0/217   1.69%      0/30   11.6%
+  stress N-1       Base case + 1 step 1.000 0.9517 [0.9232, 0.9744]   21/435  7.29%     12     3/217   3.99%     13/30   62.6%
+  stress N-1      Base case + 2 steps 2.000 0.9977 [0.9926, 1.0000]    1/435  1.27%      0     0/217   1.69%      1/30   17.2%
+  stress N-2       GENCO as published 0.000 0.9300 [0.9088, 0.9533]   50/714  9.13%     61    12/334   6.19%     20/30   82.7%
+  stress N-2 GENCO, setpoint enforced 0.000 0.9034 [0.8657, 0.9382]   69/714 12.07%     80    14/334   6.93%     21/30   85.3%
+  stress N-2           GENCO + 1 step 1.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      0     0/334   1.10%      0/30   11.6%
+  stress N-2          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      0     0/334   1.10%      0/30   11.6%
+  stress N-2       Base case + 1 step 1.000 0.9482 [0.9234, 0.9714]   37/714  7.07%     20     3/334   2.60%     15/30   68.7%
+  stress N-2      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      1     0/334   1.10%      0/30   11.6%
+  stress N-3       GENCO as published 0.000 0.9621 [0.9433, 0.9777]   36/950  5.21%    115     9/455   3.72%     17/30   74.5%
+  stress N-3 GENCO, setpoint enforced 0.000 0.9168 [0.8877, 0.9476]   79/950 10.26%    101    17/455   5.91%     19/30   80.1%
+  stress N-3           GENCO + 1 step 1.000 0.9979 [0.9946, 1.0000]    2/950  0.76%      0     0/455   0.81%      2/30   22.1%
+  stress N-3          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/950  0.39%      0     0/455   0.81%      0/30   11.6%
+  stress N-3       Base case + 1 step 1.000 0.9368 [0.9206, 0.9521]   60/950  8.06%     32     6/455   2.85%     24/30   92.3%
+  stress N-3      Base case + 2 steps 2.000 0.9979 [0.9946, 1.0000]    2/950  0.76%      0     0/455   0.81%      2/30   22.1%
+  stress N-5       GENCO as published 0.000 0.9007 [0.8738, 0.9271] 175/1763 11.42%     73    14/539   4.32%     27/30   97.9%
+  stress N-5 GENCO, setpoint enforced 0.000 0.8695 [0.8417, 0.8969] 230/1763 14.71%     76    22/539   6.11%     29/30   99.9%
+  stress N-5           GENCO + 1 step 1.000 0.9977 [0.9950, 1.0000]   4/1763  0.58%      0     0/539   0.68%      3/30   26.5%
+  stress N-5          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/1763  0.21%      0     0/539   0.68%      0/30   11.6%
+  stress N-5       Base case + 1 step 1.000 0.9268 [0.9087, 0.9438] 129/1763  8.63%     46     5/539   2.15%     26/30   96.2%
+  stress N-5      Base case + 2 steps 2.000 0.9966 [0.9914, 1.0000]   6/1763  0.74%      0     0/539   0.68%      2/30   22.1%
+
+==============================================================================================================
+B. EQUAL-COST LADDER, base seed 42: element recall and miss rate with 95% cluster-bootstrap CIs, Clopper-Pearson upper bounds (ub)
+         set                   method    LU                  recall  el_miss  el_ub  el_fa cont_miss cont_ub load_miss load_ub
+   paper N-1       GENCO as published 0.000 0.9328 [0.8946, 0.9657]   36/536  9.18%    261     6/229   5.62%     16/28   75.5%
+   paper N-1 GENCO, setpoint enforced 0.000 0.8750 [0.8206, 0.9189]   67/536 15.60%    284     7/229   6.20%     22/28   91.7%
+   paper N-1           GENCO + 1 step 1.000 0.9944 [0.9829, 1.0000]    3/536  1.63%      0     0/229   1.60%      1/28   18.3%
+   paper N-1          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/536  0.69%      0     0/229   1.60%      0/28   12.3%
+   paper N-1       Base case + 1 step 1.000 0.9235 [0.8895, 0.9546]   41/536 10.23%     17     5/229   5.02%     17/28   78.5%
+   paper N-1      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/536  0.69%      0     0/229   1.60%      0/28   12.3%
+  stress N-1       GENCO as published 0.000 0.9563 [0.9299, 0.9782]   19/435  6.74%    246     6/217   5.92%     11/30   56.1%
+  stress N-1 GENCO, setpoint enforced 0.000 0.8759 [0.8478, 0.9083]   54/435 15.89%    126    17/217  12.25%     20/30   82.7%
+  stress N-1           GENCO + 1 step 1.000 0.9954 [0.9891, 1.0000]    2/435  1.65%      0     0/217   1.69%      2/30   22.1%
+  stress N-1          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/435  0.84%      0     0/217   1.69%      0/30   11.6%
+  stress N-1       Base case + 1 step 1.000 0.9517 [0.9232, 0.9744]   21/435  7.29%     12     3/217   3.99%     13/30   62.6%
+  stress N-1      Base case + 2 steps 2.000 0.9977 [0.9926, 1.0000]    1/435  1.27%      0     0/217   1.69%      1/30   17.2%
+  stress N-2       GENCO as published 0.000 0.9090 [0.8872, 0.9317]   65/714 11.46%    245    17/334   8.02%     23/30   90.1%
+  stress N-2 GENCO, setpoint enforced 0.000 0.8473 [0.7993, 0.8922]  109/714 18.12%    149    24/334  10.50%     26/30   96.2%
+  stress N-2           GENCO + 1 step 1.000 0.9972 [0.9934, 1.0000]    2/714  1.01%      0     1/334   1.66%      2/30   22.1%
+  stress N-2          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      0     0/334   1.10%      0/30   11.6%
+  stress N-2       Base case + 1 step 1.000 0.9482 [0.9234, 0.9714]   37/714  7.07%     20     3/334   2.60%     15/30   68.7%
+  stress N-2      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      1     0/334   1.10%      0/30   11.6%
+  stress N-3       GENCO as published 0.000 0.9295 [0.8995, 0.9560]   67/950  8.87%    196    19/455   6.44%     22/30   87.7%
+  stress N-3 GENCO, setpoint enforced 0.000 0.8726 [0.8364, 0.9121]  121/950 15.03%    149    28/455   8.77%     22/30   87.7%
+  stress N-3           GENCO + 1 step 1.000 0.9989 [0.9968, 1.0000]    1/950  0.59%      0     0/455   0.81%      1/30   17.2%
+  stress N-3          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/950  0.39%      0     0/455   0.81%      0/30   11.6%
+  stress N-3       Base case + 1 step 1.000 0.9368 [0.9206, 0.9521]   60/950  8.06%     32     6/455   2.85%     24/30   92.3%
+  stress N-3      Base case + 2 steps 2.000 0.9979 [0.9946, 1.0000]    2/950  0.76%      0     0/455   0.81%      2/30   22.1%
+  stress N-5       GENCO as published 0.000 0.8820 [0.8593, 0.9013] 208/1763 13.40%    169    16/539   4.78%     28/30   99.2%
+  stress N-5 GENCO, setpoint enforced 0.000 0.8157 [0.7888, 0.8413] 325/1763 20.32%    134    25/539   6.77%     30/30  100.0%
+  stress N-5           GENCO + 1 step 1.000 0.9949 [0.9887, 0.9994]   9/1763  0.97%      2     0/539   0.68%      4/30   30.7%
+  stress N-5          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/1763  0.21%      0     0/539   0.68%      0/30   11.6%
+  stress N-5       Base case + 1 step 1.000 0.9268 [0.9087, 0.9438] 129/1763  8.63%     46     5/539   2.15%     26/30   96.2%
+  stress N-5      Base case + 2 steps 2.000 0.9966 [0.9914, 1.0000]   6/1763  0.74%      0     0/539   0.68%      2/30   22.1%
+
+==============================================================================================================
+B. EQUAL-COST LADDER, small seed 0: element recall and miss rate with 95% cluster-bootstrap CIs, Clopper-Pearson upper bounds (ub)
+         set                   method    LU                  recall  el_miss  el_ub  el_fa cont_miss cont_ub load_miss load_ub
+   paper N-1       GENCO as published 0.000 0.9401 [0.9111, 0.9657]   29/484  8.49%    257     7/225   6.30%     14/29   67.5%
+   paper N-1 GENCO, setpoint enforced 0.000 0.9174 [0.8674, 0.9563]   40/484 11.08%    432    12/225   9.13%     16/29   73.6%
+   paper N-1           GENCO + 1 step 1.000 1.0000 [1.0000, 1.0000]    0/484  0.76%      0     0/225   1.63%      0/29   11.9%
+   paper N-1          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/484  0.76%      0     0/225   1.63%      0/29   11.9%
+   paper N-1       Base case + 1 step 1.000 0.9318 [0.9085, 0.9532]   33/484  9.44%      6     4/225   4.49%     21/29   87.3%
+   paper N-1      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/484  0.76%      0     0/225   1.63%      0/29   11.9%
+  stress N-1       GENCO as published 0.000 0.9563 [0.9308, 0.9792]   19/435  6.74%    150    10/217   8.31%     10/30   52.8%
+  stress N-1 GENCO, setpoint enforced 0.000 0.8989 [0.8683, 0.9357]   44/435 13.34%    132    18/217  12.79%     14/30   65.7%
+  stress N-1           GENCO + 1 step 1.000 0.9954 [0.9891, 1.0000]    2/435  1.65%      0     0/217   1.69%      2/30   22.1%
+  stress N-1          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/435  0.84%      0     0/217   1.69%      0/30   11.6%
+  stress N-1       Base case + 1 step 1.000 0.9517 [0.9232, 0.9744]   21/435  7.29%     12     3/217   3.99%     13/30   62.6%
+  stress N-1      Base case + 2 steps 2.000 0.9977 [0.9926, 1.0000]    1/435  1.27%      0     0/217   1.69%      1/30   17.2%
+  stress N-2       GENCO as published 0.000 0.9440 [0.9175, 0.9647]   40/714  7.55%     99    15/334   7.30%     21/30   85.3%
+  stress N-2 GENCO, setpoint enforced 0.000 0.9048 [0.8756, 0.9333]   68/714 11.92%    136    22/334   9.80%     22/30   87.7%
+  stress N-2           GENCO + 1 step 1.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      0     0/334   1.10%      0/30   11.6%
+  stress N-2          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      0     0/334   1.10%      0/30   11.6%
+  stress N-2       Base case + 1 step 1.000 0.9482 [0.9234, 0.9714]   37/714  7.07%     20     3/334   2.60%     15/30   68.7%
+  stress N-2      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      1     0/334   1.10%      0/30   11.6%
+  stress N-3       GENCO as published 0.000 0.9389 [0.9123, 0.9608]   58/950  7.82%    107    22/455   7.23%     21/30   85.3%
+  stress N-3 GENCO, setpoint enforced 0.000 0.9200 [0.8896, 0.9474]   76/950  9.91%    132    25/455   8.00%     22/30   87.7%
+  stress N-3           GENCO + 1 step 1.000 0.9989 [0.9968, 1.0000]    1/950  0.59%      0     0/455   0.81%      1/30   17.2%
+  stress N-3          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/950  0.39%      0     0/455   0.81%      0/30   11.6%
+  stress N-3       Base case + 1 step 1.000 0.9368 [0.9206, 0.9521]   60/950  8.06%     32     6/455   2.85%     24/30   92.3%
+  stress N-3      Base case + 2 steps 2.000 0.9979 [0.9946, 1.0000]    2/950  0.76%      0     0/455   0.81%      2/30   22.1%
+  stress N-5       GENCO as published 0.000 0.9206 [0.9043, 0.9375] 140/1763  9.30%    139     7/539   2.66%     28/30   99.2%
+  stress N-5 GENCO, setpoint enforced 0.000 0.8860 [0.8656, 0.9069] 201/1763 12.98%    136    17/539   5.00%     29/30   99.9%
+  stress N-5           GENCO + 1 step 1.000 0.9960 [0.9910, 1.0000]   7/1763  0.82%      0     0/539   0.68%      3/30   26.5%
+  stress N-5          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/1763  0.21%      0     0/539   0.68%      0/30   11.6%
+  stress N-5       Base case + 1 step 1.000 0.9268 [0.9087, 0.9438] 129/1763  8.63%     46     5/539   2.15%     26/30   96.2%
+  stress N-5      Base case + 2 steps 2.000 0.9966 [0.9914, 1.0000]   6/1763  0.74%      0     0/539   0.68%      2/30   22.1%
+
+==============================================================================================================
+B. EQUAL-COST LADDER, tiny seed 0: element recall and miss rate with 95% cluster-bootstrap CIs, Clopper-Pearson upper bounds (ub)
+         set                   method    LU                  recall  el_miss  el_ub  el_fa cont_miss cont_ub load_miss load_ub
+   paper N-1       GENCO as published 0.000 0.9153 [0.8700, 0.9507]   41/484 11.32%    260     6/225   5.71%     19/29   82.1%
+   paper N-1 GENCO, setpoint enforced 0.000 0.9194 [0.8668, 0.9569]   39/484 10.85%    460     8/225   6.89%     18/29   79.3%
+   paper N-1           GENCO + 1 step 1.000 1.0000 [1.0000, 1.0000]    0/484  0.76%      0     0/225   1.63%      0/29   11.9%
+   paper N-1          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/484  0.76%      0     0/225   1.63%      0/29   11.9%
+   paper N-1       Base case + 1 step 1.000 0.9318 [0.9085, 0.9532]   33/484  9.44%      6     4/225   4.49%     21/29   87.3%
+   paper N-1      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/484  0.76%      0     0/225   1.63%      0/29   11.9%
+  stress N-1       GENCO as published 0.000 0.9356 [0.9087, 0.9630]   28/435  9.17%    250    13/217  10.03%     13/30   62.6%
+  stress N-1 GENCO, setpoint enforced 0.000 0.8943 [0.8584, 0.9332]   46/435 13.85%    159    18/217  12.79%     16/30   71.7%
+  stress N-1           GENCO + 1 step 1.000 0.9977 [0.9926, 1.0000]    1/435  1.27%      0     0/217   1.69%      1/30   17.2%
+  stress N-1          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/435  0.84%      0     0/217   1.69%      0/30   11.6%
+  stress N-1       Base case + 1 step 1.000 0.9517 [0.9232, 0.9744]   21/435  7.29%     12     3/217   3.99%     13/30   62.6%
+  stress N-1      Base case + 2 steps 2.000 0.9977 [0.9926, 1.0000]    1/435  1.27%      0     0/217   1.69%      1/30   17.2%
+  stress N-2       GENCO as published 0.000 0.9258 [0.9052, 0.9475]   53/714  9.60%    207    11/334   5.82%     22/30   87.7%
+  stress N-2 GENCO, setpoint enforced 0.000 0.8866 [0.8548, 0.9220]   81/714 13.90%    229    16/334   7.66%     21/30   85.3%
+  stress N-2           GENCO + 1 step 1.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      0     0/334   1.10%      0/30   11.6%
+  stress N-2          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      0     0/334   1.10%      0/30   11.6%
+  stress N-2       Base case + 1 step 1.000 0.9482 [0.9234, 0.9714]   37/714  7.07%     20     3/334   2.60%     15/30   68.7%
+  stress N-2      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/714  0.52%      1     0/334   1.10%      0/30   11.6%
+  stress N-3       GENCO as published 0.000 0.9421 [0.9212, 0.9617]   55/950  7.47%    171    19/455   6.44%     20/30   82.7%
+  stress N-3 GENCO, setpoint enforced 0.000 0.9000 [0.8623, 0.9358]   95/950 12.09%    149    26/455   8.26%     21/30   85.3%
+  stress N-3           GENCO + 1 step 1.000 0.9979 [0.9947, 1.0000]    2/950  0.76%      0     0/455   0.81%      2/30   22.1%
+  stress N-3          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]    0/950  0.39%      0     0/455   0.81%      0/30   11.6%
+  stress N-3       Base case + 1 step 1.000 0.9368 [0.9206, 0.9521]   60/950  8.06%     32     6/455   2.85%     24/30   92.3%
+  stress N-3      Base case + 2 steps 2.000 0.9979 [0.9946, 1.0000]    2/950  0.76%      0     0/455   0.81%      2/30   22.1%
+  stress N-5       GENCO as published 0.000 0.8832 [0.8651, 0.9038] 206/1763 13.28%    157    20/539   5.67%     28/30   99.2%
+  stress N-5 GENCO, setpoint enforced 0.000 0.8486 [0.8242, 0.8744] 267/1763 16.90%    136    30/539   7.85%     30/30  100.0%
+  stress N-5           GENCO + 1 step 1.000 0.9977 [0.9950, 1.0000]   4/1763  0.58%      1     0/539   0.68%      3/30   26.5%
+  stress N-5          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/1763  0.21%      0     0/539   0.68%      0/30   11.6%
+  stress N-5       Base case + 1 step 1.000 0.9268 [0.9087, 0.9438] 129/1763  8.63%     46     5/539   2.15%     26/30   96.2%
+  stress N-5      Base case + 2 steps 2.000 0.9966 [0.9914, 1.0000]   6/1763  0.74%      0     0/539   0.68%      2/30   22.1%
+
+==============================================================================================================
+C. NR ITERATIONS BY TOLERANCE, base seed 0: mean [95% cluster CI]; paired GENCO - base start (iterations) and GENCO/base ratio
+         set  tol              flat                dc              base             genco         genco - base             ratio GENCO fewer/more
+   paper N-1 1e-2 3.01 [3.00, 3.02] 3.00 [3.00, 3.00] 2.04 [2.00, 2.07] 1.72 [1.58, 1.85] -0.32 [-0.45, -0.19] 0.84 [0.78, 0.91]           35%/4%
+   paper N-1 1e-4 4.00 [4.00, 4.00] 3.72 [3.55, 3.86] 2.49 [2.45, 2.53] 2.00 [2.00, 2.01] -0.49 [-0.53, -0.45] 0.80 [0.79, 0.82]           48%/1%
+   paper N-1 1e-6 4.00 [4.00, 4.01] 3.97 [3.91, 4.00] 2.88 [2.83, 2.93] 2.15 [2.06, 2.25] -0.73 [-0.83, -0.63] 0.75 [0.71, 0.78]           71%/2%
+  stress N-1 1e-2 3.01 [3.00, 3.01] 3.00 [3.00, 3.00] 2.03 [1.99, 2.07] 1.69 [1.56, 1.81] -0.34 [-0.48, -0.21] 0.83 [0.77, 0.90]           38%/6%
+  stress N-1 1e-4 4.00 [4.00, 4.00] 3.80 [3.65, 3.93] 2.50 [2.45, 2.55] 2.00 [2.00, 2.00] -0.50 [-0.55, -0.45] 0.80 [0.78, 0.82]           49%/1%
+  stress N-1 1e-6 4.00 [4.00, 4.00] 4.00 [4.00, 4.00] 2.88 [2.84, 2.92] 2.11 [2.04, 2.20] -0.77 [-0.86, -0.66] 0.73 [0.70, 0.77]           74%/2%
+  stress N-2 1e-2 3.03 [3.01, 3.05] 3.00 [3.00, 3.00] 2.19 [2.16, 2.23] 1.60 [1.48, 1.72] -0.60 [-0.72, -0.47] 0.73 [0.67, 0.78]           55%/0%
+  stress N-2 1e-4 4.00 [4.00, 4.00] 3.90 [3.79, 3.99] 2.74 [2.70, 2.79] 2.01 [2.00, 2.02] -0.73 [-0.78, -0.69] 0.73 [0.72, 0.75]           70%/0%
+  stress N-2 1e-6 4.01 [4.00, 4.03] 4.00 [4.00, 4.00] 3.08 [3.05, 3.11] 2.14 [2.09, 2.20] -0.94 [-0.99, -0.88] 0.70 [0.68, 0.71]           88%/0%
+  stress N-3 1e-2 3.03 [3.01, 3.04] 3.00 [3.00, 3.00] 2.29 [2.26, 2.32] 1.73 [1.63, 1.81] -0.57 [-0.66, -0.47] 0.75 [0.71, 0.79]           49%/0%
+  stress N-3 1e-4 4.00 [4.00, 4.00] 3.88 [3.77, 3.97] 2.90 [2.86, 2.93] 2.01 [2.00, 2.02] -0.89 [-0.92, -0.85] 0.69 [0.69, 0.70]           84%/0%
+  stress N-3 1e-6 4.01 [4.00, 4.01] 4.00 [4.00, 4.00] 3.17 [3.14, 3.20] 2.19 [2.13, 2.28] -0.98 [-1.06, -0.89] 0.69 [0.67, 0.72]           87%/0%
+  stress N-5 1e-2 3.08 [3.06, 3.11] 3.00 [3.00, 3.01] 2.49 [2.44, 2.54] 1.88 [1.84, 1.93] -0.60 [-0.67, -0.54] 0.76 [0.73, 0.78]           54%/0%
+  stress N-5 1e-4 4.01 [4.00, 4.02] 3.76 [3.62, 3.88] 3.08 [3.04, 3.11] 2.08 [2.06, 2.11] -0.99 [-1.02, -0.96] 0.68 [0.67, 0.68]           93%/0%
+  stress N-5 1e-6 4.03 [4.02, 4.05] 4.00 [4.00, 4.01] 3.32 [3.27, 3.36] 2.40 [2.34, 2.46] -0.92 [-0.97, -0.86] 0.72 [0.71, 0.74]           80%/0%
+
+==============================================================================================================
+C. NR ITERATIONS BY TOLERANCE, base seed 1: mean [95% cluster CI]; paired GENCO - base start (iterations) and GENCO/base ratio
+         set  tol              flat                dc              base             genco         genco - base             ratio GENCO fewer/more
+   paper N-1 1e-2 3.01 [3.00, 3.02] 3.00 [3.00, 3.00] 2.07 [2.03, 2.10] 1.61 [1.48, 1.73] -0.45 [-0.59, -0.33] 0.78 [0.72, 0.84]           44%/3%
+   paper N-1 1e-4 4.00 [4.00, 4.00] 3.80 [3.67, 3.91] 2.51 [2.47, 2.55] 2.00 [2.00, 2.01] -0.51 [-0.55, -0.47] 0.80 [0.78, 0.81]           49%/0%
+   paper N-1 1e-6 4.00 [4.00, 4.01] 3.98 [3.93, 4.00] 2.92 [2.88, 2.95] 2.07 [2.04, 2.10] -0.85 [-0.89, -0.80] 0.71 [0.70, 0.72]           80%/1%
+  stress N-1 1e-2 3.01 [3.00, 3.01] 3.00 [3.00, 3.00] 2.03 [1.99, 2.07] 1.80 [1.69, 1.90] -0.23 [-0.34, -0.13] 0.89 [0.83, 0.94]           29%/7%
+  stress N-1 1e-4 4.00 [4.00, 4.00] 3.80 [3.65, 3.93] 2.50 [2.45, 2.55] 2.00 [2.00, 2.00] -0.50 [-0.55, -0.45] 0.80 [0.78, 0.82]           49%/1%
+  stress N-1 1e-6 4.00 [4.00, 4.00] 4.00 [4.00, 4.00] 2.88 [2.84, 2.92] 2.10 [2.06, 2.15] -0.78 [-0.83, -0.73] 0.73 [0.71, 0.74]           74%/0%
+  stress N-2 1e-2 3.03 [3.01, 3.05] 3.00 [3.00, 3.00] 2.19 [2.16, 2.23] 1.63 [1.50, 1.75] -0.57 [-0.71, -0.44] 0.74 [0.68, 0.80]           53%/0%
+  stress N-2 1e-4 4.00 [4.00, 4.00] 3.90 [3.79, 3.99] 2.74 [2.70, 2.79] 2.01 [2.00, 2.03] -0.73 [-0.78, -0.68] 0.73 [0.72, 0.75]           70%/0%
+  stress N-2 1e-6 4.01 [4.00, 4.03] 4.00 [4.00, 4.00] 3.08 [3.05, 3.11] 2.20 [2.10, 2.30] -0.88 [-0.97, -0.78] 0.71 [0.69, 0.75]           83%/0%
+  stress N-3 1e-2 3.03 [3.01, 3.04] 3.00 [3.00, 3.00] 2.29 [2.26, 2.32] 1.78 [1.70, 1.85] -0.51 [-0.59, -0.44] 0.78 [0.74, 0.81]           45%/0%
+  stress N-3 1e-4 4.00 [4.00, 4.00] 3.88 [3.77, 3.97] 2.90 [2.86, 2.93] 2.02 [2.01, 2.03] -0.88 [-0.91, -0.84] 0.70 [0.69, 0.71]           83%/0%
+  stress N-3 1e-6 4.01 [4.00, 4.01] 4.00 [4.00, 4.00] 3.17 [3.14, 3.20] 2.25 [2.17, 2.32] -0.93 [-1.00, -0.85] 0.71 [0.68, 0.73]           83%/0%
+  stress N-5 1e-2 3.08 [3.06, 3.11] 3.00 [3.00, 3.01] 2.49 [2.44, 2.54] 1.88 [1.83, 1.92] -0.61 [-0.68, -0.54] 0.75 [0.73, 0.78]           55%/0%
+  stress N-5 1e-4 4.01 [4.00, 4.02] 3.76 [3.62, 3.88] 3.08 [3.04, 3.11] 2.08 [2.06, 2.11] -0.99 [-1.02, -0.97] 0.68 [0.67, 0.68]           93%/0%
+  stress N-5 1e-6 4.03 [4.02, 4.05] 4.00 [4.00, 4.01] 3.32 [3.27, 3.36] 2.45 [2.37, 2.53] -0.87 [-0.95, -0.78] 0.74 [0.71, 0.76]           76%/0%
+
+==============================================================================================================
+C. NR ITERATIONS BY TOLERANCE, base seed 42: mean [95% cluster CI]; paired GENCO - base start (iterations) and GENCO/base ratio
+         set  tol              flat                dc              base             genco         genco - base             ratio GENCO fewer/more
+   paper N-1 1e-2 3.01 [3.00, 3.02] 3.00 [3.00, 3.00] 2.10 [2.07, 2.14] 1.88 [1.80, 1.96] -0.22 [-0.32, -0.13] 0.90 [0.85, 0.94]           25%/4%
+   paper N-1 1e-4 4.00 [4.00, 4.00] 3.90 [3.78, 3.99] 2.54 [2.50, 2.59] 2.01 [2.00, 2.02] -0.53 [-0.58, -0.48] 0.79 [0.78, 0.81]           52%/0%
+   paper N-1 1e-6 4.00 [4.00, 4.00] 4.00 [4.00, 4.00] 2.93 [2.90, 2.97] 2.25 [2.14, 2.36] -0.69 [-0.80, -0.56] 0.77 [0.73, 0.81]           67%/3%
+  stress N-1 1e-2 3.01 [3.00, 3.01] 3.00 [3.00, 3.00] 2.03 [1.99, 2.07] 1.87 [1.79, 1.94] -0.16 [-0.25, -0.08] 0.92 [0.88, 0.96]           22%/7%
+  stress N-1 1e-4 4.00 [4.00, 4.00] 3.80 [3.65, 3.93] 2.50 [2.45, 2.55] 2.01 [2.01, 2.02] -0.49 [-0.54, -0.43] 0.80 [0.79, 0.82]           49%/1%
+  stress N-1 1e-6 4.00 [4.00, 4.00] 4.00 [4.00, 4.00] 2.88 [2.84, 2.92] 2.25 [2.14, 2.36] -0.63 [-0.75, -0.51] 0.78 [0.74, 0.82]           66%/5%
+  stress N-2 1e-2 3.03 [3.01, 3.05] 3.00 [3.00, 3.00] 2.19 [2.16, 2.23] 1.82 [1.74, 1.90] -0.37 [-0.46, -0.28] 0.83 [0.79, 0.87]           35%/0%
+  stress N-2 1e-4 4.00 [4.00, 4.00] 3.90 [3.79, 3.99] 2.74 [2.70, 2.79] 2.04 [2.02, 2.07] -0.70 [-0.75, -0.66] 0.74 [0.73, 0.76]           69%/0%
+  stress N-2 1e-6 4.01 [4.00, 4.03] 4.00 [4.00, 4.00] 3.08 [3.05, 3.11] 2.30 [2.21, 2.41] -0.78 [-0.86, -0.68] 0.75 [0.72, 0.78]           76%/1%
+  stress N-3 1e-2 3.03 [3.01, 3.04] 3.00 [3.00, 3.00] 2.29 [2.26, 2.32] 1.92 [1.88, 1.96] -0.37 [-0.42, -0.32] 0.84 [0.82, 0.86]           34%/0%
+  stress N-3 1e-4 4.00 [4.00, 4.00] 3.88 [3.77, 3.97] 2.90 [2.86, 2.93] 2.05 [2.04, 2.07] -0.84 [-0.88, -0.81] 0.71 [0.70, 0.72]           82%/0%
+  stress N-3 1e-6 4.01 [4.00, 4.01] 4.00 [4.00, 4.00] 3.17 [3.14, 3.20] 2.45 [2.35, 2.56] -0.72 [-0.83, -0.61] 0.77 [0.74, 0.81]           67%/0%
+  stress N-5 1e-2 3.08 [3.06, 3.11] 3.00 [3.00, 3.01] 2.49 [2.44, 2.54] 1.99 [1.97, 2.01] -0.50 [-0.55, -0.44] 0.80 [0.78, 0.82]           48%/0%
+  stress N-5 1e-4 4.01 [4.00, 4.02] 3.76 [3.62, 3.88] 3.08 [3.04, 3.11] 2.16 [2.13, 2.20] -0.91 [-0.94, -0.88] 0.70 [0.69, 0.71]           88%/0%
+  stress N-5 1e-6 4.03 [4.02, 4.05] 4.00 [4.00, 4.01] 3.32 [3.27, 3.36] 2.65 [2.58, 2.73] -0.66 [-0.73, -0.59] 0.80 [0.78, 0.82]           61%/0%
+
+==============================================================================================================
+C. NR ITERATIONS BY TOLERANCE, small seed 0: mean [95% cluster CI]; paired GENCO - base start (iterations) and GENCO/base ratio
+         set  tol              flat                dc              base             genco         genco - base             ratio GENCO fewer/more
+   paper N-1 1e-2 3.01 [3.00, 3.02] 3.00 [3.00, 3.00] 2.04 [2.00, 2.07] 1.68 [1.56, 1.82] -0.35 [-0.48, -0.22] 0.83 [0.77, 0.89]           37%/4%
+   paper N-1 1e-4 4.00 [4.00, 4.00] 3.72 [3.55, 3.86] 2.49 [2.45, 2.53] 2.00 [2.00, 2.01] -0.49 [-0.53, -0.45] 0.80 [0.79, 0.82]           48%/1%
+   paper N-1 1e-6 4.00 [4.00, 4.01] 3.97 [3.91, 4.00] 2.88 [2.83, 2.93] 2.22 [2.10, 2.35] -0.66 [-0.78, -0.54] 0.77 [0.73, 0.81]           67%/4%
+  stress N-1 1e-2 3.01 [3.00, 3.01] 3.00 [3.00, 3.00] 2.03 [1.99, 2.07] 1.76 [1.65, 1.87] -0.27 [-0.39, -0.16] 0.87 [0.81, 0.92]           32%/6%
+  stress N-1 1e-4 4.00 [4.00, 4.00] 3.80 [3.65, 3.93] 2.50 [2.45, 2.55] 2.00 [2.00, 2.00] -0.50 [-0.55, -0.44] 0.80 [0.78, 0.82]           49%/1%
+  stress N-1 1e-6 4.00 [4.00, 4.00] 4.00 [4.00, 4.00] 2.88 [2.84, 2.92] 2.13 [2.06, 2.21] -0.75 [-0.85, -0.65] 0.74 [0.71, 0.77]           73%/2%
+  stress N-2 1e-2 3.03 [3.01, 3.05] 3.00 [3.00, 3.00] 2.19 [2.16, 2.23] 1.71 [1.61, 1.80] -0.49 [-0.58, -0.39] 0.78 [0.73, 0.82]           45%/0%
+  stress N-2 1e-4 4.00 [4.00, 4.00] 3.90 [3.79, 3.99] 2.74 [2.70, 2.79] 2.01 [2.00, 2.02] -0.73 [-0.78, -0.69] 0.73 [0.72, 0.75]           71%/0%
+  stress N-2 1e-6 4.01 [4.00, 4.03] 4.00 [4.00, 4.00] 3.08 [3.05, 3.11] 2.18 [2.11, 2.26] -0.90 [-0.96, -0.82] 0.71 [0.69, 0.73]           85%/0%
+  stress N-3 1e-2 3.03 [3.01, 3.04] 3.00 [3.00, 3.00] 2.29 [2.26, 2.32] 1.78 [1.71, 1.85] -0.51 [-0.59, -0.43] 0.78 [0.74, 0.81]           45%/0%
+  stress N-3 1e-4 4.00 [4.00, 4.00] 3.88 [3.77, 3.97] 2.90 [2.86, 2.93] 2.02 [2.01, 2.03] -0.88 [-0.91, -0.84] 0.70 [0.69, 0.71]           83%/0%
+  stress N-3 1e-6 4.01 [4.00, 4.01] 4.00 [4.00, 4.00] 3.17 [3.14, 3.20] 2.30 [2.20, 2.40] -0.87 [-0.97, -0.77] 0.72 [0.69, 0.76]           78%/0%
+  stress N-5 1e-2 3.08 [3.06, 3.11] 3.00 [3.00, 3.01] 2.49 [2.44, 2.54] 1.89 [1.84, 1.93] -0.60 [-0.67, -0.53] 0.76 [0.74, 0.78]           55%/0%
+  stress N-5 1e-4 4.01 [4.00, 4.02] 3.76 [3.62, 3.88] 3.08 [3.04, 3.11] 2.07 [2.05, 2.09] -1.01 [-1.03, -0.98] 0.67 [0.67, 0.68]           93%/0%
+  stress N-5 1e-6 4.03 [4.02, 4.05] 4.00 [4.00, 4.01] 3.32 [3.27, 3.36] 2.47 [2.40, 2.54] -0.85 [-0.92, -0.77] 0.75 [0.72, 0.77]           74%/0%
+
+==============================================================================================================
+C. NR ITERATIONS BY TOLERANCE, tiny seed 0: mean [95% cluster CI]; paired GENCO - base start (iterations) and GENCO/base ratio
+         set  tol              flat                dc              base             genco         genco - base             ratio GENCO fewer/more
+   paper N-1 1e-2 3.01 [3.00, 3.02] 3.00 [3.00, 3.00] 2.04 [2.00, 2.07] 1.83 [1.73, 1.91] -0.21 [-0.32, -0.11] 0.90 [0.85, 0.94]           24%/5%
+   paper N-1 1e-4 4.00 [4.00, 4.00] 3.72 [3.55, 3.86] 2.49 [2.45, 2.53] 2.01 [2.00, 2.02] -0.48 [-0.52, -0.44] 0.81 [0.79, 0.82]           47%/1%
+   paper N-1 1e-6 4.00 [4.00, 4.01] 3.97 [3.91, 4.00] 2.88 [2.83, 2.93] 2.18 [2.10, 2.26] -0.71 [-0.79, -0.60] 0.76 [0.73, 0.79]           69%/2%
+  stress N-1 1e-2 3.01 [3.00, 3.01] 3.00 [3.00, 3.00] 2.03 [1.99, 2.07] 1.77 [1.66, 1.87] -0.26 [-0.37, -0.15] 0.87 [0.82, 0.93]           31%/7%
+  stress N-1 1e-4 4.00 [4.00, 4.00] 3.80 [3.65, 3.93] 2.50 [2.45, 2.55] 2.01 [2.00, 2.02] -0.49 [-0.54, -0.43] 0.80 [0.79, 0.82]           49%/1%
+  stress N-1 1e-6 4.00 [4.00, 4.00] 4.00 [4.00, 4.00] 2.88 [2.84, 2.92] 2.20 [2.12, 2.30] -0.68 [-0.78, -0.56] 0.76 [0.73, 0.80]           69%/4%
+  stress N-2 1e-2 3.03 [3.01, 3.05] 3.00 [3.00, 3.00] 2.19 [2.16, 2.23] 1.81 [1.74, 1.88] -0.38 [-0.46, -0.31] 0.83 [0.79, 0.86]           36%/0%
+  stress N-2 1e-4 4.00 [4.00, 4.00] 3.90 [3.79, 3.99] 2.74 [2.70, 2.79] 2.02 [2.01, 2.03] -0.73 [-0.77, -0.68] 0.74 [0.72, 0.75]           70%/0%
+  stress N-2 1e-6 4.01 [4.00, 4.03] 4.00 [4.00, 4.00] 3.08 [3.05, 3.11] 2.29 [2.20, 2.39] -0.79 [-0.88, -0.69] 0.74 [0.72, 0.78]           76%/1%
+  stress N-3 1e-2 3.03 [3.01, 3.04] 3.00 [3.00, 3.00] 2.29 [2.26, 2.32] 1.89 [1.84, 1.93] -0.40 [-0.46, -0.35] 0.83 [0.80, 0.85]           37%/0%
+  stress N-3 1e-4 4.00 [4.00, 4.00] 3.88 [3.77, 3.97] 2.90 [2.86, 2.93] 2.03 [2.02, 2.05] -0.87 [-0.90, -0.83] 0.70 [0.69, 0.71]           82%/0%
+  stress N-3 1e-6 4.01 [4.00, 4.01] 4.00 [4.00, 4.00] 3.17 [3.14, 3.20] 2.39 [2.30, 2.49] -0.78 [-0.88, -0.67] 0.75 [0.72, 0.79]           71%/0%
+  stress N-5 1e-2 3.08 [3.06, 3.11] 3.00 [3.00, 3.01] 2.49 [2.44, 2.54] 1.96 [1.93, 1.98] -0.53 [-0.59, -0.47] 0.79 [0.77, 0.81]           50%/0%
+  stress N-5 1e-4 4.01 [4.00, 4.02] 3.76 [3.62, 3.88] 3.08 [3.04, 3.11] 2.10 [2.07, 2.13] -0.98 [-1.00, -0.95] 0.68 [0.68, 0.69]           92%/0%
+  stress N-5 1e-6 4.03 [4.02, 4.05] 4.00 [4.00, 4.01] 3.32 [3.27, 3.36] 2.58 [2.52, 2.64] -0.74 [-0.79, -0.68] 0.78 [0.76, 0.80]           67%/0%
+
+==============================================================================================================
+D. POOLED MISS-RATE BOUNDS over the five test sets of each checkpoint (paper + stress N-1/2/3/5): Clopper-Pearson at element, contingency and load-scenario level
+   (element and contingency trials are not independent within a load scenario, so the load-scenario bound is the one to quote)
+                            policy     rule   c_ref        model  el_miss  el_truth  el_cp_hi1  cont_miss  cont_truth  cont_cp_hi1  load_miss  n_loads  load_cp_hi1
+    GENCO tiered (1 step, then NR)      max datakit  base seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+      GENCO sequential (<=3 steps)      max datakit  base seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+  Base case sequential (<=3 steps)      max  own NR  base seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+    GENCO tiered (1 step, then NR) conf0.10 datakit  base seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+      GENCO sequential (<=3 steps) conf0.10 datakit  base seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+  Base case sequential (<=3 steps) conf0.10  own NR  base seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+    GENCO tiered (1 step, then NR)      max datakit  base seed 1        0      4542     0.0007          0        1840       0.0016          0      157       0.0189
+      GENCO sequential (<=3 steps)      max datakit  base seed 1        0      4542     0.0007          0        1840       0.0016          0      157       0.0189
+  Base case sequential (<=3 steps)      max  own NR  base seed 1        0      4542     0.0007          0        1840       0.0016          0      157       0.0189
+    GENCO tiered (1 step, then NR) conf0.10 datakit  base seed 1        0      4542     0.0007          0        1840       0.0016          0      157       0.0189
+      GENCO sequential (<=3 steps) conf0.10 datakit  base seed 1        0      4542     0.0007          0        1840       0.0016          0      157       0.0189
+  Base case sequential (<=3 steps) conf0.10  own NR  base seed 1        0      4542     0.0007          0        1840       0.0016          0      157       0.0189
+    GENCO tiered (1 step, then NR)      max datakit base seed 42        0      4398     0.0007          0        1774       0.0017          0      148       0.0200
+      GENCO sequential (<=3 steps)      max datakit base seed 42        0      4398     0.0007          0        1774       0.0017          0      148       0.0200
+  Base case sequential (<=3 steps)      max  own NR base seed 42        0      4398     0.0007          0        1774       0.0017          0      148       0.0200
+    GENCO tiered (1 step, then NR) conf0.10 datakit base seed 42        0      4398     0.0007          0        1774       0.0017          0      148       0.0200
+      GENCO sequential (<=3 steps) conf0.10 datakit base seed 42        0      4398     0.0007          0        1774       0.0017          0      148       0.0200
+  Base case sequential (<=3 steps) conf0.10  own NR base seed 42        0      4398     0.0007          0        1774       0.0017          0      148       0.0200
+    GENCO tiered (1 step, then NR)      max datakit small seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+      GENCO sequential (<=3 steps)      max datakit small seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+  Base case sequential (<=3 steps)      max  own NR small seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+    GENCO tiered (1 step, then NR) conf0.10 datakit small seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+      GENCO sequential (<=3 steps) conf0.10 datakit small seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+  Base case sequential (<=3 steps) conf0.10  own NR small seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+    GENCO tiered (1 step, then NR)      max datakit  tiny seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+      GENCO sequential (<=3 steps)      max datakit  tiny seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+  Base case sequential (<=3 steps)      max  own NR  tiny seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+    GENCO tiered (1 step, then NR) conf0.10 datakit  tiny seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+      GENCO sequential (<=3 steps) conf0.10 datakit  tiny seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+  Base case sequential (<=3 steps) conf0.10  own NR  tiny seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+
+                    method        model  el_miss  el_truth  el_cp_hi1  cont_miss  cont_truth  cont_cp_hi1  load_miss  n_loads  load_cp_hi1
+        GENCO as published  base seed 0      334      4346     0.0838         60        1770       0.0419         94      149       0.6968
+  GENCO, setpoint enforced  base seed 0      454      4346     0.1124         87        1770       0.0585        102      149       0.7473
+            GENCO + 1 step  base seed 0        9      4346     0.0036          0        1770       0.0017          6      149       0.0779
+           GENCO + 2 steps  base seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+        Base case + 1 step  base seed 0      280      4346     0.0709         21        1770       0.0170         99      149       0.7285
+       Base case + 2 steps  base seed 0        9      4346     0.0036          0        1770       0.0017          5      149       0.0693
+        GENCO as published  base seed 1      323      4542     0.0777         53        1840       0.0361         93      157       0.6583
+  GENCO, setpoint enforced  base seed 1      463      4542     0.1096         72        1840       0.0474        102      157       0.7130
+            GENCO + 1 step  base seed 1        7      4542     0.0029          0        1840       0.0016          6      157       0.0740
+           GENCO + 2 steps  base seed 1        0      4542     0.0007          0        1840       0.0016          0      157       0.0189
+        Base case + 1 step  base seed 1      296      4542     0.0715         23        1840       0.0177        103      157       0.7190
+       Base case + 2 steps  base seed 1        9      4542     0.0035          0        1840       0.0016          5      157       0.0658
+        GENCO as published base seed 42      395      4398     0.0972         64        1774       0.0442        100      148       0.7393
+  GENCO, setpoint enforced base seed 42      676      4398     0.1629        101        1774       0.0668        120      148       0.8621
+            GENCO + 1 step base seed 42       17      4398     0.0058          1        1774       0.0027         10      148       0.1119
+           GENCO + 2 steps base seed 42        0      4398     0.0007          0        1774       0.0017          0      148       0.0200
+        Base case + 1 step base seed 42      288      4398     0.0720         22        1774       0.0177         95      148       0.7075
+       Base case + 2 steps base seed 42        9      4398     0.0036          0        1774       0.0017          5      148       0.0697
+        GENCO as published small seed 0      286      4346     0.0723         61        1770       0.0425         94      149       0.6968
+  GENCO, setpoint enforced small seed 0      429      4346     0.1065         94        1770       0.0627        103      149       0.7536
+            GENCO + 1 step small seed 0       10      4346     0.0039          0        1770       0.0017          6      149       0.0779
+           GENCO + 2 steps small seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+        Base case + 1 step small seed 0      280      4346     0.0709         21        1770       0.0170         99      149       0.7285
+       Base case + 2 steps small seed 0        9      4346     0.0036          0        1770       0.0017          5      149       0.0693
+        GENCO as published  tiny seed 0      383      4346     0.0955         69        1770       0.0474        102      149       0.7473
+  GENCO, setpoint enforced  tiny seed 0      528      4346     0.1299         98        1770       0.0652        106      149       0.7722
+            GENCO + 1 step  tiny seed 0        7      4346     0.0030          0        1770       0.0017          6      149       0.0779
+           GENCO + 2 steps  tiny seed 0        0      4346     0.0007          0        1770       0.0017          0      149       0.0199
+        Base case + 1 step  tiny seed 0      280      4346     0.0709         21        1770       0.0170         99      149       0.7285
+       Base case + 2 steps  tiny seed 0        9      4346     0.0036          0        1770       0.0017          5      149       0.0693
+
+==============================================================================================================
+E. SEEDS AND SIZES. Base: mean ± SD over the 3 released seeds (0, 1, 42; n = 3). Small and Tiny: seed 0 only (no SD).
+   Stress sets are identical across checkpoints; the paper sets of seeds 1/42 are different test sets (37 and 28 load scenarios, 814 and 616 contingencies).
+   Seed-0 point values are in the per-checkpoint tables above and in results/exp02/v3_ci_*.csv.
+
+E1. Cost in LU per contingency (c from the checkpoint's own paper set; 5-fold grouped CV on the paper set itself), tier-1 share, element misses
+         set                      policy_name     rule       LU Base LU Small LU Tiny     acc1 Base acc1 Small acc1 Tiny el_miss Base el_miss Small el_miss Tiny cont_miss Base cont_miss Small cont_miss Tiny exc_load Base exc_load Small exc_load Tiny
+   paper N-1   GENCO tiered (1 step, then NR)      max 1.704 ± 0.138    1.610   1.915 0.442 ± 0.167      0.594     0.259    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.068 ± 0.040          0.069         0.034
+   paper N-1     GENCO sequential (<=3 steps)      max 1.558 ± 0.167    1.406   1.743 0.442 ± 0.167      0.594     0.259    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.068 ± 0.040          0.069         0.034
+   paper N-1 Base case sequential (<=3 steps)      max 2.258 ± 0.042    2.210   2.210 0.091 ± 0.016      0.108     0.108    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.032 ± 0.005          0.034         0.034
+   paper N-1   GENCO tiered (1 step, then NR) conf0.10 1.373 ± 0.166    1.588   1.611 0.761 ± 0.080      0.616     0.539    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.095 ± 0.022          0.103         0.103
+   paper N-1     GENCO sequential (<=3 steps) conf0.10 1.239 ± 0.080    1.384   1.461 0.761 ± 0.080      0.616     0.539    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.095 ± 0.022          0.103         0.103
+   paper N-1 Base case sequential (<=3 steps) conf0.10 2.176 ± 0.026    2.165   2.165 0.125 ± 0.018      0.129     0.129    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.095 ± 0.022          0.069         0.069
+  stress N-1   GENCO tiered (1 step, then NR)      max 1.748 ± 0.220    1.533   1.953 0.390 ± 0.250      0.576     0.245    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.011 ± 0.019          0.033         0.000
+  stress N-1     GENCO sequential (<=3 steps)      max 1.611 ± 0.250    1.424   1.756 0.390 ± 0.250      0.576     0.245    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.011 ± 0.019          0.033         0.000
+  stress N-1 Base case sequential (<=3 steps)      max 2.206 ± 0.012    2.220   2.220 0.105 ± 0.004      0.100     0.100    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.000 ± 0.000          0.000         0.000
+  stress N-1   GENCO tiered (1 step, then NR) conf0.10 1.379 ± 0.097    1.456   1.536 0.741 ± 0.038      0.641     0.627    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.111 ± 0.077          0.100         0.067
+  stress N-1     GENCO sequential (<=3 steps) conf0.10 1.260 ± 0.039    1.359   1.374 0.741 ± 0.038      0.641     0.627    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.111 ± 0.077          0.100         0.067
+  stress N-1 Base case sequential (<=3 steps) conf0.10 2.134 ± 0.016    2.141   2.141 0.134 ± 0.004      0.132     0.132    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.056 ± 0.038          0.033         0.033
+  stress N-2   GENCO tiered (1 step, then NR)      max 1.798 ± 0.177    1.643   2.080 0.401 ± 0.156      0.531     0.200    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.067 ± 0.067          0.100         0.000
+  stress N-2     GENCO sequential (<=3 steps)      max 1.602 ± 0.157    1.470   1.804 0.401 ± 0.156      0.531     0.200    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.067 ± 0.067          0.100         0.000
+  stress N-2 Base case sequential (<=3 steps)      max 2.533 ± 0.004    2.537   2.537 0.014 ± 0.000      0.014     0.014    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.000 ± 0.000          0.000         0.000
+  stress N-2   GENCO tiered (1 step, then NR) conf0.10 1.511 ± 0.097    1.590   1.701 0.673 ± 0.037      0.584     0.549    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.289 ± 0.038          0.133         0.233
+  stress N-2     GENCO sequential (<=3 steps) conf0.10 1.330 ± 0.036    1.417   1.454 0.673 ± 0.037      0.584     0.549    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.289 ± 0.038          0.133         0.233
+  stress N-2 Base case sequential (<=3 steps) conf0.10 2.463 ± 0.025    2.476   2.476 0.020 ± 0.002      0.020     0.020    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.011 ± 0.019          0.000         0.000
+  stress N-3   GENCO tiered (1 step, then NR)      max 1.995 ± 0.189    1.818   2.279 0.294 ± 0.134      0.470     0.112    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.000 ± 0.000          0.033         0.000
+  stress N-3     GENCO sequential (<=3 steps)      max 1.707 ± 0.135    1.530   1.889 0.294 ± 0.134      0.470     0.112    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.000 ± 0.000          0.033         0.000
+  stress N-3 Base case sequential (<=3 steps)      max 2.747 ± 0.007    2.755   2.755 0.000 ± 0.000      0.000     0.000    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.000 ± 0.000          0.000         0.000
+  stress N-3   GENCO tiered (1 step, then NR) conf0.10 1.698 ± 0.203    1.762   1.976 0.569 ± 0.084      0.521     0.400    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.189 ± 0.077          0.067         0.067
+  stress N-3     GENCO sequential (<=3 steps) conf0.10 1.431 ± 0.084    1.479   1.600 0.569 ± 0.084      0.521     0.400    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.189 ± 0.077          0.067         0.067
+  stress N-3 Base case sequential (<=3 steps) conf0.10 2.673 ± 0.016    2.682   2.682 0.000 ± 0.000      0.000     0.000    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.000 ± 0.000          0.000         0.000
+  stress N-5   GENCO tiered (1 step, then NR)      max 2.319 ± 0.175    2.064   2.500 0.169 ± 0.089      0.362     0.076    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.022 ± 0.019          0.033         0.000
+  stress N-5     GENCO sequential (<=3 steps)      max 1.847 ± 0.093    1.648   1.944 0.169 ± 0.089      0.362     0.076    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.022 ± 0.019          0.033         0.000
+  stress N-5 Base case sequential (<=3 steps)      max 2.995 ± 0.007    3.003   3.003 0.000 ± 0.000      0.000     0.000    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.000 ± 0.000          0.000         0.000
+  stress N-5   GENCO tiered (1 step, then NR) conf0.10 2.064 ± 0.195    2.024   2.265 0.393 ± 0.074      0.395     0.274    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.144 ± 0.019          0.067         0.133
+  stress N-5     GENCO sequential (<=3 steps) conf0.10 1.615 ± 0.077    1.615   1.736 0.393 ± 0.074      0.395     0.274    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.144 ± 0.019          0.067         0.133
+  stress N-5 Base case sequential (<=3 steps) conf0.10 2.945 ± 0.014    2.952   2.952 0.000 ± 0.000      0.000     0.000    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.000 ± 0.000          0.000         0.000
+
+E1b. Calibration constants c from each checkpoint's own paper set (the 'max' rule is the largest per-load-scenario ratio and moves with the calibration sample):
+                        prior     rule  base seed 0  base seed 1  base seed 42  small seed 0  tiny seed 0
+                        GENCO      max       0.3465        1.868        0.2249        0.1952       0.7554
+                        GENCO conf0.10       0.1257        0.139        0.1056        0.1572       0.1527
+                        GENCO conf0.05       0.3465        1.868        0.2249        0.1952       0.7554
+  base case (error vs own NR)      max         42.1        37.69         37.16          42.1         42.1
+  base case (error vs own NR) conf0.10        26.23        20.06         26.59         26.23        26.23
+  base case (error vs own NR) conf0.05         42.1        37.69         37.16          42.1         42.1
+
+E2. Equal-cost ladder: element misses (violating elements missed) and contingency-level misses; element total of violating elements in the last block
+         set                   method el_miss Base el_miss Small el_miss Tiny cont_miss Base cont_miss Small cont_miss Tiny     recall Base recall Small recall Tiny
+   paper N-1 GENCO, setpoint enforced  53.0 ± 12.2          40.0         39.0      8.7 ± 4.7            12.0            8.0 0.9039 ± 0.0294       0.9174      0.9194
+   paper N-1           GENCO + 1 step    1.3 ± 1.5           0.0          0.0      0.0 ± 0.0             0.0            0.0 0.9974 ± 0.0028       1.0000      1.0000
+   paper N-1          GENCO + 2 steps    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 1.0000 ± 0.0000       1.0000      1.0000
+   paper N-1       Base case + 1 step   41.0 ± 8.0          33.0         33.0      5.0 ± 1.0             4.0            4.0 0.9278 ± 0.0042       0.9318      0.9318
+   paper N-1      Base case + 2 steps    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 1.0000 ± 0.0000       1.0000      1.0000
+  stress N-1 GENCO, setpoint enforced   43.7 ± 9.1          44.0         46.0     15.7 ± 1.5            18.0           18.0 0.8996 ± 0.0209       0.8989      0.8943
+  stress N-1           GENCO + 1 step    1.3 ± 0.6           2.0          1.0      0.0 ± 0.0             0.0            0.0 0.9969 ± 0.0013       0.9954      0.9977
+  stress N-1          GENCO + 2 steps    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 1.0000 ± 0.0000       1.0000      1.0000
+  stress N-1       Base case + 1 step   21.0 ± 0.0          21.0         21.0      3.0 ± 0.0             3.0            3.0 0.9517 ± 0.0000       0.9517      0.9517
+  stress N-1      Base case + 2 steps    1.0 ± 0.0           1.0          1.0      0.0 ± 0.0             0.0            0.0 0.9977 ± 0.0000       0.9977      0.9977
+  stress N-2 GENCO, setpoint enforced  84.3 ± 21.6          68.0         81.0     18.3 ± 5.1            22.0           16.0 0.8819 ± 0.0302       0.9048      0.8866
+  stress N-2           GENCO + 1 step    0.7 ± 1.2           0.0          0.0      0.3 ± 0.6             0.0            0.0 0.9991 ± 0.0016       1.0000      1.0000
+  stress N-2          GENCO + 2 steps    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 1.0000 ± 0.0000       1.0000      1.0000
+  stress N-2       Base case + 1 step   37.0 ± 0.0          37.0         37.0      3.0 ± 0.0             3.0            3.0 0.9482 ± 0.0000       0.9482      0.9482
+  stress N-2      Base case + 2 steps    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 1.0000 ± 0.0000       1.0000      1.0000
+  stress N-3 GENCO, setpoint enforced  85.0 ± 33.4          76.0         95.0     20.3 ± 6.7            25.0           26.0 0.9105 ± 0.0352       0.9200      0.9000
+  stress N-3           GENCO + 1 step    1.3 ± 0.6           1.0          2.0      0.0 ± 0.0             0.0            0.0 0.9986 ± 0.0006       0.9989      0.9979
+  stress N-3          GENCO + 2 steps    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 1.0000 ± 0.0000       1.0000      1.0000
+  stress N-3       Base case + 1 step   60.0 ± 0.0          60.0         60.0      6.0 ± 0.0             6.0            6.0 0.9368 ± 0.0000       0.9368      0.9368
+  stress N-3      Base case + 2 steps    2.0 ± 0.0           2.0          2.0      0.0 ± 0.0             0.0            0.0 0.9979 ± 0.0000       0.9979      0.9979
+  stress N-5 GENCO, setpoint enforced 265.0 ± 52.2         201.0        267.0     23.7 ± 1.5            17.0           30.0 0.8497 ± 0.0296       0.8860      0.8486
+  stress N-5           GENCO + 1 step    6.3 ± 2.5           7.0          4.0      0.0 ± 0.0             0.0            0.0 0.9964 ± 0.0014       0.9960      0.9977
+  stress N-5          GENCO + 2 steps    0.0 ± 0.0           0.0          0.0      0.0 ± 0.0             0.0            0.0 1.0000 ± 0.0000       1.0000      1.0000
+  stress N-5       Base case + 1 step  129.0 ± 0.0         129.0        129.0      5.0 ± 0.0             5.0            5.0 0.9268 ± 0.0000       0.9268      0.9268
+  stress N-5      Base case + 2 steps    6.0 ± 0.0           6.0          6.0      0.0 ± 0.0             0.0            0.0 0.9966 ± 0.0000       0.9966      0.9966
+   violating elements / violating contingencies in the test set:
+         set el_truth Base el_truth Small el_truth Tiny cont_truth Base cont_truth Small cont_truth Tiny
+   paper N-1     567 ± 102            484           484        250 ± 39              225             225
+  stress N-1       435 ± 0            435           435         217 ± 0              217             217
+  stress N-2       714 ± 0            714           714         334 ± 0              334             334
+  stress N-3       950 ± 0            950           950         455 ± 0              455             455
+  stress N-5      1763 ± 0           1763          1763         539 ± 0              539             539
+
+E3. Newton-Raphson iterations by tolerance (mean per contingency)
+         set tol_MW start    iters Base iters Small iters Tiny
+   paper N-1   1e-2  flat 3.011 ± 0.002       3.009      3.009
+   paper N-1   1e-2    dc 3.000 ± 0.001       3.000      3.000
+   paper N-1   1e-2  base 2.069 ± 0.033       2.038      2.038
+   paper N-1   1e-2 genco 1.739 ± 0.136       1.683      1.828
+   paper N-1   1e-4  flat 4.000 ± 0.001       4.000      4.000
+   paper N-1   1e-4    dc 3.803 ± 0.089       3.718      3.718
+   paper N-1   1e-4  base 2.516 ± 0.025       2.494      2.494
+   paper N-1   1e-4 genco 2.006 ± 0.006       2.005      2.011
+   paper N-1   1e-6  flat 4.003 ± 0.001       4.003      4.003
+   paper N-1   1e-6    dc 3.981 ± 0.016       3.969      3.969
+   paper N-1   1e-6  base 2.909 ± 0.026       2.881      2.881
+   paper N-1   1e-6 genco 2.153 ± 0.090       2.218      2.176
+  stress N-1   1e-2  flat 3.006 ± 0.000       3.006      3.006
+  stress N-1   1e-2    dc 3.002 ± 0.000       3.002      3.002
+  stress N-1   1e-2  base 2.029 ± 0.000       2.029      2.029
+  stress N-1   1e-2 genco 1.787 ± 0.092       1.761      1.770
+  stress N-1   1e-4  flat 4.002 ± 0.000       4.002      4.002
+  stress N-1   1e-4    dc 3.802 ± 0.000       3.802      3.802
+  stress N-1   1e-4  base 2.500 ± 0.000       2.500      2.500
+  stress N-1   1e-4 genco 2.004 ± 0.007       2.002      2.009
+  stress N-1   1e-6  flat 4.002 ± 0.000       4.002      4.002
+  stress N-1   1e-6    dc 4.002 ± 0.000       4.002      4.002
+  stress N-1   1e-6  base 2.880 ± 0.000       2.880      2.880
+  stress N-1   1e-6 genco 2.152 ± 0.081       2.127      2.198
+  stress N-2   1e-2  flat 3.026 ± 0.000       3.026      3.026
+  stress N-2   1e-2    dc 3.000 ± 0.000       3.000      3.000
+  stress N-2   1e-2  base 2.193 ± 0.000       2.193      2.193
+  stress N-2   1e-2 genco 1.681 ± 0.123       1.707      1.810
+  stress N-2   1e-4  flat 4.002 ± 0.000       4.002      4.002
+  stress N-2   1e-4    dc 3.900 ± 0.000       3.900      3.900
+  stress N-2   1e-4  base 2.744 ± 0.000       2.744      2.744
+  stress N-2   1e-4 genco 2.023 ± 0.017       2.012      2.018
+  stress N-2   1e-6  flat 4.012 ± 0.000       4.012      4.012
+  stress N-2   1e-6    dc 4.000 ± 0.000       4.000      4.000
+  stress N-2   1e-6  base 3.076 ± 0.000       3.076      3.076
+  stress N-2   1e-6 genco 2.211 ± 0.081       2.178      2.288
+  stress N-3   1e-2  flat 3.026 ± 0.000       3.026      3.026
+  stress N-3   1e-2    dc 3.000 ± 0.000       3.000      3.000
+  stress N-3   1e-2  base 2.291 ± 0.000       2.291      2.291
+  stress N-3   1e-2 genco 1.809 ± 0.103       1.782      1.891
+  stress N-3   1e-4  flat 4.000 ± 0.000       4.000      4.000
+  stress N-3   1e-4    dc 3.876 ± 0.000       3.876      3.876
+  stress N-3   1e-4  base 2.898 ± 0.000       2.898      2.898
+  stress N-3   1e-4 genco 2.029 ± 0.023       2.021      2.030
+  stress N-3   1e-6  flat 4.006 ± 0.000       4.006      4.006
+  stress N-3   1e-6    dc 4.000 ± 0.000       4.000      4.000
+  stress N-3   1e-6  base 3.173 ± 0.000       3.173      3.173
+  stress N-3   1e-6 genco 2.298 ± 0.138       2.300      2.394
+  stress N-5   1e-2  flat 3.083 ± 0.000       3.083      3.083
+  stress N-5   1e-2    dc 3.005 ± 0.000       3.005      3.005
+  stress N-5   1e-2  base 2.488 ± 0.000       2.488      2.488
+  stress N-5   1e-2 genco 1.918 ± 0.064       1.891      1.958
+  stress N-5   1e-4  flat 4.008 ± 0.000       4.008      4.008
+  stress N-5   1e-4    dc 3.756 ± 0.000       3.756      3.756
+  stress N-5   1e-4  base 3.076 ± 0.000       3.076      3.076
+  stress N-5   1e-4 genco 2.110 ± 0.046       2.070      2.100
+  stress N-5   1e-6  flat 4.032 ± 0.000       4.032      4.032
+  stress N-5   1e-6    dc 4.003 ± 0.000       4.003      4.003
+  stress N-5   1e-6  base 3.317 ± 0.000       3.317      3.317
+  stress N-5   1e-6 genco 2.499 ± 0.137       2.471      2.580
+
+E4. GENCO minus base-case start, NR iterations (negative = GENCO saves iterations)
+         set tol_MW     iters Base iters Small iters Tiny    ratio Base ratio Small ratio Tiny
+   paper N-1   1e-2 -0.331 ± 0.117      -0.354     -0.210 0.840 ± 0.057       0.826      0.897
+   paper N-1   1e-4 -0.509 ± 0.020      -0.489     -0.483 0.798 ± 0.006       0.804      0.806
+   paper N-1   1e-6 -0.756 ± 0.084      -0.663     -0.705 0.740 ± 0.029       0.770      0.755
+  stress N-1   1e-2 -0.242 ± 0.092      -0.268     -0.259 0.881 ± 0.045       0.868      0.872
+  stress N-1   1e-4 -0.496 ± 0.007      -0.498     -0.491 0.802 ± 0.003       0.801      0.804
+  stress N-1   1e-6 -0.728 ± 0.081      -0.753     -0.682 0.747 ± 0.028       0.739      0.763
+  stress N-2   1e-2 -0.511 ± 0.123      -0.486     -0.382 0.767 ± 0.056       0.779      0.826
+  stress N-2   1e-4 -0.721 ± 0.017      -0.731     -0.725 0.737 ± 0.006       0.733      0.736
+  stress N-2   1e-6 -0.864 ± 0.081      -0.898     -0.788 0.719 ± 0.026       0.708      0.744
+  stress N-3   1e-2 -0.482 ± 0.103      -0.509     -0.400 0.790 ± 0.045       0.778      0.825
+  stress N-3   1e-4 -0.870 ± 0.023      -0.877     -0.868 0.700 ± 0.008       0.697      0.700
+  stress N-3   1e-6 -0.875 ± 0.138      -0.873     -0.779 0.724 ± 0.044       0.725      0.755
+  stress N-5   1e-2 -0.570 ± 0.064      -0.597     -0.530 0.771 ± 0.026       0.760      0.787
+  stress N-5   1e-4 -0.966 ± 0.046      -1.006     -0.976 0.686 ± 0.015       0.673      0.683
+  stress N-5   1e-6 -0.817 ± 0.137      -0.845     -0.736 0.754 ± 0.041       0.745      0.778
+
+Done.

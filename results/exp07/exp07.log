@@ -1,0 +1,540 @@
+exp07 summary: industry-style solvers (factorization reuse) from base-case vs GENCO starts; cluster bootstrap (2000) over load scenarios
+iters = Newton/chord iterations (FDLF: full P+Q iterations); solves = triangular-solve pairs incl. compensation setup; fact = LU factorizations per contingency
+(NR: one Jacobian factorization and one solve per iteration; reuse methods: the per-load-scenario base factorization is NOT included, it is amortised in the cost table)
+'mean' is over scenarios that reached the tolerance within 50 iterations; failures are counted separately. NaN-iteration scenarios of both starts are dropped in the paired rows.
+
+==============================================================================================================
+paper N-1: 638 contingencies, 29 load scenarios; with a PV->PQ change: 172; mean outaged branches 0.73
+
+  [all]  iterations / solves / factorizations to tolerance, mean [95% CI]; fail = not reached in 50 iterations
+  tolerance 0.01 MW
+    nr      flat   iters      3.01 [3.00, 3.02]  solves      3.01 [3.00, 3.02]  fact  3.01  fail   0/638
+    nr      base   iters      2.04 [2.00, 2.07]  solves      2.04 [2.00, 2.07]  fact  2.04  fail   0/638
+    nr      genco  iters      1.72 [1.58, 1.85]  solves      1.72 [1.58, 1.85]  fact  1.72  fail   0/638
+    chord   base   iters   14.64 [13.72, 15.57]  solves   14.64 [13.72, 15.57]  fact  0.26  fail  59/638
+    chord   genco  iters      7.80 [7.16, 8.59]  solves      7.80 [7.16, 8.59]  fact  0.26  fail  16/638
+    chordC  base   iters      2.74 [2.64, 2.84]  solves      4.86 [4.69, 5.01]  fact  0.26  fail   0/638
+    chordC  genco  iters      1.93 [1.80, 2.05]  solves      4.05 [3.86, 4.22]  fact  0.26  fail   0/638
+    fdlf    base   iters      3.33 [3.27, 3.40]  solves      8.08 [7.94, 8.23]  fact  0.26  fail   0/638
+    fdlf    genco  iters      2.95 [2.80, 3.10]  solves      7.31 [7.02, 7.62]  fact  0.26  fail   0/638
+  tolerance 0.0001 MW
+    nr      flat   iters      4.00 [4.00, 4.00]  solves      4.00 [4.00, 4.00]  fact  4.00  fail   0/638
+    nr      base   iters      2.49 [2.45, 2.53]  solves      2.49 [2.45, 2.53]  fact  2.49  fail   0/638
+    nr      genco  iters      2.00 [2.00, 2.01]  solves      2.00 [2.00, 2.01]  fact  2.00  fail   0/638
+    chord   base   iters   17.77 [16.46, 19.02]  solves   17.77 [16.46, 19.02]  fact  0.26  fail 126/638
+    chord   genco  iters   14.65 [13.64, 15.63]  solves   14.65 [13.64, 15.63]  fact  0.26  fail  52/638
+    chordC  base   iters      4.11 [3.98, 4.25]  solves      6.23 [6.03, 6.42]  fact  0.26  fail   0/638
+    chordC  genco  iters      2.83 [2.72, 2.95]  solves      4.95 [4.78, 5.10]  fact  0.26  fail   0/638
+    fdlf    base   iters      5.21 [5.13, 5.29]  solves   11.83 [11.64, 12.01]  fact  0.26  fail   0/638
+    fdlf    genco  iters      4.91 [4.74, 5.11]  solves   11.24 [10.88, 11.62]  fact  0.26  fail   0/638
+
+  paired GENCO-start minus base-start (all contingencies), mean difference [95% CI] and relative saving in iterations / solves:
+    nr      tol 0.01  d_iters     -0.32 [-0.45, -0.19]  saving_iters      0.16 [0.09, 0.22]  saving_solves      0.16 [0.09, 0.22]  GENCO fewer in 35%, more in 4%  (n=638, excl 0)
+    nr      tol 0.0001  d_iters     -0.49 [-0.53, -0.45]  saving_iters      0.20 [0.18, 0.21]  saving_solves      0.20 [0.18, 0.21]  GENCO fewer in 48%, more in 1%  (n=638, excl 0)
+    chord   tol 0.01  d_iters     -8.25 [-8.81, -7.67]  saving_iters      0.56 [0.53, 0.59]  saving_solves      0.56 [0.53, 0.59]  GENCO fewer in 84%, more in 2%  (n=579, excl 59)
+    chord   tol 0.0001  d_iters     -6.45 [-7.04, -5.90]  saving_iters      0.36 [0.35, 0.38]  saving_solves      0.36 [0.35, 0.38]  GENCO fewer in 93%, more in 0%  (n=512, excl 126)
+    chordC  tol 0.01  d_iters     -0.81 [-0.90, -0.71]  saving_iters      0.29 [0.26, 0.33]  saving_solves      0.17 [0.15, 0.19]  GENCO fewer in 60%, more in 4%  (n=638, excl 0)
+    chordC  tol 0.0001  d_iters     -1.28 [-1.34, -1.21]  saving_iters      0.31 [0.30, 0.32]  saving_solves      0.21 [0.20, 0.21]  GENCO fewer in 84%, more in 1%  (n=638, excl 0)
+    fdlf    tol 0.01  d_iters     -0.39 [-0.52, -0.24]  saving_iters      0.12 [0.07, 0.16]  saving_solves      0.10 [0.06, 0.13]  GENCO fewer in 58%, more in 19%  (n=638, excl 0)
+    fdlf    tol 0.0001  d_iters     -0.29 [-0.46, -0.12]  saving_iters      0.06 [0.02, 0.09]  saving_solves      0.05 [0.02, 0.08]  GENCO fewer in 45%, more in 23%  (n=638, excl 0)
+==============================================================================================================
+stress N-1: 660 contingencies, 30 load scenarios; with a PV->PQ change: 134; mean outaged branches 0.80
+
+  [all]  iterations / solves / factorizations to tolerance, mean [95% CI]; fail = not reached in 50 iterations
+  tolerance 0.01 MW
+    nr      flat   iters      3.01 [3.00, 3.01]  solves      3.01 [3.00, 3.01]  fact  3.01  fail   0/660
+    nr      base   iters      2.03 [1.99, 2.07]  solves      2.03 [1.99, 2.07]  fact  2.03  fail   0/660
+    nr      genco  iters      1.69 [1.56, 1.81]  solves      1.69 [1.56, 1.81]  fact  1.69  fail   0/660
+    chord   base   iters   15.89 [15.04, 16.79]  solves   15.89 [15.04, 16.79]  fact  0.20  fail  66/660
+    chord   genco  iters      8.91 [8.09, 9.71]  solves      8.91 [8.09, 9.71]  fact  0.20  fail   8/660
+    chordC  base   iters      2.73 [2.62, 2.86]  solves      5.01 [4.82, 5.19]  fact  0.20  fail   0/660
+    chordC  genco  iters      1.91 [1.80, 2.01]  solves      4.18 [4.02, 4.34]  fact  0.20  fail   0/660
+    fdlf    base   iters      3.28 [3.21, 3.35]  solves      8.06 [7.89, 8.24]  fact  0.20  fail   0/660
+    fdlf    genco  iters      2.89 [2.76, 3.02]  solves      7.28 [7.00, 7.57]  fact  0.20  fail   0/660
+  tolerance 0.0001 MW
+    nr      flat   iters      4.00 [4.00, 4.00]  solves      4.00 [4.00, 4.00]  fact  4.00  fail   0/660
+    nr      base   iters      2.50 [2.45, 2.55]  solves      2.50 [2.45, 2.55]  fact  2.50  fail   0/660
+    nr      genco  iters      2.00 [2.00, 2.00]  solves      2.00 [2.00, 2.00]  fact  2.00  fail   0/660
+    chord   base   iters   19.45 [18.55, 20.31]  solves   19.45 [18.55, 20.31]  fact  0.20  fail 140/660
+    chord   genco  iters   16.08 [15.05, 17.10]  solves   16.08 [15.05, 17.10]  fact  0.20  fail  59/660
+    chordC  base   iters      4.06 [3.90, 4.25]  solves      6.33 [6.11, 6.57]  fact  0.20  fail   0/660
+    chordC  genco  iters      2.82 [2.71, 2.93]  solves      5.09 [4.92, 5.26]  fact  0.20  fail   0/660
+    fdlf    base   iters      5.09 [4.98, 5.20]  solves   11.68 [11.44, 11.92]  fact  0.20  fail   0/660
+    fdlf    genco  iters      4.73 [4.61, 4.86]  solves   10.97 [10.71, 11.24]  fact  0.20  fail   0/660
+
+  paired GENCO-start minus base-start (all contingencies), mean difference [95% CI] and relative saving in iterations / solves:
+    nr      tol 0.01  d_iters     -0.34 [-0.48, -0.21]  saving_iters      0.17 [0.10, 0.23]  saving_solves      0.17 [0.10, 0.23]  GENCO fewer in 38%, more in 6%  (n=660, excl 0)
+    nr      tol 0.0001  d_iters     -0.50 [-0.55, -0.45]  saving_iters      0.20 [0.18, 0.22]  saving_solves      0.20 [0.18, 0.22]  GENCO fewer in 49%, more in 1%  (n=660, excl 0)
+    chord   tol 0.01  d_iters     -8.82 [-9.35, -8.30]  saving_iters      0.55 [0.54, 0.57]  saving_solves      0.55 [0.54, 0.57]  GENCO fewer in 87%, more in 4%  (n=594, excl 66)
+    chord   tol 0.0001  d_iters     -6.96 [-7.46, -6.48]  saving_iters      0.36 [0.34, 0.38]  saving_solves      0.36 [0.34, 0.38]  GENCO fewer in 92%, more in 2%  (n=520, excl 140)
+    chordC  tol 0.01  d_iters     -0.82 [-0.97, -0.68]  saving_iters      0.30 [0.26, 0.34]  saving_solves      0.16 [0.14, 0.19]  GENCO fewer in 61%, more in 6%  (n=660, excl 0)
+    chordC  tol 0.0001  d_iters     -1.24 [-1.34, -1.15]  saving_iters      0.31 [0.29, 0.32]  saving_solves      0.20 [0.18, 0.21]  GENCO fewer in 83%, more in 1%  (n=660, excl 0)
+    fdlf    tol 0.01  d_iters     -0.39 [-0.52, -0.26]  saving_iters      0.12 [0.08, 0.16]  saving_solves      0.10 [0.06, 0.13]  GENCO fewer in 56%, more in 16%  (n=660, excl 0)
+    fdlf    tol 0.0001  d_iters     -0.36 [-0.48, -0.23]  saving_iters      0.07 [0.05, 0.09]  saving_solves      0.06 [0.04, 0.08]  GENCO fewer in 45%, more in 20%  (n=660, excl 0)
+==============================================================================================================
+stress N-2: 659 contingencies, 30 load scenarios; with a PV->PQ change: 241; mean outaged branches 1.59
+
+  [all]  iterations / solves / factorizations to tolerance, mean [95% CI]; fail = not reached in 50 iterations
+  tolerance 0.01 MW
+    nr      flat   iters      3.03 [3.01, 3.05]  solves      3.03 [3.01, 3.05]  fact  3.03  fail   0/659
+    nr      base   iters      2.19 [2.16, 2.23]  solves      2.19 [2.16, 2.23]  fact  2.19  fail   0/659
+    nr      genco  iters      1.60 [1.48, 1.72]  solves      1.60 [1.48, 1.72]  fact  1.60  fail   0/659
+    chord   base   iters   22.47 [21.52, 23.39]  solves   22.47 [21.52, 23.39]  fact  0.34  fail 138/659
+    chord   genco  iters   12.53 [11.84, 13.28]  solves   12.53 [11.84, 13.28]  fact  0.34  fail  31/659
+    chordC  base   iters      3.26 [3.14, 3.40]  solves      7.84 [7.61, 8.06]  fact  0.34  fail   0/659
+    chordC  genco  iters      2.02 [1.88, 2.16]  solves      6.59 [6.38, 6.80]  fact  0.34  fail   0/659
+    fdlf    base   iters      3.60 [3.52, 3.70]  solves   10.26 [10.06, 10.49]  fact  0.34  fail   0/659
+    fdlf    genco  iters      2.93 [2.79, 3.09]  solves      8.92 [8.63, 9.24]  fact  0.34  fail   0/659
+  tolerance 0.0001 MW
+    nr      flat   iters      4.00 [4.00, 4.00]  solves      4.00 [4.00, 4.00]  fact  4.00  fail   0/659
+    nr      base   iters      2.74 [2.70, 2.79]  solves      2.74 [2.70, 2.79]  fact  2.74  fail   0/659
+    nr      genco  iters      2.01 [2.00, 2.02]  solves      2.01 [2.00, 2.02]  fact  2.01  fail   0/659
+    chord   base   iters   27.50 [26.26, 28.75]  solves   27.50 [26.26, 28.75]  fact  0.34  fail 254/659
+    chord   genco  iters   22.65 [21.77, 23.63]  solves   22.65 [21.77, 23.63]  fact  0.34  fail 124/659
+    chordC  base   iters      4.86 [4.68, 5.07]  solves      9.44 [9.16, 9.71]  fact  0.34  fail   0/659
+    chordC  genco  iters      3.31 [3.16, 3.51]  solves      7.89 [7.67, 8.13]  fact  0.34  fail   0/659
+    fdlf    base   iters      5.54 [5.43, 5.69]  solves   14.15 [13.88, 14.47]  fact  0.34  fail   0/659
+    fdlf    genco  iters      4.89 [4.71, 5.09]  solves   12.84 [12.47, 13.24]  fact  0.34  fail   0/659
+
+  paired GENCO-start minus base-start (all contingencies), mean difference [95% CI] and relative saving in iterations / solves:
+    nr      tol 0.01  d_iters     -0.60 [-0.72, -0.47]  saving_iters      0.27 [0.22, 0.33]  saving_solves      0.27 [0.22, 0.33]  GENCO fewer in 55%, more in 0%  (n=659, excl 0)
+    nr      tol 0.0001  d_iters     -0.73 [-0.78, -0.69]  saving_iters      0.27 [0.25, 0.28]  saving_solves      0.27 [0.25, 0.28]  GENCO fewer in 70%, more in 0%  (n=659, excl 0)
+    chord   tol 0.01  d_iters  -12.64 [-13.36, -11.92]  saving_iters      0.56 [0.54, 0.59]  saving_solves      0.56 [0.54, 0.59]  GENCO fewer in 98%, more in 1%  (n=520, excl 139)
+    chord   tol 0.0001  d_iters     -9.41 [-9.84, -8.95]  saving_iters      0.34 [0.33, 0.36]  saving_solves      0.34 [0.33, 0.36]  GENCO fewer in 97%, more in 1%  (n=405, excl 254)
+    chordC  tol 0.01  d_iters     -1.24 [-1.36, -1.14]  saving_iters      0.38 [0.35, 0.41]  saving_solves      0.16 [0.15, 0.17]  GENCO fewer in 81%, more in 0%  (n=659, excl 0)
+    chordC  tol 0.0001  d_iters     -1.54 [-1.65, -1.45]  saving_iters      0.32 [0.30, 0.33]  saving_solves      0.16 [0.16, 0.17]  GENCO fewer in 90%, more in 0%  (n=659, excl 0)
+    fdlf    tol 0.01  d_iters     -0.67 [-0.79, -0.55]  saving_iters      0.19 [0.15, 0.22]  saving_solves      0.13 [0.11, 0.15]  GENCO fewer in 73%, more in 7%  (n=659, excl 0)
+    fdlf    tol 0.0001  d_iters     -0.65 [-0.77, -0.53]  saving_iters      0.12 [0.10, 0.14]  saving_solves      0.09 [0.08, 0.11]  GENCO fewer in 63%, more in 9%  (n=659, excl 0)
+==============================================================================================================
+stress N-3: 660 contingencies, 30 load scenarios; with a PV->PQ change: 357; mean outaged branches 2.30
+
+  [all]  iterations / solves / factorizations to tolerance, mean [95% CI]; fail = not reached in 50 iterations
+  tolerance 0.01 MW
+    nr      flat   iters      3.03 [3.01, 3.04]  solves      3.03 [3.01, 3.04]  fact  3.03  fail   0/660
+    nr      base   iters      2.29 [2.26, 2.32]  solves      2.29 [2.26, 2.32]  fact  2.29  fail   0/660
+    nr      genco  iters      1.73 [1.63, 1.81]  solves      1.73 [1.63, 1.81]  fact  1.73  fail   0/660
+    chord   base   iters   25.91 [24.77, 26.96]  solves   25.91 [24.77, 26.96]  fact  0.51  fail 163/660
+    chord   genco  iters   15.82 [15.06, 16.60]  solves   15.82 [15.06, 16.60]  fact  0.51  fail  33/660
+    chordC  base   iters      3.80 [3.58, 4.04]  solves   10.37 [10.07, 10.68]  fact  0.51  fail   1/660
+    chordC  genco  iters      2.33 [2.21, 2.44]  solves      8.90 [8.66, 9.13]  fact  0.51  fail   0/660
+    fdlf    base   iters      3.79 [3.73, 3.86]  solves   11.98 [11.79, 12.18]  fact  0.51  fail   0/660
+    fdlf    genco  iters      2.95 [2.88, 3.02]  solves   10.30 [10.10, 10.49]  fact  0.51  fail   0/660
+  tolerance 0.0001 MW
+    nr      flat   iters      4.00 [4.00, 4.00]  solves      4.00 [4.00, 4.00]  fact  4.00  fail   0/660
+    nr      base   iters      2.90 [2.86, 2.93]  solves      2.90 [2.86, 2.93]  fact  2.90  fail   0/660
+    nr      genco  iters      2.01 [2.00, 2.02]  solves      2.01 [2.00, 2.02]  fact  2.01  fail   0/660
+    chord   base   iters   29.05 [27.96, 30.03]  solves   29.05 [27.96, 30.03]  fact  0.51  fail 330/660
+    chord   genco  iters   26.14 [25.25, 26.97]  solves   26.14 [25.25, 26.97]  fact  0.51  fail 165/660
+    chordC  base   iters      5.44 [5.23, 5.65]  solves   12.02 [11.72, 12.34]  fact  0.51  fail   4/660
+    chordC  genco  iters      3.84 [3.66, 4.04]  solves   10.42 [10.16, 10.68]  fact  0.51  fail   1/660
+    fdlf    base   iters      5.78 [5.67, 5.90]  solves   15.95 [15.68, 16.22]  fact  0.51  fail   0/660
+    fdlf    genco  iters      4.84 [4.76, 4.93]  solves   14.08 [13.86, 14.30]  fact  0.51  fail   0/660
+
+  paired GENCO-start minus base-start (all contingencies), mean difference [95% CI] and relative saving in iterations / solves:
+    nr      tol 0.01  d_iters     -0.57 [-0.66, -0.47]  saving_iters      0.25 [0.21, 0.29]  saving_solves      0.25 [0.21, 0.29]  GENCO fewer in 49%, more in 0%  (n=660, excl 0)
+    nr      tol 0.0001  d_iters     -0.89 [-0.92, -0.85]  saving_iters      0.31 [0.30, 0.31]  saving_solves      0.31 [0.30, 0.31]  GENCO fewer in 84%, more in 0%  (n=660, excl 0)
+    chord   tol 0.01  d_iters  -13.47 [-14.30, -12.64]  saving_iters      0.52 [0.50, 0.54]  saving_solves      0.52 [0.50, 0.54]  GENCO fewer in 99%, more in 0%  (n=497, excl 163)
+    chord   tol 0.0001  d_iters    -9.88 [-10.50, -9.25]  saving_iters      0.34 [0.32, 0.36]  saving_solves      0.34 [0.32, 0.36]  GENCO fewer in 99%, more in 0%  (n=330, excl 330)
+    chordC  tol 0.01  d_iters     -1.51 [-1.68, -1.35]  saving_iters      0.40 [0.37, 0.42]  saving_solves      0.15 [0.13, 0.16]  GENCO fewer in 85%, more in 0%  (n=659, excl 1)
+    chordC  tol 0.0001  d_iters     -1.71 [-1.83, -1.59]  saving_iters      0.31 [0.30, 0.33]  saving_solves      0.14 [0.13, 0.15]  GENCO fewer in 92%, more in 0%  (n=656, excl 4)
+    fdlf    tol 0.01  d_iters     -0.84 [-0.94, -0.74]  saving_iters      0.22 [0.20, 0.24]  saving_solves      0.14 [0.12, 0.16]  GENCO fewer in 82%, more in 3%  (n=660, excl 0)
+    fdlf    tol 0.0001  d_iters     -0.93 [-1.04, -0.82]  saving_iters      0.16 [0.14, 0.18]  saving_solves      0.12 [0.10, 0.13]  GENCO fewer in 79%, more in 4%  (n=660, excl 0)
+==============================================================================================================
+stress N-5: 660 contingencies, 30 load scenarios; with a PV->PQ change: 487; mean outaged branches 3.85
+
+  [all]  iterations / solves / factorizations to tolerance, mean [95% CI]; fail = not reached in 50 iterations
+  tolerance 0.01 MW
+    nr      flat   iters      3.08 [3.06, 3.11]  solves      3.08 [3.06, 3.11]  fact  3.08  fail   0/660
+    nr      base   iters      2.49 [2.44, 2.54]  solves      2.49 [2.44, 2.54]  fact  2.49  fail   0/660
+    nr      genco  iters      1.88 [1.84, 1.93]  solves      1.88 [1.84, 1.93]  fact  1.88  fail   0/660
+    chord   base   iters   31.86 [30.88, 32.83]  solves   31.86 [30.88, 32.83]  fact  0.70  fail 280/660
+    chord   genco  iters   21.55 [20.38, 22.75]  solves   21.55 [20.38, 22.75]  fact  0.70  fail 102/660
+    chordC  base   iters      4.44 [4.21, 4.68]  solves   15.35 [15.02, 15.71]  fact  0.70  fail   1/660
+    chordC  genco  iters      2.79 [2.65, 2.92]  solves   13.69 [13.42, 13.97]  fact  0.70  fail   0/660
+    fdlf    base   iters      4.29 [4.15, 4.44]  solves   15.95 [15.62, 16.30]  fact  0.70  fail   0/660
+    fdlf    genco  iters      3.40 [3.27, 3.53]  solves   14.17 [13.84, 14.50]  fact  0.70  fail   0/660
+  tolerance 0.0001 MW
+    nr      flat   iters      4.01 [4.00, 4.02]  solves      4.01 [4.00, 4.02]  fact  4.01  fail   0/660
+    nr      base   iters      3.08 [3.04, 3.11]  solves      3.08 [3.04, 3.11]  fact  3.08  fail   0/660
+    nr      genco  iters      2.08 [2.06, 2.11]  solves      2.08 [2.06, 2.11]  fact  2.08  fail   0/660
+    chord   base   iters   36.15 [34.59, 37.71]  solves   36.15 [34.59, 37.71]  fact  0.70  fail 459/660
+    chord   genco  iters   32.11 [31.09, 33.13]  solves   32.11 [31.09, 33.13]  fact  0.70  fail 308/660
+    chordC  base   iters      6.69 [6.35, 7.04]  solves   17.59 [17.17, 18.05]  fact  0.70  fail   1/660
+    chordC  genco  iters      4.76 [4.51, 5.02]  solves   15.66 [15.32, 16.01]  fact  0.70  fail   0/660
+    fdlf    base   iters      6.54 [6.35, 6.75]  solves   20.46 [20.02, 20.92]  fact  0.70  fail   0/660
+    fdlf    genco  iters      5.53 [5.34, 5.73]  solves   18.44 [17.98, 18.92]  fact  0.70  fail   0/660
+
+  paired GENCO-start minus base-start (all contingencies), mean difference [95% CI] and relative saving in iterations / solves:
+    nr      tol 0.01  d_iters     -0.60 [-0.67, -0.54]  saving_iters      0.24 [0.22, 0.27]  saving_solves      0.24 [0.22, 0.27]  GENCO fewer in 54%, more in 0%  (n=660, excl 0)
+    nr      tol 0.0001  d_iters     -0.99 [-1.02, -0.96]  saving_iters      0.32 [0.32, 0.33]  saving_solves      0.32 [0.32, 0.33]  GENCO fewer in 93%, more in 0%  (n=660, excl 0)
+    chord   tol 0.01  d_iters  -14.69 [-15.36, -14.05]  saving_iters      0.46 [0.44, 0.48]  saving_solves      0.46 [0.44, 0.48]  GENCO fewer in 99%, more in 0%  (n=380, excl 280)
+    chord   tol 0.0001  d_iters  -11.19 [-11.98, -10.40]  saving_iters      0.31 [0.29, 0.33]  saving_solves      0.31 [0.29, 0.33]  GENCO fewer in 100%, more in 0%  (n=200, excl 460)
+    chordC  tol 0.01  d_iters     -1.68 [-1.85, -1.53]  saving_iters      0.38 [0.36, 0.40]  saving_solves      0.11 [0.10, 0.12]  GENCO fewer in 93%, more in 0%  (n=659, excl 1)
+    chordC  tol 0.0001  d_iters     -1.99 [-2.15, -1.83]  saving_iters      0.30 [0.28, 0.31]  saving_solves      0.11 [0.11, 0.12]  GENCO fewer in 96%, more in 0%  (n=659, excl 1)
+    fdlf    tol 0.01  d_iters     -0.89 [-0.96, -0.81]  saving_iters      0.21 [0.19, 0.22]  saving_solves      0.11 [0.10, 0.12]  GENCO fewer in 80%, more in 1%  (n=660, excl 0)
+    fdlf    tol 0.0001  d_iters     -1.01 [-1.09, -0.93]  saving_iters      0.15 [0.14, 0.17]  saving_solves      0.10 [0.09, 0.11]  GENCO fewer in 82%, more in 2%  (n=660, excl 0)
+[exh_n1_base: dropping 30 intact N-0 variants]
+==============================================================================================================
+exhaustive N-1, branches: 5310 contingencies, 30 load scenarios; with a PV->PQ change: 0; mean outaged branches 1.00
+
+  [all]  iterations / solves / factorizations to tolerance, mean [95% CI]; fail = not reached in 50 iterations
+  tolerance 0.01 MW
+    nr      flat   iters      3.01 [3.01, 3.01]  solves      3.01 [3.01, 3.01]  fact  3.01  fail   0/5310
+    nr      base   iters      2.05 [2.03, 2.06]  solves      2.05 [2.03, 2.06]  fact  2.05  fail   0/5310
+    nr      genco  iters      1.52 [1.37, 1.66]  solves      1.52 [1.37, 1.66]  fact  1.52  fail   0/5310
+    chord   base   iters   19.55 [19.36, 19.73]  solves   19.55 [19.36, 19.73]  fact  0.00  fail 632/5310
+    chord   genco  iters    10.06 [9.74, 10.41]  solves    10.06 [9.74, 10.41]  fact  0.00  fail 101/5310
+    chordC  base   iters      2.72 [2.68, 2.76]  solves      5.58 [5.54, 5.62]  fact  0.00  fail   0/5310
+    chordC  genco  iters      1.75 [1.64, 1.85]  solves      4.61 [4.51, 4.72]  fact  0.00  fail   0/5310
+    fdlf    base   iters      3.26 [3.21, 3.32]  solves      8.43 [8.32, 8.54]  fact  0.00  fail   0/5310
+    fdlf    genco  iters      2.82 [2.68, 2.97]  solves      7.54 [7.25, 7.84]  fact  0.00  fail   0/5310
+  tolerance 0.0001 MW
+    nr      flat   iters      4.00 [4.00, 4.00]  solves      4.00 [4.00, 4.00]  fact  4.00  fail   0/5310
+    nr      base   iters      2.53 [2.51, 2.55]  solves      2.53 [2.51, 2.55]  fact  2.53  fail   0/5310
+    nr      genco  iters      2.00 [2.00, 2.00]  solves      2.00 [2.00, 2.00]  fact  2.00  fail   0/5310
+    chord   base   iters   23.94 [23.76, 24.10]  solves   23.94 [23.76, 24.10]  fact  0.00  fail 1432/5310
+    chord   genco  iters   19.24 [19.04, 19.49]  solves   19.24 [19.04, 19.49]  fact  0.00  fail 594/5310
+    chordC  base   iters      4.08 [4.02, 4.14]  solves      6.94 [6.88, 7.00]  fact  0.00  fail   0/5310
+    chordC  genco  iters      2.78 [2.74, 2.83]  solves      5.64 [5.60, 5.69]  fact  0.00  fail   0/5310
+    fdlf    base   iters      5.13 [5.03, 5.23]  solves   12.15 [11.96, 12.36]  fact  0.00  fail   0/5310
+    fdlf    genco  iters      4.77 [4.60, 4.96]  solves   11.44 [11.09, 11.82]  fact  0.00  fail   0/5310
+
+  paired GENCO-start minus base-start (all contingencies), mean difference [95% CI] and relative saving in iterations / solves:
+    nr      tol 0.01  d_iters     -0.53 [-0.67, -0.38]  saving_iters      0.26 [0.19, 0.33]  saving_solves      0.26 [0.19, 0.33]  GENCO fewer in 52%, more in 3%  (n=5310, excl 0)
+    nr      tol 0.0001  d_iters     -0.53 [-0.55, -0.51]  saving_iters      0.21 [0.20, 0.21]  saving_solves      0.21 [0.20, 0.21]  GENCO fewer in 53%, more in 1%  (n=5310, excl 0)
+    chord   tol 0.01  d_iters  -11.30 [-11.64, -10.91]  saving_iters      0.58 [0.56, 0.59]  saving_solves      0.58 [0.56, 0.59]  GENCO fewer in 99%, more in 1%  (n=4678, excl 632)
+    chord   tol 0.0001  d_iters     -8.74 [-8.98, -8.47]  saving_iters      0.36 [0.35, 0.38]  saving_solves      0.36 [0.35, 0.38]  GENCO fewer in 99%, more in 1%  (n=3878, excl 1432)
+    chordC  tol 0.01  d_iters     -0.97 [-1.07, -0.86]  saving_iters      0.36 [0.32, 0.40]  saving_solves      0.17 [0.15, 0.19]  GENCO fewer in 70%, more in 3%  (n=5310, excl 0)
+    chordC  tol 0.0001  d_iters     -1.30 [-1.34, -1.25]  saving_iters      0.32 [0.31, 0.33]  saving_solves      0.19 [0.18, 0.19]  GENCO fewer in 84%, more in 1%  (n=5310, excl 0)
+    fdlf    tol 0.01  d_iters     -0.45 [-0.58, -0.31]  saving_iters      0.14 [0.09, 0.18]  saving_solves      0.11 [0.07, 0.14]  GENCO fewer in 58%, more in 15%  (n=5310, excl 0)
+    fdlf    tol 0.0001  d_iters     -0.36 [-0.51, -0.19]  saving_iters      0.07 [0.04, 0.10]  saving_solves      0.06 [0.03, 0.08]  GENCO fewer in 47%, more in 21%  (n=5310, excl 0)
+[exh_n1gen_base: dropping 30 intact N-0 variants]
+==============================================================================================================
+exhaustive N-1, generators: 1590 contingencies, 30 load scenarios; with a PV->PQ change: 1590; mean outaged branches 0.00
+
+  [all]  iterations / solves / factorizations to tolerance, mean [95% CI]; fail = not reached in 50 iterations
+  tolerance 0.01 MW
+    nr      flat   iters      3.01 [3.01, 3.01]  solves      3.01 [3.01, 3.01]  fact  3.01  fail   0/1590
+    nr      base   iters      2.03 [2.02, 2.05]  solves      2.03 [2.02, 2.05]  fact  2.03  fail   0/1590
+    nr      genco  iters      1.59 [1.47, 1.71]  solves      1.59 [1.47, 1.71]  fact  1.59  fail   0/1590
+    chord   base   iters      2.82 [2.73, 2.91]  solves      2.82 [2.73, 2.91]  fact  1.00  fail   3/1590
+    chord   genco  iters      1.92 [1.80, 2.04]  solves      1.92 [1.80, 2.04]  fact  1.00  fail   0/1590
+    chordC  base   iters      2.82 [2.73, 2.91]  solves      2.82 [2.73, 2.91]  fact  1.00  fail   3/1590
+    chordC  genco  iters      1.92 [1.80, 2.04]  solves      1.92 [1.80, 2.04]  fact  1.00  fail   0/1590
+    fdlf    base   iters      3.27 [3.24, 3.31]  solves      6.55 [6.48, 6.62]  fact  1.00  fail   0/1590
+    fdlf    genco  iters      2.88 [2.76, 3.01]  solves      5.76 [5.52, 6.03]  fact  1.00  fail   0/1590
+  tolerance 0.0001 MW
+    nr      flat   iters      4.00 [4.00, 4.00]  solves      4.00 [4.00, 4.00]  fact  4.00  fail   0/1590
+    nr      base   iters      2.31 [2.29, 2.32]  solves      2.31 [2.29, 2.32]  fact  2.31  fail   0/1590
+    nr      genco  iters      2.00 [2.00, 2.00]  solves      2.00 [2.00, 2.00]  fact  2.00  fail   0/1590
+    chord   base   iters      3.97 [3.86, 4.07]  solves      3.97 [3.86, 4.07]  fact  1.00  fail  10/1590
+    chord   genco  iters      2.91 [2.85, 2.97]  solves      2.91 [2.85, 2.97]  fact  1.00  fail   3/1590
+    chordC  base   iters      3.97 [3.86, 4.07]  solves      3.97 [3.86, 4.07]  fact  1.00  fail  10/1590
+    chordC  genco  iters      2.91 [2.85, 2.97]  solves      2.91 [2.85, 2.97]  fact  1.00  fail   3/1590
+    fdlf    base   iters      4.99 [4.93, 5.06]  solves     9.98 [9.85, 10.11]  fact  1.00  fail   0/1590
+    fdlf    genco  iters      4.81 [4.66, 4.98]  solves      9.62 [9.31, 9.96]  fact  1.00  fail   0/1590
+
+  paired GENCO-start minus base-start (all contingencies), mean difference [95% CI] and relative saving in iterations / solves:
+    nr      tol 0.01  d_iters     -0.44 [-0.56, -0.33]  saving_iters      0.22 [0.16, 0.28]  saving_solves      0.22 [0.16, 0.28]  GENCO fewer in 47%, more in 5%  (n=1590, excl 0)
+    nr      tol 0.0001  d_iters     -0.31 [-0.32, -0.29]  saving_iters      0.13 [0.13, 0.14]  saving_solves      0.13 [0.13, 0.14]  GENCO fewer in 27%, more in 1%  (n=1590, excl 0)
+    chord   tol 0.01  d_iters     -0.94 [-1.09, -0.81]  saving_iters      0.33 [0.29, 0.38]  saving_solves      0.33 [0.29, 0.38]  GENCO fewer in 56%, more in 5%  (n=1587, excl 3)
+    chord   tol 0.0001  d_iters     -1.15 [-1.22, -1.10]  saving_iters      0.29 [0.28, 0.30]  saving_solves      0.29 [0.28, 0.30]  GENCO fewer in 75%, more in 1%  (n=1580, excl 10)
+    chordC  tol 0.01  d_iters     -0.94 [-1.09, -0.81]  saving_iters      0.33 [0.29, 0.38]  saving_solves      0.33 [0.29, 0.38]  GENCO fewer in 56%, more in 5%  (n=1587, excl 3)
+    chordC  tol 0.0001  d_iters     -1.15 [-1.22, -1.10]  saving_iters      0.29 [0.28, 0.30]  saving_solves      0.29 [0.28, 0.30]  GENCO fewer in 75%, more in 1%  (n=1580, excl 10)
+    fdlf    tol 0.01  d_iters     -0.40 [-0.51, -0.27]  saving_iters      0.12 [0.08, 0.16]  saving_solves      0.12 [0.08, 0.16]  GENCO fewer in 59%, more in 19%  (n=1590, excl 0)
+    fdlf    tol 0.0001  d_iters     -0.18 [-0.30, -0.04]  saving_iters      0.04 [0.01, 0.06]  saving_solves      0.04 [0.01, 0.06]  GENCO fewer in 40%, more in 29%  (n=1590, excl 0)
+[exh_n1_all: dropping 60 intact N-0 variants]
+==============================================================================================================
+exhaustive N-1, branches + generators: 6900 contingencies, 30 load scenarios; with a PV->PQ change: 1590; mean outaged branches 0.77
+
+  [all]  iterations / solves / factorizations to tolerance, mean [95% CI]; fail = not reached in 50 iterations
+  tolerance 0.01 MW
+    nr      flat   iters      3.01 [3.01, 3.01]  solves      3.01 [3.01, 3.01]  fact  3.01  fail   0/6900
+    nr      base   iters      2.04 [2.03, 2.05]  solves      2.04 [2.03, 2.05]  fact  2.04  fail   0/6900
+    nr      genco  iters      1.53 [1.40, 1.67]  solves      1.53 [1.40, 1.67]  fact  1.53  fail   0/6900
+    chord   base   iters   15.31 [15.16, 15.46]  solves   15.31 [15.16, 15.46]  fact  0.23  fail 635/6900
+    chord   genco  iters      8.16 [7.90, 8.43]  solves      8.16 [7.90, 8.43]  fact  0.23  fail 101/6900
+    chordC  base   iters      2.74 [2.71, 2.78]  solves      4.95 [4.91, 4.98]  fact  0.23  fail   3/6900
+    chordC  genco  iters      1.79 [1.68, 1.89]  solves      3.99 [3.89, 4.10]  fact  0.23  fail   0/6900
+    fdlf    base   iters      3.27 [3.22, 3.32]  solves      7.99 [7.90, 8.09]  fact  0.23  fail   0/6900
+    fdlf    genco  iters      2.83 [2.70, 2.98]  solves      7.13 [6.86, 7.42]  fact  0.23  fail   0/6900
+  tolerance 0.0001 MW
+    nr      flat   iters      4.00 [4.00, 4.00]  solves      4.00 [4.00, 4.00]  fact  4.00  fail   0/6900
+    nr      base   iters      2.48 [2.47, 2.49]  solves      2.48 [2.47, 2.49]  fact  2.48  fail   0/6900
+    nr      genco  iters      2.00 [2.00, 2.00]  solves      2.00 [2.00, 2.00]  fact  2.00  fail   0/6900
+    chord   base   iters   18.16 [18.01, 18.29]  solves   18.16 [18.01, 18.29]  fact  0.23  fail 1442/6900
+    chord   genco  iters   15.13 [14.97, 15.32]  solves   15.13 [14.97, 15.32]  fact  0.23  fail 597/6900
+    chordC  base   iters      4.05 [3.99, 4.11]  solves      6.26 [6.20, 6.32]  fact  0.23  fail  10/6900
+    chordC  genco  iters      2.81 [2.77, 2.85]  solves      5.01 [4.98, 5.05]  fact  0.23  fail   3/6900
+    fdlf    base   iters      5.10 [5.01, 5.19]  solves   11.65 [11.48, 11.83]  fact  0.23  fail   0/6900
+    fdlf    genco  iters      4.78 [4.61, 4.96]  solves   11.02 [10.68, 11.39]  fact  0.23  fail   0/6900
+
+  paired GENCO-start minus base-start (all contingencies), mean difference [95% CI] and relative saving in iterations / solves:
+    nr      tol 0.01  d_iters     -0.51 [-0.64, -0.37]  saving_iters      0.25 [0.18, 0.32]  saving_solves      0.25 [0.18, 0.32]  GENCO fewer in 51%, more in 3%  (n=6900, excl 0)
+    nr      tol 0.0001  d_iters     -0.48 [-0.49, -0.46]  saving_iters      0.19 [0.19, 0.20]  saving_solves      0.19 [0.19, 0.20]  GENCO fewer in 47%, more in 1%  (n=6900, excl 0)
+    chord   tol 0.01  d_iters     -8.67 [-8.96, -8.37]  saving_iters      0.57 [0.55, 0.58]  saving_solves      0.57 [0.55, 0.58]  GENCO fewer in 88%, more in 2%  (n=6265, excl 635)
+    chord   tol 0.0001  d_iters     -6.54 [-6.72, -6.35]  saving_iters      0.36 [0.35, 0.37]  saving_solves      0.36 [0.35, 0.37]  GENCO fewer in 92%, more in 1%  (n=5458, excl 1442)
+    chordC  tol 0.01  d_iters     -0.96 [-1.07, -0.86]  saving_iters      0.35 [0.31, 0.39]  saving_solves      0.19 [0.17, 0.22]  GENCO fewer in 67%, more in 3%  (n=6897, excl 3)
+    chordC  tol 0.0001  d_iters     -1.26 [-1.30, -1.23]  saving_iters      0.31 [0.30, 0.32]  saving_solves      0.20 [0.20, 0.21]  GENCO fewer in 82%, more in 1%  (n=6890, excl 10)
+    fdlf    tol 0.01  d_iters     -0.43 [-0.56, -0.30]  saving_iters      0.13 [0.09, 0.17]  saving_solves      0.11 [0.07, 0.14]  GENCO fewer in 58%, more in 16%  (n=6900, excl 0)
+    fdlf    tol 0.0001  d_iters     -0.32 [-0.46, -0.16]  saving_iters      0.06 [0.03, 0.09]  saving_solves      0.05 [0.03, 0.08]  GENCO fewer in 45%, more in 23%  (n=6900, excl 0)
+
+==============================================================================================================
+FAILURES (not converged to the tolerance within the iteration cap: 30 for NR, 50 for the reuse solvers)
+                                  set method start    n  n_fail  iters_max
+                            paper N-1     nr  flat  638       0        4.0
+                            paper N-1     nr  base  638       0        4.0
+                            paper N-1     nr genco  638       0        3.0
+                            paper N-1  chord  base  638     126       50.0
+                            paper N-1  chord genco  638      52       50.0
+                            paper N-1 chordC  base  638       0       32.0
+                            paper N-1 chordC genco  638       0       19.0
+                            paper N-1   fdlf  base  638       0       14.0
+                            paper N-1   fdlf genco  638       0       11.0
+                           stress N-1     nr  flat  660       0        5.0
+                           stress N-1     nr  base  660       0        4.0
+                           stress N-1     nr genco  660       0        2.0
+                           stress N-1  chord  base  660     140       50.0
+                           stress N-1  chord genco  660      59       50.0
+                           stress N-1 chordC  base  660       0       30.0
+                           stress N-1 chordC genco  660       0       13.0
+                           stress N-1   fdlf  base  660       0       19.5
+                           stress N-1   fdlf genco  660       0       15.5
+                           stress N-2     nr  flat  659       0        5.0
+                           stress N-2     nr  base  659       0        5.0
+                           stress N-2     nr genco  659       0        4.0
+                           stress N-2  chord  base  659     254       50.0
+                           stress N-2  chord genco  659     124       50.0
+                           stress N-2 chordC  base  659       0       34.0
+                           stress N-2 chordC genco  659       0       30.0
+                           stress N-2   fdlf  base  659       0       28.5
+                           stress N-2   fdlf genco  659       0       28.5
+                           stress N-3     nr  flat  660       0        4.0
+                           stress N-3     nr  base  660       0        4.0
+                           stress N-3     nr genco  660       0        3.0
+                           stress N-3  chord  base  660     330       50.0
+                           stress N-3  chord genco  660     165       50.0
+                           stress N-3 chordC  base  660       4       42.0
+                           stress N-3 chordC genco  660       1       37.0
+                           stress N-3   fdlf  base  660       0       11.5
+                           stress N-3   fdlf genco  660       0       10.5
+                           stress N-5     nr  flat  660       0        5.0
+                           stress N-5     nr  base  660       0        4.0
+                           stress N-5     nr genco  660       0        4.0
+                           stress N-5  chord  base  660     459       50.0
+                           stress N-5  chord genco  660     308       50.0
+                           stress N-5 chordC  base  660       1       38.0
+                           stress N-5 chordC genco  660       0       43.0
+                           stress N-5   fdlf  base  660       0       26.5
+                           stress N-5   fdlf genco  660       0       24.5
+             exhaustive N-1, branches     nr  flat 5310       0        5.0
+             exhaustive N-1, branches     nr  base 5310       0        5.0
+             exhaustive N-1, branches     nr genco 5310       0        3.0
+             exhaustive N-1, branches  chord  base 5310    1432       50.0
+             exhaustive N-1, branches  chord genco 5310     594       50.0
+             exhaustive N-1, branches chordC  base 5310       0       30.0
+             exhaustive N-1, branches chordC genco 5310       0       27.0
+             exhaustive N-1, branches   fdlf  base 5310       0       32.5
+             exhaustive N-1, branches   fdlf genco 5310       0       29.5
+           exhaustive N-1, generators     nr  flat 1590       0        4.0
+           exhaustive N-1, generators     nr  base 1590       0        4.0
+           exhaustive N-1, generators     nr genco 1590       0        2.0
+           exhaustive N-1, generators  chord  base 1590      10       47.0
+           exhaustive N-1, generators  chord genco 1590       3       31.0
+           exhaustive N-1, generators chordC  base 1590      10       47.0
+           exhaustive N-1, generators chordC genco 1590       3       31.0
+           exhaustive N-1, generators   fdlf  base 1590       0       12.0
+           exhaustive N-1, generators   fdlf genco 1590       0       10.0
+exhaustive N-1, branches + generators     nr  flat 6900       0        5.0
+exhaustive N-1, branches + generators     nr  base 6900       0        5.0
+exhaustive N-1, branches + generators     nr genco 6900       0        3.0
+exhaustive N-1, branches + generators  chord  base 6900    1442       50.0
+exhaustive N-1, branches + generators  chord genco 6900     597       50.0
+exhaustive N-1, branches + generators chordC  base 6900      10       47.0
+exhaustive N-1, branches + generators chordC genco 6900       3       31.0
+exhaustive N-1, branches + generators   fdlf  base 6900       0       32.5
+exhaustive N-1, branches + generators   fdlf genco 6900       0       29.5
+
+failure reasons:                                   set method start reason  count
+                            paper N-1  chord  base max_it    126
+                            paper N-1  chord genco max_it     52
+                           stress N-1  chord  base max_it    140
+                           stress N-1  chord genco max_it     59
+                           stress N-2  chord  base max_it    254
+                           stress N-2  chord genco max_it    124
+                           stress N-3  chord  base max_it    330
+                           stress N-3  chord genco max_it    165
+                           stress N-3 chordC  base max_it      4
+                           stress N-3 chordC genco max_it      1
+                           stress N-5  chord  base max_it    459
+                           stress N-5  chord genco max_it    308
+                           stress N-5 chordC  base max_it      1
+             exhaustive N-1, branches  chord  base max_it   1432
+             exhaustive N-1, branches  chord genco max_it    594
+           exhaustive N-1, generators  chord  base max_it     10
+           exhaustive N-1, generators  chord genco max_it      3
+           exhaustive N-1, generators chordC  base max_it     10
+           exhaustive N-1, generators chordC genco max_it      3
+exhaustive N-1, branches + generators  chord  base max_it   1442
+exhaustive N-1, branches + generators  chord genco max_it    597
+exhaustive N-1, branches + generators chordC  base max_it     10
+exhaustive N-1, branches + generators chordC genco max_it      3
+
+==============================================================================================================
+END-TO-END COST per contingency, case118_ieee_base_seed0: 638 contingencies, 29 load scenarios, single thread, min of 5 repeats; load average 2.26 -> 2.50 on 10 cores  ** PROVISIONAL: the machine was loaded during the benchmark **
+pure python/scipy implementations. 'measured' = wall-clock of these implementations; 'model' = counts x building-block times with the Jacobian assembly charged at 2 mismatch evaluations (compiled-code-like), which strips python overhead from full Newton and favours the classical baseline.
+base factorization per load scenario, measured (Jacobian derivatives + LU for chord; B', B'' LUs for fdlf): chord 0.655 ms, fdlf 0.477 ms; amortised over 22.0 contingencies per load scenario in this set, or over 240 for an exhaustive N-1 sweep
+building blocks, median ms on one IEEE 118 problem (single thread): mismatch eval 0.0058; Jacobian assembly (acpf.jacobian) 0.5277; LU factorization of J (splu) 0.0530; triangular-solve pair with J factors 0.0050; spsolve(J, -F) (factorize+solve, as in NR) 0.0639; LU factorization of B' (splu) 0.0333; LU factorization of B'' (splu) 0.0138; triangular-solve pair with B' 0.0050; triangular-solve pair with B'' 0.0041; apply_dx (voltage update) 0.0077
+  => one LU of the Jacobian costs 10.6 triangular-solve pairs; assembling the Jacobian in python costs 106; a mismatch evaluation 1.2
+mean cold pattern-creation time per contingency (new B''/Jacobian factorization for PV->PQ changes; already included in the measured solve times below): chord 0.106, chordC 0.097, chordC_bd 0.123, fdlf 0.020, fdlf_bd 0.039 ms
+GENCO inference ms per scenario (results/runtime/case118_ieee_base.json, measured earlier, 4 torch threads): GENCO CPU bs=1 (4 threads) 24.3, GENCO CPU bs=16 12.1, GENCO MPS bs=16 8.7, GENCO MPS bs=128, 9 layers 7.7
+
+  tolerance 0.01 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 240 (exhaustive N-1) | model | iters | not converged
+    nr         flat     1.954 [1.948, 1.960] + 0.000 =   1.954   model  0.256   iters  3.01   not converged 0
+    nr         base     1.273 [1.253, 1.293] + 0.000 =   1.273   model  0.175   iters  2.04   not converged 0
+    nr         genco    1.071 [0.986, 1.153] + 0.000 =   1.071   model  0.149   iters  1.72   not converged 0
+    chord      base     0.531 [0.514, 0.551] + 0.003 =   0.534   model  0.354   iters 14.64   not converged 59
+    chord      genco    0.323 [0.303, 0.345] + 0.003 =   0.326   model  0.186   iters  7.80   not converged 16
+    chordC     base     0.715 [0.698, 0.730] + 0.003 =   0.717   model  0.084   iters  2.74   not converged 0
+    chordC     genco    0.686 [0.669, 0.701] + 0.003 =   0.689   model  0.069   iters  1.93   not converged 0
+    chordC_bd  base     0.738 [0.725, 0.750] + 0.003 =   0.740   model     n/a   iters  2.74   not converged 0
+    chordC_bd  genco    0.711 [0.698, 0.723] + 0.003 =   0.714   model     n/a   iters  1.93   not converged 0
+    fdlf       base     0.282 [0.278, 0.285] + 0.002 =   0.284   model  0.136   iters  3.33   not converged 0
+    fdlf       genco    0.262 [0.256, 0.268] + 0.002 =   0.264   model  0.122   iters  2.95   not converged 0
+    fdlf_bd    base     0.299 [0.295, 0.302] + 0.002 =   0.300   model     n/a   iters  3.33   not converged 0
+    fdlf_bd    genco    0.282 [0.275, 0.288] + 0.002 =   0.283   model     n/a   iters  2.95   not converged 0
+
+  tolerance 0.0001 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 240 (exhaustive N-1) | model | iters | not converged
+    nr         flat     2.547 [2.543, 2.552] + 0.000 =   2.547   model  0.338   iters  4.00   not converged 0
+    nr         base     1.553 [1.527, 1.578] + 0.000 =   1.553   model  0.213   iters  2.49   not converged 0
+    nr         genco    1.247 [1.244, 1.250] + 0.000 =   1.247   model  0.172   iters  2.00   not converged 0
+    chord      base     0.672 [0.653, 0.694] + 0.003 =   0.675   model  0.469   iters 17.77   not converged 126
+    chord      genco    0.517 [0.498, 0.539] + 0.003 =   0.520   model  0.347   iters 14.65   not converged 52
+    chordC     base     0.747 [0.731, 0.763] + 0.003 =   0.750   model  0.109   iters  4.11   not converged 0
+    chordC     genco    0.710 [0.694, 0.726] + 0.003 =   0.713   model  0.086   iters  2.83   not converged 0
+    chordC_bd  base     0.776 [0.763, 0.788] + 0.003 =   0.778   model     n/a   iters  4.11   not converged 0
+    chordC_bd  genco    0.738 [0.725, 0.749] + 0.003 =   0.740   model     n/a   iters  2.83   not converged 0
+    fdlf       base     0.347 [0.342, 0.351] + 0.002 =   0.349   model  0.204   iters  5.21   not converged 0
+    fdlf       genco    0.332 [0.325, 0.339] + 0.002 =   0.334   model  0.193   iters  4.91   not converged 0
+    fdlf_bd    base     0.367 [0.363, 0.371] + 0.002 =   0.368   model     n/a   iters  5.21   not converged 0
+    fdlf_bd    genco    0.354 [0.347, 0.363] + 0.002 =   0.356   model     n/a   iters  4.91   not converged 0
+
+BREAK-EVEN GENCO INFERENCE TIME per contingency (ms) = what the solver saves by starting from GENCO instead of the base case (negative: no saving)
+  'same solver': both starts use the same solver. 'vs cheapest': GENCO start + solver against the cheapest base-start solver the operator could run instead.
+  [measured] tolerance 0.01: cheapest base-start solver = fdlf at 0.284 ms
+      nr         base   1.273 ms, GENCO   1.071 ms -> break-even   0.202 ms (same solver),  -0.787 ms (vs cheapest base-start solver)
+      chord      base   0.534 ms, GENCO   0.326 ms -> break-even   0.208 ms (same solver),  -0.042 ms (vs cheapest base-start solver)
+      chordC     base   0.717 ms, GENCO   0.689 ms -> break-even   0.029 ms (same solver),  -0.405 ms (vs cheapest base-start solver)
+      chordC_bd  base   0.740 ms, GENCO   0.714 ms -> break-even   0.026 ms (same solver),  -0.430 ms (vs cheapest base-start solver)
+      fdlf       base   0.284 ms, GENCO   0.264 ms -> break-even   0.020 ms (same solver),   0.020 ms (vs cheapest base-start solver)
+      fdlf_bd    base   0.300 ms, GENCO   0.283 ms -> break-even   0.017 ms (same solver),   0.001 ms (vs cheapest base-start solver)
+  [measured] tolerance 0.0001: cheapest base-start solver = fdlf at 0.349 ms
+      nr         base   1.553 ms, GENCO   1.247 ms -> break-even   0.306 ms (same solver),  -0.898 ms (vs cheapest base-start solver)
+      chord      base   0.675 ms, GENCO   0.520 ms -> break-even   0.155 ms (same solver),  -0.171 ms (vs cheapest base-start solver)
+      chordC     base   0.750 ms, GENCO   0.713 ms -> break-even   0.037 ms (same solver),  -0.364 ms (vs cheapest base-start solver)
+      chordC_bd  base   0.778 ms, GENCO   0.740 ms -> break-even   0.038 ms (same solver),  -0.391 ms (vs cheapest base-start solver)
+      fdlf       base   0.349 ms, GENCO   0.334 ms -> break-even   0.015 ms (same solver),   0.015 ms (vs cheapest base-start solver)
+      fdlf_bd    base   0.368 ms, GENCO   0.356 ms -> break-even   0.012 ms (same solver),  -0.007 ms (vs cheapest base-start solver)
+  [model] tolerance 0.01: cheapest base-start solver = chordC at 0.084 ms
+      nr         base   0.175 ms, GENCO   0.149 ms -> break-even   0.026 ms (same solver),  -0.065 ms (vs cheapest base-start solver)
+      chord      base   0.354 ms, GENCO   0.186 ms -> break-even   0.167 ms (same solver),  -0.103 ms (vs cheapest base-start solver)
+      chordC     base   0.084 ms, GENCO   0.069 ms -> break-even   0.015 ms (same solver),   0.015 ms (vs cheapest base-start solver)
+      fdlf       base   0.136 ms, GENCO   0.122 ms -> break-even   0.014 ms (same solver),  -0.038 ms (vs cheapest base-start solver)
+  [model] tolerance 0.0001: cheapest base-start solver = chordC at 0.109 ms
+      nr         base   0.213 ms, GENCO   0.172 ms -> break-even   0.041 ms (same solver),  -0.063 ms (vs cheapest base-start solver)
+      chord      base   0.469 ms, GENCO   0.347 ms -> break-even   0.122 ms (same solver),  -0.238 ms (vs cheapest base-start solver)
+      chordC     base   0.109 ms, GENCO   0.086 ms -> break-even   0.024 ms (same solver),   0.024 ms (vs cheapest base-start solver)
+      fdlf       base   0.204 ms, GENCO   0.193 ms -> break-even   0.011 ms (same solver),  -0.084 ms (vs cheapest base-start solver)
+
+  largest same-solver break-even over all rows: 0.306 ms; measured GENCO inference is 79x (GENCO CPU bs=1 (4 threads)), 40x (GENCO CPU bs=16), 29x (GENCO MPS bs=16), 25x (GENCO MPS bs=128, 9 layers) of that
+
+==============================================================================================================
+END-TO-END COST per contingency, stress_n5_base: 660 contingencies, 30 load scenarios, single thread, min of 5 repeats; load average 2.50 -> 2.42 on 10 cores  ** PROVISIONAL: the machine was loaded during the benchmark **
+pure python/scipy implementations. 'measured' = wall-clock of these implementations; 'model' = counts x building-block times with the Jacobian assembly charged at 2 mismatch evaluations (compiled-code-like), which strips python overhead from full Newton and favours the classical baseline.
+base factorization per load scenario, measured (Jacobian derivatives + LU for chord; B', B'' LUs for fdlf): chord 0.695 ms, fdlf 0.480 ms; amortised over 22.0 contingencies per load scenario in this set, or over 240 for an exhaustive N-1 sweep
+building blocks, median ms on one IEEE 118 problem (single thread): mismatch eval 0.0058; Jacobian assembly (acpf.jacobian) 0.5384; LU factorization of J (splu) 0.0492; triangular-solve pair with J factors 0.0049; spsolve(J, -F) (factorize+solve, as in NR) 0.0566; LU factorization of B' (splu) 0.0349; LU factorization of B'' (splu) 0.0148; triangular-solve pair with B' 0.0052; triangular-solve pair with B'' 0.0040; apply_dx (voltage update) 0.0078
+  => one LU of the Jacobian costs 10.0 triangular-solve pairs; assembling the Jacobian in python costs 110; a mismatch evaluation 1.2
+mean cold pattern-creation time per contingency (new B''/Jacobian factorization for PV->PQ changes; already included in the measured solve times below): chord 0.304, chordC 0.275, chordC_bd 0.336, fdlf 0.052, fdlf_bd 0.106 ms
+GENCO inference ms per scenario (results/runtime/case118_ieee_base.json, measured earlier, 4 torch threads): GENCO CPU bs=1 (4 threads) 24.3, GENCO CPU bs=16 12.1, GENCO MPS bs=16 8.7, GENCO MPS bs=128, 9 layers 7.7
+
+  tolerance 0.01 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 240 (exhaustive N-1) | model | iters | not converged
+    nr         flat     2.088 [2.071, 2.105] + 0.000 =   2.088   model  0.250   iters  3.08   not converged 0
+    nr         base     1.581 [1.549, 1.611] + 0.000 =   1.581   model  0.203   iters  2.49   not converged 0
+    nr         genco    1.188 [1.160, 1.217] + 0.000 =   1.188   model  0.155   iters  1.88   not converged 0
+    chord      base     1.221 [1.199, 1.243] + 0.003 =   1.224   model  0.781   iters 31.86   not converged 280
+    chord      genco    0.908 [0.880, 0.938] + 0.003 =   0.911   model  0.529   iters 21.55   not converged 102
+    chordC     base     1.170 [1.157, 1.184] + 0.003 =   1.173   model  0.186   iters  4.44   not converged 1
+    chordC     genco    1.111 [1.099, 1.123] + 0.003 =   1.113   model  0.154   iters  2.79   not converged 0
+    chordC_bd  base     1.266 [1.249, 1.284] + 0.003 =   1.269   model     n/a   iters  4.44   not converged 1
+    chordC_bd  genco    1.201 [1.185, 1.217] + 0.003 =   1.204   model     n/a   iters  2.79   not converged 0
+    fdlf       base     0.425 [0.420, 0.431] + 0.002 =   0.427   model  0.206   iters  4.29   not converged 0
+    fdlf       genco    0.384 [0.380, 0.389] + 0.002 =   0.386   model  0.174   iters  3.40   not converged 0
+    fdlf_bd    base     0.496 [0.489, 0.503] + 0.001 =   0.497   model     n/a   iters  4.29   not converged 0
+    fdlf_bd    genco    0.455 [0.449, 0.462] + 0.001 =   0.457   model     n/a   iters  3.40   not converged 0
+
+  tolerance 0.0001 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 240 (exhaustive N-1) | model | iters | not converged
+    nr         flat     2.620 [2.611, 2.630] + 0.000 =   2.620   model  0.324   iters  4.01   not converged 0
+    nr         base     1.941 [1.919, 1.961] + 0.000 =   1.941   model  0.250   iters  3.08   not converged 0
+    nr         genco    1.311 [1.297, 1.326] + 0.000 =   1.311   model  0.171   iters  2.08   not converged 0
+    chord      base     1.359 [1.342, 1.377] + 0.003 =   1.362   model  0.896   iters 36.15   not converged 459
+    chord      genco    1.234 [1.211, 1.257] + 0.003 =   1.237   model  0.797   iters 32.11   not converged 308
+    chordC     base     1.223 [1.209, 1.237] + 0.003 =   1.225   model  0.227   iters  6.69   not converged 1
+    chordC     genco    1.165 [1.152, 1.179] + 0.003 =   1.168   model  0.190   iters  4.76   not converged 0
+    chordC_bd  base     1.338 [1.319, 1.358] + 0.003 =   1.341   model     n/a   iters  6.69   not converged 1
+    chordC_bd  genco    1.268 [1.250, 1.286] + 0.003 =   1.270   model     n/a   iters  4.76   not converged 0
+    fdlf       base     0.507 [0.500, 0.514] + 0.002 =   0.509   model  0.288   iters  6.54   not converged 0
+    fdlf       genco    0.465 [0.459, 0.473] + 0.002 =   0.467   model  0.252   iters  5.53   not converged 0
+    fdlf_bd    base     0.589 [0.581, 0.598] + 0.001 =   0.591   model     n/a   iters  6.54   not converged 0
+    fdlf_bd    genco    0.545 [0.538, 0.554] + 0.001 =   0.547   model     n/a   iters  5.53   not converged 0
+
+BREAK-EVEN GENCO INFERENCE TIME per contingency (ms) = what the solver saves by starting from GENCO instead of the base case (negative: no saving)
+  'same solver': both starts use the same solver. 'vs cheapest': GENCO start + solver against the cheapest base-start solver the operator could run instead.
+  [measured] tolerance 0.01: cheapest base-start solver = fdlf at 0.427 ms
+      nr         base   1.581 ms, GENCO   1.188 ms -> break-even   0.393 ms (same solver),  -0.761 ms (vs cheapest base-start solver)
+      chord      base   1.224 ms, GENCO   0.911 ms -> break-even   0.313 ms (same solver),  -0.484 ms (vs cheapest base-start solver)
+      chordC     base   1.173 ms, GENCO   1.113 ms -> break-even   0.059 ms (same solver),  -0.686 ms (vs cheapest base-start solver)
+      chordC_bd  base   1.269 ms, GENCO   1.204 ms -> break-even   0.065 ms (same solver),  -0.776 ms (vs cheapest base-start solver)
+      fdlf       base   0.427 ms, GENCO   0.386 ms -> break-even   0.041 ms (same solver),   0.041 ms (vs cheapest base-start solver)
+      fdlf_bd    base   0.497 ms, GENCO   0.457 ms -> break-even   0.040 ms (same solver),  -0.030 ms (vs cheapest base-start solver)
+  [measured] tolerance 0.0001: cheapest base-start solver = fdlf at 0.509 ms
+      nr         base   1.941 ms, GENCO   1.311 ms -> break-even   0.630 ms (same solver),  -0.802 ms (vs cheapest base-start solver)
+      chord      base   1.362 ms, GENCO   1.237 ms -> break-even   0.126 ms (same solver),  -0.728 ms (vs cheapest base-start solver)
+      chordC     base   1.225 ms, GENCO   1.168 ms -> break-even   0.058 ms (same solver),  -0.659 ms (vs cheapest base-start solver)
+      chordC_bd  base   1.341 ms, GENCO   1.270 ms -> break-even   0.070 ms (same solver),  -0.761 ms (vs cheapest base-start solver)
+      fdlf       base   0.509 ms, GENCO   0.467 ms -> break-even   0.041 ms (same solver),   0.041 ms (vs cheapest base-start solver)
+      fdlf_bd    base   0.591 ms, GENCO   0.547 ms -> break-even   0.044 ms (same solver),  -0.038 ms (vs cheapest base-start solver)
+  [model] tolerance 0.01: cheapest base-start solver = chordC at 0.186 ms
+      nr         base   0.203 ms, GENCO   0.155 ms -> break-even   0.048 ms (same solver),   0.031 ms (vs cheapest base-start solver)
+      chord      base   0.781 ms, GENCO   0.529 ms -> break-even   0.252 ms (same solver),  -0.343 ms (vs cheapest base-start solver)
+      chordC     base   0.186 ms, GENCO   0.154 ms -> break-even   0.032 ms (same solver),   0.032 ms (vs cheapest base-start solver)
+      fdlf       base   0.206 ms, GENCO   0.174 ms -> break-even   0.032 ms (same solver),   0.012 ms (vs cheapest base-start solver)
+  [model] tolerance 0.0001: cheapest base-start solver = chordC at 0.227 ms
+      nr         base   0.250 ms, GENCO   0.171 ms -> break-even   0.079 ms (same solver),   0.056 ms (vs cheapest base-start solver)
+      chord      base   0.896 ms, GENCO   0.797 ms -> break-even   0.098 ms (same solver),  -0.570 ms (vs cheapest base-start solver)
+      chordC     base   0.227 ms, GENCO   0.190 ms -> break-even   0.037 ms (same solver),   0.037 ms (vs cheapest base-start solver)
+      fdlf       base   0.288 ms, GENCO   0.252 ms -> break-even   0.037 ms (same solver),  -0.024 ms (vs cheapest base-start solver)
+
+  largest same-solver break-even over all rows: 0.630 ms; measured GENCO inference is 39x (GENCO CPU bs=1 (4 threads)), 19x (GENCO CPU bs=16), 14x (GENCO MPS bs=16), 12x (GENCO MPS bs=128, 9 layers) of that
+
+==============================================================================================================
+COUNT-BASED COST MODEL AND BREAK-EVEN ON EVERY SET (counts from the per-scenario tables x building-block times of the primary timing run, Jacobian assembly at 2 mismatch evaluations, base factorization amortised over 240 contingencies per load scenario; failed runs charged the iteration cap)
+break-even = model cost from the base-case start minus from the GENCO start, same solver (ms of GENCO inference at which a GENCO start pays off)
+  tolerance 0.01 MW: break-even ms (same solver) [base-start model ms -> GENCO-start model ms]
+    paper N-1                              n=  638  nr 0.026 [0.175->0.149]   chord 0.167 [0.354->0.186]   chordC 0.015 [0.084->0.069]   fdlf 0.014 [0.136->0.122]
+    stress N-1                             n=  660  nr 0.028 [0.174->0.146]   chord 0.183 [0.376->0.193]   chordC 0.015 [0.081->0.066]   fdlf 0.014 [0.134->0.120]
+    stress N-2                             n=  659  nr 0.050 [0.188->0.138]   chord 0.258 [0.551->0.293]   chordC 0.023 [0.111->0.089]   fdlf 0.024 [0.155->0.130]
+    stress N-3                             n=  660  nr 0.047 [0.196->0.149]   chord 0.265 [0.628->0.363]   chordC 0.029 [0.143->0.115]   fdlf 0.030 [0.170->0.139]
+    stress N-5                             n=  660  nr 0.050 [0.212->0.162]   chord 0.252 [0.783->0.532]   chordC 0.032 [0.189->0.158]   fdlf 0.032 [0.204->0.172]
+    exhaustive N-1, branches               n= 5310  nr 0.044 [0.176->0.132]   chord 0.228 [0.435->0.206]   chordC 0.018 [0.071->0.053]   fdlf 0.016 [0.132->0.116]
+    exhaustive N-1, generators             n= 1590  nr 0.037 [0.175->0.138]   chord 0.018 [0.124->0.106]   chordC 0.018 [0.124->0.106]   fdlf 0.014 [0.138->0.124]
+    exhaustive N-1, branches + generators  n= 6900  nr 0.042 [0.175->0.133]   chord 0.180 [0.363->0.183]   chordC 0.018 [0.083->0.065]   fdlf 0.016 [0.134->0.118]
+  tolerance 0.0001 MW: break-even ms (same solver) [base-start model ms -> GENCO-start model ms]
+    paper N-1                              n=  638  nr 0.041 [0.213->0.172]   chord 0.122 [0.469->0.347]   chordC 0.024 [0.109->0.086]   fdlf 0.011 [0.204->0.193]
+    stress N-1                             n=  660  nr 0.042 [0.214->0.172]   chord 0.126 [0.499->0.372]   chordC 0.023 [0.105->0.082]   fdlf 0.013 [0.199->0.186]
+    stress N-2                             n=  659  nr 0.061 [0.234->0.173]   chord 0.155 [0.698->0.543]   chordC 0.029 [0.141->0.113]   fdlf 0.024 [0.225->0.201]
+    stress N-3                             n=  660  nr 0.074 [0.247->0.173]   chord 0.137 [0.770->0.633]   chordC 0.033 [0.177->0.144]   fdlf 0.034 [0.241->0.208]
+    stress N-5                             n=  660  nr 0.082 [0.261->0.179]   chord 0.098 [0.898->0.800]   chordC 0.037 [0.231->0.194]   fdlf 0.036 [0.285->0.249]
+    exhaustive N-1, branches               n= 5310  nr 0.044 [0.216->0.172]   chord 0.153 [0.579->0.426]   chordC 0.024 [0.096->0.072]   fdlf 0.013 [0.200->0.187]
+    exhaustive N-1, generators             n= 1590  nr 0.025 [0.197->0.172]   chord 0.023 [0.149->0.126]   chordC 0.023 [0.149->0.126]   fdlf 0.006 [0.200->0.193]
+    exhaustive N-1, branches + generators  n= 6900  nr 0.040 [0.212->0.172]   chord 0.123 [0.480->0.357]   chordC 0.024 [0.108->0.084]   fdlf 0.011 [0.200->0.188]
+  largest model break-even over all sets and solvers: 0.265 ms

@@ -1,0 +1,18 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
+split='train' len(split_indices)=4724
+split='val' len(split_indices)=638
+split='test' len(split_indices)=638
+Restoring normalizer for case118_ieee from saved stats
+smoke_delta_vm_va_s0__paper: 638 scenarios in 31s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_delta_vm_va_s0__paper.json
+  638 scenarios / 29 load scenarios | truth: 484 violating elements in 225 contingencies
+  NR iters to 1e-2 MW: model 3.01 [3, 3.01] | base 2.04 [2, 2.07] | flat 3.01 [3, 3.02] | model-base 0.969 [0.936, 1]
+  NR iters to 1e-4 MW: model 3.08 [3.03, 3.15] | base 2.49 [2.45, 2.53] | flat 4 [4, 4] | model-base 0.585 [0.522, 0.668]
+  NR iters to 1e-6 MW: model 3.58 [3.42, 3.74] | base 2.88 [2.83, 2.93] | flat 4 [4, 4.01] | model-base 0.697 [0.544, 0.851]
+  state error l2 (median): model 1.53 | base 0.0502 | mean ratio model/base 7.62 [6.23, 9.48]
+  g0: element misses 340 (rate 0.702 [0.624, 0.767]), false alarms 2249, contingency misses 0
+  g1: element misses 146 (rate 0.302 [0.235, 0.362]), false alarms 487, contingency misses 19
+  g2: element misses 2 (rate 0.00413 [0, 0.0104]), false alarms 0, contingency misses 0
+  b1: element misses 33 (rate 0.0682 [0.0468, 0.0915]), false alarms 6, contingency misses 4
+  b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0

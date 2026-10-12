@@ -1,0 +1,21 @@
+exh_n1gen_base: 1620 scenarios (30 load scenarios) in 78s; base case failed for 0; extra Jacobian patterns created: 1590
+  nr      flat   iterations to 1e-2 / 1e-4 MW:   3.01 /   4.00   not converged to 1e-4: 0
+  nr      base   iterations to 1e-2 / 1e-4 MW:   1.99 /   2.28   not converged to 1e-4: 0
+  nr      genco  iterations to 1e-2 / 1e-4 MW:   1.58 /   2.00   not converged to 1e-4: 0
+  chord   base   iterations to 1e-2 / 1e-4 MW:   2.77 /   3.91   not converged to 1e-4: 10
+  chord   genco  iterations to 1e-2 / 1e-4 MW:   1.91 /   2.89   not converged to 1e-4: 3
+  chordC  base   iterations to 1e-2 / 1e-4 MW:   2.77 /   3.91   not converged to 1e-4: 10
+  chordC  genco  iterations to 1e-2 / 1e-4 MW:   1.91 /   2.89   not converged to 1e-4: 3
+  fdlf    base   iterations to 1e-2 / 1e-4 MW:   3.21 /   4.93   not converged to 1e-4: 0
+  fdlf    genco  iterations to 1e-2 / 1e-4 MW:   2.88 /   4.81   not converged to 1e-4: 0
+exh_n1_base: 5340 scenarios (30 load scenarios) in 298s; base case failed for 0; extra Jacobian patterns created: 0
+  nr      flat   iterations to 1e-2 / 1e-4 MW:   3.01 /   4.00   not converged to 1e-4: 0
+  nr      base   iterations to 1e-2 / 1e-4 MW:   2.03 /   2.52   not converged to 1e-4: 0
+  nr      genco  iterations to 1e-2 / 1e-4 MW:   1.52 /   2.00   not converged to 1e-4: 0
+  chord   base   iterations to 1e-2 / 1e-4 MW:  19.42 /  23.76   not converged to 1e-4: 1432
+  chord   genco  iterations to 1e-2 / 1e-4 MW:  10.01 /  19.14   not converged to 1e-4: 594
+  chordC  base   iterations to 1e-2 / 1e-4 MW:   2.70 /   4.06   not converged to 1e-4: 0
+  chordC  genco  iterations to 1e-2 / 1e-4 MW:   1.75 /   2.77   not converged to 1e-4: 0
+  fdlf    base   iterations to 1e-2 / 1e-4 MW:   3.25 /   5.11   not converged to 1e-4: 0
+  fdlf    genco  iterations to 1e-2 / 1e-4 MW:   2.82 /   4.77   not converged to 1e-4: 0
+ALLDONE
