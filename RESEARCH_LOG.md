@@ -513,11 +513,43 @@ Source: `scripts/exp04_embedding_probe.py`, `results/exp04/case118_ieee_base_pro
 
 **Needs the user (outward-facing or account-bound)**
 1. Publish the HF Space (`scripts/publish_space.py --repo <user>/genco-certified`). Needs an HF login.
-2. Create a public GitHub repo and choose a license. Suggested: Apache-2.0, matching upstream.
+2. ~~Create a GitHub repo~~: created **private** at msarwar20/genco-certified (2026-10-11). Still open: make it public and choose a license before submission.
 3. ~~Upstream issues~~: the user decided not to post them (2026-10-11).
 4. Watch for the official challenge Space (`gridfm/genco-challengex`) to learn the submission format.
 5. Optional: run `bench_runtime.py` on Colab T4 for a GPU wall-clock datapoint.
 6. Record the 3-minute video.
+
+## 2026-10-11: Challenge Space opened; repo created; docs rewritten
+
+**Challenge Space** (https://huggingface.co/spaces/gridfm/genco-challenge)
+- Entries are posted as discussions in the Community tab.
+- Required: title, short self-contained write-up, visuals, links to code/models/data, contact email, and names/affiliations.
+- The jury sees only the post (no pitch or Q&A).
+- IBM affiliates are ineligible. The jury is not yet named.
+- Not submitted yet (user's instruction).
+
+**Entries so far**
+- #1 [EXAMPLE] by A. Puech (organizer):
+  - Contingency analysis on GOC 500 with GENCO Tiny.
+  - F-β-tuned overload threshold.
+  - Runtime taken from the paper (GENCO ~2× faster than AC-PF).
+  - Conformal abstention listed as next steps.
+  - Our entry is positioned as that next step, done with a Newton step against the base-case baseline.
+- #2 "another entry" by another author (2026-10-09):
+  - AC-PTDF audit plus response-supervised fine-tuning of GENCO Small, with three seeds.
+  - Very thorough open-science package.
+  - Notably, its PF adapter "marks reference voltage magnitude as known". It independently handles the slack-Vm mask, without quantifying it.
+  - Acknowledged in our README/report.
+
+**Repo**
+- Local git (main) and a private GitHub repo: https://github.com/msarwar20/genco-certified
+- 176 files, about 17 MB.
+- Excluded: large regenerated intermediates (exp02 branch/bus tables, MLflow runs) and per-run configs.
+- Absolute local paths in committed logs were replaced by `<repo>`.
+
+**Docs**
+- README, `docs/report.md` and the Space text were rewritten in plain IEEE-style prose.
+- The upstream-issue drafts were deleted; the user decided not to post issues.
 
 ## Open questions / TODO
 
