@@ -806,6 +806,29 @@ From `results/genco_delta/eval/*_s0__*.json`: NR iterations to 1e-2 / 1e-4 / 1e-
 - The Δ vm_va_flows seed-0 result and seeds 1 and 42 come from the running matrix.
 - Batch 3 analyses (agent H, niced) were launched in parallel: the big calibration/stress100 sets, GOC 500, the new GOC 2000 held-out set, and per-bus bias correction.
 
+## 2026-10-12: Residual GENCO-Δ ready and queued (agent G; `results/notes/ws4_G_residual.md`)
+
+**Design**
+- Model `GNS_heterogeneous_residual` decodes base + delta_head(h) at every layer.
+- delta_head is the released mlp_bus with its last Linear zeroed, so at init the output equals the base case exactly.
+- Task `PowerFlowContingencyResidual`. 11 new tests; 69 pass in total.
+
+**Smoke** (CPU, seed 0, paper set; NR iterations to 1e-2 / 1e-4 / 1e-6 MW)
+
+| Model | NR iterations |
+|---|---|
+| At init | 2.04 / 2.49 / 2.88 (= base case) |
+| After 74 steps | 2.03 / 2.49 / 2.87 |
+| Plain Δ after 14 steps (for comparison) | 3.94 at 1e-6 |
+
+**Queued**
+- `scripts/queue_residual_after_matrix.sh` (PID-based wait on the matrix, PID 18674) then runs:
+  1. residual_vm_va and residual_vm_va_flows × seeds {0, 1, 42} at lr 1e-4 (matched);
+  2. residual_vm_va_flows at lr 3e-4 (tag suffix `_lr3e-4`).
+- About 5 h after the matrix ends. Logs: `results/genco_delta/run_residual*.log`.
+
+**Caveat:** the physics feedback sees the base-case mismatch at init, a shift from pretraining. A follow-up idea is to zero the filled input columns.
+
 ## Open questions / TODO
 
 - [ ] Re-run IEEE 118 exp01/exp02 with the fixed DC start for consistent DC numbers.
