@@ -4,7 +4,7 @@ GPU available: True (mps), used: True
 TPU available: False, using: 0 TPU cores
 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
 [config] Converted v0 config -> v1 in memory (file on disk unchanged).
-Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
+Loaded normalizer stats from <repo>/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
 split='train' len(split_indices)=4724
 split='val' len(split_indices)=638
 split='test' len(split_indices)=638
@@ -26,5 +26,5 @@ Total FLOPs: 0
 `Trainer.fit` stopped: `max_epochs=1` reached.
 creating train dataloader for rank  not distributed
 fit done in 22s; best val 0.00048318569315597415
-saved /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/smoke_control_s0/best_model_state_dict.pt
-run record /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/runs/smoke_control_s0.json
+saved <repo>/checkpoints/finetuned/smoke_control_s0/best_model_state_dict.pt
+run record <repo>/results/genco_delta/runs/smoke_control_s0.json

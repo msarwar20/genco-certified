@@ -28,9 +28,9 @@
   "platform": "macOS-15.3-arm64-arm-64bit"
  },
  "data": {
-  "root": "/Users/msarwar/Desktop/webDev/GridFMChallenge/data/pf",
+  "root": "<repo>/data/pf",
   "grid": "case118_ieee",
-  "split_dir": "/Users/msarwar/Desktop/webDev/GridFMChallenge/data/pf/case118_ieee/splits_paper_test_seed1",
+  "split_dir": "<repo>/data/pf/case118_ieee/splits_paper_test_seed1",
   "split": {
    "n_train": 4416,
    "n_val": 770,
@@ -71,7 +71,7 @@
    }
   ]
  },
- "weights": "/Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/smoke_control_s1/best_model_state_dict.pt",
+ "weights": "<repo>/checkpoints/finetuned/smoke_control_s1/best_model_state_dict.pt",
  "config": {
   "task": {
    "task_name": "PowerFlow"
@@ -90,7 +90,7 @@
    "val_ratio": 0.1,
    "workers": 0,
    "split_by_load_scenario_idx": false,
-   "split_from_existing_files": "/Users/msarwar/Desktop/webDev/GridFMChallenge/data/pf/case118_ieee/splits_paper_test_seed1"
+   "split_from_existing_files": "<repo>/data/pf/case118_ieee/splits_paper_test_seed1"
   },
   "model": {
    "attention_head": 8,

@@ -1,11 +1,11 @@
 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 [config] Converted v0 config -> v1 in memory (file on disk unchanged).
-Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
+Loaded normalizer stats from <repo>/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
 split='train' len(split_indices)=2
 split='val' len(split_indices)=2
 split='test' len(split_indices)=660
 Restoring normalizer for case118_ieee from saved stats
-smoke_delta_vm_va_s0__n3: 660 scenarios in 23s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/smoke_delta_vm_va_s0__n3.json
+smoke_delta_vm_va_s0__n3: 660 scenarios in 23s -> <repo>/results/genco_delta/eval/smoke_delta_vm_va_s0__n3.json
   660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
   NR iters to 1e-2 MW: model 3 [3, 3.01] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base 0.712 [0.682, 0.747]
   NR iters to 1e-4 MW: model 3.13 [3.09, 3.19] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base 0.233 [0.182, 0.298]

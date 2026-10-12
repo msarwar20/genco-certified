@@ -4,7 +4,7 @@ args: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
     tol: 0
   data: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
     baseMVA: 100
-    basecase_store: /Users/msarwar/Desktop/webDev/GridFMChallenge/data/pf/case118_ieee/basecase_store.pt
+    basecase_store: <repo>/data/pf/case118_ieee/basecase_store.pt
     delta_inputs: vm_va
     mask_value: 0.0
     networks:
@@ -13,7 +13,7 @@ args: !!python/object:gridfm_graphkit.io.param_handler.NestedNamespace
     scenarios:
     - 250000
     split_by_load_scenario_idx: false
-    split_from_existing_files: /Users/msarwar/Desktop/webDev/GridFMChallenge/data/pf/case118_ieee/splits_paper_test
+    split_from_existing_files: <repo>/data/pf/case118_ieee/splits_paper_test
     test_ratio: 0.1
     val_ratio: 0.1
     workers: 0
