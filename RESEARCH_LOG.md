@@ -829,6 +829,48 @@ From `results/genco_delta/eval/*_s0__*.json`: NR iterations to 1e-2 / 1e-4 / 1e-
 
 **Caveat:** the physics feedback sees the base-case mismatch at init, a shift from pretraining. A follow-up idea is to zero the filled input columns.
 
+## 2026-10-12: Batch 3 analyses (agent H; `results/notes/batch3_H.md`)
+
+**1. Large IEEE 118 sets** (calibrated on `calib/n1`, 100 load scenarios; evaluated on stress100 N-1/2/3/5 and the paper set)
+- Every rule (max, conformal 0.10/0.05) with both priors had **0 element misses and 0 false alarms**.
+- Pooled: 0 / 18,030 elements (95% UB 0.02%), 0 / 6,531 contingencies (0.05%), 0 / 529 load scenarios (0.56%; optimistic, since load levels are shared).
+- **GENCO sequential vs base-case sequential:** 35–44% fewer LU. Conformal 0.10, LU per contingency:
+
+| Prior | N-1 | N-2 | N-3 | N-5 |
+|---|---|---|---|---|
+| GENCO | 1.37 | 1.47 | 1.53 | 1.65 |
+| Base case | 2.14 | 2.51 | 2.73 | 2.96 |
+
+- **Conformal exceedance** with the proper calibration set: 1 / 7 / 2 / 5% (N-1..N-5), 3% on the paper set. That is within the nominal 10%; the old 29-load-scenario calibration gave 6.7 / 33 / 23 / 13%.
+- **Equal-cost ladder** (element misses on N-1/2/3/5):
+  - GENCO + 1 step: 0 / 2 / 11 / 18;
+  - base + 2 steps: 2 / 3 / 8 / 19;
+  - base + 1 step: 114–519;
+  - GENCO + 2 steps: exact.
+- Caveat: calibration and test share the global load trajectory (corr 0.95), so exchangeability is conditional. The calibration tail is heavier, so the bound is conservative.
+
+**2. GOC 500** (organizers' example grid; Base/Small/Tiny, paper split)
+- GENCO is about tied with the base case as a Newton prior. Paired difference: −0.10 / −0.33 / −0.04 [−0.13, 0.04] iterations to 1e-2 / 1e-4 / 1e-6 MW.
+- The sequential policy is cheaper from GENCO: 1.8–2.0 vs 2.2 LU, with zero misses.
+- Factor reuse: GENCO saves 11–12% of solves with compensated chord and is worse with FDLF.
+- Slack gap: 19× [12, 29] Base, 13× Small, 8.6× Tiny.
+- Provisional CPU timing (loaded machine): GENCO 166–179 ms vs full NR 8.6 ms.
+
+**3. GOC 2000 held-out** (879 scenarios / 40 load scenarios; Small/Tiny)
+- The base case is the better prior: GENCO needs +0.57 / +0.63 / +0.22 more iterations. This also holds on the 681 new scenarios.
+- Sequential: GENCO ≈ 2.00 LU vs base 2.16–2.26 (the two-step floor).
+- At one step, GENCO misses 4 but raises 941 false alarms; the base case misses 18 with 9 false alarms.
+- Zero misses for all calibrated policies.
+
+**Scale trend.** GENCO minus base iterations at 1e-6 MW: −0.73 (118) → −0.04 (500) → +0.22 (2000).
+
+**4. Per-bus bias correction (`scripts/exp08_bias_correction.py`): negative.**
+- A per-bus constant removes 0.3% of squared error in-sample, and nothing out of sample.
+- 63–75% of the squared angle error is a per-scenario common-mode shift.
+- The probe's bus-specific signal concerns error *magnitude*, not signed bias.
+
+New code: `analyze_exp02.py --xcal`, `scripts/{exp08_bias_correction,summarize_batch3,bench_genco_cpu}.py`, `scripts/run_batch3*.sh`. Logs are in `results/batch3_logs/`.
+
 ## Open questions / TODO
 
 - [ ] Re-run IEEE 118 exp01/exp02 with the fixed DC start for consistent DC numbers.

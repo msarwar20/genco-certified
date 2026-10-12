@@ -1,0 +1,21 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=2200
+Restoring normalizer for case118_ieee from saved stats
+calib_n1_base: 2200 scenarios (100 load scenarios), 392267 branch-rows in 240s
+  overloaded branches: 4780 (1.22%); scenarios with >=1 overload: 89.5%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.99e-07, graphkit problem 7.37e-03; our NR vs datakit state: 1.60e-06
+  dc       recall 0.4021 precision 0.6232 missed 2858 | loading abs err: median 1.61e-02 p99 1.86e-01 max 9.00e-01
+  dc_ours  recall 0.3849 precision 0.6195 missed 2940 | loading abs err: median 1.63e-02 p99 1.87e-01 max 8.98e-01
+  raw      recall 0.6837 precision 0.7675 missed 1512 | loading abs err: median 6.07e-04 p99 2.02e-02 max 2.92e-01
+  phys     recall 0.6444 precision 0.7582 missed 1700 | loading abs err: median 6.08e-04 p99 2.27e-02 max 3.10e-01
+  g1       recall 0.9366 precision 0.9779 missed  303 | loading abs err: median 3.88e-07 p99 6.47e-05 max 2.44e-02
+  g2       recall 0.9812 precision 0.9781 missed   90 | loading abs err: median 1.05e-07 p99 2.50e-06 max 1.96e-04
+  g3       recall 0.9812 precision 0.9781 missed   90 | loading abs err: median 1.05e-07 p99 2.48e-06 max 1.66e-05
+  b1       recall 0.8793 precision 0.9428 missed  577 | loading abs err: median 5.23e-06 p99 7.65e-03 max 4.59e-01
+  b2       recall 0.9810 precision 0.9781 missed   91 | loading abs err: median 1.37e-07 p99 5.71e-05 max 5.27e-02
+  b3       recall 0.9812 precision 0.9781 missed   90 | loading abs err: median 1.06e-07 p99 2.64e-06 max 9.17e-04
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.01/4.00/4.00; base 2.05/2.49/2.90; genco 1.62/2.00/2.11; dc 3.00/3.81/4.00

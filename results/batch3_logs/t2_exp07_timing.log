@@ -1,0 +1,16 @@
+timing case500_goc_base_seed0: 176 contingencies / 8 load scenarios, 3 repeats, loadavg 4.25 -> 2.99 (LOADED: provisional), 61s
+  nr|flat|0.0001            15.106 ms  [14.276, 16.086]  iters 4.25
+  nr|base|0.0001             8.589 ms  [8.386, 8.810]  iters 2.53
+  nr|genco|0.0001            8.674 ms  [7.680, 9.708]  iters 2.57
+  chord|base|0.0001          3.451 ms  [3.286, 3.623]  iters 17.00
+  chord|genco|0.0001         3.034 ms  [2.866, 3.189]  iters 15.94
+  chordC|base|0.0001         2.699 ms  [2.620, 2.773]  iters 4.40
+  chordC|genco|0.0001        2.520 ms  [2.448, 2.581]  iters 3.68
+  chordC_bd|base|0.0001      2.585 ms  [2.521, 2.646]  iters 4.40
+  chordC_bd|genco|0.0001     2.436 ms  [2.354, 2.509]  iters 3.68
+  fdlf|base|0.0001           1.507 ms  [1.486, 1.524]  iters 5.15
+  fdlf|genco|0.0001          1.507 ms  [1.470, 1.550]  iters 5.62
+  fdlf_bd|base|0.0001        1.428 ms  [1.404, 1.449]  iters 5.15
+  fdlf_bd|genco|0.0001       1.478 ms  [1.440, 1.526]  iters 5.62
+  base factorization ms per load scenario: {'chord': 3.613, 'chordC': 3.488, 'chordC_bd': 3.429, 'fdlf': 2.654, 'fdlf_bd': 2.309}
+  primitives (median ms): {'mismatch eval': 0.018, 'Jacobian assembly (acpf.jacobian)': 1.4277, 'LU factorization of J (splu)': 0.983, 'triangular-solve pair with J factors': 0.0542, 'spsolve(J, -F) (factorize+solve, as in NR)': 1.0607, "LU factorization of B' (splu)": 0.3198, "LU factorization of B'' (splu)": 0.2304, "triangular-solve pair with B'": 0.0282, "triangular-solve pair with B''": 0.0231, 'apply_dx (voltage update)': 0.0383}

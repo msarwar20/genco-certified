@@ -1,0 +1,21 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=2194
+Restoring normalizer for case118_ieee from saved stats
+stress100_n5_base: 2194 scenarios (100 load scenarios), 385023 branch-rows in 115s
+  overloaded branches: 7611 (1.98%); scenarios with >=1 overload: 95.3%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.96e-07, graphkit problem 7.50e-03; our NR vs datakit state: 2.63e-06
+  dc       recall 0.5814 precision 0.8454 missed 3186 | loading abs err: median 1.76e-02 p99 2.07e-01 max 2.32e+00
+  dc_ours  recall 0.5683 precision 0.8442 missed 3286 | loading abs err: median 1.77e-02 p99 2.10e-01 max 2.32e+00
+  raw      recall 0.8719 precision 0.9423 missed  975 | loading abs err: median 1.17e-03 p99 5.47e-02 max 2.10e+00
+  phys     recall 0.8494 precision 0.9386 missed 1146 | loading abs err: median 1.18e-03 p99 5.82e-02 max 2.11e+00
+  g1       recall 0.9841 precision 0.9979 missed  121 | loading abs err: median 9.80e-07 p99 1.04e-03 max 5.19e-01
+  g2       recall 0.9901 precision 0.9860 missed   75 | loading abs err: median 1.16e-07 p99 4.72e-06 max 4.62e-02
+  g3       recall 0.9901 precision 0.9860 missed   75 | loading abs err: median 1.12e-07 p99 2.58e-06 max 4.93e-04
+  b1       recall 0.9250 precision 0.9776 missed  571 | loading abs err: median 2.13e-04 p99 4.49e-02 max 1.97e+00
+  b2       recall 0.9884 precision 0.9860 missed   88 | loading abs err: median 4.40e-07 p99 1.43e-03 max 4.37e-01
+  b3       recall 0.9901 precision 0.9860 missed   75 | loading abs err: median 1.18e-07 p99 5.48e-06 max 4.78e-02
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.08/4.01/4.03; base 2.51/3.08/3.34; genco 1.85/2.07/2.38; dc 3.01/3.80/4.01

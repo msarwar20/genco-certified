@@ -1,0 +1,131 @@
+xcal analysis 'goc500': tau=1.01 eps_v=0.001; 2000 cluster-bootstrap resamples over load scenarios
+calibration: 5-fold cross-fitting grouped by load scenario within each evaluation set (pooled out-of-fold)
+rules: max = largest calibration score; conf<a> = split-conformal over load scenarios. Base-case policies use c measured against our own NR (stronger baseline).
+Bounds: cp_hi = Clopper-Pearson two-sided 95% upper limit, cp_hi1 one-sided; load = fraction of LOAD SCENARIOS with >= 1 miss (cluster level).
+Sets: GOC500 Base = case500_goc_base_seed0 (638 scen, 29 load scen); GOC500 Small = case500_goc_small_seed0 (638 scen, 29 load scen); GOC500 Tiny = case500_goc_tiny_seed0 (638 scen, 29 load scen)
+
+==============================================================================================================
+A. POLICIES: LU per contingency and tier-1 share with 95% cluster CIs; element / contingency misses and false alarms; Clopper-Pearson upper bounds
+
+rule max
+           set                           policy      c                   LU             tier1 el_miss  el_fa el_ub cont_miss  cont_fa cont_ub load_miss load_ub
+   GOC500 Base   GENCO tiered (1 step, then NR)  0.032 2.687 [2.440, 2.903] 0.16 [0.05, 0.28]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Base     GENCO sequential (<=3 steps)  0.032 1.846 [1.724, 1.953] 0.16 [0.05, 0.28]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Base Base case sequential (<=3 steps)     28 2.245 [2.205, 2.284] 0.03 [0.01, 0.04]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+  GOC500 Small   GENCO tiered (1 step, then NR) 0.0354 2.861 [2.696, 2.986] 0.06 [0.00, 0.13]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+  GOC500 Small     GENCO sequential (<=3 steps) 0.0354 1.944 [1.865, 1.997] 0.06 [0.00, 0.13]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+  GOC500 Small Base case sequential (<=3 steps)     28 2.245 [2.205, 2.284] 0.03 [0.01, 0.04]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Tiny   GENCO tiered (1 step, then NR)   0.12 2.940 [2.857, 2.997] 0.02 [0.00, 0.05]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Tiny     GENCO sequential (<=3 steps)   0.12 1.981 [1.947, 2.003] 0.02 [0.00, 0.05]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Tiny Base case sequential (<=3 steps)     28 2.245 [2.205, 2.284] 0.03 [0.01, 0.04]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+
+rule conf0.10
+           set                           policy      c                   LU             tier1 el_miss  el_fa el_ub cont_miss  cont_fa cont_ub load_miss load_ub
+   GOC500 Base   GENCO tiered (1 step, then NR) 0.0137 2.625 [2.351, 2.854] 0.19 [0.07, 0.32]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Base     GENCO sequential (<=3 steps) 0.0137 1.812 [1.676, 1.926] 0.19 [0.07, 0.32]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Base Base case sequential (<=3 steps)   11.5 2.179 [2.143, 2.218] 0.06 [0.04, 0.07]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+  GOC500 Small   GENCO tiered (1 step, then NR) 0.0125 2.694 [2.470, 2.875] 0.15 [0.06, 0.26]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+  GOC500 Small     GENCO sequential (<=3 steps) 0.0125 1.851 [1.743, 1.939] 0.15 [0.06, 0.26]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+  GOC500 Small Base case sequential (<=3 steps)   11.5 2.179 [2.143, 2.218] 0.06 [0.04, 0.07]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Tiny   GENCO tiered (1 step, then NR) 0.0759 2.939 [2.853, 2.997] 0.02 [0.00, 0.06]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Tiny     GENCO sequential (<=3 steps) 0.0759 1.980 [1.942, 2.003] 0.02 [0.00, 0.06]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Tiny Base case sequential (<=3 steps)   11.5 2.179 [2.143, 2.218] 0.06 [0.04, 0.07]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+
+rule conf0.05
+           set                           policy      c                   LU             tier1 el_miss  el_fa el_ub cont_miss  cont_fa cont_ub load_miss load_ub
+   GOC500 Base   GENCO tiered (1 step, then NR)  0.032 2.687 [2.440, 2.903] 0.16 [0.05, 0.28]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Base     GENCO sequential (<=3 steps)  0.032 1.846 [1.724, 1.953] 0.16 [0.05, 0.28]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Base Base case sequential (<=3 steps)     28 2.245 [2.205, 2.284] 0.03 [0.01, 0.04]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+  GOC500 Small   GENCO tiered (1 step, then NR) 0.0354 2.861 [2.696, 2.986] 0.06 [0.00, 0.13]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+  GOC500 Small     GENCO sequential (<=3 steps) 0.0354 1.944 [1.865, 1.997] 0.06 [0.00, 0.13]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+  GOC500 Small Base case sequential (<=3 steps)     28 2.245 [2.205, 2.284] 0.03 [0.01, 0.04]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Tiny   GENCO tiered (1 step, then NR)   0.12 2.940 [2.857, 2.997] 0.02 [0.00, 0.05]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Tiny     GENCO sequential (<=3 steps)   0.12 1.981 [1.947, 2.003] 0.02 [0.00, 0.05]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+   GOC500 Tiny Base case sequential (<=3 steps)     28 2.245 [2.205, 2.284] 0.03 [0.01, 0.04]   0/133      0 2.74%      0/92        0   3.93%      0/29   11.9%
+
+==============================================================================================================
+B. BOUND EXCEEDANCE: fraction of evaluation LOAD scenarios whose step-1 score max |error| / ||dx||^2 exceeds c (95% Clopper-Pearson CI); nominal level alpha for the conformal rules (1/(n+1) for max). Scenario-level fraction in the last column.
+           set     prior     rule       c exceed                 rate  nominal  exc_scen
+   GOC500 Base     GENCO      max 0.03198   1/29 0.034 [0.001, 0.178] ~1/(n+1)     0.011
+   GOC500 Base base case      max   27.99   1/29 0.034 [0.001, 0.178] ~1/(n+1)     0.002
+   GOC500 Base     GENCO conf0.10 0.01366   2/29 0.069 [0.008, 0.228]     0.10     0.013
+   GOC500 Base base case conf0.10   11.53   2/29 0.069 [0.008, 0.228]     0.10     0.003
+   GOC500 Base     GENCO conf0.05 0.03198   1/29 0.034 [0.001, 0.178]     0.05     0.011
+   GOC500 Base base case conf0.05   27.99   1/29 0.034 [0.001, 0.178]     0.05     0.002
+  GOC500 Small     GENCO      max 0.03543   1/29 0.034 [0.001, 0.178] ~1/(n+1)     0.002
+  GOC500 Small base case      max   27.99   1/29 0.034 [0.001, 0.178] ~1/(n+1)     0.002
+  GOC500 Small     GENCO conf0.10 0.01246   3/29 0.103 [0.022, 0.274]     0.10     0.005
+  GOC500 Small base case conf0.10   11.53   2/29 0.069 [0.008, 0.228]     0.10     0.003
+  GOC500 Small     GENCO conf0.05 0.03543   1/29 0.034 [0.001, 0.178]     0.05     0.002
+  GOC500 Small base case conf0.05   27.99   1/29 0.034 [0.001, 0.178]     0.05     0.002
+   GOC500 Tiny     GENCO      max    0.12   2/29 0.069 [0.008, 0.228] ~1/(n+1)     0.003
+   GOC500 Tiny base case      max   27.99   1/29 0.034 [0.001, 0.178] ~1/(n+1)     0.002
+   GOC500 Tiny     GENCO conf0.10  0.0759   2/29 0.069 [0.008, 0.228]     0.10     0.003
+   GOC500 Tiny base case conf0.10   11.53   2/29 0.069 [0.008, 0.228]     0.10     0.003
+   GOC500 Tiny     GENCO conf0.05    0.12   2/29 0.069 [0.008, 0.228]     0.05     0.003
+   GOC500 Tiny base case conf0.05   27.99   1/29 0.034 [0.001, 0.178]     0.05     0.002
+
+==============================================================================================================
+C. EQUAL-COST LADDER (no calibration): recall and miss rate with 95% cluster CIs; Clopper-Pearson upper bounds; false alarms
+           set                   method    LU                  recall el_miss  el_ub  el_fa cont_miss cont_ub  cont_fa load_miss load_ub
+   GOC500 Base       GENCO as published 0.000 0.8571 [0.7898, 0.9152]  19/133 21.41%    313      6/92  13.66%      173     14/29   67.5%
+   GOC500 Base GENCO, setpoint enforced 0.000 0.8571 [0.7898, 0.9152]  19/133 21.41%    313      6/92  13.66%      173     14/29   67.5%
+   GOC500 Base           GENCO + 1 step 1.000 1.0000 [1.0000, 1.0000]   0/133  2.74%     83      0/92   3.93%       72      0/29   11.9%
+   GOC500 Base          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/133  2.74%      0      0/92   3.93%        0      0/29   11.9%
+   GOC500 Base       Base case + 1 step 1.000 0.9925 [0.9746, 1.0000]   1/133  4.12%     24      1/92   5.91%       11      1/29   17.8%
+   GOC500 Base      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/133  2.74%      0      0/92   3.93%        0      0/29   11.9%
+  GOC500 Small       GENCO as published 0.000 0.8722 [0.8045, 0.9286]  17/133 19.67%    260      6/92  13.66%      133     12/29   61.1%
+  GOC500 Small GENCO, setpoint enforced 0.000 0.8722 [0.8045, 0.9286]  17/133 19.67%    260      6/92  13.66%      133     12/29   61.1%
+  GOC500 Small           GENCO + 1 step 1.000 1.0000 [1.0000, 1.0000]   0/133  2.74%     30      0/92   3.93%       26      0/29   11.9%
+  GOC500 Small          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/133  2.74%      0      0/92   3.93%        0      0/29   11.9%
+  GOC500 Small       Base case + 1 step 1.000 0.9925 [0.9746, 1.0000]   1/133  4.12%     24      1/92   5.91%       11      1/29   17.8%
+  GOC500 Small      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/133  2.74%      0      0/92   3.93%        0      0/29   11.9%
+   GOC500 Tiny       GENCO as published 0.000 0.8571 [0.7987, 0.9149]  19/133 21.41%    408      4/92  10.76%      211     13/29   64.3%
+   GOC500 Tiny GENCO, setpoint enforced 0.000 0.8571 [0.7987, 0.9149]  19/133 21.41%    408      4/92  10.76%      211     13/29   64.3%
+   GOC500 Tiny           GENCO + 1 step 1.000 1.0000 [1.0000, 1.0000]   0/133  2.74%     34      0/92   3.93%       29      0/29   11.9%
+   GOC500 Tiny          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/133  2.74%      0      0/92   3.93%        0      0/29   11.9%
+   GOC500 Tiny       Base case + 1 step 1.000 0.9925 [0.9746, 1.0000]   1/133  4.12%     24      1/92   5.91%       11      1/29   17.8%
+   GOC500 Tiny      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/133  2.74%      0      0/92   3.93%        0      0/29   11.9%
+
+==============================================================================================================
+D. NR ITERATIONS BY TOLERANCE: mean [95% cluster CI]; paired GENCO - base-case start (iterations) and GENCO/base ratio
+           set  tol              flat                dc              base             genco         genco - base             ratio GENCO fewer/more
+   GOC500 Base 1e-2 4.00 [4.00, 4.00] 4.00 [4.00, 4.00] 2.11 [2.07, 2.15] 2.00 [2.00, 2.01] -0.10 [-0.14, -0.07] 0.95 [0.93, 0.97]           16%/6%
+   GOC500 Base 1e-4 4.79 [4.62, 4.93] 4.67 [4.50, 4.83] 2.60 [2.56, 2.64] 2.27 [2.15, 2.42] -0.33 [-0.46, -0.18] 0.87 [0.82, 0.93]          42%/10%
+   GOC500 Base 1e-6 5.00 [5.00, 5.00] 5.00 [5.00, 5.00] 2.96 [2.92, 3.00] 2.92 [2.82, 3.00]  -0.04 [-0.13, 0.04] 0.99 [0.96, 1.01]          16%/13%
+  GOC500 Small 1e-2 4.00 [4.00, 4.00] 4.00 [4.00, 4.00] 2.11 [2.07, 2.15] 2.00 [2.00, 2.00] -0.11 [-0.15, -0.07] 0.95 [0.93, 0.97]           16%/6%
+  GOC500 Small 1e-4 4.79 [4.62, 4.93] 4.67 [4.50, 4.83] 2.60 [2.56, 2.64] 2.33 [2.20, 2.47] -0.27 [-0.41, -0.13] 0.90 [0.84, 0.95]          39%/13%
+  GOC500 Small 1e-6 5.00 [5.00, 5.00] 5.00 [5.00, 5.00] 2.96 [2.92, 3.00] 2.97 [2.92, 3.00]   0.01 [-0.06, 0.07] 1.00 [0.98, 1.02]          13%/14%
+   GOC500 Tiny 1e-2 4.00 [4.00, 4.00] 4.00 [4.00, 4.00] 2.11 [2.07, 2.15] 2.00 [2.00, 2.00] -0.11 [-0.15, -0.07] 0.95 [0.93, 0.97]           16%/6%
+   GOC500 Tiny 1e-4 4.79 [4.62, 4.93] 4.67 [4.50, 4.83] 2.60 [2.56, 2.64] 2.30 [2.16, 2.44] -0.30 [-0.45, -0.15] 0.88 [0.83, 0.94]          41%/11%
+   GOC500 Tiny 1e-6 5.00 [5.00, 5.00] 5.00 [5.00, 5.00] 2.96 [2.92, 3.00] 2.97 [2.93, 3.00]   0.01 [-0.05, 0.06] 1.00 [0.98, 1.02]          12%/13%
+
+==============================================================================================================
+E. POOLED MISS-RATE BOUNDS over all evaluation sets above (one-sided 95% Clopper-Pearson). Caveat: sets generated by datakit share the global load trajectory, so load scenarios of different sets are not independent draws.
+                            policy     rule   c_ref  el_miss  el_truth  el_cp_hi1  cont_miss  cont_truth  cont_cp_hi1  load_miss  n_loads  load_cp_hi1
+    GENCO tiered (1 step, then NR)      max datakit        0       399     0.0075          0         276       0.0108          0       87       0.0338
+      GENCO sequential (<=3 steps)      max datakit        0       399     0.0075          0         276       0.0108          0       87       0.0338
+  Base case sequential (<=3 steps)      max  own NR        0       399     0.0075          0         276       0.0108          0       87       0.0338
+    GENCO tiered (1 step, then NR) conf0.10 datakit        0       399     0.0075          0         276       0.0108          0       87       0.0338
+      GENCO sequential (<=3 steps) conf0.10 datakit        0       399     0.0075          0         276       0.0108          0       87       0.0338
+  Base case sequential (<=3 steps) conf0.10  own NR        0       399     0.0075          0         276       0.0108          0       87       0.0338
+    GENCO tiered (1 step, then NR) conf0.05 datakit        0       399     0.0075          0         276       0.0108          0       87       0.0338
+      GENCO sequential (<=3 steps) conf0.05 datakit        0       399     0.0075          0         276       0.0108          0       87       0.0338
+  Base case sequential (<=3 steps) conf0.05  own NR        0       399     0.0075          0         276       0.0108          0       87       0.0338
+
+                    method  el_miss  el_truth  el_cp_hi1  cont_miss  cont_truth  cont_cp_hi1  load_miss  n_loads  load_cp_hi1
+        GENCO as published       55       399     0.1695         16         276       0.0867         39       87       0.5420
+  GENCO, setpoint enforced       55       399     0.1695         16         276       0.0867         39       87       0.5420
+            GENCO + 1 step        0       399     0.0075          0         276       0.0108          0       87       0.0338
+           GENCO + 2 steps        0       399     0.0075          0         276       0.0108          0       87       0.0338
+        Base case + 1 step        3       399     0.0193          3         276       0.0279          3       87       0.0867
+       Base case + 2 steps        0       399     0.0075          0         276       0.0108          0       87       0.0338
+
+==============================================================================================================
+F. SCORE DISTRIBUTION per load scenario (step-1 ratio vs datakit solution for GENCO / vs own NR for the base case): percentiles per set
+           set  n_load    g_p50    g_p90   g_max  b_p50  b_p90  b_max
+   GOC500 Base      29  0.00361  0.01213 0.03198  5.388  10.29  27.99
+  GOC500 Small      29 0.002999 0.009358 0.03543  5.388  10.29  27.99
+   GOC500 Tiny      29 0.006946  0.03781    0.12  5.388  10.29  27.99
+
+Done.

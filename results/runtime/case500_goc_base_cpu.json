@@ -1,0 +1,12 @@
+{
+  "grid": "case500_goc",
+  "size": "base",
+  "torch_threads": 4,
+  "loadavg": [
+    2.4521484375,
+    4.107421875,
+    4.57275390625
+  ],
+  "genco_cpu_bs1_ms_per_scen": 178.85129095520824,
+  "genco_cpu_bs16_ms_per_scen": 165.829609373759
+}

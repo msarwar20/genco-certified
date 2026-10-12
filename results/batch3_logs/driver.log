@@ -1,0 +1,39 @@
+== 2026-10-12 01:41:35 start t1_calib_n1
+== 2026-10-12 01:45:44 end t1_calib_n1 (rc=0)
+== 2026-10-12 01:45:44 start t1_stress100_n1
+== 2026-10-12 01:50:34 end t1_stress100_n1 (rc=0)
+== 2026-10-12 01:50:34 start t1_stress100_n2
+== 2026-10-12 01:52:55 end t1_stress100_n2 (rc=0)
+== 2026-10-12 01:52:55 start t1_stress100_n3
+== 2026-10-12 01:55:21 end t1_stress100_n3 (rc=0)
+== 2026-10-12 01:55:21 start t1_stress100_n5
+== 2026-10-12 01:57:21 end t1_stress100_n5 (rc=0)
+== 2026-10-12 01:57:21 start t2_exp02_base
+== 2026-10-12 02:00:26 end t2_exp02_base (rc=0)
+== 2026-10-12 02:00:26 start t2_exp01_base
+== 2026-10-12 02:07:04 end t2_exp01_base (rc=0)
+== 2026-10-12 02:07:04 start t2_exp05_base
+== 2026-10-12 02:09:23 end t2_exp05_base (rc=0)
+== 2026-10-12 02:09:23 start t2_exp06_base
+== 2026-10-12 02:11:24 end t2_exp06_base (rc=0)
+== 2026-10-12 02:11:24 start t2_exp02_small
+== 2026-10-12 02:13:11 end t2_exp02_small (rc=0)
+== 2026-10-12 02:13:11 start t2_exp01_small
+== 2026-10-12 02:18:40 end t2_exp01_small (rc=0)
+== 2026-10-12 02:18:40 start t2_exp05_small
+== 2026-10-12 02:20:03 end t2_exp05_small (rc=0)
+== 2026-10-12 02:20:03 start t2_exp06_small
+== 2026-10-12 02:21:06 end t2_exp06_small (rc=0)
+== 2026-10-12 02:21:06 start t2_exp02_tiny
+== 2026-10-12 02:22:42 end t2_exp02_tiny (rc=0)
+== 2026-10-12 02:22:42 start t2_exp01_tiny
+== 2026-10-12 02:27:43 end t2_exp01_tiny (rc=0)
+== 2026-10-12 02:27:43 start t2_exp05_tiny
+== 2026-10-12 02:28:45 end t2_exp05_tiny (rc=0)
+== 2026-10-12 02:28:45 start t2_exp06_tiny
+== 2026-10-12 02:29:24 end t2_exp06_tiny (rc=0)
+== 2026-10-12 02:29:24 start t2_exp07_base
+== 2026-10-12 02:30:59 end t2_exp07_base (rc=0)
+== 2026-10-12 02:30:59 start t3_exp02_small
+== 2026-10-12 02:39:43 end t3_exp02_small (rc=0)
+== 2026-10-12 02:39:43 start t3_exp01_small

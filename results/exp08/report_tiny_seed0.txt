@@ -1,0 +1,95 @@
+exp08 bias correction: case118_ieee tiny seed 0; 5-fold cross-fitting grouped by load scenario; ridge pseudo-samples intercept 3.0, slopes 5.0; 1000 cluster-bootstrap resamples
+corrections '_x' fitted on calib (data/calib/n1/splits_all): 2200 scenarios, 100 load scenarios
+  fit set calib: cross-fitted SSE reduction (bias) over all (scenario, bus) signed errors = 0.012
+  fit set calib: cross-fitted SSE reduction (lin) over all (scenario, bus) signed errors = -0.003
+  fit set calib: cross-fitted SSE reduction (inj) over all (scenario, bus) signed errors = -0.015
+
+DIAGNOSTICS of the signed errors on calib: 2200 scenarios, 100 load scenarios
+  Vm (PQ buses): overall RMS 0.00032 p.u.; RMS of the per-bus mean signed error 0.00005 p.u.
+    per-bus constant removes 0.0213 of the total squared error (in-sample, upper bound for the bias correction)
+    |t| of the per-bus mean across load scenarios: median 1.53, share of buses with |t| > 3: 0.06 (n=64 buses; noise alone gives median 0.67, share 0.003)
+    sign consistency: mean |P(e>0) - 0.5| over buses = 0.062; share of buses with P(e>0) outside [0.4, 0.6] = 0.16
+    magnitude |e| is bus-specific: cross-fitted R^2 of |e| from the per-bus mean |e| (other load scenarios) = 0.397
+  Va (non-REF buses): overall RMS 0.01118 rad; RMS of the per-bus mean signed error 0.00137 rad
+    per-bus constant removes 0.0151 of the total squared error (in-sample, upper bound for the bias correction)
+    |t| of the per-bus mean across load scenarios: median 1.61, share of buses with |t| > 3: 0.00 (n=117 buses; noise alone gives median 0.67, share 0.003)
+    sign consistency: mean |P(e>0) - 0.5| over buses = 0.055; share of buses with P(e>0) outside [0.4, 0.6] = 0.10
+    magnitude |e| is bus-specific: cross-fitted R^2 of |e| from the per-bus mean |e| (other load scenarios) = 0.142
+  Va: removing one common-mode angle offset per scenario (needs the truth, not a usable correction) removes 0.631 of the squared Va error
+
+==============================================================================================================
+paper_tiny_seed0: 638 scenarios, 29 load scenarios
+
+1. STATE ERROR of the start (x = [Va at PV+PQ, Vm at PQ]; rad / p.u.). SSE reduction = 1 - sum(err_after^2)/sum(err_unc^2) with cluster CI; 'better' = share of scenarios with smaller l2 than the uncorrected start. bias_in is fitted on the evaluation set itself (optimistic).
+  start                  median_l2  p95_l2 median_inf max_inf              SSE_reduction better
+    unc 0.07217 [0.05367, 0.08696] 0.18199    0.01030  0.2002                        NaN    NaN
+   bias 0.07131 [0.05490, 0.08919] 0.18279    0.01041  0.2022     -0.013 [-0.053, 0.035]    48%
+    lin 0.07045 [0.05962, 0.08652] 0.17400    0.01014  0.2012     -0.001 [-0.057, 0.064]    43%
+    inj 0.07257 [0.06287, 0.08939] 0.18044    0.01650  0.2031     -0.032 [-0.096, 0.031]    35%
+ bias_x 0.07052 [0.05207, 0.08553] 0.18111    0.01023  0.2025      0.007 [-0.035, 0.064]    56%
+  lin_x 0.06807 [0.05146, 0.08718] 0.18991    0.01023  0.2039     -0.016 [-0.089, 0.074]    55%
+  inj_x 0.06828 [0.05259, 0.08832] 0.18738    0.01277  0.2084     -0.018 [-0.089, 0.067]    53%
+bias_in 0.07189 [0.05167, 0.08578] 0.17870    0.01019  0.2022      0.009 [-0.023, 0.051]    57%
+   base 0.05022 [0.04274, 0.05851] 0.87444    0.02564  1.1613 -19.817 [-31.775, -12.896]    57%
+   split by component, median l2 of the Vm part / Va part (p.u., rad) and SSE reduction of each part:
+ start median_vm_l2 median_va_l2             vm_SSE_red             va_SSE_red
+   unc      0.00190      0.07215                    NaN                    NaN
+  bias      0.00169      0.07127  0.034 [-0.102, 0.136] -0.013 [-0.053, 0.035]
+   lin      0.00171      0.07042  0.012 [-0.121, 0.117] -0.001 [-0.057, 0.064]
+   inj      0.00178      0.07256 -0.033 [-0.176, 0.080] -0.032 [-0.096, 0.031]
+bias_x      0.00181      0.07052  0.046 [-0.017, 0.095]  0.007 [-0.035, 0.064]
+ lin_x      0.00182      0.06802  0.039 [-0.018, 0.084] -0.016 [-0.089, 0.074]
+ inj_x      0.00185      0.06825  0.033 [-0.028, 0.082] -0.018 [-0.089, 0.067]
+
+2. NEWTON-RAPHSON ITERATIONS to 1e-2 / 1e-4 / 1e-6 MW, mean [95% cluster CI]; paired difference to the uncorrected GENCO start and to the base-case start
+   tol  start                iters              minus_base               minus_unc
+  0.01    unc 1.828 [1.729, 1.915] -0.210 [-0.315, -0.108]                        
+  0.01   bias 1.771 [1.679, 1.862] -0.266 [-0.359, -0.168]  -0.056 [-0.129, 0.008]
+  0.01    lin 1.817 [1.727, 1.904] -0.221 [-0.317, -0.125]  -0.011 [-0.075, 0.042]
+  0.01    inj 2.000 [2.000, 2.000] -0.038 [-0.067, -0.005]    0.172 [0.085, 0.271]
+  0.01 bias_x 1.781 [1.688, 1.871] -0.257 [-0.359, -0.158] -0.047 [-0.099, -0.006]
+  0.01  lin_x 1.766 [1.674, 1.857] -0.271 [-0.373, -0.174] -0.061 [-0.119, -0.014]
+  0.01  inj_x 2.000 [2.000, 2.000] -0.038 [-0.067, -0.005]    0.172 [0.085, 0.271]
+  0.01   base 2.038 [2.005, 2.067]                            0.210 [0.108, 0.315]
+0.0001    unc 2.011 [2.003, 2.020] -0.483 [-0.520, -0.445]                        
+0.0001   bias 2.013 [2.005, 2.022] -0.481 [-0.520, -0.444]    0.002 [0.000, 0.005]
+0.0001    lin 2.013 [2.005, 2.022] -0.481 [-0.520, -0.444]    0.002 [0.000, 0.005]
+0.0001    inj 2.420 [2.254, 2.586]  -0.074 [-0.240, 0.092]    0.409 [0.246, 0.575]
+0.0001 bias_x 2.011 [2.003, 2.019] -0.483 [-0.522, -0.445]   0.000 [-0.005, 0.005]
+0.0001  lin_x 2.011 [2.003, 2.019] -0.483 [-0.522, -0.445]   0.000 [-0.005, 0.005]
+0.0001  inj_x 2.024 [2.011, 2.038] -0.470 [-0.509, -0.431]    0.013 [0.003, 0.024]
+0.0001   base 2.494 [2.456, 2.533]                            0.483 [0.445, 0.520]
+ 1e-06    unc 2.176 [2.102, 2.252] -0.705 [-0.796, -0.613]                        
+ 1e-06   bias 2.182 [2.103, 2.262] -0.699 [-0.790, -0.608]   0.006 [-0.022, 0.036]
+ 1e-06    lin 2.174 [2.096, 2.254] -0.707 [-0.796, -0.618]  -0.002 [-0.027, 0.025]
+ 1e-06    inj 3.000 [3.000, 3.000]    0.119 [0.074, 0.168]    0.824 [0.748, 0.898]
+ 1e-06 bias_x 2.174 [2.096, 2.252] -0.707 [-0.799, -0.614]  -0.002 [-0.030, 0.025]
+ 1e-06  lin_x 2.194 [2.108, 2.285] -0.687 [-0.784, -0.588]   0.019 [-0.019, 0.061]
+ 1e-06  inj_x 2.981 [2.944, 3.000]    0.100 [0.052, 0.146]    0.806 [0.727, 0.884]
+ 1e-06   base 2.881 [2.832, 2.926]                            0.705 [0.613, 0.796]
+
+3. EQUAL-COST SCREENING (tau = 1.01, eps_v = 1 mV; branches + PQ buses): violating elements missed / false alarms after 0, 1, 2 Newton steps; contingency-level misses; element miss rate with 95% CI and one-sided Clopper-Pearson upper bound
+               method  LU el_miss  el_fa               miss_rate    ub1 cont_miss  cont_fa load_miss
+unc, 0 steps (V_from)   0  39/484    460 0.0806 [0.0455, 0.1325] 10.39%     8/225      202     18/29
+         unc + 1 step   1   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+        unc + 2 steps   2   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+        bias, 0 steps   0  42/484    448 0.0868 [0.0498, 0.1411] 11.08%    11/225      185     18/29
+        bias + 1 step   1   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+       bias + 2 steps   2   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+         lin, 0 steps   0  43/484    488 0.0888 [0.0509, 0.1438] 11.31%     9/225      203     19/29
+         lin + 1 step   1   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+        lin + 2 steps   2   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+         inj, 0 steps   0  47/484    841 0.0971 [0.0565, 0.1541] 12.22%     9/225      283     21/29
+         inj + 1 step   1   9/484      0 0.0186 [0.0076, 0.0298]  3.22%     1/225        0      8/29
+        inj + 2 steps   2   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+      bias_x, 0 steps   0  37/484    467 0.0764 [0.0441, 0.1233]  9.93%     8/225      194     18/29
+      bias_x + 1 step   1   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+     bias_x + 2 steps   2   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+       lin_x, 0 steps   0  36/484    493 0.0744 [0.0417, 0.1206]  9.70%     8/225      200     17/29
+       lin_x + 1 step   1   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+      lin_x + 2 steps   2   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+       inj_x, 0 steps   0  42/484    691 0.0868 [0.0507, 0.1356] 11.08%     7/225      261     19/29
+       inj_x + 1 step   1   2/484      0 0.0041 [0.0000, 0.0104]  1.30%     0/225        0      2/29
+      inj_x + 2 steps   2   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29
+   base case + 1 step   1  33/484      6 0.0682 [0.0477, 0.0922]  9.01%     4/225        0     21/29
+  base case + 2 steps   2   0/484      0 0.0000 [0.0000, 0.0000]  0.62%     0/225        0      0/29

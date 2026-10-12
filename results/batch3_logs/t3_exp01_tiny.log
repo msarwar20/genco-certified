@@ -1,0 +1,14 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case2000_goc/tiny/seed0/normalizer_stats.pt
+split='train' len(split_indices)=159
+split='val' len(split_indices)=159
+split='test' len(split_indices)=879
+Restoring normalizer for case2000_goc from saved stats
+case2000_goc_tiny_seed0_h879: 879 scenarios in 722s
+  slack Vm error (p.u.)       median 0.0227 | p95 0.0389 | max 0.0403
+  residual reported (MW, max) median 11.1 | p95 25.1 | max 185
+  residual physical (MW, max) median 289 | p95 507 | max 515
+  NR iters flat / DC / GENCO   7.06 / 6.81 / 3.18 | conv 0.999 / 0.999 / 1.0
+  Spearman(est, err) l2 0.996 | Va-inf 0.999 | Vm-inf 0.867
+  error after 1 Newton step (l2): median 1.17e-01 (before 5.09e+00)

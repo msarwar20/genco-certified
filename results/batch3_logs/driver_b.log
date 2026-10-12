@@ -1,0 +1,19 @@
+== 2026-10-12 02:40:32 start t3_exp02_tiny
+== 2026-10-12 02:47:52 end t3_exp02_tiny
+== 2026-10-12 02:47:52 start t3_exp05_small
+== 2026-10-12 02:54:22 end t3_exp05_small
+== 2026-10-12 02:54:22 start t3_exp06_small
+== 2026-10-12 02:59:04 end t3_exp06_small
+== 2026-10-12 02:59:04 start t3_exp05_tiny
+== 2026-10-12 03:03:03 end t3_exp05_tiny
+== 2026-10-12 03:03:03 start t3_exp06_tiny
+== 2026-10-12 03:05:43 end t3_exp06_tiny
+== 2026-10-12 03:05:43 start t4_base
+== 2026-10-12 03:10:12 end t4_base
+== 2026-10-12 03:10:12 start t4_small
+== 2026-10-12 03:12:12 end t4_small
+== 2026-10-12 03:12:12 start t4_tiny
+== 2026-10-12 03:13:33 end t4_tiny
+skip t3_exp01_small
+skip t3_exp01_tiny
+ALL DONE b 2026-10-12 03:13:33

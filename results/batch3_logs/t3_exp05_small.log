@@ -1,0 +1,8 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case2000_goc/small/seed0/normalizer_stats.pt
+split='train' len(split_indices)=159
+split='val' len(split_indices)=159
+split='test' len(split_indices)=879
+Restoring normalizer for case2000_goc from saved stats
+case2000_goc_small_h879: 879 scenarios | NR iterations: always-GENCO 3.15 | always-base 2.93 | best-of-two by mismatch 2.92 (picks GENCO 11%) | oracle 2.89

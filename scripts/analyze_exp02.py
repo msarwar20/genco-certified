@@ -22,6 +22,9 @@ Usage:
     python scripts/analyze_exp02.py --ci                 # v3 tables with cluster-bootstrap CIs (over load scenarios), Clopper-Pearson miss-rate
                                                          # bounds, mean +- SD over the 3 released Base seeds and Small/Tiny
                                                          # -> results/policy_v3_ci.log, results/exp02/v3_ci_*.csv, v3_seeds_*.csv
+    python scripts/analyze_exp02.py --xcal --cal_tag calib_n1_base --eval_tags stress100_n1_base stress100_n2_base ... --prefix big118
+                                                         # one calibration set (all its load scenarios) + any list of evaluation sets, with CIs and bounds;
+                                                         # --cal_tag none -> K-fold cross-fitting grouped by load scenario inside each evaluation set
     python scripts/analyze_exp02.py --tag stress_n2_base --cal_tag case118_ieee_base_seed0 --tau 1.01
                                                          # legacy single-set table (format used by make_figures)
 """
@@ -1209,6 +1212,185 @@ def main_ci(args):
     Path(args.log).write_text("\n".join(log.lines) + "\n")
 
 
+# ---------------------------------------------------------------------------
+# --xcal: one calibration set (or grouped cross-fitting) and a list of evaluation sets, with CIs and bounds
+# ---------------------------------------------------------------------------
+
+def xcal_model(sets, labels, Scal, tau, eps, rules, K, B):
+    """Policies, equal-cost ladder, NR iterations and exceedance for every set in `sets` ({tag: RawSet}).
+
+    Scal is a RawSet used as the calibration set (c from ALL its load scenarios) for every evaluation set other
+    than itself; with Scal None, or for the calibration set itself, c is cross-fitted by K-fold grouped by load scenario.
+    """
+    pol, lad, nri = [], [], []
+    for tag, S in sets.items():
+        scr = Screen(S, tau, eps)
+        g = S.load_idx
+        lab = labels[tag]
+        cross = Scal is not None and tag != Scal.tag
+        base = dict(set=lab, tag=tag)
+        for rule in rules:
+            for name, prior, ks in POLICIES:
+                for ref in (("true",) if prior == "g" else ("true", "nr")):
+                    olds = [(x, x.ref) for x in {id(S): S, **({id(Scal): Scal} if Scal is not None else {})}.values()]
+                    for x, _ in olds:
+                        x.ref = ref
+                    try:
+                        if cross:
+                            c_rep = cross_c(Scal, prior, rule)[0]
+                            c_s = np.full(S.n, c_rep)
+                            exc_l, exc_s = exceedance(S, prior, c_rep)
+                            scheme = f"c from {Scal.tag} ({Scal.n_loads} load scen.)"
+                            n_cal = Scal.n_loads
+                        else:
+                            c_s, _, info = kfold_c(S, prior, rule, K, 0)
+                            c_rep = float(np.median(info["c_folds"]))
+                            exc_l, exc_s = info["exc_load"], info["exc_scen"]
+                            scheme = f"{min(K, S.n_loads)}-fold CV by load scenario"
+                            n_cal = info["n_cal"]
+                    finally:
+                        for x, r_ in olds:
+                            x.ref = r_
+                    exc_k = int(round(exc_l * S.n_loads))
+                    o = run_policy(scr, prior, ks, c_s)
+                    st = decision_stats(S, scr, o.cnt, B)
+                    lu = cluster_bootstrap(o.cost, groups=g, B=B)
+                    a1 = cluster_bootstrap((o.acc == 1).astype(float), groups=g, B=B)
+                    ex = clopper_pearson(exc_k, S.n_loads)
+                    pol.append(dict(**base, policy=name, rule=rule,
+                                    c_ref=("datakit" if ref == "true" else "own NR") if prior == "b" else "datakit",
+                                    scheme=scheme, n_cal_loads=n_cal, c=c_rep, LU=lu[0], LU_lo=lu[1], LU_hi=lu[2],
+                                    acc1=a1[0], acc1_lo=a1[1], acc1_hi=a1[2], acc_any=float((o.acc > 0).mean()),
+                                    exc_load_k=exc_k, exc_load=exc_k / S.n_loads, exc_load_lo=ex[0], exc_load_hi=ex[1],
+                                    exc_scen=exc_s, **st))
+        spec = [("GENCO as published", "raw", 0), ("GENCO, setpoint enforced", "phys", 0), ("GENCO + 1 step", "g1", 1),
+                ("GENCO + 2 steps", "g2", 2), ("Base case + 1 step", "b1", 1), ("Base case + 2 steps", "b2", 2)]
+        for name, m, lu_ in spec:
+            lad.append(dict(**base, method=name, LU=float(lu_), **decision_stats(S, scr, scr.counts(m), B)))
+        for e in (2, 4, 6):
+            tol = {2: "1e-2", 4: "1e-4", 6: "1e-6"}[e]
+            v = {s_: S.nri(s_, e) for s_ in ("flat", "dc", "base", "genco")}
+            for s_, x in v.items():
+                pt, lo, hi = cluster_bootstrap(x, groups=g, B=B)
+                nri.append(dict(**base, n_scen=S.n, n_loads=S.n_loads, tol_MW=tol, start=s_, iters=pt, iters_lo=lo, iters_hi=hi, kind="mean"))
+            for a_, b_ in (("genco", "base"), ("genco", "flat"), ("base", "flat")):
+                d_ = cluster_bootstrap(v[a_] - v[b_], groups=g, B=B)
+                rt = cluster_bootstrap(v[a_], den=v[b_], groups=g, B=B)
+                nri.append(dict(**base, n_scen=S.n, n_loads=S.n_loads, tol_MW=tol, start=f"{a_} - {b_}", iters=d_[0], iters_lo=d_[1], iters_hi=d_[2],
+                                kind="paired difference", ratio=rt[0], ratio_lo=rt[1], ratio_hi=rt[2],
+                                frac_a_fewer=float((v[a_] < v[b_]).mean()), frac_a_more=float((v[a_] > v[b_]).mean())))
+    return pd.DataFrame(pol), pd.DataFrame(lad), pd.DataFrame(nri)
+
+
+def main_xcal(args):
+    log = Log()
+    out = Path(args.out) if args.out else D
+    d = Path(args.dir) if args.dir else D
+    out.mkdir(parents=True, exist_ok=True)
+    tau, eps, K, B = args.tau, args.eps_v, args.kfold, args.boot
+    pre = args.prefix
+    rules = ["max"] + [f"conf{a:.2f}" for a in args.alphas]
+    tags = args.eval_tags
+    labels = {t: (args.labels[i] if args.labels and i < len(args.labels) else t) for i, t in enumerate(tags)}
+    cal_tag = None if args.cal_tag in (None, "", "none", "kfold") else args.cal_tag
+    sets = {t: RawSet(t, d) for t in tags}
+    Scal = sets[cal_tag] if cal_tag in sets else (RawSet(cal_tag, d) if cal_tag else None)
+    log(f"xcal analysis '{pre}': tau={tau} eps_v={eps}; {B} cluster-bootstrap resamples over load scenarios")
+    log("calibration: " + (f"c from ALL {Scal.n_loads} load scenarios of {Scal.tag} for every other set (cross-set); {K}-fold grouped CV for {Scal.tag} itself"
+                           if Scal is not None else f"{K}-fold cross-fitting grouped by load scenario within each evaluation set (pooled out-of-fold)"))
+    log("rules: max = largest calibration score; conf<a> = split-conformal over load scenarios. Base-case policies use c measured against our own NR (stronger baseline).")
+    log("Bounds: cp_hi = Clopper-Pearson two-sided 95% upper limit, cp_hi1 one-sided; load = fraction of LOAD SCENARIOS with >= 1 miss (cluster level).")
+    log("Sets: " + "; ".join(f"{labels[t]} = {t} ({S.n} scen, {S.n_loads} load scen)" for t, S in sets.items()) + "\n")
+    pol, lad, nri = xcal_model(sets, labels, Scal, tau, eps, rules, K, B)
+    pol.to_csv(out / f"{pre}_policies.csv", index=False)
+    lad.to_csv(out / f"{pre}_ladder.csv", index=False)
+    nri.to_csv(out / f"{pre}_nr_iterations.csv", index=False)
+    show = pol[pol.policy.isin(["genco_tiered", "genco_seq", "base_seq"]) & ~((pol.policy == "base_seq") & (pol.c_ref == "datakit"))]
+
+    log("=" * 110)
+    log("A. POLICIES: LU per contingency and tier-1 share with 95% cluster CIs; element / contingency misses and false alarms; Clopper-Pearson upper bounds")
+    for rule in rules:
+        sub = show[show.rule == rule]
+        log(f"\nrule {rule}")
+        t = pd.DataFrame(dict(
+            set=sub.set, policy=sub.policy.map(POL_NAME), c=sub.c.map(lambda x: f"{x:.3g}"),
+            LU=[fmt_ci(a, b, c_) for a, b, c_ in zip(sub.LU, sub.LU_lo, sub.LU_hi)],
+            tier1=[fmt_ci(a, b, c_, 2) for a, b, c_ in zip(sub.acc1, sub.acc1_lo, sub.acc1_hi)],
+            el_miss=[f"{k}/{n}" for k, n in zip(sub.el_miss, sub.el_truth)], el_fa=sub.el_fa, el_ub=sub.el_cp_hi.map(lambda x: f"{x:.2%}"),
+            cont_miss=[f"{k}/{n}" for k, n in zip(sub.cont_miss, sub.cont_truth)], cont_fa=sub.cont_fa, cont_ub=sub.cont_cp_hi.map(lambda x: f"{x:.2%}"),
+            load_miss=[f"{k}/{n}" for k, n in zip(sub.load_miss, sub.n_loads)], load_ub=sub.load_cp_hi.map(lambda x: f"{x:.1%}")))
+        log.table(t)
+
+    log("\n" + "=" * 110)
+    log("B. BOUND EXCEEDANCE: fraction of evaluation LOAD scenarios whose step-1 score max |error| / ||dx||^2 exceeds c (95% Clopper-Pearson CI); "
+        "nominal level alpha for the conformal rules (1/(n+1) for max). Scenario-level fraction in the last column.")
+    ex = pol[pol.policy.isin(["genco_seq", "base_seq"]) & ~((pol.policy == "base_seq") & (pol.c_ref == "datakit"))].copy()
+    ex["prior"] = ex.policy.map({"genco_seq": "GENCO", "base_seq": "base case"})
+    t = pd.DataFrame(dict(set=ex.set, prior=ex.prior, rule=ex.rule, c=ex.c.map(lambda x: f"{x:.4g}"),
+                          exceed=[f"{k}/{n}" for k, n in zip(ex.exc_load_k, ex.n_loads)],
+                          rate=[fmt_ci(a, b, c_, 3) for a, b, c_ in zip(ex.exc_load, ex.exc_load_lo, ex.exc_load_hi)],
+                          nominal=ex.rule.map(lambda r: "~1/(n+1)" if r == "max" else r[4:]), exc_scen=ex.exc_scen))
+    log.table(t)
+    ex[["set", "tag", "prior", "rule", "c", "scheme", "n_cal_loads", "n_loads", "exc_load_k", "exc_load", "exc_load_lo", "exc_load_hi", "exc_scen"]].to_csv(
+        out / f"{pre}_exceedance.csv", index=False)
+
+    log("\n" + "=" * 110)
+    log("C. EQUAL-COST LADDER (no calibration): recall and miss rate with 95% cluster CIs; Clopper-Pearson upper bounds; false alarms")
+    t = pd.DataFrame(dict(
+        set=lad.set, method=lad.method, LU=lad.LU, recall=[fmt_ci(a, b, c_, 4) for a, b, c_ in zip(lad.recall, lad.recall_lo, lad.recall_hi)],
+        el_miss=[f"{k}/{n}" for k, n in zip(lad.el_miss, lad.el_truth)], el_ub=lad.el_cp_hi.map(lambda x: f"{x:.2%}"), el_fa=lad.el_fa,
+        cont_miss=[f"{k}/{n}" for k, n in zip(lad.cont_miss, lad.cont_truth)], cont_ub=lad.cont_cp_hi.map(lambda x: f"{x:.2%}"), cont_fa=lad.cont_fa,
+        load_miss=[f"{k}/{n}" for k, n in zip(lad.load_miss, lad.n_loads)], load_ub=lad.load_cp_hi.map(lambda x: f"{x:.1%}")))
+    log.table(t)
+
+    log("\n" + "=" * 110)
+    log("D. NR ITERATIONS BY TOLERANCE: mean [95% cluster CI]; paired GENCO - base-case start (iterations) and GENCO/base ratio")
+    rows = []
+    for (setl, tol), g_ in nri.groupby(["set", "tol_MW"], sort=False):
+        r = dict(set=setl, tol=tol)
+        for s_ in ("flat", "dc", "base", "genco"):
+            x = g_[(g_.start == s_) & (g_.kind == "mean")].iloc[0]
+            r[s_] = fmt_ci(x.iters, x.iters_lo, x.iters_hi, 2)
+        x = g_[g_.start == "genco - base"].iloc[0]
+        r["genco - base"] = fmt_ci(x.iters, x.iters_lo, x.iters_hi, 2)
+        r["ratio"] = fmt_ci(x.ratio, x.ratio_lo, x.ratio_hi, 2)
+        r["GENCO fewer/more"] = f"{x.frac_a_fewer:.0%}/{x.frac_a_more:.0%}"
+        rows.append(r)
+    log.table(pd.DataFrame(rows))
+
+    log("\n" + "=" * 110)
+    log("E. POOLED MISS-RATE BOUNDS over all evaluation sets above (one-sided 95% Clopper-Pearson). Caveat: sets generated by datakit share the "
+        "global load trajectory, so load scenarios of different sets are not independent draws.")
+    pp = pooled_bounds(pol[pol.policy.isin(["genco_tiered", "genco_seq", "base_seq"]) & ~((pol.policy == "base_seq") & (pol.c_ref == "datakit"))].assign(model=pre),
+                       ["model", "policy", "rule", "c_ref"])
+    pl = pooled_bounds(lad.assign(model=pre), ["model", "method"])
+    pp.to_csv(out / f"{pre}_pooled_bounds_policies.csv", index=False)
+    pl.to_csv(out / f"{pre}_pooled_bounds_ladder.csv", index=False)
+    cols = ["el_miss", "el_truth", "el_cp_hi1", "cont_miss", "cont_truth", "cont_cp_hi1", "load_miss", "n_loads", "load_cp_hi1"]
+    log.table(pp.assign(policy=pp.policy.map(POL_NAME))[["policy", "rule", "c_ref"] + cols], floatfmt=lambda x: f"{x:.4f}")
+    log("")
+    log.table(pl[["method"] + cols], floatfmt=lambda x: f"{x:.4f}")
+
+    log("\n" + "=" * 110)
+    log("F. SCORE DISTRIBUTION per load scenario (step-1 ratio vs datakit solution for GENCO / vs own NR for the base case): percentiles per set")
+    rows = []
+    allsets = dict(sets)
+    if Scal is not None:
+        allsets.setdefault(Scal.tag, Scal)
+    for tag, S in allsets.items():
+        r = dict(set=labels.get(tag, tag), n_load=S.n_loads)
+        for prior, ref in (("g", "true"), ("b", "nr")):
+            old, S.ref = S.ref, ref
+            _, s_ = S.per_load_max(S.ratio_scores(prior, 1))
+            S.ref = old
+            r.update({f"{prior}_p50": np.median(s_), f"{prior}_p90": np.quantile(s_, .9), f"{prior}_max": s_.max()})
+        rows.append(r)
+    log.table(pd.DataFrame(rows), floatfmt=lambda x: f"{x:.4g}")
+    pd.DataFrame(rows).to_csv(out / f"{pre}_score_percentiles.csv", index=False)
+    log("\nDone.")
+    Path(args.log or (ROOT / "results" / f"policy_{pre}.log")).write_text("\n".join(log.lines) + "\n")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--v3", action="store_true", help="full corrected analysis (grouped/conformal calibration, ladder, DC, sensitivity, Pareto)")
@@ -1225,9 +1407,18 @@ def main():
     ap.add_argument("--out", default=None, help="v3: folder for CSV outputs (default results/exp02)")
     ap.add_argument("--log", default=None, help="log file (default results/policy_v3.log, or results/policy_v3_ci.log with --ci)")
     ap.add_argument("--ci", action="store_true", help="v3 tables with cluster-bootstrap CIs, Clopper-Pearson miss-rate bounds, seeds (Base 0/1/42) and sizes (Small/Tiny)")
-    ap.add_argument("--boot", type=int, default=2000, help="--ci: bootstrap resamples over load scenarios")
+    ap.add_argument("--boot", type=int, default=2000, help="--ci/--xcal: bootstrap resamples over load scenarios")
+    ap.add_argument("--xcal", action="store_true",
+                    help="CIs and bounds for an arbitrary list of evaluation sets (--eval_tags) with c calibrated on --cal_tag "
+                         "(cross-set) or, if --cal_tag is 'none', by K-fold cross-fitting grouped by load scenario within each set")
+    ap.add_argument("--eval_tags", nargs="*", default=[], help="--xcal: exp02 run tags to evaluate")
+    ap.add_argument("--labels", nargs="*", default=None, help="--xcal: display labels for --eval_tags (same order)")
+    ap.add_argument("--prefix", default="xcal", help="--xcal: prefix of the CSV outputs and of results/policy_<prefix>.log")
     args = ap.parse_args()
-    if args.ci:
+    if args.xcal:
+        args.tau = TAU if args.tau is None else args.tau
+        main_xcal(args)
+    elif args.ci:
         args.tau = TAU if args.tau is None else args.tau
         args.log = args.log or str(ROOT / "results" / "policy_v3_ci.log")
         main_ci(args)

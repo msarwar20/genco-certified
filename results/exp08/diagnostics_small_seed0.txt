@@ -1,0 +1,18 @@
+exp08 bias correction: case118_ieee small seed 0; 5-fold cross-fitting grouped by load scenario; ridge pseudo-samples intercept 3.0, slopes 5.0; 1000 cluster-bootstrap resamples
+corrections '_x' fitted on calib (data/calib/n1/splits_all): 2200 scenarios, 100 load scenarios
+  fit set calib: cross-fitted SSE reduction (bias) over all (scenario, bus) signed errors = 0.025
+  fit set calib: cross-fitted SSE reduction (lin) over all (scenario, bus) signed errors = 0.024
+  fit set calib: cross-fitted SSE reduction (inj) over all (scenario, bus) signed errors = 0.006
+
+DIAGNOSTICS of the signed errors on calib: 2200 scenarios, 100 load scenarios
+  Vm (PQ buses): overall RMS 0.00032 p.u.; RMS of the per-bus mean signed error 0.00002 p.u.
+    per-bus constant removes 0.0060 of the total squared error (in-sample, upper bound for the bias correction)
+    |t| of the per-bus mean across load scenarios: median 1.31, share of buses with |t| > 3: 0.11 (n=64 buses; noise alone gives median 0.67, share 0.003)
+    sign consistency: mean |P(e>0) - 0.5| over buses = 0.092; share of buses with P(e>0) outside [0.4, 0.6] = 0.38
+    magnitude |e| is bus-specific: cross-fitted R^2 of |e| from the per-bus mean |e| (other load scenarios) = 0.491
+  Va (non-REF buses): overall RMS 0.00937 rad; RMS of the per-bus mean signed error 0.00176 rad
+    per-bus constant removes 0.0353 of the total squared error (in-sample, upper bound for the bias correction)
+    |t| of the per-bus mean across load scenarios: median 2.40, share of buses with |t| > 3: 0.00 (n=117 buses; noise alone gives median 0.67, share 0.003)
+    sign consistency: mean |P(e>0) - 0.5| over buses = 0.076; share of buses with P(e>0) outside [0.4, 0.6] = 0.05
+    magnitude |e| is bus-specific: cross-fitted R^2 of |e| from the per-bus mean |e| (other load scenarios) = 0.120
+  Va: removing one common-mode angle offset per scenario (needs the truth, not a usable correction) removes 0.726 of the squared Va error

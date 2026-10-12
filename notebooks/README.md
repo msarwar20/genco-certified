@@ -12,7 +12,7 @@ Do the timing notebook first. It is shorter, and it exercises the same upload an
 ## 0. Build the bundle (on your Mac, once per code change)
 
 ```bash
-cd /Users/msarwar/Desktop/webDev/GridFMChallenge
+cd <repo>
 ./scripts/pack_for_colab.sh            # writes dist/genco_colab_bundle.tar.gz, prints size and sha256
 ```
 
@@ -51,7 +51,7 @@ Commit or at least save your work first, because `BUNDLE_INFO.txt` records the r
 Do not unzip into the repository root. Tags clash: the Colab run records and weights are called `control_s0`, `delta_vm_va_s0`, ... just like the IEEE 118 matrix of `scripts/run_genco_delta.sh` (`results/genco_delta/runs/control_s0.json`, `checkpoints/finetuned/control_s0/`), and unzipping there would overwrite them.
 
 ```bash
-cd /Users/msarwar/Desktop/webDev/GridFMChallenge
+cd <repo>
 
 # GPU timing: the zip has one folder named after the GPU
 mkdir -p results/gpu_timing
