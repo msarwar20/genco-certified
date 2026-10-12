@@ -788,6 +788,24 @@ Grouped 5-fold CV by load scenario, correct outage locations, controls, 3 Base s
 - Arms {control, slack_aware, Δ vm_va, Δ vm_va_flows} × seeds {0, 1, 42}. About 8–9 h on the M4 GPU. Resumable (re-run the script; `FORCE=1` redoes runs).
 - Summaries appear in `results/genco_delta/`.
 
+## 2026-10-12: Early GENCO-Δ result (seed 0): plain Δ does not help; residual variant started
+
+From `results/genco_delta/eval/*_s0__*.json`: NR iterations to 1e-2 / 1e-4 / 1e-6 MW from each model's output.
+
+| Arm (seed 0) | Paper set | N-5 |
+|---|---|---|
+| Released | 1.72 / 2.00 / 2.15 | 1.88 / 2.08 / 2.40 |
+| Control | 1.74 / 2.01 / 2.18 | 1.89 / 2.08 / 2.43 |
+| Slack-aware | 1.67 / 2.01 / 2.17 | 1.81 / 2.09 / 2.43 |
+| **Δ vm_va** | 2.02 / 2.30 / **2.93** | 2.12 / 2.46 / 3.00 |
+| Base-case start | 2.04 / 2.49 / 2.88 | 2.49 / 3.08 / 3.32 |
+
+- Filling masked inputs with the base case and fine-tuning (12 epochs, lr 1e-4, 4.7k scenarios) makes GENCO roughly *as good as the base case and no better*. It is worse than released GENCO.
+- Hypothesis: the absolute-state parameterization forces the network to re-learn how to use the new inputs.
+- **Decision:** build a residual variant (agent G) in new files only. The prediction is the base case plus a correction from a zero-initialized delta head, so at initialization it equals the base case exactly.
+- The Δ vm_va_flows seed-0 result and seeds 1 and 42 come from the running matrix.
+- Batch 3 analyses (agent H, niced) were launched in parallel: the big calibration/stress100 sets, GOC 500, the new GOC 2000 held-out set, and per-bus bias correction.
+
 ## Open questions / TODO
 
 - [ ] Re-run IEEE 118 exp01/exp02 with the fixed DC start for consistent DC numbers.
