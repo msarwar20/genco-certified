@@ -26,3 +26,6 @@ results/configs/
 results/repro/configs/
 results/finetune/**/hparams.yaml
 results/datakit_trial.log
+
+# Colab bundle (scripts/pack_for_colab.sh)
+dist/
