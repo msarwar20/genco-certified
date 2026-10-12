@@ -1,0 +1,39 @@
+  slack Vm error median 0.000735 [0.000578, 0.000854] | p95 0.00203 | max 0.00408
+  max mismatch reported 0.0126 [0.0116, 0.014] -> physical 0.491 [0.402, 0.561] | ratio 39.1 [30.7, 46.1]
+  worst bus adjacent to slack: full 0.976 [0.959, 0.991] | pf 0.973 [0.958, 0.987]
+  share of |dS| in 1-hop neighbours (median): full 0.728 [0.704, 0.748] | pf 0.860 [0.826, 0.888] | uniform expectation 0.069
+  re-anchoring: physical max mismatch plain 0.491 | shift 1.87 | scale 1.79 | err_l2 plain 0.00167 | shift 0.00377 | scale 0.00367
+wrote <repo>/results/exp06/summary.csv (3 checkpoints)
+  slack Vm error median 0.000955 [0.000749, 0.00112] | p95 0.00335 | max 0.00791
+  max mismatch reported 0.0329 [0.029, 0.0385] -> physical 1.04 [0.853, 1.26] | ratio 31.6 [25.5, 39]
+  worst bus adjacent to slack: full 0.867 [0.815, 0.910] | pf 0.981 [0.967, 0.992]
+  share of |dS| in 1-hop neighbours (median): full 0.610 [0.587, 0.624] | pf 0.838 [0.804, 0.865] | uniform expectation 0.071
+  re-anchoring: physical max mismatch plain 1.04 | shift 3.02 | scale 2.94 | err_l2 plain 0.00415 | shift 0.00774 | scale 0.00769
+wrote <repo>/results/exp06/summary.csv (4 checkpoints)
+  slack Vm error median 0.00571 [0.00407, 0.00772] | p95 0.0189 | max 0.0279
+  max mismatch reported 0.454 [0.35, 0.573] -> physical 16.8 [11.7, 22.2] | ratio 37 [26.2, 48.1]
+  worst bus adjacent to slack: full 0.966 [0.942, 0.984] | pf 0.992 [0.984, 0.998]
+  share of |dS| in 1-hop neighbours (median): full 0.478 [0.435, 0.509] | pf 0.706 [0.622, 0.766] | uniform expectation 0.051
+  re-anchoring: physical max mismatch plain 16.8 | shift 175 | scale 174 | err_l2 plain 0.0609 | shift 0.0795 | scale 0.0792
+  mask surgery (median max mismatch / err_l2 / NR iters mean): plain 16.8 / 0.0609 / 2.22
+    vis    4.37 / 0.371 / 2.82
+    clamp  1.34 / 0.0677 / 2.13
+wrote <repo>/results/exp06/summary.csv (5 checkpoints)
+  slack Vm error median 0.00677 [0.00499, 0.00837] | p95 0.0171 | max 0.0347
+  max mismatch reported 0.583 [0.511, 0.648] -> physical 20.2 [14.5, 23.9] | ratio 34.7 [24.7, 43.4]
+  worst bus adjacent to slack: full 0.939 [0.898, 0.975] | pf 0.984 [0.969, 0.997]
+  share of |dS| in 1-hop neighbours (median): full 0.468 [0.426, 0.488] | pf 0.671 [0.589, 0.710] | uniform expectation 0.051
+  re-anchoring: physical max mismatch plain 20.2 | shift 209 | scale 207 | err_l2 plain 0.0722 | shift 0.0941 | scale 0.0934
+  mask surgery (median max mismatch / err_l2 / NR iters mean): plain 20.2 / 0.0722 / 2.18
+    vis    1.25 / 0.105 / 2.27
+    clamp  0.78 / 0.0688 / 2.14
+wrote <repo>/results/exp06/summary.csv (6 checkpoints)
+  160/198 scenarios, 18s
+case2000_goc_small_seed0: 198 scenarios, 9 load scenarios, 22s
+  slack Vm error median 0.0186 [0.0138, 0.0275] | p95 0.0316 | max 0.0316
+  max mismatch reported 9.11 [8.3, 9.92] -> physical 238 [164, 402] | ratio 26.1 [16.5, 44.2]
+  worst bus adjacent to slack: full 0.990 [0.970, 1.000] | pf 1.000 [1.000, 1.000]
+  share of |dS| in 1-hop neighbours (median): full 0.077 [0.059, 0.150] | pf 0.092 [0.070, 0.178] | uniform expectation 0.001
+  re-anchoring: physical max mismatch plain 238 | shift 2.26e+03 | scale 2.3e+03 | err_l2 plain 4.22 | shift 4.25 | scale 4.25
+wrote <repo>/results/exp06/summary.csv (7 checkpoints)
+done

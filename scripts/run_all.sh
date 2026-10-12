@@ -30,10 +30,12 @@ for k in 1 2 3 5; do
   $PY scripts/exp01_layers_newton.py --grid case118_ieee --size base --data_root data/stress/n$k --split splits_all --tag stress_n${k}_base
   $PY scripts/exp02_screening.py     --grid case118_ieee --size base --data_root data/stress/n$k --split splits_all --tag stress_n${k}_base
 done
-( $PY scripts/analyze_exp02.py --tag case118_ieee_base_seed0 --tau 1.01
-  for k in 1 2 3 5; do $PY scripts/analyze_exp02.py --tag stress_n${k}_base --cal_tag stress_n1_base --tau 1.01; done
-) | grep -v "DC voltage" > results/policy_with_basecase.log
-$PY scripts/exp04_embedding_probe.py
+$PY scripts/analyze_exp02.py --v3 > results/policy_v3.log   # grouped/conformal calibration, ladders, Pareto, sensitivity
+$PY scripts/exp04_embedding_probe.py            # grouped CV, controls, seeds 0/1/42 + Small (~10 min)
+for gs in case14_ieee:base case30_ieee:base case57_ieee:base case118_ieee:base case118_ieee:small case118_ieee:tiny; do
+  $PY scripts/exp06_slack_audit.py --grid ${gs%%:*} --size ${gs##*:}
+done
+$PY scripts/exp06_slack_audit.py --grid case2000_goc --size small --split splits_heldout --batch_size 8
 $PY scripts/exp05_best_start.py --grid case118_ieee --size base
 $PY scripts/exp05_best_start.py --grid case118_ieee --size base --data_root data/stress/n5 --split splits_all --tag stress_n5
 $PY scripts/exp05_best_start.py --grid case2000_goc --size small --split splits_heldout

@@ -1,0 +1,47 @@
+model,size,seed,feature_set,target,R2,R2_lo,R2_hi,Spearman,Spearman_lo,Spearman_hi,skill_vs_busmean,skill_lo,skill_hi,n_rows,n_groups,alpha_median
+base:0,base,0,local mismatch only,log|dVm| (PQ buses),0.2392,0.21362,0.26697,0.39197,0.35036,0.43345,-0.58838,-0.7216,-0.46517,40874,29,1.0
+base:0,base,0,"structure (type, outage kind, hops slack/outage)",log|dVm| (PQ buses),0.18143,0.14767,0.21039,0.39143,0.35401,0.43029,-0.70899,-0.80346,-0.61906,40874,29,10.0
+base:0,base,0,bus-ID one-hot (118),log|dVm| (PQ buses),0.53023,0.49522,0.56341,0.68868,0.65981,0.72122,0.01923,0.01009,0.029,40874,29,31.62278
+base:0,base,0,bus-ID + mismatch,log|dVm| (PQ buses),0.65525,0.62854,0.6823,0.78811,0.76502,0.81046,0.28024,0.233,0.33309,40874,29,31.62278
+base:0,base,0,bus-ID + structure + mismatch,log|dVm| (PQ buses),0.65553,0.62916,0.68216,0.78832,0.76526,0.81065,0.28082,0.23372,0.33177,40874,29,31.62278
+base:0,base,0,"raw local inputs (Pd, Qd, GS, BS, Vm-set, type)",log|dVm| (PQ buses),0.02096,0.00746,0.02935,0.12607,0.09633,0.15612,-1.04401,-1.19629,-0.90863,40874,29,31.62278
+base:0,base,0,embedding (384),log|dVm| (PQ buses),0.51755,0.45244,0.56541,0.69972,0.66916,0.73216,-0.00724,-0.10508,0.07322,40874,29,10.0
+base:0,base,0,embedding + mismatch,log|dVm| (PQ buses),0.65313,0.62092,0.68006,0.79091,0.769,0.81254,0.27581,0.21844,0.33503,40874,29,10.0
+base:0,base,0,embedding + bus-ID + structure + mismatch,log|dVm| (PQ buses),0.6559,0.62422,0.68379,0.79182,0.76967,0.81351,0.2816,0.22154,0.34083,40874,29,31.62278
+base:0,base,0,random-init embedding (384),log|dVm| (PQ buses),0.47678,0.43674,0.51428,0.65849,0.62809,0.69081,-0.09237,-0.12071,-0.06375,40874,29,0.01
+base:0,base,0,random-init embedding + mismatch,log|dVm| (PQ buses),0.61901,0.59177,0.64421,0.76548,0.74335,0.78563,0.20458,0.15801,0.25539,40874,29,0.01
+base:0,base,0,PCA-5 of embedding,log|dVm| (PQ buses),0.23988,0.208,0.26746,0.42314,0.39134,0.4597,-0.58695,-0.68031,-0.49881,40874,29,10.0
+base:0,base,0,PCA-5 of embedding + mismatch,log|dVm| (PQ buses),0.43424,0.40762,0.46255,0.60603,0.57389,0.63774,-0.18117,-0.27175,-0.09223,40874,29,10.0
+base:0,base,0,PCA-5 of random-init embedding,log|dVm| (PQ buses),0.11505,0.08913,0.13551,0.32393,0.28416,0.36423,-0.84757,-0.97225,-0.73255,40874,29,0.31623
+base:0,base,0,PCA-5 of random-init embedding + mismatch,log|dVm| (PQ buses),0.38691,0.35722,0.4162,0.59296,0.56298,0.62265,-0.28,-0.37477,-0.19084,40874,29,0.31623
+base:0,base,0,PCA-20 of embedding,log|dVm| (PQ buses),0.4895,0.45263,0.5235,0.67527,0.6467,0.70341,-0.0658,-0.12988,-0.00667,40874,29,10.0
+base:0,base,0,PCA-20 of embedding + mismatch,log|dVm| (PQ buses),0.60797,0.58672,0.62774,0.76977,0.75092,0.78866,0.18152,0.12788,0.23666,40874,29,10.0
+base:0,base,0,PCA-20 of random-init embedding,log|dVm| (PQ buses),0.25084,0.21504,0.28426,0.50665,0.46413,0.55102,-0.56408,-0.637,-0.49324,40874,29,0.01
+base:0,base,0,PCA-20 of random-init embedding + mismatch,log|dVm| (PQ buses),0.46285,0.43242,0.4922,0.66527,0.63853,0.69187,-0.12145,-0.19277,-0.04827,40874,29,0.01
+base:0,base,0,PCA-118 of embedding,log|dVm| (PQ buses),0.54381,0.50266,0.58372,0.70731,0.67645,0.74109,0.04758,-0.01655,0.09872,40874,29,31.62278
+base:0,base,0,PCA-118 of embedding + mismatch,log|dVm| (PQ buses),0.66397,0.63929,0.68737,0.7951,0.77439,0.81592,0.29844,0.25178,0.3473,40874,29,31.62278
+base:0,base,0,PCA-118 of random-init embedding,log|dVm| (PQ buses),0.45189,0.4203,0.48429,0.63558,0.60781,0.6644,-0.14433,-0.18205,-0.10518,40874,29,0.01
+base:0,base,0,PCA-118 of random-init embedding + mismatch,log|dVm| (PQ buses),0.6039,0.57753,0.6308,0.75448,0.73102,0.77728,0.17304,0.11758,0.23373,40874,29,0.03162
+base:0,base,0,local mismatch only,log|dVa| (non-slack),0.04005,-0.04125,0.06473,0.34633,0.25782,0.4119,0.01798,-0.05432,0.07912,74646,29,10.0
+base:0,base,0,"structure (type, outage kind, hops slack/outage)",log|dVa| (non-slack),-0.03635,-0.1239,-0.00027,0.02101,-0.08892,0.14841,-0.06017,-0.10879,-0.01583,74646,29,100.0
+base:0,base,0,bus-ID one-hot (118),log|dVa| (non-slack),0.02255,-0.08013,0.08329,0.17861,0.03549,0.33293,7e-05,-0.00084,0.00113,74646,29,1000.0
+base:0,base,0,bus-ID + mismatch,log|dVa| (non-slack),0.31935,0.1998,0.38961,0.63312,0.52724,0.71398,0.3037,0.22052,0.39116,74646,29,10.0
+base:0,base,0,bus-ID + structure + mismatch,log|dVa| (non-slack),0.31538,0.19535,0.38668,0.62946,0.52317,0.71045,0.29964,0.21663,0.38716,74646,29,31.62278
+base:0,base,0,"raw local inputs (Pd, Qd, GS, BS, Vm-set, type)",log|dVa| (non-slack),-0.05297,-0.13666,-0.02827,-0.21722,-0.37463,-0.03013,-0.07718,-0.13419,-0.0201,74646,29,1.0
+base:0,base,0,embedding (384),log|dVa| (non-slack),-0.1525,-0.39325,-0.0116,0.12209,-0.06158,0.274,-0.179,-0.35085,-0.04448,74646,29,31.62278
+base:0,base,0,embedding + mismatch,log|dVa| (non-slack),0.21686,0.07684,0.29352,0.53657,0.41371,0.63041,0.19886,0.10499,0.29178,74646,29,31.62278
+base:0,base,0,embedding + bus-ID + structure + mismatch,log|dVa| (non-slack),0.18509,0.03715,0.2639,0.51357,0.38955,0.60959,0.16635,0.06832,0.26187,74646,29,31.62278
+base:0,base,0,random-init embedding (384),log|dVa| (non-slack),-0.06208,-0.16481,-0.01148,0.13517,0.03449,0.24515,-0.0865,-0.11963,-0.05783,74646,29,0.03162
+base:0,base,0,random-init embedding + mismatch,log|dVa| (non-slack),0.23888,0.12035,0.30342,0.5566,0.45691,0.6334,0.22138,0.13668,0.30407,74646,29,0.03162
+base:0,base,0,PCA-5 of embedding,log|dVa| (non-slack),0.00827,-0.0964,0.06493,0.17045,0.04677,0.31312,-0.01453,-0.04111,0.01298,74646,29,100.0
+base:0,base,0,PCA-5 of embedding + mismatch,log|dVa| (non-slack),0.17722,0.07926,0.22941,0.4778,0.38574,0.5459,0.1583,0.09974,0.21309,74646,29,10.0
+base:0,base,0,PCA-5 of random-init embedding,log|dVa| (non-slack),-0.05318,-0.13477,-0.02805,-0.24404,-0.41875,-0.05056,-0.07739,-0.13803,-0.01873,74646,29,1000.0
+base:0,base,0,PCA-5 of random-init embedding + mismatch,log|dVa| (non-slack),0.07202,-0.01146,0.10223,0.37908,0.28998,0.44825,0.05068,-0.0236,0.11845,74646,29,31.62278
+base:0,base,0,PCA-20 of embedding,log|dVa| (non-slack),0.02239,-0.09016,0.08968,0.19718,0.05092,0.34734,-9e-05,-0.0386,0.03789,74646,29,100.0
+base:0,base,0,PCA-20 of embedding + mismatch,log|dVa| (non-slack),0.23015,0.11293,0.29345,0.54352,0.44062,0.62034,0.21245,0.14215,0.27859,74646,29,10.0
+base:0,base,0,PCA-20 of random-init embedding,log|dVa| (non-slack),-0.04152,-0.12241,-0.01236,-0.06722,-0.20144,0.07901,-0.06547,-0.11557,-0.01802,74646,29,1000.0
+base:0,base,0,PCA-20 of random-init embedding + mismatch,log|dVa| (non-slack),0.10693,0.01759,0.14263,0.40574,0.31548,0.47547,0.0864,0.01579,0.161,74646,29,31.62278
+base:0,base,0,PCA-118 of embedding,log|dVa| (non-slack),-0.00572,-0.1465,0.07803,0.19056,0.02846,0.33972,-0.02884,-0.10343,0.03493,74646,29,1000.0
+base:0,base,0,PCA-118 of embedding + mismatch,log|dVa| (non-slack),0.28598,0.15585,0.35883,0.59397,0.4845,0.68021,0.26956,0.18389,0.35684,74646,29,31.62278
+base:0,base,0,PCA-118 of random-init embedding,log|dVa| (non-slack),-0.01084,-0.10129,0.0345,0.14794,0.03304,0.26659,-0.03408,-0.05728,-0.01377,74646,29,1000.0
+base:0,base,0,PCA-118 of random-init embedding + mismatch,log|dVa| (non-slack),0.20531,0.09473,0.25715,0.51094,0.41834,0.58226,0.18704,0.11283,0.26042,74646,29,31.62278

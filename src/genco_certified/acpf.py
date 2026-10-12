@@ -296,3 +296,75 @@ def base_case_voltages(bus_ls, branch_ls, gen_ls, base_mva: float = 100.0) -> di
     p = problem_from_raw(b0.reset_index(), br0.reset_index(), g0.reset_index(), base_mva)
     r = newton_pf(p, p.flat_start())
     return {"V": r["V"], "converged": r["converged"], "iterations": r["iterations"], "variants": int(nvar)}
+
+
+# ---------------------------------------------------------------------------
+# Additions for the corrected screening pipeline (exp02 v3).
+# ---------------------------------------------------------------------------
+
+def branch_key_values(p: PFProblem) -> np.ndarray:
+    """Sorted unique undirected branch keys (min_bus * (n+1) + max_bus); index i <-> branch_loading()[i]."""
+    lo, hi = np.minimum(p.f, p.t), np.maximum(p.f, p.t)
+    return np.unique(lo * (len(p.Vm_set) + 1) + hi)
+
+
+def newton_trajectory(p: PFProblem, V0: np.ndarray, n_steps: int = 3, tol_mw: float = 1e-6, max_it: int = 30) -> dict:
+    """Newton-Raphson from V0 that records every iterate.
+
+    Takes at least `n_steps` steps (continuing from a converged point if need be, so that the
+    step-k iterates exist for every k <= n_steps) and stops once ||F||_inf <= tol_mw.
+    Returns {"V": [V_1, ..., V_K], "dx": [dx_1, ..., dx_K], "history": [||F_0||, ..., ||F_K||],
+    "iterations", "converged": bool}.
+    `iterations` follows newton_pf (number of steps taken if it never converges). The first
+    `iterations` iterates are exactly those of newton_pf; V[-1] is the last iterate.
+    """
+    V = V0.copy()
+    hist = [float(np.max(np.abs(mismatch(p, V))))]
+    Vs, dxs = [], []
+    while len(Vs) < max_it and (len(Vs) < n_steps or hist[-1] > tol_mw):
+        try:
+            V, dx, _ = newton_step(p, V)
+        except Exception:  # singular Jacobian
+            break
+        F = mismatch(p, V)
+        Vs.append(V)
+        dxs.append(dx)
+        hist.append(float(np.max(np.abs(F))) if np.all(np.isfinite(F)) else np.inf)
+        if not np.isfinite(hist[-1]) or hist[-1] > 1e8:
+            break
+    it = iterations_to_tol(hist, tol_mw)
+    return {"V": Vs, "dx": dxs, "history": hist, "iterations": it if it >= 0 else len(Vs), "converged": it >= 0}
+
+
+def iterations_to_tol(history, tol_mw: float) -> int:
+    """Number of Newton steps until the max mismatch first drops to <= tol_mw (-1 if it never does)."""
+    h = np.asarray(history, dtype=float)
+    hit = np.flatnonzero(h <= tol_mw)
+    return int(hit[0]) if len(hit) else -1
+
+
+def dc_loading_from_raw(p: PFProblem, branch_s) -> np.ndarray:
+    """datakit's stored PowerModels DC loading, aligned with `branch_loading(p, ...)`.
+
+    Per in-service branch max(|pf_dc|, |pt_dc|) / rate_a (0 where rate_a <= 0), merged per
+    undirected bus pair by max (parallel circuits), same keys/merge as `branch_keys`/`branch_loading`.
+    Asserts that the key set equals the problem's (graphkit-derived) branch key set.
+    """
+    n = len(p.Vm_set)
+    return dc_loading_from_raw_rows(branch_s, n, expected_keys=branch_key_values(p))
+
+
+def dc_loading_from_raw_rows(branch_s, n_bus: int, expected_keys: np.ndarray | None = None) -> np.ndarray:
+    br = branch_s[branch_s.br_status == 1]
+    f, t = br.from_bus.to_numpy().astype(int), br.to_bus.to_numpy().astype(int)
+    key = np.minimum(f, t) * (n_bus + 1) + np.maximum(f, t)
+    uniq, inv = np.unique(key, return_inverse=True)
+    if expected_keys is not None:
+        assert np.array_equal(uniq, expected_keys), "raw branch keys differ from the graphkit problem's"
+    flow = np.maximum(np.abs(br.pf_dc.to_numpy()), np.abs(br.pt_dc.to_numpy()))
+    rate = br.rate_a.to_numpy()
+    with np.errstate(divide="ignore", invalid="ignore"):
+        load = np.where(rate > 0, flow / rate, 0.0)
+    out = np.zeros(len(uniq))
+    np.maximum.at(out, inv, load)
+    return out

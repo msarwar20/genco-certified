@@ -1,0 +1,1230 @@
+{
+ "metrics_base_mean_sd_over_seeds": {
+  "log|dVa| (non-slack)": {
+   "PCA-118 of embedding": {
+    "R2_mean": -0.00572079696663641,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.19056020572749846,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.02884401470696507,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     -0.0057
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.146,
+      0.078
+     ]
+    ]
+   },
+   "PCA-118 of embedding + mismatch": {
+    "R2_mean": 0.28597652579121857,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.5939694573672833,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.2695599215849346,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.286
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.156,
+      0.359
+     ]
+    ]
+   },
+   "PCA-118 of random-init embedding": {
+    "R2_mean": -0.010843120400481299,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.14793566123792284,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.03408410899775305,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     -0.0108
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.101,
+      0.035
+     ]
+    ]
+   },
+   "PCA-118 of random-init embedding + mismatch": {
+    "R2_mean": 0.20531416706136818,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.5109373172609459,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.1870429991531164,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.2053
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.095,
+      0.257
+     ]
+    ]
+   },
+   "PCA-20 of embedding": {
+    "R2_mean": 0.022388123763093626,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.19717792261845038,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -8.882247082842021e-05,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.0224
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.09,
+      0.09
+     ]
+    ]
+   },
+   "PCA-20 of embedding + mismatch": {
+    "R2_mean": 0.23014795482325712,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.543518120751659,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.21244775758944923,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.2301
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.113,
+      0.293
+     ]
+    ]
+   },
+   "PCA-20 of random-init embedding": {
+    "R2_mean": -0.04151937831337782,
+    "R2_sd": NaN,
+    "Spearman_mean": -0.06722324062358855,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.06546566582989954,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     -0.0415
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.122,
+      -0.012
+     ]
+    ]
+   },
+   "PCA-20 of random-init embedding + mismatch": {
+    "R2_mean": 0.10693366861466835,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.405738982241369,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.0864005670824487,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.1069
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.018,
+      0.143
+     ]
+    ]
+   },
+   "PCA-5 of embedding": {
+    "R2_mean": 0.008273059170701758,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.17044935203248726,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.014528416209854011,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.0083
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.096,
+      0.065
+     ]
+    ]
+   },
+   "PCA-5 of embedding + mismatch": {
+    "R2_mean": 0.17721858226190468,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.4778043067841593,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.1583014494627868,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.1772
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.079,
+      0.229
+     ]
+    ]
+   },
+   "PCA-5 of random-init embedding": {
+    "R2_mean": -0.053176467907042335,
+    "R2_sd": NaN,
+    "Spearman_mean": -0.24404006727482064,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.07739077157844942,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     -0.0532
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.135,
+      -0.028
+     ]
+    ]
+   },
+   "PCA-5 of random-init embedding + mismatch": {
+    "R2_mean": 0.07202031099266626,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.37908252925632574,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.05068449247101736,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.072
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.011,
+      0.102
+     ]
+    ]
+   },
+   "bus-ID + mismatch": {
+    "R2_mean": 0.31935098729628864,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.6331226656816584,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.3037017182616266,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.3194
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.2,
+      0.39
+     ]
+    ]
+   },
+   "bus-ID + structure + mismatch": {
+    "R2_mean": 0.3153793370626018,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.6294550704077417,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.2996387530890189,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.3154
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.195,
+      0.387
+     ]
+    ]
+   },
+   "bus-ID one-hot (118)": {
+    "R2_mean": 0.022546733607272662,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.17861154579801158,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 7.343408123183792e-05,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.0225
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.08,
+      0.083
+     ]
+    ]
+   },
+   "embedding (384)": {
+    "R2_mean": -0.15250467406129298,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.12208501357091564,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.1790027007556081,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     -0.1525
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.393,
+      -0.012
+     ]
+    ]
+   },
+   "embedding + bus-ID + structure + mismatch": {
+    "R2_mean": 0.18508545939524257,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.5135734454012381,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.16634919937258996,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.1851
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.037,
+      0.264
+     ]
+    ]
+   },
+   "embedding + mismatch": {
+    "R2_mean": 0.21686480813493014,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.5365698199465474,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.19885920895051357,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.2169
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.077,
+      0.294
+     ]
+    ]
+   },
+   "local mismatch only": {
+    "R2_mean": 0.040049836840187036,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.34632856513997784,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.017978963184647423,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.04
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.041,
+      0.065
+     ]
+    ]
+   },
+   "random-init embedding (384)": {
+    "R2_mean": -0.06208264698051891,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.13517367371312042,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.08650171873326329,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     -0.0621
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.165,
+      -0.011
+     ]
+    ]
+   },
+   "random-init embedding + mismatch": {
+    "R2_mean": 0.23887772934757578,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.5566019190918177,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.22137824435692244,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.2389
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.12,
+      0.303
+     ]
+    ]
+   },
+   "raw local inputs (Pd, Qd, GS, BS, Vm-set, type)": {
+    "R2_mean": -0.052969959742080075,
+    "R2_sd": NaN,
+    "Spearman_mean": -0.2172152418161222,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.07717951544239154,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     -0.053
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.137,
+      -0.028
+     ]
+    ]
+   },
+   "structure (type, outage kind, hops slack/outage)": {
+    "R2_mean": -0.036346602863941646,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.021005584591633628,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.06017395954657734,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     -0.0363
+    ],
+    "R2_CI_per_seed": [
+     [
+      -0.124,
+      -0.0
+     ]
+    ]
+   }
+  },
+  "log|dVm| (PQ buses)": {
+   "PCA-118 of embedding": {
+    "R2_mean": 0.543811222193817,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.7073050153017417,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.04758134134892933,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.5438
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.503,
+      0.584
+     ]
+    ]
+   },
+   "PCA-118 of embedding + mismatch": {
+    "R2_mean": 0.6639658045425495,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.7950989777914627,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.2984368461723824,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.664
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.639,
+      0.687
+     ]
+    ]
+   },
+   "PCA-118 of random-init embedding": {
+    "R2_mean": 0.451889486818122,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.6355839761540515,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.14433038503857532,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.4519
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.42,
+      0.484
+     ]
+    ]
+   },
+   "PCA-118 of random-init embedding + mismatch": {
+    "R2_mean": 0.603904554715597,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.7544801443770608,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.17304258445427978,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.6039
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.578,
+      0.631
+     ]
+    ]
+   },
+   "PCA-20 of embedding": {
+    "R2_mean": 0.4895045939809376,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.6752742648913408,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.06579857616481544,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.4895
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.453,
+      0.523
+     ]
+    ]
+   },
+   "PCA-20 of embedding + mismatch": {
+    "R2_mean": 0.6079662665099157,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.769766325845275,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.18152251707685352,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.608
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.587,
+      0.628
+     ]
+    ]
+   },
+   "PCA-20 of random-init embedding": {
+    "R2_mean": 0.25083871870193963,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.5066476896164405,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.5640787703689278,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.2508
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.215,
+      0.284
+     ]
+    ]
+   },
+   "PCA-20 of random-init embedding + mismatch": {
+    "R2_mean": 0.4628491618599879,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.665266301158417,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.12144907030562568,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.4628
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.432,
+      0.492
+     ]
+    ]
+   },
+   "PCA-5 of embedding": {
+    "R2_mean": 0.23988277844508088,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.423140438534043,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.5869522877182323,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.2399
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.208,
+      0.267
+     ]
+    ]
+   },
+   "PCA-5 of embedding + mismatch": {
+    "R2_mean": 0.43424231047955253,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.6060264962367767,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.1811736850824499,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.4342
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.408,
+      0.463
+     ]
+    ]
+   },
+   "PCA-5 of random-init embedding": {
+    "R2_mean": 0.11505437451387257,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.3239328636731878,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.8475656715139834,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.1151
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.089,
+      0.136
+     ]
+    ]
+   },
+   "PCA-5 of random-init embedding + mismatch": {
+    "R2_mean": 0.3869087312153662,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.5929646151657122,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.27999545857880936,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.3869
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.357,
+      0.416
+     ]
+    ]
+   },
+   "bus-ID + mismatch": {
+    "R2_mean": 0.6552492787239227,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.7881121584652925,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.2802387180461353,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.6552
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.629,
+      0.682
+     ]
+    ]
+   },
+   "bus-ID + structure + mismatch": {
+    "R2_mean": 0.6555275748225968,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.7883180973215167,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.2808197371546768,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.6555
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.629,
+      0.682
+     ]
+    ]
+   },
+   "bus-ID one-hot (118)": {
+    "R2_mean": 0.53023115067586,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.6886798655823365,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.01922923334287885,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.5302
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.495,
+      0.563
+     ]
+    ]
+   },
+   "embedding (384)": {
+    "R2_mean": 0.517550796529259,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.699721326186191,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.007244468938019777,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.5176
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.452,
+      0.565
+     ]
+    ]
+   },
+   "embedding + bus-ID + structure + mismatch": {
+    "R2_mean": 0.6559017758666852,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.7918240880090428,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.28160098402837186,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.6559
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.624,
+      0.684
+     ]
+    ]
+   },
+   "embedding + mismatch": {
+    "R2_mean": 0.6531288946071978,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.7909070690087383,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.27581183712637725,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.6531
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.621,
+      0.68
+     ]
+    ]
+   },
+   "local mismatch only": {
+    "R2_mean": 0.2391969687684069,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.391973902821769,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.588384102712642,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.2392
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.214,
+      0.267
+     ]
+    ]
+   },
+   "random-init embedding (384)": {
+    "R2_mean": 0.47677721701587117,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.6584912198132059,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.09237045142118427,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.4768
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.437,
+      0.514
+     ]
+    ]
+   },
+   "random-init embedding + mismatch": {
+    "R2_mean": 0.619012133113158,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.7654777095401929,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": 0.20458378023306723,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.619
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.592,
+      0.644
+     ]
+    ]
+   },
+   "raw local inputs (Pd, Qd, GS, BS, Vm-set, type)": {
+    "R2_mean": 0.020963770422375294,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.12606865414001167,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -1.0440055036629232,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.021
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.007,
+      0.029
+     ]
+    ]
+   },
+   "structure (type, outage kind, hops slack/outage)": {
+    "R2_mean": 0.18142908828416604,
+    "R2_sd": NaN,
+    "Spearman_mean": 0.39143001844498987,
+    "Spearman_sd": NaN,
+    "skill_vs_busmean_mean": -0.7089903296095439,
+    "skill_vs_busmean_sd": NaN,
+    "R2_per_seed": [
+     0.1814
+    ],
+    "R2_CI_per_seed": [
+     [
+      0.148,
+      0.21
+     ]
+    ]
+   }
+  }
+ },
+ "metrics_small_seed0": {},
+ "contrasts_base_mean_sd_over_seeds": {
+  "log|dVa| (non-slack)": {
+   "PCA-118 emb - PCA-118 random": {
+    "dR2_mean": 0.005122323433844889,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.042624544489575616,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.0051
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.082,
+      0.075
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   },
+   "PCA-118 emb - bus-ID": {
+    "dR2_mean": -0.028267530573909072,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.011948659929486877,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.0283
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.104,
+      0.035
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   },
+   "PCA-20 emb - PCA-20 random": {
+    "dR2_mean": 0.06390750207647145,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.26440116324203894,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.0639
+    ],
+    "dR2_CI_per_seed": [
+     [
+      0.005,
+      0.128
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "PCA-20 emb - bus-ID": {
+    "dR2_mean": -0.00015860984417903623,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.018566376820438796,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.0002
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.039,
+      0.038
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   },
+   "PCA-5 emb - PCA-5 random": {
+    "dR2_mean": 0.06144952707774409,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.41448941930730787,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.0614
+    ],
+    "dR2_CI_per_seed": [
+     [
+      0.016,
+      0.11
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "embedding - bus-ID": {
+    "dR2_mean": -0.17505140766856564,
+    "dR2_sd": NaN,
+    "dSpearman_mean": -0.056526532227095944,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.1751
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.358,
+      -0.044
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "embedding - random-init embedding": {
+    "dR2_mean": -0.09042202708077407,
+    "dR2_sd": NaN,
+    "dSpearman_mean": -0.013088660142204778,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.0904
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.262,
+      0.04
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   },
+   "embedding - raw local inputs": {
+    "dR2_mean": -0.0995347143192129,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.33930025538703784,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.0995
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.288,
+      0.047
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   },
+   "embedding+all - bus-ID+struct+mis": {
+    "dR2_mean": -0.13029387766735923,
+    "dR2_sd": NaN,
+    "dSpearman_mean": -0.11588162500650367,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.1303
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.214,
+      -0.075
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "embedding+mis - bus-ID+mis": {
+    "dR2_mean": -0.10248617916135849,
+    "dR2_sd": NaN,
+    "dSpearman_mean": -0.09655284573511103,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.1025
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.173,
+      -0.058
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "embedding+mis - bus-ID+struct+mis": {
+    "dR2_mean": -0.09851452892767165,
+    "dR2_sd": NaN,
+    "dSpearman_mean": -0.09288525046119434,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.0985
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.169,
+      -0.053
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "embedding+mis - mismatch only": {
+    "dR2_mean": 0.1768149712947431,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.19024125480656956,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.1768
+    ],
+    "dR2_CI_per_seed": [
+     [
+      0.094,
+      0.262
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "embedding+mis - random embedding+mis": {
+    "dR2_mean": -0.022012921212645642,
+    "dR2_sd": NaN,
+    "dSpearman_mean": -0.020032099145270266,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.022
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.086,
+      0.024
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   }
+  },
+  "log|dVm| (PQ buses)": {
+   "PCA-118 emb - PCA-118 random": {
+    "dR2_mean": 0.09192173537569492,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.07172103914769024,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.0919
+    ],
+    "dR2_CI_per_seed": [
+     [
+      0.056,
+      0.122
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "PCA-118 emb - bus-ID": {
+    "dR2_mean": 0.013580071517956926,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.01862514971940521,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.0136
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.016,
+      0.04
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   },
+   "PCA-20 emb - PCA-20 random": {
+    "dR2_mean": 0.23866587527899796,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.16862657527490033,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.2387
+    ],
+    "dR2_CI_per_seed": [
+     [
+      0.206,
+      0.272
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "PCA-20 emb - bus-ID": {
+    "dR2_mean": -0.04072655669492242,
+    "dR2_sd": NaN,
+    "dSpearman_mean": -0.013405600690995723,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.0407
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.069,
+      -0.013
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "PCA-5 emb - PCA-5 random": {
+    "dR2_mean": 0.12482840393120831,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.09920757486085519,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.1248
+    ],
+    "dR2_CI_per_seed": [
+     [
+      0.092,
+      0.162
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "embedding - bus-ID": {
+    "dR2_mean": -0.01268035414660107,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.01104146060385447,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.0127
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.061,
+      0.026
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   },
+   "embedding - random-init embedding": {
+    "dR2_mean": 0.04077357951338778,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.041230106372985076,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.0408
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.007,
+      0.082
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   },
+   "embedding - raw local inputs": {
+    "dR2_mean": 0.49658702610688366,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.5736526720461793,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.4966
+    ],
+    "dR2_CI_per_seed": [
+     [
+      0.431,
+      0.55
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "embedding+all - bus-ID+struct+mis": {
+    "dR2_mean": 0.0003742010440883625,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.003505990687526106,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.0004
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.019,
+      0.017
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   },
+   "embedding+mis - bus-ID+mis": {
+    "dR2_mean": -0.0021203841167248827,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.0027949105434458277,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.0021
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.02,
+      0.013
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   },
+   "embedding+mis - bus-ID+struct+mis": {
+    "dR2_mean": -0.0023986802153990183,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.0025889716872216084,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     -0.0024
+    ],
+    "dR2_CI_per_seed": [
+     [
+      -0.021,
+      0.013
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 0
+   },
+   "embedding+mis - mismatch only": {
+    "dR2_mean": 0.4139319258387909,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.3989331661869693,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.4139
+    ],
+    "dR2_CI_per_seed": [
+     [
+      0.386,
+      0.442
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   },
+   "embedding+mis - random embedding+mis": {
+    "dR2_mean": 0.03411676149403986,
+    "dR2_sd": NaN,
+    "dSpearman_mean": 0.02542935946854541,
+    "dSpearman_sd": NaN,
+    "dR2_per_seed": [
+     0.0341
+    ],
+    "dR2_CI_per_seed": [
+     [
+      0.018,
+      0.048
+     ]
+    ],
+    "seeds_with_CI_excluding_0": 1
+   }
+  }
+ },
+ "contrasts_small_seed0": {},
+ "base_seeds": [
+  0
+ ],
+ "config": {
+  "K_outer": 5,
+  "K_inner": 4,
+  "alpha_mode": "loo",
+  "bootstrap": 500,
+  "pca_ks": [
+   5,
+   20,
+   118
+  ],
+  "models": "base:0",
+  "random_init_seed": "1000 + model seed"
+ }
+}

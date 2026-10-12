@@ -55,12 +55,32 @@ def fig_layers():
     fig.savefig(FIG / "fig1_layer_dynamics.png", dpi=200)
 
 
+SLACK_GRIDS = [("case14_ieee_base_seed0", "IEEE 14"), ("case30_ieee_base_seed0", "IEEE 30"),
+               ("case57_ieee_base_seed0", "IEEE 57"), ("case118_ieee_base_seed0", "IEEE 118"),
+               ("case2000_goc_small_seed0", "GOC 2000 (Small)")]
+
+
+def _slack_rows():
+    """[(label, reported, physical, n_scenarios)] from results/exp06/summary.csv, else from the exp01 parquets."""
+    summ = R / "exp06" / "summary.csv"
+    S = pd.read_csv(summ).set_index("tag") if summ.exists() else None
+    rows = []
+    for tag, name in SLACK_GRIDS:
+        if S is not None and tag in S.index:
+            r = S.loc[tag]
+            rows.append((name, float(r.res_raw_max_med), float(r.res_phys_max_med), int(r.n_scenarios)))
+            continue
+        f = R / "exp01" / f"{tag}_scenarios.parquet"
+        if f.exists():
+            d = pd.read_parquet(f)
+            rows.append((name, float(d.res_raw_max.median()), float(d.res_phys_max.median()), len(d)))
+    return rows
+
+
 def fig_slack():
-    grids = [("case14_ieee", "IEEE 14"), ("case30_ieee", "IEEE 30"), ("case57_ieee", "IEEE 57"), ("case118_ieee", "IEEE 118")]
-    fig, ax = plt.subplots(figsize=(7.5, 3.4))
-    for i, (g, name) in enumerate(grids):
-        S = pd.read_parquet(R / "exp01" / f"{g}_base_seed0_scenarios.parquet")
-        rep, phy = S.res_raw_max.median(), S.res_phys_max.median()
+    rows = _slack_rows()
+    fig, ax = plt.subplots(figsize=(7.5, 3.9))
+    for i, (name, rep, phy, _) in enumerate(rows):
         ax.plot([rep, phy], [i, i], color=GRID, lw=3, zorder=1)
         ax.scatter([rep], [i], color=BLUE, s=60, zorder=2, edgecolor=SURFACE, linewidth=2,
                    label="Reported (GENCO's own slack voltage)" if i == 0 else None)
@@ -68,14 +88,50 @@ def fig_slack():
                    label="Physical (true slack setpoint)" if i == 0 else None)
         ax.text(phy * 1.25, i, f"{phy / rep:.0f}x", va="center", color=INK2, fontsize=9)
     ax.set_xscale("log")
-    ax.set_yticks(range(len(grids)), [n for _, n in grids])
-    ax.set_xlim(2e-3, 120)
-    ax.set(xlabel="Median max |power mismatch| per scenario (MW, log scale)",
-           title="GENCO's power balance holds only at its own guess of the slack voltage")
+    ax.set_yticks(range(len(rows)), [r[0] for r in rows])
+    ax.set_ylim(-0.5, len(rows) - 0.5)
+    ax.set_xlim(2e-3, 1200)
+    ax.set(xlabel="Median max |power mismatch| per scenario (MW, log scale)")
+    fig.suptitle("GENCO's power balance holds only at its own guess of the slack voltage", fontsize=11, fontweight="bold")
     ax.legend(loc="lower right", fontsize=9)
     ax.grid(axis="y", visible=False)
-    fig.tight_layout()
+    n = {r[0]: r[3] for r in rows}
+    ieee = [v for k, v in n.items() if k.startswith("IEEE")]
+    fig.text(0.01, 0.01, "Medians over all test scenarios (IEEE: paper-test N-1 subset, %d-%d each; GOC 2000 Small: %d held-out).\n"
+             "Ratio = physical / reported. 95%% cluster-bootstrap CIs over load scenarios: results/exp06/summary.csv." % (
+                 min(ieee), max(ieee), n.get("GOC 2000 (Small)", 0)), color=INK2, fontsize=7.5)
+    fig.tight_layout(rect=(0, 0.07, 1, 1))
     fig.savefig(FIG / "fig2_hidden_slack.png", dpi=200)
+
+
+def fig_slack_locality():
+    """Mean |dS| per bus vs hop distance from the slack (median and 25-75% band over test scenarios)."""
+    colors = [BLUE, AQUA, "#4a3aa7", ORANGE, "#e87ba4"]
+    fig, ax = plt.subplots(figsize=(7.5, 4.3))
+    drawn = 0
+    for (tag, name), c in zip(SLACK_GRIDS, colors):
+        f = R / "exp06" / f"{tag}_hops.parquet"
+        if not f.exists():
+            continue
+        H = pd.read_parquet(f)
+        n_scen = H.scenario.nunique()
+        W = H.pivot(index="scenario", columns="hop", values="mean_dS")
+        W = W.loc[:, W.notna().sum() >= 0.5 * n_scen]  # hop bins present in at least half of the scenarios
+        med, lo, hi = W.median(), W.quantile(.25), W.quantile(.75)
+        ax.fill_between(med.index, lo, hi, color=c, alpha=0.14, linewidth=0)
+        ax.plot(med.index, med, color=c, lw=2, marker="o", ms=5, markeredgecolor=SURFACE, markeredgewidth=1.2, label=name)
+        drawn += 1
+    ax.set_yscale("log")
+    ax.set_xticks(range(1, 7), ["1", "2", "3", "4", "5", "6+"])
+    ax.set(xlabel="Hop distance from the slack bus", ylabel="Mean |power mismatch| per bus (MW, log scale)")
+    fig.suptitle("The slack inconsistency is concentrated within a hop or two of the slack", fontsize=11, fontweight="bold")
+    if drawn > 1:
+        ax.legend(loc="upper right", fontsize=9, ncol=1)
+    fig.text(0.01, 0.01, "Physical state (true slack setpoint enforced), all test scenarios; line = median, band = 25-75th percentile over scenarios.\n"
+             "|dS| = |V conj(Ybus V) - S| per bus, slack bus excluded; hop 6+ pools buses six or more hops away.\n"
+             "Hop bins reached in fewer than half of a grid's scenarios are omitted (IEEE 14: hops 5 and 6+).", color=INK2, fontsize=7.5)
+    fig.tight_layout(rect=(0, 0.09, 1, 1))
+    fig.savefig(FIG / "fig2b_slack_locality.png", dpi=200)
 
 
 def _parse_table(text):
@@ -165,5 +221,6 @@ if __name__ == "__main__":
     fig_stress()
     fig_layers()
     fig_slack()
+    fig_slack_locality()
     fig_screening()
     print("figures in", FIG)

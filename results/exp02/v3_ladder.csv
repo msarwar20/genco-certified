@@ -1,0 +1,67 @@
+set,method,LU,n_scen,el_truth,el_miss,el_fa,recall,precision,cont_truth,cont_miss,cont_fa
+paper N-1,GENCO (as published),0.0,638,484,31,178,0.9359504132231405,0.7179080824088748,225,6,59
+paper N-1,"GENCO, setpoint enforced",0.0,638,484,47,285,0.9028925619834711,0.6052631578947368,225,14,111
+paper N-1,GENCO + 1 Newton step,1.0,638,484,1,0,0.9979338842975206,1.0,225,0,0
+paper N-1,GENCO + 2 Newton steps,2.0,638,484,0,0,1.0,1.0,225,0,0
+paper N-1,GENCO + 3 Newton steps,3.0,638,484,0,0,1.0,1.0,225,0,0
+paper N-1,Base case + 1 Newton step,1.0,638,484,33,6,0.9318181818181818,0.986870897155361,225,4,0
+paper N-1,Base case + 2 Newton steps,2.0,638,484,0,0,1.0,1.0,225,0,0
+paper N-1,Base case + 3 Newton steps,3.0,638,484,0,0,1.0,1.0,225,0,0
+paper N-1,NR flat start to 1e-6 MW,4.003134796238244,638,484,0,0,1.0,1.0,225,0,0
+paper N-1,NR base-case start to 1e-6 MW,2.8808777429467085,638,484,0,0,1.0,1.0,225,0,0
+paper N-1,NR GENCO start to 1e-6 MW,2.147335423197492,638,484,0,0,1.0,1.0,225,0,0
+stress N-1,GENCO (as published),0.0,660,435,20,129,0.9540229885057471,0.7628676470588235,217,12,82
+stress N-1,"GENCO, setpoint enforced",0.0,660,435,37,113,0.9149425287356322,0.7788649706457925,217,16,74
+stress N-1,GENCO + 1 Newton step,1.0,660,435,1,0,0.9977011494252873,1.0,217,0,0
+stress N-1,GENCO + 2 Newton steps,2.0,660,435,0,0,1.0,1.0,217,0,0
+stress N-1,GENCO + 3 Newton steps,3.0,660,435,0,0,1.0,1.0,217,0,0
+stress N-1,Base case + 1 Newton step,1.0,660,435,21,12,0.9517241379310345,0.971830985915493,217,3,0
+stress N-1,Base case + 2 Newton steps,2.0,660,435,1,0,0.9977011494252873,1.0,217,0,0
+stress N-1,Base case + 3 Newton steps,3.0,660,435,0,0,1.0,1.0,217,0,0
+stress N-1,NR flat start to 1e-6 MW,4.001515151515152,660,435,0,0,1.0,1.0,217,0,0
+stress N-1,NR base-case start to 1e-6 MW,2.8803030303030304,660,435,0,0,1.0,1.0,217,0,0
+stress N-1,NR GENCO start to 1e-6 MW,2.110606060606061,660,435,0,0,1.0,1.0,217,0,0
+stress N-2,GENCO (as published),0.0,659,714,49,92,0.9313725490196079,0.8784676354029062,334,15,51
+stress N-2,"GENCO, setpoint enforced",0.0,659,714,75,92,0.8949579831932774,0.8741450068399452,334,17,44
+stress N-2,GENCO + 1 Newton step,1.0,659,714,0,0,1.0,1.0,334,0,0
+stress N-2,GENCO + 2 Newton steps,2.0,659,714,0,0,1.0,1.0,334,0,0
+stress N-2,GENCO + 3 Newton steps,3.0,659,714,0,0,1.0,1.0,334,0,0
+stress N-2,Base case + 1 Newton step,1.0,659,714,37,20,0.9481792717086834,0.9713055954088953,334,3,3
+stress N-2,Base case + 2 Newton steps,2.0,659,714,0,1,1.0,0.9986013986013986,334,0,0
+stress N-2,Base case + 3 Newton steps,3.0,659,714,0,0,1.0,1.0,334,0,0
+stress N-2,NR flat start to 1e-6 MW,4.0121396054628224,659,714,0,0,1.0,1.0,334,0,0
+stress N-2,NR base-case start to 1e-6 MW,3.0758725341426403,659,714,0,0,1.0,1.0,334,0,0
+stress N-2,NR GENCO start to 1e-6 MW,2.139605462822458,659,714,0,0,1.0,1.0,334,0,0
+stress N-3,GENCO (as published),0.0,660,950,52,97,0.9452631578947368,0.9025125628140703,455,14,40
+stress N-3,"GENCO, setpoint enforced",0.0,660,950,55,128,0.9421052631578948,0.8748778103616813,455,16,45
+stress N-3,GENCO + 1 Newton step,1.0,660,950,1,0,0.9989473684210526,1.0,455,0,0
+stress N-3,GENCO + 2 Newton steps,2.0,660,950,0,0,1.0,1.0,455,0,0
+stress N-3,GENCO + 3 Newton steps,3.0,660,950,0,0,1.0,1.0,455,0,0
+stress N-3,Base case + 1 Newton step,1.0,660,950,60,32,0.9368421052631579,0.96529284164859,455,6,4
+stress N-3,Base case + 2 Newton steps,2.0,660,950,2,0,0.9978947368421053,1.0,455,0,0
+stress N-3,Base case + 3 Newton steps,3.0,660,950,0,0,1.0,1.0,455,0,0
+stress N-3,NR flat start to 1e-6 MW,4.006060606060606,660,950,0,0,1.0,1.0,455,0,0
+stress N-3,NR base-case start to 1e-6 MW,3.172727272727273,660,950,0,0,1.0,1.0,455,0,0
+stress N-3,NR GENCO start to 1e-6 MW,2.193939393939394,660,950,0,0,1.0,1.0,455,0,0
+stress N-5,GENCO (as published),0.0,660,1763,182,106,0.8967668746454907,0.9371665678719621,539,13,16
+stress N-5,"GENCO, setpoint enforced",0.0,660,1763,240,95,0.8638684061259218,0.9412855377008653,539,24,17
+stress N-5,GENCO + 1 Newton step,1.0,660,1763,6,0,0.996596710153148,1.0,539,0,0
+stress N-5,GENCO + 2 Newton steps,2.0,660,1763,0,0,1.0,1.0,539,0,0
+stress N-5,GENCO + 3 Newton steps,3.0,660,1763,0,0,1.0,1.0,539,0,0
+stress N-5,Base case + 1 Newton step,1.0,660,1763,129,46,0.926829268292683,0.9726190476190476,539,5,5
+stress N-5,Base case + 2 Newton steps,2.0,660,1763,6,0,0.996596710153148,1.0,539,0,0
+stress N-5,Base case + 3 Newton steps,3.0,660,1763,0,0,1.0,1.0,539,0,0
+stress N-5,NR flat start to 1e-6 MW,4.031818181818182,660,1763,0,0,1.0,1.0,539,0,0
+stress N-5,NR base-case start to 1e-6 MW,3.316666666666667,660,1763,0,0,1.0,1.0,539,0,0
+stress N-5,NR GENCO start to 1e-6 MW,2.396969696969697,660,1763,0,0,1.0,1.0,539,0,0
+GOC 2000,GENCO (as published),0.0,198,61,46,237,0.2459016393442623,0.05952380952380952,16,4,162
+GOC 2000,"GENCO, setpoint enforced",0.0,198,61,46,237,0.2459016393442623,0.05952380952380952,16,4,162
+GOC 2000,GENCO + 1 Newton step,1.0,198,61,4,130,0.9344262295081968,0.3048128342245989,16,0,60
+GOC 2000,GENCO + 2 Newton steps,2.0,198,61,0,0,1.0,1.0,16,0,0
+GOC 2000,GENCO + 3 Newton steps,3.0,198,61,0,0,1.0,1.0,16,0,0
+GOC 2000,Base case + 1 Newton step,1.0,198,61,16,0,0.7377049180327869,1.0,16,0,0
+GOC 2000,Base case + 2 Newton steps,2.0,198,61,0,0,1.0,1.0,16,0,0
+GOC 2000,Base case + 3 Newton steps,3.0,198,61,0,0,1.0,1.0,16,0,0
+GOC 2000,NR flat start to 1e-6 MW,6.0,198,61,0,0,1.0,1.0,16,0,0
+GOC 2000,NR base-case start to 1e-6 MW,2.9494949494949494,198,61,0,0,1.0,1.0,16,0,0
+GOC 2000,NR GENCO start to 1e-6 MW,3.227272727272727,198,61,0,0,1.0,1.0,16,0,0

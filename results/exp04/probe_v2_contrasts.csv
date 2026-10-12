@@ -1,0 +1,105 @@
+model,size,seed,contrast,target,dR2,dR2_lo,dR2_hi,dSpearman,dSpearman_lo,dSpearman_hi
+base:0,base,0,embedding - bus-ID,log|dVm| (PQ buses),0.02651,-0.00156,0.05312,0.0259,0.00203,0.04805
+base:0,base,0,embedding - random-init embedding,log|dVm| (PQ buses),0.05725,0.0261,0.08637,0.04468,0.02105,0.06784
+base:0,base,0,embedding - raw local inputs,log|dVm| (PQ buses),0.53576,0.49878,0.57185,0.58888,0.55911,0.61939
+base:0,base,0,embedding+mis - bus-ID+mis,log|dVm| (PQ buses),0.0149,0.00182,0.02813,0.01026,-0.00085,0.02008
+base:0,base,0,embedding+mis - random embedding+mis,log|dVm| (PQ buses),0.0357,0.02102,0.0498,0.02383,0.01259,0.03414
+base:0,base,0,embedding+mis - bus-ID+struct+mis,log|dVm| (PQ buses),0.01465,0.00159,0.02806,0.01009,-0.00099,0.02002
+base:0,base,0,embedding+all - bus-ID+struct+mis,log|dVm| (PQ buses),0.01788,0.0041,0.03196,0.01211,0.00044,0.02241
+base:0,base,0,embedding+mis - mismatch only,log|dVm| (PQ buses),0.43095,0.40503,0.45864,0.40639,0.36477,0.45131
+base:0,base,0,PCA-118 emb - bus-ID,log|dVm| (PQ buses),0.01853,-0.00789,0.04388,0.0203,-0.00262,0.04023
+base:0,base,0,PCA-118 emb - PCA-118 random,log|dVm| (PQ buses),0.09556,0.06441,0.12397,0.07358,0.04543,0.09879
+base:0,base,0,PCA-20 emb - PCA-20 random,log|dVm| (PQ buses),0.23835,0.20386,0.2729,0.16869,0.13269,0.20364
+base:0,base,0,PCA-5 emb - PCA-5 random,log|dVm| (PQ buses),0.12453,0.08989,0.15988,0.09907,0.05162,0.15013
+base:0,base,0,PCA-20 emb - bus-ID,log|dVm| (PQ buses),-0.0407,-0.06999,-0.01062,-0.01325,-0.03817,0.01157
+base:0,base,0,embedding - bus-ID,log|dVa| (non-slack),-0.00015,-0.04653,0.04343,0.01008,-0.05952,0.07561
+base:0,base,0,embedding - random-init embedding,log|dVa| (non-slack),0.0289,-0.02355,0.07847,0.05411,-0.02186,0.12395
+base:0,base,0,embedding - raw local inputs,log|dVa| (non-slack),0.07616,0.00851,0.148,0.41105,0.27999,0.54396
+base:0,base,0,embedding+mis - bus-ID+mis,log|dVa| (non-slack),-0.07018,-0.12382,-0.0313,-0.07865,-0.12871,-0.03636
+base:0,base,0,embedding+mis - random embedding+mis,log|dVa| (non-slack),0.00491,-0.04343,0.0457,-0.00245,-0.04959,0.03947
+base:0,base,0,embedding+mis - bus-ID+struct+mis,log|dVa| (non-slack),-0.06681,-0.11926,-0.02834,-0.07495,-0.12393,-0.03234
+base:0,base,0,embedding+all - bus-ID+struct+mis,log|dVa| (non-slack),-0.06562,-0.11951,-0.02627,-0.07879,-0.1305,-0.03603
+base:0,base,0,embedding+mis - mismatch only,log|dVa| (non-slack),0.20881,0.1413,0.29005,0.21007,0.15324,0.26977
+base:0,base,0,PCA-118 emb - bus-ID,log|dVa| (non-slack),-0.01506,-0.06396,0.02725,-0.01802,-0.10319,0.05798
+base:0,base,0,PCA-118 emb - PCA-118 random,log|dVa| (non-slack),0.01634,-0.03679,0.06292,0.03998,-0.0492,0.12061
+base:0,base,0,PCA-20 emb - PCA-20 random,log|dVa| (non-slack),0.06332,0.01603,0.11421,0.25564,0.16809,0.34694
+base:0,base,0,PCA-5 emb - PCA-5 random,log|dVa| (non-slack),0.06148,0.02318,0.10557,0.4084,0.28736,0.52597
+base:0,base,0,PCA-20 emb - bus-ID,log|dVa| (non-slack),-0.00169,-0.03426,0.03052,-0.00133,-0.06066,0.05257
+base:1,base,1,embedding - bus-ID,log|dVm| (PQ buses),0.01786,-0.01073,0.04296,0.01768,-0.00497,0.03938
+base:1,base,1,embedding - random-init embedding,log|dVm| (PQ buses),0.05137,0.02893,0.0723,0.03695,0.022,0.0524
+base:1,base,1,embedding - raw local inputs,log|dVm| (PQ buses),0.53492,0.50448,0.56707,0.59348,0.57112,0.61589
+base:1,base,1,embedding+mis - bus-ID+mis,log|dVm| (PQ buses),0.01073,-6e-05,0.02089,0.00881,0.0018,0.01569
+base:1,base,1,embedding+mis - random embedding+mis,log|dVm| (PQ buses),0.0282,0.01801,0.0378,0.01851,0.01175,0.02592
+base:1,base,1,embedding+mis - bus-ID+struct+mis,log|dVm| (PQ buses),0.00955,-0.00114,0.01961,0.00787,0.00073,0.01469
+base:1,base,1,embedding+all - bus-ID+struct+mis,log|dVm| (PQ buses),0.01506,0.00501,0.02397,0.01125,0.00451,0.01754
+base:1,base,1,embedding+mis - mismatch only,log|dVm| (PQ buses),0.42441,0.39939,0.45186,0.41766,0.37238,0.47099
+base:1,base,1,PCA-118 emb - bus-ID,log|dVm| (PQ buses),0.00441,-0.01887,0.02495,0.01059,-0.00752,0.02722
+base:1,base,1,PCA-118 emb - PCA-118 random,log|dVm| (PQ buses),0.08683,0.06397,0.10795,0.06594,0.05101,0.08124
+base:1,base,1,PCA-20 emb - PCA-20 random,log|dVm| (PQ buses),0.18233,0.16214,0.20421,0.11825,0.09227,0.14873
+base:1,base,1,PCA-5 emb - PCA-5 random,log|dVm| (PQ buses),0.0872,0.05606,0.11813,0.04047,0.00185,0.08484
+base:1,base,1,PCA-20 emb - bus-ID,log|dVm| (PQ buses),-0.08536,-0.11211,-0.05693,-0.04945,-0.07179,-0.02519
+base:1,base,1,embedding - bus-ID,log|dVa| (non-slack),-0.0257,-0.06288,0.0035,-0.05954,-0.15603,0.02082
+base:1,base,1,embedding - random-init embedding,log|dVa| (non-slack),-0.01428,-0.0501,0.01405,-0.0305,-0.12309,0.04852
+base:1,base,1,embedding - raw local inputs,log|dVa| (non-slack),-0.0005,-0.03866,0.03081,0.11778,0.02306,0.22099
+base:1,base,1,embedding+mis - bus-ID+mis,log|dVa| (non-slack),-0.04349,-0.07577,-0.01611,-0.04581,-0.07187,-0.02039
+base:1,base,1,embedding+mis - random embedding+mis,log|dVa| (non-slack),0.00171,-0.02493,0.02419,0.00425,-0.01824,0.02486
+base:1,base,1,embedding+mis - bus-ID+struct+mis,log|dVa| (non-slack),-0.03713,-0.0695,-0.01015,-0.04032,-0.06664,-0.01543
+base:1,base,1,embedding+all - bus-ID+struct+mis,log|dVa| (non-slack),-0.0394,-0.07656,-0.00774,-0.04338,-0.07153,-0.01703
+base:1,base,1,embedding+mis - mismatch only,log|dVa| (non-slack),0.15874,0.09983,0.21934,0.14632,0.12113,0.17473
+base:1,base,1,PCA-118 emb - bus-ID,log|dVa| (non-slack),-0.04028,-0.08978,0.00115,-0.10975,-0.23236,-0.00574
+base:1,base,1,PCA-118 emb - PCA-118 random,log|dVa| (non-slack),-0.02756,-0.07341,0.00862,-0.06716,-0.17827,0.02666
+base:1,base,1,PCA-20 emb - PCA-20 random,log|dVa| (non-slack),-0.00937,-0.05152,0.02282,0.01976,-0.08048,0.11289
+base:1,base,1,PCA-5 emb - PCA-5 random,log|dVa| (non-slack),0.0217,-0.00202,0.04617,0.19036,0.06552,0.31095
+base:1,base,1,PCA-20 emb - bus-ID,log|dVa| (non-slack),-0.03026,-0.07321,0.00138,-0.07992,-0.1916,0.01038
+base:42,base,42,embedding - bus-ID,log|dVm| (PQ buses),0.03596,0.0248,0.04737,0.02801,0.01858,0.03757
+base:42,base,42,embedding - random-init embedding,log|dVm| (PQ buses),0.07101,0.05537,0.08791,0.04698,0.03408,0.05965
+base:42,base,42,embedding - raw local inputs,log|dVm| (PQ buses),0.58035,0.55878,0.60097,0.58355,0.56227,0.60604
+base:42,base,42,embedding+mis - bus-ID+mis,log|dVm| (PQ buses),0.01843,0.01123,0.02541,0.01247,0.00701,0.01747
+base:42,base,42,embedding+mis - random embedding+mis,log|dVm| (PQ buses),0.04194,0.03059,0.05443,0.02663,0.0173,0.0356
+base:42,base,42,embedding+mis - bus-ID+struct+mis,log|dVm| (PQ buses),0.01603,0.0087,0.02323,0.01061,0.00519,0.01574
+base:42,base,42,embedding+all - bus-ID+struct+mis,log|dVm| (PQ buses),0.01836,0.01166,0.02512,0.01153,0.00669,0.01625
+base:42,base,42,embedding+mis - mismatch only,log|dVm| (PQ buses),0.47219,0.45302,0.49314,0.49071,0.45951,0.52255
+base:42,base,42,PCA-118 emb - bus-ID,log|dVm| (PQ buses),0.02575,0.01387,0.03763,0.01979,0.01024,0.02949
+base:42,base,42,PCA-118 emb - PCA-118 random,log|dVm| (PQ buses),0.12144,0.10263,0.1422,0.08762,0.07185,0.10385
+base:42,base,42,PCA-20 emb - PCA-20 random,log|dVm| (PQ buses),0.27033,0.25059,0.29172,0.1895,0.17068,0.20945
+base:42,base,42,PCA-5 emb - PCA-5 random,log|dVm| (PQ buses),0.11547,0.09231,0.13836,0.07633,0.04507,0.10435
+base:42,base,42,PCA-20 emb - bus-ID,log|dVm| (PQ buses),-0.05852,-0.07393,-0.04314,-0.0411,-0.05267,-0.0298
+base:42,base,42,embedding - bus-ID,log|dVa| (non-slack),0.00359,-0.03545,0.03538,0.0033,-0.1156,0.1031
+base:42,base,42,embedding - random-init embedding,log|dVa| (non-slack),0.01744,-0.02214,0.05139,0.06694,-0.06361,0.18464
+base:42,base,42,embedding - raw local inputs,log|dVa| (non-slack),0.03607,-0.00656,0.07395,0.24936,0.05605,0.43478
+base:42,base,42,embedding+mis - bus-ID+mis,log|dVa| (non-slack),-0.00597,-0.04973,0.03232,-0.02307,-0.09236,0.03373
+base:42,base,42,embedding+mis - random embedding+mis,log|dVa| (non-slack),0.04458,-0.00404,0.08788,0.06401,-0.00873,0.12783
+base:42,base,42,embedding+mis - bus-ID+struct+mis,log|dVa| (non-slack),-0.00205,-0.0464,0.03679,-0.01514,-0.08372,0.04406
+base:42,base,42,embedding+all - bus-ID+struct+mis,log|dVa| (non-slack),-0.01341,-0.05544,0.02305,-0.03331,-0.10192,0.02494
+base:42,base,42,embedding+mis - mismatch only,log|dVa| (non-slack),0.11367,0.04816,0.17745,0.23917,0.12413,0.35093
+base:42,base,42,PCA-118 emb - bus-ID,log|dVa| (non-slack),0.0025,-0.03158,0.03227,-0.01707,-0.1178,0.06752
+base:42,base,42,PCA-118 emb - PCA-118 random,log|dVa| (non-slack),0.01612,-0.01837,0.04823,0.0526,-0.06545,0.15223
+base:42,base,42,PCA-20 emb - PCA-20 random,log|dVa| (non-slack),0.03298,-0.017,0.07478,0.20655,0.0163,0.39302
+base:42,base,42,PCA-5 emb - PCA-5 random,log|dVa| (non-slack),0.0367,-0.00624,0.07726,0.29204,0.07705,0.50155
+base:42,base,42,PCA-20 emb - bus-ID,log|dVa| (non-slack),0.00381,-0.04037,0.04036,0.00705,-0.11301,0.10772
+small:0,small,0,embedding - bus-ID,log|dVm| (PQ buses),0.01979,-0.00958,0.05003,0.02579,0.00189,0.04705
+small:0,small,0,embedding - random-init embedding,log|dVm| (PQ buses),0.11863,0.08927,0.14617,0.08679,0.06248,0.10838
+small:0,small,0,embedding - raw local inputs,log|dVm| (PQ buses),0.51675,0.48266,0.54957,0.60546,0.56251,0.64177
+small:0,small,0,embedding+mis - bus-ID+mis,log|dVm| (PQ buses),-0.00076,-0.01672,0.0135,0.00343,-0.00782,0.01265
+small:0,small,0,embedding+mis - random embedding+mis,log|dVm| (PQ buses),0.05611,0.03998,0.07278,0.04076,0.02752,0.0541
+small:0,small,0,embedding+mis - bus-ID+struct+mis,log|dVm| (PQ buses),-0.00137,-0.01745,0.01329,0.00305,-0.00837,0.01227
+small:0,small,0,embedding+all - bus-ID+struct+mis,log|dVm| (PQ buses),0.01604,0.00346,0.02773,0.01234,0.003,0.02024
+small:0,small,0,embedding+mis - mismatch only,log|dVm| (PQ buses),0.4457,0.41911,0.47821,0.45757,0.41806,0.50215
+small:0,small,0,PCA-118 emb - bus-ID,log|dVm| (PQ buses),0.00908,-0.01797,0.03709,0.01679,-0.00816,0.03824
+small:0,small,0,PCA-118 emb - PCA-118 random,log|dVm| (PQ buses),0.1508,0.12555,0.17515,0.11065,0.08152,0.13402
+small:0,small,0,PCA-20 emb - PCA-20 random,log|dVm| (PQ buses),0.18297,0.15653,0.20962,0.15802,0.12737,0.18738
+small:0,small,0,PCA-5 emb - PCA-5 random,log|dVm| (PQ buses),0.11146,0.09019,0.13297,0.14903,0.11829,0.17837
+small:0,small,0,PCA-20 emb - bus-ID,log|dVm| (PQ buses),-0.14064,-0.16379,-0.11893,-0.08917,-0.10976,-0.06958
+small:0,small,0,embedding - bus-ID,log|dVa| (non-slack),0.02165,-0.02262,0.06186,0.0297,-0.0416,0.09242
+small:0,small,0,embedding - random-init embedding,log|dVa| (non-slack),0.05216,0.00484,0.09265,0.06994,-0.00336,0.13121
+small:0,small,0,embedding - raw local inputs,log|dVa| (non-slack),0.1107,0.03116,0.18215,0.36014,0.16617,0.53858
+small:0,small,0,embedding+mis - bus-ID+mis,log|dVa| (non-slack),-0.04036,-0.07262,-0.01361,-0.05306,-0.08443,-0.02605
+small:0,small,0,embedding+mis - random embedding+mis,log|dVa| (non-slack),0.05335,0.02107,0.08271,0.05062,0.01928,0.0791
+small:0,small,0,embedding+mis - bus-ID+struct+mis,log|dVa| (non-slack),-0.03744,-0.0694,-0.01025,-0.0503,-0.08186,-0.02309
+small:0,small,0,embedding+all - bus-ID+struct+mis,log|dVa| (non-slack),-0.02163,-0.05228,0.00563,-0.03333,-0.06363,-0.00728
+small:0,small,0,embedding+mis - mismatch only,log|dVa| (non-slack),0.23121,0.16423,0.2879,0.22328,0.14555,0.29841
+small:0,small,0,PCA-118 emb - bus-ID,log|dVa| (non-slack),0.01175,-0.03143,0.0548,0.0152,-0.05883,0.08171
+small:0,small,0,PCA-118 emb - PCA-118 random,log|dVa| (non-slack),0.04987,0.00561,0.08842,0.06914,-0.01024,0.13642
+small:0,small,0,PCA-20 emb - PCA-20 random,log|dVa| (non-slack),0.0978,0.03222,0.15786,0.22816,0.13698,0.31119
+small:0,small,0,PCA-5 emb - PCA-5 random,log|dVa| (non-slack),0.10144,0.03648,0.16541,0.40302,0.18611,0.6044
+small:0,small,0,PCA-20 emb - bus-ID,log|dVa| (non-slack),0.01925,-0.02079,0.0563,0.03011,-0.03472,0.08736

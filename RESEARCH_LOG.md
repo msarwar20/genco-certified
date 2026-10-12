@@ -605,6 +605,87 @@ The reviewer's scores: originality 6, technical 5.5, exploration 7.5, communicat
 - Gaps: n = 3 with no CIs; 2 small fixed grids; unrealistic operating points; no downstream task or UI; nothing on the HF Hub; a dense post.
 - No new entries or organizer replies as of 2026-10-11.
 
+## 2026-10-11: WS0 corrections done (3 subagents). Full tables in results/notes/ws0_{A,B,C}_*.md
+
+**A. Screening pipeline** (`results/notes/ws0_A_screening.md`, `results/policy_v3.log`, `results/exp02/v3_*.csv`, `pareto_*.csv`; 18 tests pass)
+
+What changed:
+- LU accounting fixed (own NR count). Stress LU is now 1.494 / 1.569 / 1.718 / 2.076, vs 1.429 / 1.498 / 1.633 / 1.974 before.
+- Calibration is grouped by load scenario, using either cross-set calibration on the paper set or 5-fold grouped CV. A conformal option is added. The in-sample N-1 row is removed.
+
+Results:
+- **Zero element misses, false alarms and contingency misses for every calibrated policy**, including across 20 fold draws.
+- Sequential verification (check after every Newton step), cost in LU per contingency:
+
+| Prior and rule | Paper set | N-1 | N-2 | N-3 | N-5 |
+|---|---|---|---|---|---|
+| GENCO, max rule | — | 1.48 | 1.49 | 1.59 | 1.75 |
+| GENCO, conformal α = 0.10 | — | 1.22 | 1.31 | 1.37 | 1.56 |
+| Base case, with c measured against our own NR | 2.2–3.0 (all sets) | | | | |
+
+- The classical tiered rule accepts at most 7% after one step.
+- **Equal-cost ladder** (element misses on paper / N-1 / N-2 / N-3 / N-5):
+  - GENCO + 1 step: 1 / 1 / 0 / 1 / 6.
+  - Base + 2 steps: 0 / 1 / 0 / 2 / 6.
+  - GENCO + 2 steps: exact everywhere.
+  - So, for screening, **a GENCO prediction is worth about one Newton iteration** on IEEE 118.
+- **NR iterations to 1e-2 / 1e-4 / 1e-6 MW (paper set):** GENCO start 1.72 / 2.01 / 2.15; base start 2.04 / 2.49 / 2.88; flat start 3.0 / 4.0 / 4.0.
+- **The conformal bound is not exchangeable across contingency order.** With α = 0.10 calibrated on the paper set, it is exceeded in 6.7% (N-1), 33% (N-2), 23% (N-3) and 13% (N-5) of load scenarios.
+  - There are still no misses, because accepted margins far exceed the realised errors.
+  - The calibrated c is 27–87× larger than the in-sample zero-miss c.
+  - **Wording: "empirically safe on these sets", not "calibrated bound".**
+- **Label-noise floor.** Graphkit stores float32 features, so datakit truth through graphkit's problem has a median mismatch of 1.9e-3 MW. This inflated the base-case constant (3575 vs 42 when measured against our own NR).
+  - τ = 1.00 and ε_v = 0 are dominated by label noise: exact NR "misses" 21–83 elements.
+  - The sensitivity tables include exact-NR floor rows.
+- **DC.** Datakit's PowerModels DC is about the same as ours (element recall 0.44 vs 0.43). The tuned F3 threshold of 0.875 gives recall 0.87–0.97 at precision 0.15–0.46, and flags 97–100% of contingencies, so it is uninformative at contingency level.
+- **Recertification** (`results/validation/recertify.json`): the raw-parquet problem has a max mismatch of 1e-6 MW (118) and 1.5e-5 MW (GOC 2000). Our NR differs from datakit by at most 1.4e-5 in loading.
+- **GOC 2000:** no GENCO advantage. Sequential LU is 2.005 (GENCO) vs 2.071 (base), and NR iterations 3.23 vs 2.95. GENCO accepts 0% after one step. With 9 load scenarios, conformal gives c = ∞.
+
+**B. Slack audit** (`scripts/exp06_slack_audit.py`, `results/exp06/summary.csv`, `results/notes/ws0_B_slack.md`, fig2 and new fig2b)
+
+All test scenarios, 7 checkpoints, cluster-bootstrap CIs over load scenarios.
+
+| Checkpoint | Reported → physical max mismatch ratio, median [95% CI] |
+|---|---|
+| IEEE 14 | 36× [31, 46] |
+| IEEE 30 | 39× [31, 46] |
+| IEEE 57 | 32× [25, 39] |
+| IEEE 118 Base | 60× [45, 79] |
+| IEEE 118 Small | 37× |
+| IEEE 118 Tiny | 35× |
+| GOC 2000 | 26× [17, 44] |
+
+- **Wording: "about 30–60×".**
+- **Locality confirmed.**
+  - IEEE 118 Base: the worst bus is adjacent to the slack in 97.0% of 638 scenarios (99.2% using constrained equations).
+  - The neighbours hold 50% (76% constrained) of |ΔS|.
+  - It holds on IEEE 14/30/57 and on Small/Tiny (97–99% constrained).
+  - **Definition to use: "constrained" (the PF equations P at PV+PQ, Q at PQ).**
+- **Correction for GOC 2000:** the neighbour share is 8% [6, 15], not 15%. Use enrichment instead (about 155× the uniform share). The worst bus is adjacent in 99–100%.
+- **Correction on mask surgery:** zero-shot clamp-only works for **Small and Tiny**.
+  - Physical mismatch falls 13× and 26×.
+  - State error ratio is 1.11 [0.89, 1.48] and 0.95 [0.87, 1.13].
+  - NR iterations are unchanged.
+  - It fails only on Base: 494 MW for the visible variant, and 5.7× the state error for clamp-only.
+  - So "mask surgery fails" holds only for Base.
+- Re-anchoring is worse in 95–100% of scenarios on every grid.
+
+**C. Embedding probe redone** (`results/exp04/probe_v2*.csv`, `results/notes/ws0_C_probe.md`)
+
+Grouped 5-fold CV by load scenario, correct outage locations, controls, 3 Base seeds plus Small. R² (mean ± SD over seeds):
+
+| Features | \|ΔVm\| R² |
+|---|---|
+| Bus-ID one-hot | 0.553 ± 0.029 |
+| Random-init GENCO embedding | 0.520 ± 0.027 |
+| Trained embedding | 0.580 ± 0.036 |
+| Embedding + mismatch | 0.667 vs 0.652 for bus-ID + mismatch |
+
+- For |ΔVa| the embedding is about 0 alone and no better than bus-ID or random weights when combined with mismatch.
+- **F9 is withdrawn.** The embedding carries little error information beyond bus identity and the architecture prior. The v1 numbers (0.63 / 0.71) were inflated by sibling leakage.
+- **New lead:** GENCO's |ΔVm| errors are largely bus-specific (systematic). A per-bus bias correction may help; this needs a check on signed errors (open).
+- Old files `case118_ieee_base_probe.json` and `_pca.parquet` are stale. Do not cite them.
+
 ## Open questions / TODO
 
 - [ ] Re-run IEEE 118 exp01/exp02 with the fixed DC start for consistent DC numbers.
