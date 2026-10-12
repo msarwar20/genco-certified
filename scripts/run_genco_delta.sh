@@ -6,6 +6,9 @@
 #   control            task PowerFlow                 (masked inputs = 0, as released)
 #   delta_vm_va        task PowerFlowContingencyAware (masked Vm/Va <- pre-contingency Vm/Va)
 #   delta_vm_va_flows  task PowerFlowContingencyAware (masked Vm/Va and P_E/Q_E <- pre-contingency state / flows)
+#   slack_aware        task PowerFlowSlackAware        (only the slack Vm setpoint becomes a known input). The delta arms
+#                      implicitly receive the true slack Vm via the base case, so this arm separates "slack known"
+#                      from "base-case information".
 # Every fine-tuned model and the released checkpoint are evaluated on the paper test split and on the stress sets
 # n1, n2, n3, n5 with scripts/eval_genco_delta.py (NR iterations, state error, equal-cost screening, cluster bootstrap).
 #
@@ -13,7 +16,7 @@
 #   nohup ./scripts/run_genco_delta.sh > results/genco_delta/run_matrix.log 2>&1 &
 # Resumable: finished runs/evals (their JSON exists) are skipped; FORCE=1 redoes everything.
 # Knobs (environment): SEEDS="0 1 42"  ARMS="control delta_vm_va delta_vm_va_flows"  EPOCHS=12  LR=1e-4  BS=32
-#   ACCEL=mps  SETS="paper n1 n2 n3 n5"  SMOKE=1 (1 epoch, 10% of the training batches, tag prefix smoke_)  NO_TRAIN=1  NO_EVAL=1
+#   (default ARMS now also includes slack_aware)  ACCEL=mps  SETS="paper n1 n2 n3 n5"  SMOKE=1 (1 epoch, 10% of the training batches, tag prefix smoke_)  NO_TRAIN=1  NO_EVAL=1
 set -euo pipefail
 cd "$(dirname "$0")/.."
 source .venv/bin/activate
@@ -21,7 +24,7 @@ export MLFLOW_ALLOW_FILE_STORE=true HF_HUB_DISABLE_PROGRESS_BARS=1
 PY="python -W ignore"
 
 SEEDS="${SEEDS:-0 1 42}"
-ARMS="${ARMS:-control delta_vm_va delta_vm_va_flows}"
+ARMS="${ARMS:-control slack_aware delta_vm_va delta_vm_va_flows}"
 SETS="${SETS:-paper n1 n2 n3 n5}"
 EPOCHS="${EPOCHS:-12}"; LR="${LR:-1e-4}"; BS="${BS:-32}"; ACCEL="${ACCEL:-mps}"
 PREFIX=""; FT_EXTRA=""
@@ -46,6 +49,7 @@ $PY scripts/build_basecase_store.py --all --seed_splits 1 42
 arm_flags() {  # task name + delta flag of an arm
   case "$1" in
     control)           echo "--task_name PowerFlow" ;;
+    slack_aware)       echo "--task_name PowerFlowSlackAware" ;;
     delta_vm_va)       echo "--task_name PowerFlowContingencyAware --delta_inputs vm_va" ;;
     delta_vm_va_flows) echo "--task_name PowerFlowContingencyAware --delta_inputs vm_va_flows" ;;
     *) echo "unknown arm $1" >&2; exit 1 ;;
