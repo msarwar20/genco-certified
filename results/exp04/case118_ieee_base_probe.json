@@ -1,0 +1,34 @@
+{
+ "dva | local mismatch only": {
+  "R2": 0.079,
+  "spearman": 0.44
+ },
+ "dva | structure (type, hops to slack/outage)": {
+  "R2": 0.026,
+  "spearman": 0.163
+ },
+ "dva | embedding": {
+  "R2": 0.154,
+  "spearman": 0.422
+ },
+ "dva | embedding + local mismatch": {
+  "R2": 0.361,
+  "spearman": 0.67
+ },
+ "dvm | local mismatch only": {
+  "R2": 0.24,
+  "spearman": 0.387
+ },
+ "dvm | structure (type, hops to slack/outage)": {
+  "R2": 0.183,
+  "spearman": 0.389
+ },
+ "dvm | embedding": {
+  "R2": 0.631,
+  "spearman": 0.772
+ },
+ "dvm | embedding + local mismatch": {
+  "R2": 0.71,
+  "spearman": 0.829
+ }
+}

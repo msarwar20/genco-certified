@@ -1,0 +1,12 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.12.1+cpu
+--find-links https://data.pyg.org/whl/torch-2.12.0+cpu.html
+torch-scatter
+gridfm-graphkit @ git+https://github.com/gridfm/gridfm-graphkit.git@8a8defbc9ab41caa65b07c75e8e1ee23636877cd
+pandas>=2.3,<3
+scipy
+pyarrow
+networkx
+plotly
+huggingface_hub
+gradio==6.29.0

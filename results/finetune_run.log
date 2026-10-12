@@ -1,0 +1,6 @@
+Restoring normalizer for case118_ieee from saved stats
+fit done in 2227s; best val 0.00039179238956421614
+saved <repo>/checkpoints/finetuned/PowerFlowSlackAware_case118_ieee_base_seed0/best_model_state_dict.pt
+Restoring normalizer for case118_ieee from saved stats
+fit done in 2280s; best val 0.0002645357744768262
+saved <repo>/checkpoints/finetuned/PowerFlow_case118_ieee_base_seed0/best_model_state_dict.pt

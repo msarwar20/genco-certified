@@ -1,0 +1,40 @@
+stress_n1_base (calibrated on stress_n1_base) | tau=1.01 | test scenarios 660 | violations in test: 386 branch + 49 bus | c0=0.379 c1=0.261
+                   method  recall  precision  missed  LU per scenario
+            DC power flow   0.487      0.328     223            0.500
+     GENCO (as published)   0.954      0.763      20            0.000
+    GENCO + 1 Newton step   0.998      1.000       1            1.000
+      Full NR, flat start   1.000      1.000       0            4.002
+Full NR, GENCO warm start   1.000      1.000       0            2.111
+  Certified tiered policy   1.000      1.000       0            1.429
+policy tiers on test: tier0 0.0% | tier1 61.4% | tier2 38.6%
+
+stress_n2_base (calibrated on stress_n1_base) | tau=1.01 | test scenarios 659 | violations in test: 651 branch + 63 bus | c0=0.379 c1=0.261
+                   method  recall  precision  missed  LU per scenario
+            DC power flow   0.494      0.574     361            0.500
+     GENCO (as published)   0.931      0.878      49            0.000
+    GENCO + 1 Newton step   1.000      1.000       0            1.000
+      Full NR, flat start   1.000      1.000       0            4.012
+Full NR, GENCO warm start   1.000      1.000       0            2.140
+  Certified tiered policy   1.000      1.000       0            1.498
+policy tiers on test: tier0 0.0% | tier1 56.3% | tier2 43.7%
+
+stress_n3_base (calibrated on stress_n1_base) | tau=1.01 | test scenarios 660 | violations in test: 833 branch + 117 bus | c0=0.379 c1=0.261
+                   method  recall  precision  missed  LU per scenario
+            DC power flow   0.544      0.585     433            0.500
+     GENCO (as published)   0.945      0.903      52            0.000
+    GENCO + 1 Newton step   0.999      1.000       1            1.000
+      Full NR, flat start   1.000      1.000       0            4.006
+Full NR, GENCO warm start   1.000      1.000       0            2.194
+  Certified tiered policy   1.000      1.000       0            1.633
+policy tiers on test: tier0 0.0% | tier1 47.0% | tier2 53.0%
+
+stress_n5_base (calibrated on stress_n1_base) | tau=1.01 | test scenarios 660 | violations in test: 1604 branch + 159 bus | c0=0.379 c1=0.261
+                   method  recall  precision  missed  LU per scenario
+            DC power flow   0.516      0.738     853            0.500
+     GENCO (as published)   0.897      0.937     182            0.000
+    GENCO + 1 Newton step   0.997      1.000       6            1.000
+      Full NR, flat start   1.000      1.000       0            4.032
+Full NR, GENCO warm start   1.000      1.000       0            2.397
+  Certified tiered policy   1.000      1.000       0            1.974
+policy tiers on test: tier0 0.0% | tier1 30.3% | tier2 69.7%
+

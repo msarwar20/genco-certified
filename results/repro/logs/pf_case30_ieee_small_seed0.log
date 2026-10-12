@@ -1,0 +1,43 @@
+2026/10/02 03:23:56 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at <repo>/.venv/lib/python3.12/site-packages/mlflow/assistant/skills/instrumenting-with-mlflow-tracing/SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+Seed set to 0
+GPU available: True (mps), used: False
+TPU available: False, using: 0 TPU cores
+<repo>/.venv/lib/python3.12/site-packages/lightning/pytorch/trainer/setup.py:175: GPU available but not used. You can set it by doing `Trainer(accelerator='gpu')`.
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+GPU available: True (mps), used: False
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+<repo>/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:235: UserWarning: Requested number of scenarios (250000) exceeds dataset size (6000). Using the full dataset instead.
+  warnings.warn(
+<repo>/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:245: UserWarning: `data.scenarios` is ignored when `split_from_existing_files` is set; train/val/test scenario ids are loaded from the provided split files.
+  warnings.warn(
+<repo>/.venv/lib/python3.12/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+<repo>/.venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'test_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=9` in the `DataLoader` to improve performance.
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loading model weights from <repo>/checkpoints/genco-pf-datakit/case30_ieee/small/seed0/best_model_state_dict.pt
+[device] hostname=Muhammads-MacBook-Air.local
+[device] Using Apple MPS (Metal Performance Shaders)
+Loaded normalizer stats from <repo>/checkpoints/genco-pf-datakit/case30_ieee/small/seed0/normalizer_stats.pt
+split='train' len(split_indices)=4680
+split='val' len(split_indices)=682
+split='test' len(split_indices)=638
+Restoring normalizer for case30_ieee from saved stats
+Testing: |          | 0/? [00:00<?, ?it/s]<repo>/.venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:378: You have overridden `transfer_batch_to_device` in `LightningModule` but have passed in a `LightningDataModule`. It will use the implementation from `LightningModule` instance.
+<repo>/.venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:378: You have overridden `on_after_batch_transfer` in `LightningModule` but have passed in a `LightningDataModule`. It will use the implementation from `LightningModule` instance.
+Testing: |          | 0/? [00:00<?, ?it/s]Testing DataLoader 0:   0%|          | 0/10 [00:00<?, ?it/s]Testing DataLoader 0:  10%|█         | 1/10 [00:00<00:01,  8.13it/s]Testing DataLoader 0:  20%|██        | 2/10 [00:00<00:01,  7.19it/s]Testing DataLoader 0:  30%|███       | 3/10 [00:00<00:01,  6.90it/s]Testing DataLoader 0:  40%|████      | 4/10 [00:00<00:00,  6.75it/s]Testing DataLoader 0:  50%|█████     | 5/10 [00:00<00:00,  6.67it/s]Testing DataLoader 0:  60%|██████    | 6/10 [00:00<00:00,  6.63it/s]Testing DataLoader 0:  70%|███████   | 7/10 [00:01<00:00,  6.58it/s]Testing DataLoader 0:  80%|████████  | 8/10 [00:01<00:00,  6.55it/s]Testing DataLoader 0:  90%|█████████ | 9/10 [00:01<00:00,  6.52it/s]Testing DataLoader 0: 100%|██████████| 10/10 [00:01<00:00,  6.53it/s]Testing DataLoader 0: 100%|██████████| 10/10 [00:01<00:00,  6.53it/s]<repo>/.venv/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:3036: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+<repo>/.venv/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:3036: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+<repo>/.venv/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:3036: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+
+
+Computing ground-truth AC/DC metrics for case30_ieee...
+  Test split: 638 scenarios
+  Loaded 19140 bus rows, 26158 branch rows, 638 runtime rows for 638 test scenarios
+  Computing AC power balance...
+  Computing DC power balance...
+  AC per-bus residuals saved to <repo>/results/repro/mlruns/781668528546018813/3c6255a3a6c94da18fbce82dcc360f41/artifacts/test/case30_ieee_ac_bus_residuals.parquet
+  DC per-bus residuals saved to <repo>/results/repro/mlruns/781668528546018813/3c6255a3a6c94da18fbce82dcc360f41/artifacts/test/case30_ieee_dc_bus_residuals.parquet
+  Aggregated metrics saved to <repo>/results/repro/mlruns/781668528546018813/3c6255a3a6c94da18fbce82dcc360f41/artifacts/test/case30_ieee_ac_dc_metrics.csv

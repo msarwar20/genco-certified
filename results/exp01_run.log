@@ -1,0 +1,42 @@
+case118_ieee_base_seed0: 638 scenarios in 37s
+  slack Vm error (p.u.)       median 0.00628 | p95 0.0188 | max 0.0315
+  residual reported (MW, max) median 0.288 | p95 0.949 | max 6.04
+  residual physical (MW, max) median 17.4 | p95 54.4 | max 89.2
+  NR iters flat / DC / GENCO   4.0 / 4.13 / 2.15 | conv 1.0 / 0.984 / 1.0
+  Spearman(est, err) l2 1.000 | Va-inf 1.000 | Vm-inf 1.000
+  error after 1 Newton step (l2): median 5.61e-05 (before 4.94e-02)
+case118_ieee_small_seed0: 638 scenarios in 28s
+  slack Vm error (p.u.)       median 0.00571 | p95 0.0189 | max 0.0279
+  residual reported (MW, max) median 0.454 | p95 1.29 | max 6.44
+  residual physical (MW, max) median 16.8 | p95 57.7 | max 81.7
+  NR iters flat / DC / GENCO   4.0 / 4.13 / 2.22 | conv 1.0 / 0.984 / 1.0
+  Spearman(est, err) l2 1.000 | Va-inf 1.000 | Vm-inf 1.000
+  error after 1 Newton step (l2): median 7.08e-05 (before 6.09e-02)
+case118_ieee_tiny_seed0: 638 scenarios in 27s
+  slack Vm error (p.u.)       median 0.00677 | p95 0.0171 | max 0.0347
+  residual reported (MW, max) median 0.583 | p95 1.6 | max 9.77
+  residual physical (MW, max) median 20.2 | p95 54.2 | max 97.5
+  NR iters flat / DC / GENCO   4.0 / 4.13 / 2.18 | conv 1.0 / 0.984 / 1.0
+  Spearman(est, err) l2 1.000 | Va-inf 1.000 | Vm-inf 1.000
+  error after 1 Newton step (l2): median 1.11e-04 (before 7.22e-02)
+case14_ieee_base_seed0: 638 scenarios in 17s
+  slack Vm error (p.u.)       median 0.000275 | p95 0.000878 | max 0.00141
+  residual reported (MW, max) median 0.0048 | p95 0.0134 | max 0.104
+  residual physical (MW, max) median 0.173 | p95 0.678 | max 1.55
+  NR iters flat / DC / GENCO   4.01 / 3.07 / 1.87 | conv 1.0 / 1.0 / 1.0
+  Spearman(est, err) l2 1.000 | Va-inf 1.000 | Vm-inf 1.000
+  error after 1 Newton step (l2): median 1.75e-07 (before 4.32e-04)
+case30_ieee_base_seed0: 638 scenarios in 27s
+  slack Vm error (p.u.)       median 0.000735 | p95 0.00203 | max 0.00408
+  residual reported (MW, max) median 0.0126 | p95 0.0331 | max 0.0882
+  residual physical (MW, max) median 0.491 | p95 1.42 | max 3.52
+  NR iters flat / DC / GENCO   4.0 / 3.02 / 1.99 | conv 1.0 / 1.0 / 1.0
+  Spearman(est, err) l2 1.000 | Va-inf 1.000 | Vm-inf 1.000
+  error after 1 Newton step (l2): median 7.65e-07 (before 1.67e-03)
+case57_ieee_base_seed0: 631 scenarios in 35s
+  slack Vm error (p.u.)       median 0.000955 | p95 0.00335 | max 0.00791
+  residual reported (MW, max) median 0.0329 | p95 0.0873 | max 0.333
+  residual physical (MW, max) median 1.04 | p95 3.5 | max 26.6
+  NR iters flat / DC / GENCO   4.04 / 4.01 / 2.0 | conv 1.0 / 1.0 / 1.0
+  Spearman(est, err) l2 1.000 | Va-inf 1.000 | Vm-inf 1.000
+  error after 1 Newton step (l2): median 4.11e-06 (before 4.15e-03)

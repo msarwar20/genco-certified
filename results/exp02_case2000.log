@@ -1,0 +1,21 @@
+case2000_goc_small_seed0: 198 scenarios, 555478 branch-rows in 45s
+  overloaded branches: 95 (0.02%); scenarios with >=1 overload: 38.4%
+  dc     recall 0.6105 precision 0.4957 missed   37 | loading abs err: median 1.68e-02 p99 2.70e-01 max 6.27e-01
+  raw    recall 0.3263 precision 0.5962 missed   64 | loading abs err: median 6.16e-03 p99 1.24e-01 max 6.70e-01
+  phys   recall 0.3263 precision 0.5962 missed   64 | loading abs err: median 6.16e-03 p99 1.23e-01 max 6.70e-01
+  step1  recall 0.4211 precision 0.7273 missed   55 | loading abs err: median 5.61e-05 p99 4.00e-03 max 2.71e-02
+  base1  recall 0.8316 precision 0.9753 missed   16 | loading abs err: median 8.29e-07 p99 4.39e-04 max 1.36e-01
+case2000_goc_small_seed0 (calibrated on own half) | tau=1.01 | test scenarios 99 | violations in test: 6 branch + 31 bus | c0=0.0744 c1=0.00161
+                             method  recall  precision  missed  LU per scenario
+                      DC power flow   0.108      0.098      33            0.500
+               GENCO (as published)   0.108      0.032      33            0.000
+              GENCO + 1 Newton step   0.946      0.350       2            1.000
+          Base case + 1 Newton step   0.676      1.000      12            1.000
+                Full NR, flat start   1.000      1.000       0            6.000
+           Full NR, base-case start   1.000      1.000       0            2.960
+          Full NR, GENCO warm start   1.000      1.000       0            3.232
+            Certified tiered policy   1.000      1.000       0            3.232
+Classical tiered policy (base case)   1.000      1.000       0            2.762
+policy tiers on test: tier0 0.0% | tier1 0.0% | tier2 100.0%
+base case available 1.0 | NR iters flat/base/GENCO: 6.0 2.95 3.23 | conv 1.0 1.0 1.0
+step1 vs base1 loading err median 4.28308089727517 0.025071612735368815

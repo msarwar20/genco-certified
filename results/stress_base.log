@@ -1,0 +1,52 @@
+stress_n1_base: 660 scenarios in 160s
+  slack Vm error (p.u.)       median 0.00551 | p95 0.0182 | max 0.0293
+  residual reported (MW, max) median 0.353 | p95 0.935 | max 2.57
+  residual physical (MW, max) median 16.6 | p95 50 | max 81.2
+  NR iters flat / DC / GENCO   4.0 / 4.0 / 2.11 | conv 1.0 / 1.0 / 1.0
+  Spearman(est, err) l2 1.000 | Va-inf 1.000 | Vm-inf 1.000
+  error after 1 Newton step (l2): median 6.30e-05 (before 5.24e-02)
+stress_n1_base: 660 scenarios, 117654 branch-rows in 107s
+  overloaded branches: 1233 (1.05%); scenarios with >=1 overload: 84.4%
+  dc     recall 0.4380 precision 0.6294 missed  693 | loading abs err: median 1.50e-02 p99 1.71e-01 max 9.18e-01
+  raw    recall 0.6715 precision 0.7541 missed  405 | loading abs err: median 7.07e-04 p99 2.09e-02 max 2.10e-01
+  phys   recall 0.6342 precision 0.7441 missed  451 | loading abs err: median 7.07e-04 p99 2.22e-02 max 1.01e-01
+  step1  recall 0.9343 precision 0.9821 missed   81 | loading abs err: median 4.55e-07 p99 6.04e-05 max 1.06e-03
+stress_n2_base: 659 scenarios in 158s
+  slack Vm error (p.u.)       median 0.00434 | p95 0.0163 | max 0.0271
+  residual reported (MW, max) median 0.375 | p95 1.71 | max 972
+  residual physical (MW, max) median 12.2 | p95 47.7 | max 972
+  NR iters flat / DC / GENCO   4.01 / 4.0 / 2.14 | conv 1.0 / 1.0 / 1.0
+  Spearman(est, err) l2 1.000 | Va-inf 1.000 | Vm-inf 1.000
+  error after 1 Newton step (l2): median 5.37e-05 (before 5.03e-02)
+stress_n2_base: 659 scenarios, 116981 branch-rows in 73s
+  overloaded branches: 1413 (1.21%); scenarios with >=1 overload: 87.6%
+  dc     recall 0.4246 precision 0.7194 missed  813 | loading abs err: median 1.54e-02 p99 1.83e-01 max 7.20e-01
+  raw    recall 0.7891 precision 0.8557 missed  298 | loading abs err: median 6.59e-04 p99 2.39e-02 max 1.34e+00
+  phys   recall 0.7481 precision 0.8600 missed  356 | loading abs err: median 6.59e-04 p99 2.69e-02 max 1.34e+00
+  step1  recall 0.9703 precision 0.9971 missed   42 | loading abs err: median 4.30e-07 p99 1.25e-04 max 3.07e-01
+stress_n3_base: 660 scenarios in 164s
+  slack Vm error (p.u.)       median 0.00601 | p95 0.0244 | max 0.0445
+  residual reported (MW, max) median 0.443 | p95 2.65 | max 18.3
+  residual physical (MW, max) median 18.1 | p95 65.8 | max 117
+  NR iters flat / DC / GENCO   4.01 / 4.0 / 2.19 | conv 1.0 / 1.0 / 1.0
+  Spearman(est, err) l2 1.000 | Va-inf 1.000 | Vm-inf 1.000
+  error after 1 Newton step (l2): median 8.38e-05 (before 6.27e-02)
+stress_n3_base: 660 scenarios, 116738 branch-rows in 56s
+  overloaded branches: 1378 (1.18%); scenarios with >=1 overload: 87.6%
+  dc     recall 0.5581 precision 0.7147 missed  609 | loading abs err: median 1.45e-02 p99 1.71e-01 max 5.90e-01
+  raw    recall 0.8774 precision 0.8877 missed  169 | loading abs err: median 8.42e-04 p99 3.03e-02 max 2.53e-01
+  phys   recall 0.8563 precision 0.8799 missed  198 | loading abs err: median 8.42e-04 p99 3.05e-02 max 2.74e-01
+  step1  recall 0.9666 precision 0.9992 missed   46 | loading abs err: median 5.42e-07 p99 1.50e-04 max 5.00e-03
+stress_n5_base: 660 scenarios in 154s
+  slack Vm error (p.u.)       median 0.00714 | p95 0.0231 | max 0.0428
+  residual reported (MW, max) median 0.824 | p95 6.71 | max 196
+  residual physical (MW, max) median 22.1 | p95 67.9 | max 196
+  NR iters flat / DC / GENCO   4.03 / 4.0 / 2.4 | conv 1.0 / 1.0 / 1.0
+  Spearman(est, err) l2 1.000 | Va-inf 1.000 | Vm-inf 1.000
+  error after 1 Newton step (l2): median 1.89e-04 (before 9.71e-02)
+stress_n5_base: 660 scenarios, 115781 branch-rows in 96s
+  overloaded branches: 2089 (1.80%); scenarios with >=1 overload: 94.1%
+  dc     recall 0.5548 precision 0.8249 missed  930 | loading abs err: median 1.67e-02 p99 1.97e-01 max 1.22e+00
+  raw    recall 0.8746 precision 0.9321 missed  262 | loading abs err: median 1.27e-03 p99 5.55e-02 max 1.08e+00
+  phys   recall 0.8406 precision 0.9311 missed  333 | loading abs err: median 1.27e-03 p99 5.98e-02 max 1.06e+00
+  step1  recall 0.9876 precision 0.9990 missed   26 | loading abs err: median 1.12e-06 p99 9.00e-04 max 1.30e-01

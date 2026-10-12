@@ -1,0 +1,35 @@
+case118_ieee_base_seed0: 638 scenarios, 113780 branch-rows in 18s
+  overloaded branches: 1599 (1.41%); scenarios with >=1 overload: 92.9%
+  dc     recall 0.3177 precision 0.5819 missed 1091 | loading abs err: median 1.77e-02 p99 1.90e-01 max 6.00e-01
+  raw    recall 0.7117 precision 0.8117 missed  461 | loading abs err: median 5.64e-04 p99 2.09e-02 max 2.40e-01
+  phys   recall 0.6917 precision 0.7872 missed  493 | loading abs err: median 5.65e-04 p99 2.45e-02 max 2.28e-01
+  step1  recall 0.8937 precision 0.9931 missed  170 | loading abs err: median 3.85e-07 p99 7.62e-05 max 6.55e-03
+  base1  recall 0.8499 precision 0.9631 missed  240 | loading abs err: median 4.96e-06 p99 7.67e-03 max 2.89e-01
+stress_n1_base: 660 scenarios, 117654 branch-rows in 20s
+  overloaded branches: 1233 (1.05%); scenarios with >=1 overload: 84.4%
+  dc     recall 0.4380 precision 0.6294 missed  693 | loading abs err: median 1.50e-02 p99 1.71e-01 max 9.18e-01
+  raw    recall 0.6715 precision 0.7541 missed  405 | loading abs err: median 7.07e-04 p99 2.09e-02 max 2.10e-01
+  phys   recall 0.6342 precision 0.7441 missed  451 | loading abs err: median 7.07e-04 p99 2.22e-02 max 1.01e-01
+  step1  recall 0.9343 precision 0.9821 missed   81 | loading abs err: median 4.55e-07 p99 6.04e-05 max 1.06e-03
+  base1  recall 0.8881 precision 0.9217 missed  138 | loading abs err: median 5.23e-06 p99 1.02e-02 max 3.96e-01
+stress_n2_base: 659 scenarios, 116981 branch-rows in 19s
+  overloaded branches: 1413 (1.21%); scenarios with >=1 overload: 87.6%
+  dc     recall 0.4246 precision 0.7194 missed  813 | loading abs err: median 1.54e-02 p99 1.83e-01 max 7.20e-01
+  raw    recall 0.7891 precision 0.8557 missed  298 | loading abs err: median 6.59e-04 p99 2.39e-02 max 1.34e+00
+  phys   recall 0.7481 precision 0.8600 missed  356 | loading abs err: median 6.59e-04 p99 2.69e-02 max 1.34e+00
+  step1  recall 0.9703 precision 0.9971 missed   42 | loading abs err: median 4.30e-07 p99 1.25e-04 max 3.07e-01
+  base1  recall 0.9165 precision 0.9825 missed  118 | loading abs err: median 2.49e-05 p99 1.51e-02 max 7.10e-01
+stress_n3_base: 660 scenarios, 116738 branch-rows in 19s
+  overloaded branches: 1378 (1.18%); scenarios with >=1 overload: 87.6%
+  dc     recall 0.5581 precision 0.7147 missed  609 | loading abs err: median 1.45e-02 p99 1.71e-01 max 5.90e-01
+  raw    recall 0.8774 precision 0.8877 missed  169 | loading abs err: median 8.42e-04 p99 3.03e-02 max 2.53e-01
+  phys   recall 0.8563 precision 0.8799 missed  198 | loading abs err: median 8.42e-04 p99 3.05e-02 max 2.74e-01
+  step1  recall 0.9666 precision 0.9992 missed   46 | loading abs err: median 5.42e-07 p99 1.50e-04 max 5.00e-03
+  base1  recall 0.9122 precision 0.9737 missed  121 | loading abs err: median 6.04e-05 p99 2.57e-02 max 3.11e-01
+stress_n5_base: 660 scenarios, 115781 branch-rows in 20s
+  overloaded branches: 2089 (1.80%); scenarios with >=1 overload: 94.1%
+  dc     recall 0.5548 precision 0.8249 missed  930 | loading abs err: median 1.67e-02 p99 1.97e-01 max 1.22e+00
+  raw    recall 0.8746 precision 0.9321 missed  262 | loading abs err: median 1.27e-03 p99 5.55e-02 max 1.08e+00
+  phys   recall 0.8406 precision 0.9311 missed  333 | loading abs err: median 1.27e-03 p99 5.98e-02 max 1.06e+00
+  step1  recall 0.9876 precision 0.9990 missed   26 | loading abs err: median 1.12e-06 p99 9.00e-04 max 1.30e-01
+  base1  recall 0.9296 precision 0.9793 missed  147 | loading abs err: median 1.96e-04 p99 3.83e-02 max 6.32e-01

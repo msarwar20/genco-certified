@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: genco-certified
+Version: 0.1.0
+Summary: Layer tracing, Newton certificates and certified contingency screening for the GENCO grid foundation model
+Requires-Python: <3.13,>=3.10
+Requires-Dist: gridfm-graphkit
+Requires-Dist: scipy
+Requires-Dist: pandas
+Requires-Dist: pyarrow

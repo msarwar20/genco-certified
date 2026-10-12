@@ -1,0 +1,17 @@
+{
+  "grid": "case2000_goc",
+  "size": "small",
+  "torch_threads": 4,
+  "genco_cpu_bs1_ms_per_scen": 105.24366598110646,
+  "genco_cpu_bs16_ms_per_scen": 102.78404687414877,
+  "genco_cpu_bs64_ms_per_scen": 108.54233398458746,
+  "genco_cpu_bs64_9layers_ms_per_scen": 101.59934504645207,
+  "genco_mps_bs1_ms_per_scen": 67.16316699748859,
+  "genco_mps_bs16_ms_per_scen": 93.68019531029859,
+  "genco_mps_bs64_ms_per_scen": 100.3284186244855,
+  "genco_mps_bs64_9layers_ms_per_scen": 71.03696679678251,
+  "lu_solve_ms": 3.2437709742225707,
+  "nr_flat_ms": 28.494187485193834,
+  "nr_dc_ms": 28.401562478393316,
+  "n_unknowns": 3821
+}

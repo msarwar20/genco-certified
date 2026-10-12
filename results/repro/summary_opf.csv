@@ -1,0 +1,393 @@
+metric,run,ours,paper,rel_diff_%
+Avg. active res. (MW),opf_case14_ieee_base_seed0,0.005780684761703,0.0044193072244524,30.805225075052096
+Avg. reactive res. (MVar),opf_case14_ieee_base_seed0,0.0061662928201258,0.0038641383871436,59.57743233631882
+RMSE PG generators (MW),opf_case14_ieee_base_seed0,0.644588375449932,0.6471529266833548,-0.39628210391724233
+Mean optimality gap (%),opf_case14_ieee_base_seed0,0.1383871585130691,0.0953199118375778,45.1817944910362
+Mean branch thermal violation from (MVA),opf_case14_ieee_base_seed0,0.0,1.1890231689903883e-05,-100.0
+Mean branch thermal violation to (MVA),opf_case14_ieee_base_seed0,3.810180351138115e-05,1.1086134691140614e-05,243.68880202970894
+Mean branch angle difference violation (radians),opf_case14_ieee_base_seed0,0.0,0.0,
+Mean Qg violation PV buses,opf_case14_ieee_base_seed0,0.00201693829149,0.0012067636707797,67.13614606800678
+Mean Qg violation REF buses,opf_case14_ieee_base_seed0,0.0019552761223167,0.0010314494138583,89.56587652734994
+Mean Qg violation,opf_case14_ieee_base_seed0,0.0020027640275657,0.0011708362726494,71.05414944429347
+AC Avg. active res. (MW),opf_case14_ieee_base_seed0,3.866378710357557e-15,1.6245304053924004e-09,-99.99976200022496
+AC Avg. reactive res. (MVar),opf_case14_ieee_base_seed0,3.817830616811533e-11,2.813470010234414e-09,-98.6430171272757
+AC PBE Mean,opf_case14_ieee_base_seed0,3.8181605433167765e-11,3.4298499490522687e-09,-98.88678496143197
+AC PBE Max,opf_case14_ieee_base_seed0,5.5936272502777224e-08,8.882055964541857e-05,-99.93702328298079
+DC Avg. active res. (MW),opf_case14_ieee_base_seed0,1.5556373923443505,1.4169568082445692,9.787213222934374
+DC DC NaN scenarios,opf_case14_ieee_base_seed0,0.0,0.0,
+AC Mean optimality gap (%),opf_case14_ieee_base_seed0,0.0,0.0,
+DC Mean optimality gap (%),opf_case14_ieee_base_seed0,6.384913175083467,5.7415185185302615,11.206001591333441
+AC Mean branch thermal violation from (MVA),opf_case14_ieee_base_seed0,5.356074447294249e-11,7.577145390204297e-12,606.8723340347356
+AC Mean branch thermal violation to (MVA),opf_case14_ieee_base_seed0,0.0,0.0,
+AC Mean branch angle difference violation (radians),opf_case14_ieee_base_seed0,0.0,0.0,
+DC Mean branch thermal violation from (MVA),opf_case14_ieee_base_seed0,0.0,0.0,
+DC Mean branch thermal violation to (MVA),opf_case14_ieee_base_seed0,0.0,0.0,
+DC Mean branch angle difference violation (radians),opf_case14_ieee_base_seed0,0.0,0.0,
+AC Mean Pg bound violation (MW),opf_case14_ieee_base_seed0,1.6697983415621488e-07,1.6791839486826365e-07,-0.5589385920375753
+DC Mean Pg bound violation (MW),opf_case14_ieee_base_seed0,1.729031344861783e-07,1.708844079117535e-07,1.181340415485599
+AC Mean Qg violation PV buses,opf_case14_ieee_base_seed0,2.517238772027655e-08,1.4071789786977457e-08,78.88547300196305
+AC Mean Qg violation REF buses,opf_case14_ieee_base_seed0,3.2736522935097186e-08,1.9332286035003212e-08,69.33601580187745
+AC Mean Qg violation,opf_case14_ieee_base_seed0,2.6758623065630863e-08,1.5179086934217583e-08,76.28611774605503
+runtime_ac_mean_ms_with_64_cores,opf_case14_ieee_base_seed0,0.1893089149858573,0.1891619351125772,0.07770055492011821
+runtime_ac_median_ms_with_64_cores,opf_case14_ieee_base_seed0,0.173225998878479,0.1717042177915573,0.886280550643828
+runtime_ac_std_ms_with_64_cores,opf_case14_ieee_base_seed0,0.1160169322288499,0.129286089008141,-10.26340643536333
+runtime_ac_max_ms_with_64_cores,opf_case14_ieee_base_seed0,1.922890543937683,5.344219505786896,-64.01924468380248
+runtime_dc_mean_ms_with_64_cores,opf_case14_ieee_base_seed0,0.057950670134674,0.0593656627899613,-2.3835203529919573
+runtime_dc_median_ms_with_64_cores,opf_case14_ieee_base_seed0,0.0523440539836883,0.0519230961799621,0.8107332472377681
+runtime_dc_std_ms_with_64_cores,opf_case14_ieee_base_seed0,0.038700167294798,0.079790362893354,-51.497692338454755
+runtime_dc_max_ms_with_64_cores,opf_case14_ieee_base_seed0,0.6732642650604248,4.704844206571579,-85.6899774891583
+RMSE-PQ Pg (MW),opf_case14_ieee_base_seed0,0.0,0.0,
+RMSE-PQ Qg (MVar),opf_case14_ieee_base_seed0,0.0,0.0,
+RMSE-PQ Vm (p.u.),opf_case14_ieee_base_seed0,0.0022323118192723,0.0018219144125062,22.525613933838038
+RMSE-PQ Va (radians),opf_case14_ieee_base_seed0,0.0014022118036295,0.0011051984206343,26.874213485098625
+RMSE-PV Pg (MW),opf_case14_ieee_base_seed0,0.5087217553661156,0.5079976844584639,0.14253429293158526
+RMSE-PV Qg (MVar),opf_case14_ieee_base_seed0,2.141473532353484,2.130811150527002,0.5003907466808998
+RMSE-PV Vm (p.u.),opf_case14_ieee_base_seed0,0.0023970315107005,0.0021835418450399,9.777218886166992
+RMSE-PV Va (radians),opf_case14_ieee_base_seed0,0.0012177134575107,0.0010035942290208,21.3352391134029
+RMSE-REF Pg (MW),opf_case14_ieee_base_seed0,1.0028388735357312,1.0088482051916776,-0.5956626205034149
+RMSE-REF Qg (MVar),opf_case14_ieee_base_seed0,2.1186491365533744,2.1585561610292614,-1.8487832374423
+RMSE-REF Vm (p.u.),opf_case14_ieee_base_seed0,0.0023238919043266,0.0017633481951463,31.788600273231527
+RMSE-REF Va (radians),opf_case14_ieee_base_seed0,0.0,0.0,
+Avg. active res. (MW),opf_case14_ieee_small_seed0,0.0083687752485275,0.0058806398883461,42.31062277954205
+Avg. reactive res. (MVar),opf_case14_ieee_small_seed0,0.0076630818657577,0.0046692672185599,64.11744085448072
+RMSE PG generators (MW),opf_case14_ieee_small_seed0,0.8528946072872539,0.7185689864067022,18.693489897506492
+Mean optimality gap (%),opf_case14_ieee_small_seed0,0.1828664094209671,0.113717071712017,60.80822929038083
+Mean branch thermal violation from (MVA),opf_case14_ieee_small_seed0,0.0,1.170113137050066e-05,-100.0
+Mean branch thermal violation to (MVA),opf_case14_ieee_small_seed0,0.0,1.206844171974808e-05,-100.0
+Mean branch angle difference violation (radians),opf_case14_ieee_small_seed0,0.0,0.0,
+Mean Qg violation PV buses,opf_case14_ieee_small_seed0,0.0025204995181411,0.0013336816336959,88.98809539397263
+Mean Qg violation REF buses,opf_case14_ieee_small_seed0,0.0017638761783018,0.0015355620998889,14.868436674063444
+Mean Qg violation,opf_case14_ieee_small_seed0,0.0023626526817679,0.0013769348151981,71.58783812347608
+AC Avg. active res. (MW),opf_case14_ieee_small_seed0,3.866378710357557e-15,1.6245304053924004e-09,-99.99976200022496
+AC Avg. reactive res. (MVar),opf_case14_ieee_small_seed0,3.817830616811533e-11,2.813470010234414e-09,-98.6430171272757
+AC PBE Mean,opf_case14_ieee_small_seed0,3.8181605433167765e-11,3.4298499490522687e-09,-98.88678496143197
+AC PBE Max,opf_case14_ieee_small_seed0,5.5936272502777224e-08,8.882055964541857e-05,-99.93702328298079
+DC Avg. active res. (MW),opf_case14_ieee_small_seed0,1.5556373923443505,1.4169568082445692,9.787213222934374
+DC DC NaN scenarios,opf_case14_ieee_small_seed0,0.0,0.0,
+AC Mean optimality gap (%),opf_case14_ieee_small_seed0,0.0,0.0,
+DC Mean optimality gap (%),opf_case14_ieee_small_seed0,6.384913175083467,5.7415185185302615,11.206001591333441
+AC Mean branch thermal violation from (MVA),opf_case14_ieee_small_seed0,5.356074447294249e-11,7.577145390204297e-12,606.8723340347356
+AC Mean branch thermal violation to (MVA),opf_case14_ieee_small_seed0,0.0,0.0,
+AC Mean branch angle difference violation (radians),opf_case14_ieee_small_seed0,0.0,0.0,
+DC Mean branch thermal violation from (MVA),opf_case14_ieee_small_seed0,0.0,0.0,
+DC Mean branch thermal violation to (MVA),opf_case14_ieee_small_seed0,0.0,0.0,
+DC Mean branch angle difference violation (radians),opf_case14_ieee_small_seed0,0.0,0.0,
+AC Mean Pg bound violation (MW),opf_case14_ieee_small_seed0,1.6697983415621488e-07,1.6791839486826365e-07,-0.5589385920375753
+DC Mean Pg bound violation (MW),opf_case14_ieee_small_seed0,1.729031344861783e-07,1.708844079117535e-07,1.181340415485599
+AC Mean Qg violation PV buses,opf_case14_ieee_small_seed0,2.517238772027655e-08,1.4071789786977457e-08,78.88547300196305
+AC Mean Qg violation REF buses,opf_case14_ieee_small_seed0,3.2736522935097186e-08,1.9332286035003212e-08,69.33601580187745
+AC Mean Qg violation,opf_case14_ieee_small_seed0,2.6758623065630863e-08,1.5179086934217583e-08,76.28611774605503
+runtime_ac_mean_ms_with_64_cores,opf_case14_ieee_small_seed0,0.1893089149858573,0.1891619351125772,0.07770055492011821
+runtime_ac_median_ms_with_64_cores,opf_case14_ieee_small_seed0,0.173225998878479,0.1717042177915573,0.886280550643828
+runtime_ac_std_ms_with_64_cores,opf_case14_ieee_small_seed0,0.1160169322288499,0.129286089008141,-10.26340643536333
+runtime_ac_max_ms_with_64_cores,opf_case14_ieee_small_seed0,1.922890543937683,5.344219505786896,-64.01924468380248
+runtime_dc_mean_ms_with_64_cores,opf_case14_ieee_small_seed0,0.057950670134674,0.0593656627899613,-2.3835203529919573
+runtime_dc_median_ms_with_64_cores,opf_case14_ieee_small_seed0,0.0523440539836883,0.0519230961799621,0.8107332472377681
+runtime_dc_std_ms_with_64_cores,opf_case14_ieee_small_seed0,0.038700167294798,0.079790362893354,-51.497692338454755
+runtime_dc_max_ms_with_64_cores,opf_case14_ieee_small_seed0,0.6732642650604248,4.704844206571579,-85.6899774891583
+RMSE-PQ Pg (MW),opf_case14_ieee_small_seed0,0.0,0.0,
+RMSE-PQ Qg (MVar),opf_case14_ieee_small_seed0,0.0,0.0,
+RMSE-PQ Vm (p.u.),opf_case14_ieee_small_seed0,0.002527832464912,0.0021420786201401,18.00838872789229
+RMSE-PQ Va (radians),opf_case14_ieee_small_seed0,0.0015813511939736,0.0012935942652169,22.24475915626072
+RMSE-PV Pg (MW),opf_case14_ieee_small_seed0,0.6855744141701401,0.5652814548923741,21.2801885214276
+RMSE-PV Qg (MVar),opf_case14_ieee_small_seed0,2.398822765906528,2.451632586341074,-2.1540674866523006
+RMSE-PV Vm (p.u.),opf_case14_ieee_small_seed0,0.0027304467634346,0.0025795970942674,5.847799623531546
+RMSE-PV Va (radians),opf_case14_ieee_small_seed0,0.0013775400895955,0.0011611787662516,18.6329038759756
+RMSE-REF Pg (MW),opf_case14_ieee_small_seed0,1.3048292528456458,1.1183478458408525,16.674723137199187
+RMSE-REF Qg (MVar),opf_case14_ieee_small_seed0,2.4633698568187348,2.574966160079666,-4.3338939746485226
+RMSE-REF Vm (p.u.),opf_case14_ieee_small_seed0,0.002641836998205,0.002135825331622,23.69162211400133
+RMSE-REF Va (radians),opf_case14_ieee_small_seed0,0.0,0.0,
+Avg. active res. (MW),opf_case30_ieee_base_seed0,0.0053730872459709,0.0061638909392058,-12.829618515878423
+Avg. reactive res. (MVar),opf_case30_ieee_base_seed0,0.0050304317846894,0.0047440081834793,6.03758657515709
+RMSE PG generators (MW),opf_case30_ieee_base_seed0,0.7947475232772419,1.3437855737989672,-40.8575639764877
+Mean optimality gap (%),opf_case30_ieee_base_seed0,0.1474817246198654,0.1921138912439346,-23.23213919361926
+Mean branch thermal violation from (MVA),opf_case30_ieee_base_seed0,0.0011786993127316,0.0010077806655317,16.95990536886557
+Mean branch thermal violation to (MVA),opf_case30_ieee_base_seed0,0.0009893520036712,0.0009998040040954,-1.045404937506394
+Mean branch angle difference violation (radians),opf_case30_ieee_base_seed0,0.0,0.0,
+Mean Qg violation PV buses,opf_case30_ieee_base_seed0,0.0006115788128226,0.0008328161202371,-26.564964586842347
+Mean Qg violation REF buses,opf_case30_ieee_base_seed0,0.0007908669067546,0.0013344980543479,-40.73675085715613
+Mean Qg violation,opf_case30_ieee_base_seed0,0.0006429196801036,0.0009201148059219,-30.126145567298757
+AC Avg. active res. (MW),opf_case30_ieee_base_seed0,2.3255481629491285e-15,2.1911401601220868e-15,
+AC Avg. reactive res. (MVar),opf_case30_ieee_base_seed0,7.347616742740377e-12,2.1438945216433417e-11,-65.72771342729926
+AC PBE Mean,opf_case30_ieee_base_seed0,7.349602752480363e-12,2.1440821090749812e-11,-65.72144918623852
+AC PBE Max,opf_case30_ieee_base_seed0,2.9807374346546686e-08,2.904582743212814e-07,-89.7378119400461
+DC Avg. active res. (MW),opf_case30_ieee_base_seed0,0.6892150625746262,0.6305099802279589,9.31073007368458
+DC DC NaN scenarios,opf_case30_ieee_base_seed0,0.0,0.0,
+AC Mean optimality gap (%),opf_case30_ieee_base_seed0,0.0,0.0,
+DC Mean optimality gap (%),opf_case30_ieee_base_seed0,8.114630452559688,7.803711030393354,3.984250838548297
+AC Mean branch thermal violation from (MVA),opf_case30_ieee_base_seed0,7.154157794543566e-09,6.637572724403884e-09,7.782740643132849
+AC Mean branch thermal violation to (MVA),opf_case30_ieee_base_seed0,0.0,2.1960163577082272e-12,-100.0
+AC Mean branch angle difference violation (radians),opf_case30_ieee_base_seed0,0.0,0.0,
+DC Mean branch thermal violation from (MVA),opf_case30_ieee_base_seed0,0.1086959422870389,0.0976085256172317,11.359065818990137
+DC Mean branch thermal violation to (MVA),opf_case30_ieee_base_seed0,0.0875027536054252,0.0782949601542535,11.760391004773345
+DC Mean branch angle difference violation (radians),opf_case30_ieee_base_seed0,0.0,0.0,
+AC Mean Pg bound violation (MW),opf_case30_ieee_base_seed0,7.694032516904276e-08,8.091266104557648e-08,-4.909411982256003
+DC Mean Pg bound violation (MW),opf_case30_ieee_base_seed0,8.033289531559166e-08,8.80071768100057e-08,-8.720063263683212
+AC Mean Qg violation PV buses,opf_case30_ieee_base_seed0,3.379719453909454e-09,2.125354678106081e-09,59.01907990816603
+AC Mean Qg violation REF buses,opf_case30_ieee_base_seed0,6.555149907634078e-09,4.799761016845013e-09,36.57242276497591
+AC Mean Qg violation,opf_case30_ieee_base_seed0,3.933303139806364e-09,2.5918271543447443e-09,51.75792618781966
+runtime_ac_mean_ms_with_64_cores,opf_case30_ieee_base_seed0,0.5183459392615727,0.5194921418057975,-0.2206390534109953
+runtime_ac_median_ms_with_64_cores,opf_case30_ieee_base_seed0,0.4734210669994354,0.4706010222434997,0.5992432278390949
+runtime_ac_std_ms_with_64_cores,opf_case30_ieee_base_seed0,0.3155411891596954,0.2596530962014867,21.524138851338964
+runtime_ac_max_ms_with_64_cores,opf_case30_ieee_base_seed0,6.068546324968338,9.610235691070557,-36.85330391421111
+runtime_dc_mean_ms_with_64_cores,opf_case30_ieee_base_seed0,0.1078159180508942,0.104165472504762,3.5044678993466998
+runtime_dc_median_ms_with_64_cores,opf_case30_ieee_base_seed0,0.0907965004444122,0.089593231678009,1.3430353430353434
+runtime_dc_std_ms_with_64_cores,opf_case30_ieee_base_seed0,0.1287854033753662,0.1038034083292721,24.06664236577798
+runtime_dc_max_ms_with_64_cores,opf_case30_ieee_base_seed0,2.7740001678466797,5.428764969110489,-48.90181867090106
+RMSE-PQ Pg (MW),opf_case30_ieee_base_seed0,0.0,0.0,
+RMSE-PQ Qg (MVar),opf_case30_ieee_base_seed0,0.0,0.0,
+RMSE-PQ Vm (p.u.),opf_case30_ieee_base_seed0,0.0028153766108415,0.0027206408629839,3.4821114813991736
+RMSE-PQ Va (radians),opf_case30_ieee_base_seed0,0.0013451495520245,0.0014565887624955,-7.650698216295235
+RMSE-PV Pg (MW),opf_case30_ieee_base_seed0,0.6089003254732166,1.0289146683680916,-40.82110555980683
+RMSE-PV Qg (MVar),opf_case30_ieee_base_seed0,3.2079757061749534,3.598439879919765,-10.850929479847746
+RMSE-PV Vm (p.u.),opf_case30_ieee_base_seed0,0.0036873394127426,0.0040008923370934,-7.837074780637367
+RMSE-PV Va (radians),opf_case30_ieee_base_seed0,0.0012438586322905,0.0014355454088314,-13.352888411725125
+RMSE-REF Pg (MW),opf_case30_ieee_base_seed0,1.3638841667576966,2.3107272389714897,-40.975977443154875
+RMSE-REF Qg (MVar),opf_case30_ieee_base_seed0,3.3614976431233923,3.2965718351429585,1.9694947123037054
+RMSE-REF Vm (p.u.),opf_case30_ieee_base_seed0,0.0023574041111131,0.0017089645510187,37.943417826184316
+RMSE-REF Va (radians),opf_case30_ieee_base_seed0,0.0,0.0,
+Avg. active res. (MW),opf_case30_ieee_small_seed0,0.0085323695093393,0.0093665635213255,-8.906083966514862
+Avg. reactive res. (MVar),opf_case30_ieee_small_seed0,0.0076012033969163,0.0075667137280106,0.4558077673538227
+RMSE PG generators (MW),opf_case30_ieee_small_seed0,0.965590832547124,1.3030163232508418,-25.89572246200945
+Mean optimality gap (%),opf_case30_ieee_small_seed0,0.209164410829544,0.2381858676671981,-12.184373960508822
+Mean branch thermal violation from (MVA),opf_case30_ieee_small_seed0,0.0010263256262987,0.0009875061223283,3.9310646377435097
+Mean branch thermal violation to (MVA),opf_case30_ieee_small_seed0,0.0009273142204619,0.0010072612203657,-7.937067196409508
+Mean branch angle difference violation (radians),opf_case30_ieee_small_seed0,0.0,0.0,
+Mean Qg violation PV buses,opf_case30_ieee_small_seed0,0.00123634445481,0.000935225340072,32.19749314264923
+Mean Qg violation REF buses,opf_case30_ieee_small_seed0,0.0005565269966609,0.0008672941476106,-35.8318053691317
+Mean Qg violation,opf_case30_ieee_small_seed0,0.0011164954630658,0.00092261552345,21.014164046450393
+AC Avg. active res. (MW),opf_case30_ieee_small_seed0,2.3255481629491285e-15,2.1911401601220868e-15,
+AC Avg. reactive res. (MVar),opf_case30_ieee_small_seed0,7.347616742740377e-12,2.1438945216433417e-11,-65.72771342729926
+AC PBE Mean,opf_case30_ieee_small_seed0,7.349602752480363e-12,2.1440821090749812e-11,-65.72144918623852
+AC PBE Max,opf_case30_ieee_small_seed0,2.9807374346546686e-08,2.904582743212814e-07,-89.7378119400461
+DC Avg. active res. (MW),opf_case30_ieee_small_seed0,0.6892150625746262,0.6305099802279589,9.31073007368458
+DC DC NaN scenarios,opf_case30_ieee_small_seed0,0.0,0.0,
+AC Mean optimality gap (%),opf_case30_ieee_small_seed0,0.0,0.0,
+DC Mean optimality gap (%),opf_case30_ieee_small_seed0,8.114630452559688,7.803711030393354,3.984250838548297
+AC Mean branch thermal violation from (MVA),opf_case30_ieee_small_seed0,7.154157794543566e-09,6.637572724403884e-09,7.782740643132849
+AC Mean branch thermal violation to (MVA),opf_case30_ieee_small_seed0,0.0,2.1960163577082272e-12,-100.0
+AC Mean branch angle difference violation (radians),opf_case30_ieee_small_seed0,0.0,0.0,
+DC Mean branch thermal violation from (MVA),opf_case30_ieee_small_seed0,0.1086959422870389,0.0976085256172317,11.359065818990137
+DC Mean branch thermal violation to (MVA),opf_case30_ieee_small_seed0,0.0875027536054252,0.0782949601542535,11.760391004773345
+DC Mean branch angle difference violation (radians),opf_case30_ieee_small_seed0,0.0,0.0,
+AC Mean Pg bound violation (MW),opf_case30_ieee_small_seed0,7.694032516904276e-08,8.091266104557648e-08,-4.909411982256003
+DC Mean Pg bound violation (MW),opf_case30_ieee_small_seed0,8.033289531559166e-08,8.80071768100057e-08,-8.720063263683212
+AC Mean Qg violation PV buses,opf_case30_ieee_small_seed0,3.379719453909454e-09,2.125354678106081e-09,59.01907990816603
+AC Mean Qg violation REF buses,opf_case30_ieee_small_seed0,6.555149907634078e-09,4.799761016845013e-09,36.57242276497591
+AC Mean Qg violation,opf_case30_ieee_small_seed0,3.933303139806364e-09,2.5918271543447443e-09,51.75792618781966
+runtime_ac_mean_ms_with_64_cores,opf_case30_ieee_small_seed0,0.5183459392615727,0.5194921418057975,-0.2206390534109953
+runtime_ac_median_ms_with_64_cores,opf_case30_ieee_small_seed0,0.4734210669994354,0.4706010222434997,0.5992432278390949
+runtime_ac_std_ms_with_64_cores,opf_case30_ieee_small_seed0,0.3155411891596954,0.2596530962014867,21.524138851338964
+runtime_ac_max_ms_with_64_cores,opf_case30_ieee_small_seed0,6.068546324968338,9.610235691070557,-36.85330391421111
+runtime_dc_mean_ms_with_64_cores,opf_case30_ieee_small_seed0,0.1078159180508942,0.104165472504762,3.5044678993466998
+runtime_dc_median_ms_with_64_cores,opf_case30_ieee_small_seed0,0.0907965004444122,0.089593231678009,1.3430353430353434
+runtime_dc_std_ms_with_64_cores,opf_case30_ieee_small_seed0,0.1287854033753662,0.1038034083292721,24.06664236577798
+runtime_dc_max_ms_with_64_cores,opf_case30_ieee_small_seed0,2.7740001678466797,5.428764969110489,-48.90181867090106
+RMSE-PQ Pg (MW),opf_case30_ieee_small_seed0,0.0,0.0,
+RMSE-PQ Qg (MVar),opf_case30_ieee_small_seed0,0.0,0.0,
+RMSE-PQ Vm (p.u.),opf_case30_ieee_small_seed0,0.0032278566458514,0.0032573309946411,-0.9048619510326311
+RMSE-PQ Va (radians),opf_case30_ieee_small_seed0,0.0013950641796926,0.0016396546817269,-14.917195965719731
+RMSE-PV Pg (MW),opf_case30_ieee_small_seed0,0.7585318385906024,0.99792428952825,-23.989039394042198
+RMSE-PV Qg (MVar),opf_case30_ieee_small_seed0,3.613484078977778,3.997853895486092,-9.614403791551753
+RMSE-PV Vm (p.u.),opf_case30_ieee_small_seed0,0.0042582469174337,0.0046467019442349,-8.359800810619051
+RMSE-PV Va (radians),opf_case30_ieee_small_seed0,0.0013199806006672,0.001594480286264,-17.21562116267839
+RMSE-REF Pg (MW),opf_case30_ieee_small_seed0,1.6179453230579677,2.2391544256619884,-27.743021896328795
+RMSE-REF Qg (MVar),opf_case30_ieee_small_seed0,3.594739827383159,3.366391399826189,6.7831811704592555
+RMSE-REF Vm (p.u.),opf_case30_ieee_small_seed0,0.0024919378497087,0.0021136505069168,17.897345921379927
+RMSE-REF Va (radians),opf_case30_ieee_small_seed0,0.0,0.0,
+Avg. active res. (MW),opf_case57_ieee_base_seed0,0.3098427057266235,0.3008320927619934,2.9952299576491384
+Avg. reactive res. (MVar),opf_case57_ieee_base_seed0,0.1263612806797027,0.1252290904521942,0.9040952253348029
+RMSE PG generators (MW),opf_case57_ieee_base_seed0,20.753104471737323,20.470676197536196,1.3796724225217312
+Mean optimality gap (%),opf_case57_ieee_base_seed0,1.3134832382202148,1.33506977558136,-1.6168845820620363
+Mean branch thermal violation from (MVA),opf_case57_ieee_base_seed0,0.0036453555803745,0.0031481408514082,15.793916232937619
+Mean branch thermal violation to (MVA),opf_case57_ieee_base_seed0,0.0030322175007313,0.0030835890211164,-1.6659652123972517
+Mean branch angle difference violation (radians),opf_case57_ieee_base_seed0,0.0,0.0,
+Mean Qg violation PV buses,opf_case57_ieee_base_seed0,0.0048824497498571,0.0061111473478376,-20.105841473700824
+Mean Qg violation REF buses,opf_case57_ieee_base_seed0,0.0059828301891684,0.009780365973711,-38.828156275032384
+Mean Qg violation,opf_case57_ieee_base_seed0,0.0050426824018359,0.0066492171026766,-24.161261033182374
+AC Avg. active res. (MW),opf_case57_ieee_base_seed0,3.743419923371796e-15,5.555919296936674e-10,-99.99932622852795
+AC Avg. reactive res. (MVar),opf_case57_ieee_base_seed0,1.881295479916156e-12,7.39848920684717e-10,-99.74571896676215
+AC PBE Mean,opf_case57_ieee_base_seed0,1.8845118424944792e-12,1.0113055220017643e-09,-99.81365553717494
+AC PBE Max,opf_case57_ieee_base_seed0,5.62830937411746e-09,9.404260549968895e-05,-99.99401514946953
+DC Avg. active res. (MW),opf_case57_ieee_base_seed0,1.3540255762431628,1.2910883570134295,4.874741444909384
+DC DC NaN scenarios,opf_case57_ieee_base_seed0,0.0,0.0,
+AC Mean optimality gap (%),opf_case57_ieee_base_seed0,0.0,0.0,
+DC Mean optimality gap (%),opf_case57_ieee_base_seed0,5.361166180305642,5.556728157199842,-3.519372756085082
+AC Mean branch thermal violation from (MVA),opf_case57_ieee_base_seed0,2.813500870917781e-09,2.9532344643713958e-09,-4.731544181113888
+AC Mean branch thermal violation to (MVA),opf_case57_ieee_base_seed0,3.392530513421806e-10,2.6515062284554027e-10,27.9472956545939
+AC Mean branch angle difference violation (radians),opf_case57_ieee_base_seed0,0.0,0.0,
+DC Mean branch thermal violation from (MVA),opf_case57_ieee_base_seed0,0.0202376937485434,0.0150973214213606,34.048240636315064
+DC Mean branch thermal violation to (MVA),opf_case57_ieee_base_seed0,0.0155980858411634,0.011301295859544,38.020330013666005
+DC Mean branch angle difference violation (radians),opf_case57_ieee_base_seed0,0.0,0.0,
+AC Mean Pg bound violation (MW),opf_case57_ieee_base_seed0,4.913344103205416e-07,4.714016306732759e-07,4.228407020738727
+DC Mean Pg bound violation (MW),opf_case57_ieee_base_seed0,5.674331613823405e-07,5.761642518880107e-07,-1.5153821982290046
+AC Mean Qg violation PV buses,opf_case57_ieee_base_seed0,3.973565701415892e-08,2.9421682906912573e-08,35.055690525517484
+AC Mean Qg violation REF buses,opf_case57_ieee_base_seed0,4.862495236087246e-08,3.159781273647822e-08,53.887083154769094
+AC Mean Qg violation,opf_case57_ieee_base_seed0,4.103214629938357e-08,2.9739953838664442e-08,37.96977131160953
+runtime_ac_mean_ms_with_64_cores,opf_case57_ieee_base_seed0,0.7273321202879298,0.6845175452030967,6.25470820797296
+runtime_ac_median_ms_with_64_cores,opf_case57_ieee_base_seed0,0.6634145975112915,0.621844083070755,6.685038190804254
+runtime_ac_std_ms_with_64_cores,opf_case57_ieee_base_seed0,0.2369391506220325,0.2630155656939752,-9.91439993414049
+runtime_ac_max_ms_with_64_cores,opf_case57_ieee_base_seed0,3.501061350107193,6.660390645265579,-47.43459450691739
+runtime_dc_mean_ms_with_64_cores,opf_case57_ieee_base_seed0,0.1892609208232105,0.1583675817589195,19.507363010265234
+runtime_dc_median_ms_with_64_cores,opf_case57_ieee_base_seed0,0.1472197473049163,0.1372359693050384,7.27489888433452
+runtime_dc_std_ms_with_64_cores,opf_case57_ieee_base_seed0,0.2484624301670015,0.1542692267864586,61.05767517129409
+runtime_dc_max_ms_with_64_cores,opf_case57_ieee_base_seed0,3.931984305381775,5.180716514587402,-24.10346533514347
+RMSE-PQ Pg (MW),opf_case57_ieee_base_seed0,0.0,0.0,
+RMSE-PQ Qg (MVar),opf_case57_ieee_base_seed0,0.0,0.0,
+RMSE-PQ Vm (p.u.),opf_case57_ieee_base_seed0,0.006753858756135,0.006958730089194,-2.9440908101485164
+RMSE-PQ Va (radians),opf_case57_ieee_base_seed0,0.0157344438513231,0.0182146693452841,-13.616637485671113
+RMSE-PV Pg (MW),opf_case57_ieee_base_seed0,20.864040033126525,20.323820463255824,2.6580611201884166
+RMSE-PV Qg (MVar),opf_case57_ieee_base_seed0,14.647411422396557,15.643802163878773,-6.369236398187534
+RMSE-PV Vm (p.u.),opf_case57_ieee_base_seed0,0.0095665610512342,0.0096400086909268,-0.7619042891707051
+RMSE-PV Va (radians),opf_case57_ieee_base_seed0,0.0205815556149594,0.0231083214466795,-10.934441246848664
+RMSE-REF Pg (MW),opf_case57_ieee_base_seed0,20.115941253873675,21.305296992335983,-5.5824414880963475
+RMSE-REF Qg (MVar),opf_case57_ieee_base_seed0,24.478452588210743,26.477145722404988,-7.548748475946741
+RMSE-REF Vm (p.u.),opf_case57_ieee_base_seed0,0.0107749671155098,0.0106160389671831,1.497056942028818
+RMSE-REF Va (radians),opf_case57_ieee_base_seed0,0.0,0.0,
+Avg. active res. (MW),opf_case57_ieee_small_seed0,0.3470585942268371,0.3489551246166229,-0.5434883330254662
+Avg. reactive res. (MVar),opf_case57_ieee_small_seed0,0.1826658397912979,0.1857518851757049,-1.6613803846393598
+RMSE PG generators (MW),opf_case57_ieee_small_seed0,16.169649982804398,16.24916332731906,-0.4893380841398766
+Mean optimality gap (%),opf_case57_ieee_small_seed0,0.9046525955200196,0.9832255244255066,-7.9913434866732835
+Mean branch thermal violation from (MVA),opf_case57_ieee_small_seed0,0.0031819981522858,0.0026519906241446,19.985271566039337
+Mean branch thermal violation to (MVA),opf_case57_ieee_small_seed0,0.0021372216288,0.0026378128677606,-18.977511448171175
+Mean branch angle difference violation (radians),opf_case57_ieee_small_seed0,0.0,0.0,
+Mean Qg violation PV buses,opf_case57_ieee_small_seed0,0.0046279397793114,0.0057373037561774,-19.335981220648094
+Mean Qg violation REF buses,opf_case57_ieee_small_seed0,0.0072449031285941,0.0098653119057416,-26.561844188853517
+Mean Qg violation,opf_case57_ieee_small_seed0,0.0050143697299063,0.0063412250019609,-20.92427364814048
+AC Avg. active res. (MW),opf_case57_ieee_small_seed0,3.743419923371796e-15,5.555919296936674e-10,-99.99932622852795
+AC Avg. reactive res. (MVar),opf_case57_ieee_small_seed0,1.881295479916156e-12,7.39848920684717e-10,-99.74571896676215
+AC PBE Mean,opf_case57_ieee_small_seed0,1.8845118424944792e-12,1.0113055220017643e-09,-99.81365553717494
+AC PBE Max,opf_case57_ieee_small_seed0,5.62830937411746e-09,9.404260549968895e-05,-99.99401514946953
+DC Avg. active res. (MW),opf_case57_ieee_small_seed0,1.3540255762431628,1.2910883570134295,4.874741444909384
+DC DC NaN scenarios,opf_case57_ieee_small_seed0,0.0,0.0,
+AC Mean optimality gap (%),opf_case57_ieee_small_seed0,0.0,0.0,
+DC Mean optimality gap (%),opf_case57_ieee_small_seed0,5.361166180305642,5.556728157199842,-3.519372756085082
+AC Mean branch thermal violation from (MVA),opf_case57_ieee_small_seed0,2.813500870917781e-09,2.9532344643713958e-09,-4.731544181113888
+AC Mean branch thermal violation to (MVA),opf_case57_ieee_small_seed0,3.392530513421806e-10,2.6515062284554027e-10,27.9472956545939
+AC Mean branch angle difference violation (radians),opf_case57_ieee_small_seed0,0.0,0.0,
+DC Mean branch thermal violation from (MVA),opf_case57_ieee_small_seed0,0.0202376937485434,0.0150973214213606,34.048240636315064
+DC Mean branch thermal violation to (MVA),opf_case57_ieee_small_seed0,0.0155980858411634,0.011301295859544,38.020330013666005
+DC Mean branch angle difference violation (radians),opf_case57_ieee_small_seed0,0.0,0.0,
+AC Mean Pg bound violation (MW),opf_case57_ieee_small_seed0,4.913344103205416e-07,4.714016306732759e-07,4.228407020738727
+DC Mean Pg bound violation (MW),opf_case57_ieee_small_seed0,5.674331613823405e-07,5.761642518880107e-07,-1.5153821982290046
+AC Mean Qg violation PV buses,opf_case57_ieee_small_seed0,3.973565701415892e-08,2.9421682906912573e-08,35.055690525517484
+AC Mean Qg violation REF buses,opf_case57_ieee_small_seed0,4.862495236087246e-08,3.159781273647822e-08,53.887083154769094
+AC Mean Qg violation,opf_case57_ieee_small_seed0,4.103214629938357e-08,2.9739953838664442e-08,37.96977131160953
+runtime_ac_mean_ms_with_64_cores,opf_case57_ieee_small_seed0,0.7273321202879298,0.6845175452030967,6.25470820797296
+runtime_ac_median_ms_with_64_cores,opf_case57_ieee_small_seed0,0.6634145975112915,0.621844083070755,6.685038190804254
+runtime_ac_std_ms_with_64_cores,opf_case57_ieee_small_seed0,0.2369391506220325,0.2630155656939752,-9.91439993414049
+runtime_ac_max_ms_with_64_cores,opf_case57_ieee_small_seed0,3.501061350107193,6.660390645265579,-47.43459450691739
+runtime_dc_mean_ms_with_64_cores,opf_case57_ieee_small_seed0,0.1892609208232105,0.1583675817589195,19.507363010265234
+runtime_dc_median_ms_with_64_cores,opf_case57_ieee_small_seed0,0.1472197473049163,0.1372359693050384,7.27489888433452
+runtime_dc_std_ms_with_64_cores,opf_case57_ieee_small_seed0,0.2484624301670015,0.1542692267864586,61.05767517129409
+runtime_dc_max_ms_with_64_cores,opf_case57_ieee_small_seed0,3.931984305381775,5.180716514587402,-24.10346533514347
+RMSE-PQ Pg (MW),opf_case57_ieee_small_seed0,0.0,0.0,
+RMSE-PQ Qg (MVar),opf_case57_ieee_small_seed0,0.0,0.0,
+RMSE-PQ Vm (p.u.),opf_case57_ieee_small_seed0,0.0079530528189745,0.008176171118388,-2.728884904472133
+RMSE-PQ Va (radians),opf_case57_ieee_small_seed0,0.0127966343882333,0.0158599928018546,-19.3150050690003
+RMSE-PV Pg (MW),opf_case57_ieee_small_seed0,15.972361535095946,15.913611366795358,0.36918187170998196
+RMSE-PV Qg (MVar),opf_case57_ieee_small_seed0,15.885578145524894,17.904248190624603,-11.274810445024814
+RMSE-PV Vm (p.u.),opf_case57_ieee_small_seed0,0.0110501317512295,0.0113928953048063,-3.008572837777234
+RMSE-PV Va (radians),opf_case57_ieee_small_seed0,0.0149282888141124,0.0187656447215337,-20.44883596787862
+RMSE-REF Pg (MW),opf_case57_ieee_small_seed0,17.308973263019443,18.085410190747073,-4.2931673627445495
+RMSE-REF Qg (MVar),opf_case57_ieee_small_seed0,27.91178622121117,31.102579030737648,-10.258933210564702
+RMSE-REF Vm (p.u.),opf_case57_ieee_small_seed0,0.0126811163648656,0.0127774707087568,-0.754095595970848
+RMSE-REF Va (radians),opf_case57_ieee_small_seed0,0.0,0.0,
+Avg. active res. (MW),opf_case118_ieee_base_seed0,1.4554941654205322,1.4421868324279783,0.922719074487077
+Avg. reactive res. (MVar),opf_case118_ieee_base_seed0,0.2804453372955322,0.2762666642665863,1.512550578637193
+RMSE PG generators (MW),opf_case118_ieee_base_seed0,18.149367375553688,17.137564178057254,5.904008218343745
+Mean optimality gap (%),opf_case118_ieee_base_seed0,1.5247220993041992,1.6388527154922483,-6.964055714656985
+Mean branch thermal violation from (MVA),opf_case118_ieee_base_seed0,0.0381726510822773,0.0335607081651687,13.742090585249171
+Mean branch thermal violation to (MVA),opf_case118_ieee_base_seed0,0.0402071066200733,0.0333498194813728,20.561691923191866
+Mean branch angle difference violation (radians),opf_case118_ieee_base_seed0,0.0,0.0,
+Mean Qg violation PV buses,opf_case118_ieee_base_seed0,0.0005240041064098,0.0007315540569834,-28.37110239391504
+Mean Qg violation REF buses,opf_case118_ieee_base_seed0,0.0,0.0,
+Mean Qg violation,opf_case118_ieee_base_seed0,0.0005141298752278,0.000717717630323,-28.365996109581133
+AC Avg. active res. (MW),opf_case118_ieee_base_seed0,8.392256234800908e-15,8.014257168732497e-15,
+AC Avg. reactive res. (MVar),opf_case118_ieee_base_seed0,4.1844899237969495e-11,4.2464535269883994e-11,-1.459184771424891
+AC PBE Mean,opf_case118_ieee_base_seed0,4.1851615170988454e-11,4.2470945176260795e-11,-1.45824398939564
+AC PBE Max,opf_case118_ieee_base_seed0,6.254027340447201e-08,1.7404726548877349e-07,-64.06707498170604
+DC Avg. active res. (MW),opf_case118_ieee_base_seed0,2.567886175077062,2.455778212710435,4.565068693352954
+DC DC NaN scenarios,opf_case118_ieee_base_seed0,0.0,3.0,-100.0
+AC Mean optimality gap (%),opf_case118_ieee_base_seed0,0.0,0.0,
+DC Mean optimality gap (%),opf_case118_ieee_base_seed0,5.000813125712284,4.71569200488871,6.046220162979098
+AC Mean branch thermal violation from (MVA),opf_case118_ieee_base_seed0,2.9084014368507222e-09,2.3675186416007048e-09,22.845978305975272
+AC Mean branch thermal violation to (MVA),opf_case118_ieee_base_seed0,4.4926899895934125e-09,3.462074815519576e-09,29.76871468674964
+AC Mean branch angle difference violation (radians),opf_case118_ieee_base_seed0,0.0,0.0,
+DC Mean branch thermal violation from (MVA),opf_case118_ieee_base_seed0,0.1123489509240486,0.1036301804247717,8.41335068948
+DC Mean branch thermal violation to (MVA),opf_case118_ieee_base_seed0,0.1136043465324573,0.105517754113866,7.663726816877575
+DC Mean branch angle difference violation (radians),opf_case118_ieee_base_seed0,0.0,0.0,
+AC Mean Pg bound violation (MW),opf_case118_ieee_base_seed0,2.5976381463537345e-07,2.2914073508123495e-07,13.36431060294976
+DC Mean Pg bound violation (MW),opf_case118_ieee_base_seed0,2.486327530541931e-07,2.2031243278571875e-07,12.854617376959114
+AC Mean Qg violation PV buses,opf_case118_ieee_base_seed0,3.612721810722226e-09,2.229624002175361e-09,62.03278253182726
+AC Mean Qg violation REF buses,opf_case118_ieee_base_seed0,2.5956182194881604e-08,1.3205473791938468e-08,96.55623572345468
+AC Mean Qg violation,opf_case118_ieee_base_seed0,4.034749104579586e-09,2.437197331048019e-09,65.5487248890349
+runtime_ac_mean_ms_with_64_cores,opf_case118_ieee_base_seed0,2.498156343874294,2.4516132357823546,1.8984686251739404
+runtime_ac_median_ms_with_64_cores,opf_case118_ieee_base_seed0,2.201981842517853,2.298623323440552,-4.204320035265613
+runtime_ac_std_ms_with_64_cores,opf_case118_ieee_base_seed0,1.1782797768016386,0.8113365028029528,45.22701403560594
+runtime_ac_max_ms_with_64_cores,opf_case118_ieee_base_seed0,12.980874627828598,30.102375894784927,-56.87757447053386
+runtime_dc_mean_ms_with_64_cores,opf_case118_ieee_base_seed0,0.6637455417721685,0.4521546669896312,46.79612757096445
+runtime_dc_median_ms_with_64_cores,opf_case118_ieee_base_seed0,0.3472045063972473,0.3274213522672653,6.042108736339691
+runtime_dc_std_ms_with_64_cores,opf_case118_ieee_base_seed0,1.2112964435885112,0.6620031557284664,82.97442136142148
+runtime_dc_max_ms_with_64_cores,opf_case118_ieee_base_seed0,15.47357812523842,25.60875192284584,-39.576992381911914
+RMSE-PQ Pg (MW),opf_case118_ieee_base_seed0,0.0,0.0,
+RMSE-PQ Qg (MVar),opf_case118_ieee_base_seed0,0.0,0.0,
+RMSE-PQ Vm (p.u.),opf_case118_ieee_base_seed0,0.0143550337511446,0.0138404261400297,3.71814860256748
+RMSE-PQ Va (radians),opf_case118_ieee_base_seed0,0.0423315303799611,0.0400933778262202,5.582349692365399
+RMSE-PV Pg (MW),opf_case118_ieee_base_seed0,16.007097577373685,15.319610813067907,4.48762551930718
+RMSE-PV Qg (MVar),opf_case118_ieee_base_seed0,37.05041698061575,34.90927485215247,6.133447737116942
+RMSE-PV Vm (p.u.),opf_case118_ieee_base_seed0,0.0159649050172153,0.0152362972431459,4.782052768084229
+RMSE-PV Va (radians),opf_case118_ieee_base_seed0,0.0445984647882547,0.0420282245299578,6.115509962750929
+RMSE-REF Pg (MW),opf_case118_ieee_base_seed0,64.29411256216427,57.91779895288559,11.009247113250321
+RMSE-REF Qg (MVar),opf_case118_ieee_base_seed0,111.8480807348186,103.63484761712635,7.9251654308747685
+RMSE-REF Vm (p.u.),opf_case118_ieee_base_seed0,0.01687126621551,0.0155282400617774,8.648927041245624
+RMSE-REF Va (radians),opf_case118_ieee_base_seed0,0.0,0.0,
+Avg. active res. (MW),opf_case118_ieee_small_seed0,1.0799555778503418,1.0747004747390747,0.4889830454892997
+Avg. reactive res. (MVar),opf_case118_ieee_small_seed0,0.2441176027059555,0.246255949139595,-0.8683430557153099
+RMSE PG generators (MW),opf_case118_ieee_small_seed0,18.826179878778515,17.72777358550216,6.195963006740089
+Mean optimality gap (%),opf_case118_ieee_small_seed0,1.6781591176986694,1.6786991357803345,-0.03216884253735047
+Mean branch thermal violation from (MVA),opf_case118_ieee_small_seed0,0.0456422418355941,0.0420778393745422,8.470973115621575
+Mean branch thermal violation to (MVA),opf_case118_ieee_small_seed0,0.0476827435195446,0.0414610840380191,15.006022215483682
+Mean branch angle difference violation (radians),opf_case118_ieee_small_seed0,0.0,0.0,
+Mean Qg violation PV buses,opf_case118_ieee_small_seed0,0.0014669644879177,0.0012751484755426,15.04264139071952
+Mean Qg violation REF buses,opf_case118_ieee_small_seed0,0.0,0.0005522171268239,-100.0
+Mean Qg violation,opf_case118_ieee_small_seed0,0.0014393073506653,0.0012615014566108,14.094783095391788
+AC Avg. active res. (MW),opf_case118_ieee_small_seed0,8.392256234800908e-15,8.014257168732497e-15,
+AC Avg. reactive res. (MVar),opf_case118_ieee_small_seed0,4.1844899237969495e-11,4.2464535269883994e-11,-1.459184771424891
+AC PBE Mean,opf_case118_ieee_small_seed0,4.1851615170988454e-11,4.2470945176260795e-11,-1.45824398939564
+AC PBE Max,opf_case118_ieee_small_seed0,6.254027340447201e-08,1.7404726548877349e-07,-64.06707498170604
+DC Avg. active res. (MW),opf_case118_ieee_small_seed0,2.567886175077062,2.455778212710435,4.565068693352954
+DC DC NaN scenarios,opf_case118_ieee_small_seed0,0.0,3.0,-100.0
+AC Mean optimality gap (%),opf_case118_ieee_small_seed0,0.0,0.0,
+DC Mean optimality gap (%),opf_case118_ieee_small_seed0,5.000813125712284,4.71569200488871,6.046220162979098
+AC Mean branch thermal violation from (MVA),opf_case118_ieee_small_seed0,2.9084014368507222e-09,2.3675186416007048e-09,22.845978305975272
+AC Mean branch thermal violation to (MVA),opf_case118_ieee_small_seed0,4.4926899895934125e-09,3.462074815519576e-09,29.76871468674964
+AC Mean branch angle difference violation (radians),opf_case118_ieee_small_seed0,0.0,0.0,
+DC Mean branch thermal violation from (MVA),opf_case118_ieee_small_seed0,0.1123489509240486,0.1036301804247717,8.41335068948
+DC Mean branch thermal violation to (MVA),opf_case118_ieee_small_seed0,0.1136043465324573,0.105517754113866,7.663726816877575
+DC Mean branch angle difference violation (radians),opf_case118_ieee_small_seed0,0.0,0.0,
+AC Mean Pg bound violation (MW),opf_case118_ieee_small_seed0,2.5976381463537345e-07,2.2914073508123495e-07,13.36431060294976
+DC Mean Pg bound violation (MW),opf_case118_ieee_small_seed0,2.486327530541931e-07,2.2031243278571875e-07,12.854617376959114
+AC Mean Qg violation PV buses,opf_case118_ieee_small_seed0,3.612721810722226e-09,2.229624002175361e-09,62.03278253182726
+AC Mean Qg violation REF buses,opf_case118_ieee_small_seed0,2.5956182194881604e-08,1.3205473791938468e-08,96.55623572345468
+AC Mean Qg violation,opf_case118_ieee_small_seed0,4.034749104579586e-09,2.437197331048019e-09,65.5487248890349
+runtime_ac_mean_ms_with_64_cores,opf_case118_ieee_small_seed0,2.498156343874294,2.4516132357823546,1.8984686251739404
+runtime_ac_median_ms_with_64_cores,opf_case118_ieee_small_seed0,2.201981842517853,2.298623323440552,-4.204320035265613
+runtime_ac_std_ms_with_64_cores,opf_case118_ieee_small_seed0,1.1782797768016386,0.8113365028029528,45.22701403560594
+runtime_ac_max_ms_with_64_cores,opf_case118_ieee_small_seed0,12.980874627828598,30.102375894784927,-56.87757447053386
+runtime_dc_mean_ms_with_64_cores,opf_case118_ieee_small_seed0,0.6637455417721685,0.4521546669896312,46.79612757096445
+runtime_dc_median_ms_with_64_cores,opf_case118_ieee_small_seed0,0.3472045063972473,0.3274213522672653,6.042108736339691
+runtime_dc_std_ms_with_64_cores,opf_case118_ieee_small_seed0,1.2112964435885112,0.6620031557284664,82.97442136142148
+runtime_dc_max_ms_with_64_cores,opf_case118_ieee_small_seed0,15.47357812523842,25.60875192284584,-39.576992381911914
+RMSE-PQ Pg (MW),opf_case118_ieee_small_seed0,0.0,0.0,
+RMSE-PQ Qg (MVar),opf_case118_ieee_small_seed0,0.0,0.0,
+RMSE-PQ Vm (p.u.),opf_case118_ieee_small_seed0,0.0147048598690153,0.0141389303367552,4.0026332882405145
+RMSE-PQ Va (radians),opf_case118_ieee_small_seed0,0.0409226655540522,0.0388604346955478,5.306762198263998
+RMSE-PV Pg (MW),opf_case118_ieee_small_seed0,16.763009101026395,15.82588057877823,5.9214937050947425
+RMSE-PV Qg (MVar),opf_case118_ieee_small_seed0,36.34692893717518,34.332153695096814,5.8684790356338965
+RMSE-PV Vm (p.u.),opf_case118_ieee_small_seed0,0.0163652042123899,0.0155923920366935,4.956341361080088
+RMSE-PV Va (radians),opf_case118_ieee_small_seed0,0.0431892443470611,0.0406706213402514,6.192733043684863
+RMSE-REF Pg (MW),opf_case118_ieee_small_seed0,64.59204536333209,60.20540605268558,7.286121958562612
+RMSE-REF Qg (MVar),opf_case118_ieee_small_seed0,104.8719783161236,98.68268572012772,6.271913406926547
+RMSE-REF Vm (p.u.),opf_case118_ieee_small_seed0,0.0167202946192253,0.0155379433111382,7.609445371315931
+RMSE-REF Va (radians),opf_case118_ieee_small_seed0,0.0,0.0,

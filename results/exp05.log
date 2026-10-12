@@ -1,0 +1,3 @@
+case118_ieee_base: 638 scenarios | NR iterations: always-GENCO 2.15 | always-base 2.88 | best-of-two by mismatch 2.25 (picks GENCO 71%) | oracle 2.13
+stress_n5: 660 scenarios | NR iterations: always-GENCO 2.40 | always-base 3.32 | best-of-two by mismatch 2.42 (picks GENCO 97%) | oracle 2.40
+case2000_goc_small: 198 scenarios | NR iterations: always-GENCO 3.23 | always-base 2.95 | best-of-two by mismatch 2.95 (picks GENCO 10%) | oracle 2.91
