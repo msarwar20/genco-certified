@@ -551,6 +551,60 @@ Source: `scripts/exp04_embedding_probe.py`, `results/exp04/case118_ieee_base_pro
 - README, `docs/report.md` and the Space text were rewritten in plain IEEE-style prose.
 - The upstream-issue drafts were deleted; the user decided not to post issues.
 
+## 2026-10-11: External reviews (independent Sonnet reviewers): accepted findings
+
+**A. Adversarial jury review of our entry** (read-only; it reproduced our headline numbers from the stored parquets). Accepted as valid; to be fixed in Plan v3.
+
+1. **Calibration leakage.**
+   - `analyze_exp02.py` splits by *scenario*, so the paper set's 29 load scenarios appear in both halves.
+   - Re-splitting by load scenario (20 draws) gives c1 between 0.10 and 0.35.
+   - In 11/20 draws, 6–13 test scenarios exceed c1. Misses still stay 0.
+2. **N-1 stress row in-sample.** It is calibrated on itself (`--cal_tag stress_n1_base`), so zero misses there holds by construction.
+3. **The bound is exceeded out of distribution.**
+   - c1 = 0.261 is exceeded on N-2/N-3/N-5 by 7/1/1 scenarios, up to 3.2×. There were no misses only because accepted margins were 21–28× the actual error.
+   - A ~13× smaller c still gives 0 misses (except 1 at N-5), at 1.03–1.39 LU.
+   - So the rule is neither guaranteed nor efficient; a Pareto curve is needed.
+4. **LU accounting bias (`analyze_exp02.py:141`, also `:153`).**
+   - Escalated scenarios were charged the all-scenario mean NR count, not their own (higher) one.
+   - Corrected: 1.49 / 1.57 / 1.72 / 2.08 LU, i.e. savings 37–49%, not 40–51%.
+   - `space/engine.py` already uses the per-scenario count.
+5. **Baseline strength.**
+   - NR to 1e-6 MW is strict. From the base case it takes 2.03 (N-1) / 2.49 (N-5) iterations to reach 1e-2 MW.
+   - Base case + 2 steps (2 LU) misses 1/435 (N-1) and 6/1763 (N-5), so GENCO-tiered is only ~25% cheaper at N-1 and at parity at N-5.
+   - **Defensible lead:** at equal cost (1 LU), GENCO + 1 step misses 0–0.3% and base + 1 step misses 5–7%.
+6. **Industry cost model.**
+   - Contingency analysis usually reuses the base-case factorization (chord / FDLF / compensation, 0 new LU).
+   - In our own timings, 1 LU = 0.06 ms of a 0.65 ms NR iteration (118 buses), and GENCO inference ≈ 13 iterations.
+   - LU count is a weak cost proxy, and inference is excluded from the headline.
+7. **Threshold dependence.** The tier-1 share at N-1 falls from 61% (τ = 1.01, ε = 1 mV) to 19% (τ = 1.0), 6.8% (ε = 0) and 2.7% (both), where LU 2.08 vs 2.11 for plain GENCO-warm NR. A sensitivity table is required.
+8. **DC fairness.**
+   - The DC model uses Im(Y_ft) (r and tap included) rather than 1/x, and the same τ with no tuning.
+   - Contingency-level DC recall is 0.78–0.85, not 0.49.
+   - The organizers' example tunes its threshold, so we must too.
+9. **Realism.** 33–35% of N-1 and 82% of N-5 scenarios contain violations, which contradicts the report's "almost all uneventful".
+10. **Probe leakage** (`exp04_embedding_probe.py:86-88`).
+    - The scenario-level split leaks load-scenario siblings.
+    - There are no bus-ID or random-embedding controls.
+    - For generator outages hops_outage = 99, clamped to 20.
+11. **Spearman(‖dx‖, error) = 1** is expected, since dx ≈ −e near the solution. It is not an empirical finding and must be reworded.
+12. **Reproduction wording.** "Within 6%" holds for mean metrics only. RMSE and PBE-max deviate more (subset effect, untested).
+13. **Unscripted analyses.** Mask surgery, re-anchoring and slack locality have no script.
+14. **Slack-Vm framing.** It may be an intended convention. Frame it as an "undocumented convention with metric consequences".
+
+The reviewer's scores: originality 6, technical 5.5, exploration 7.5, communication 7, open science 6. 
+
+**B. other entries rigor teardown** (another entry v0.1.0)
+- Grouped splits with a test enforcing them.
+- A matched control logged per run, with three seeds.
+- Validation-only checkpoint selection.
+- FD checks with step sweeps.
+- All labels re-certified against an independent solver.
+- `verify_artifacts.py` checks the hash chain.
+- SHA256SUMS release, lockfile, LICENSE/NOTICE/CITATION.
+- Figure contract with source CSVs.
+- Gaps: n = 3 with no CIs; 2 small fixed grids; unrealistic operating points; no downstream task or UI; nothing on the HF Hub; a dense post.
+- No new entries or organizer replies as of 2026-10-11.
+
 ## Open questions / TODO
 
 - [ ] Re-run IEEE 118 exp01/exp02 with the fixed DC start for consistent DC numbers.
