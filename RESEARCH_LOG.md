@@ -714,6 +714,32 @@ Grouped 5-fold CV by load scenario, correct outage locations, controls, 3 Base s
 - **Shared load trajectory.** datakit takes the first n hours of the aggregate load profile and uses the seed only for noise. So calibration and test sets share the global load trajectory (correlation 0.95). This weakens the conformal exchangeability argument, which must be stated.
 - About 4% of random N-1 rows are duplicate draws within a load scenario.
 
+## 2026-10-11: Batch 2, GENCO-Δ implementation (agent E; `results/notes/ws4_E_delta.md`)
+
+**Built**
+- `PowerFlowContingencyAware` task (`graphkit_plugin.FillBaseCaseInputs`). It fills the values (never the masks) at masked VM_H/VA_H with the base-case Vm/Va. With `vm_va_flows` it also fills masked P_E/Q_E with pre-contingency flows computed from the base voltages and each edge's own admittances.
+- Units: graphkit normalizes in `Dataset.get` *before* task transforms (`powergrid_hetero_dataset.py:352`), so filling is done in normalized units (Va rad, flows/baseMVA).
+- Other files:
+  - `src/genco_certified/basecase_store.py`, `scripts/build_basecase_store.py`;
+  - `scripts/eval_genco_delta.py` (reproduces exp02 NR counts exactly on the paper set);
+  - `scripts/run_genco_delta.sh` (matrix);
+  - `notebooks/colab_genco_delta.ipynb` (GOC 2000; dry-run tested locally; upload cell and Colab pip install untested).
+- Tests: 57 pass in total (24 new).
+- Stores built for IEEE 118 paper (273 load scenarios), stress n1–n5, and GOC 2000 partitions 0–19. For 11/182 GOC base cases, flat start diverged; they were retried from a variant's solution, and all converge.
+
+**Smoke** (1 epoch × 10% of batches; plumbing only)
+- After 2 full epochs, NR iterations are 2.06 / 2.84 / 3.04 (1e-2 / 1e-4 / 1e-6 MW), vs released 1.72 / 2.00 / 2.15 and base 2.04 / 2.49 / 2.88.
+- Validation loss is 5.2e-3, vs control ~2.7e-4. Whether 12 epochs closes the gap is open.
+- Released weights with filled inputs are broken before training (state error 7.1), as expected.
+
+**Confound to handle in the analysis**
+- The base-case Vm at PV/REF equals the post-contingency setpoint (to 6e-8), so the Δ arms implicitly receive the **true slack Vm** and the control does not.
+- A fair decomposition needs a slack-aware control arm (`PowerFlowSlackAware`, same budget) alongside the Δ arms.
+
+**Matrix**
+- `scripts/run_genco_delta.sh`: arms {control, Δ vm_va, Δ vm_va_flows} × init seeds {0, 1, 42}, each with its own per-seed split, then evaluated on the paper set and stress n1–n5.
+- About 6.5 h on the M4, resumable. Launched after agent F's timing benchmark.
+
 ## Open questions / TODO
 
 - [ ] Re-run IEEE 118 exp01/exp02 with the fixed DC start for consistent DC numbers.
