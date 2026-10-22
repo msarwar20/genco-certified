@@ -23,6 +23,9 @@ The short answer, on the released checkpoints:
 
 Negative results are reported in the main table (Table V), not a footnote.
 
+![Fig. 1](figA_workflow.png)
+*Fig. 1. Verified screening. After an outage, either the pre-contingency state or GENCO's prediction starts float64 Newton steps on the exact admittances. A calibrated bound c·‖dx‖² on every monitored branch loading and PQ voltage decides, after each step, whether to accept the screen or take another step; after three steps the case goes to a full Newton solve.*
+
 ## I. Why price GENCO in Newton iterations?
 
 Most learned power-flow work, and GENCO's own paper [1], compares the network against a flat start or a DC approximation. Neither is what a control room uses for contingency analysis. There, the base-case solution is computed once per operating point, and each outage is solved by Newton (or fast-decoupled) iterations started from it, often reusing the base-case factorization. A learned model is only useful in that loop if it beats this start, in solver work, at the same level of safety.
@@ -71,7 +74,10 @@ On IEEE 118 the saving grows with outage order: the further the post-contingency
 
 Fig. 2 shows the scale trend. At 10⁻⁶ MW the difference is −0.73 on IEEE 118, −0.04 [−0.13, 0.04] on GOC 500, and **+0.22 [0.12, 0.35] on GOC 2000**, where the pre-contingency start is the better prior in about 60% of scenarios at 10⁻² and 10⁻⁴ MW. A best-of-two rule (start from whichever has the smaller mismatch, which costs no factorization) is never worse than either start: 2.25 on IEEE 118 and 2.92 on GOC 2000.
 
-**Factor reuse.** Production contingency analysis seldom refactorizes. With a chord Newton that reuses the base-case factorization and compensates the outage with a Woodbury update, GENCO saves 21% [20, 21] of triangular solves on IEEE 118; with fast-decoupled XB, only 5% [2, 8], and the GENCO start is worse in 23% of contingencies (TABLE III). On GOC 500 the chord saving is 11% and fast-decoupled loses 7%. So "one Newton iteration" is not a transferable price: it depends on the solver it is paid in.
+![Fig. 2](figB_exchange_rate.png)
+*Fig. 2. (a) Newton iterations from flat, DC, pre-contingency and GENCO starts; (b) paired GENCO − pre-contingency difference. 95% cluster-bootstrap CIs over load scenarios. IEEE 118 Base (n = 638, 29 load scenarios; open dots: seeds 1 and 42 on their own splits), GOC 500 Base (n = 638), GOC 2000 Small (held-out, n = 879, 40 load scenarios).*
+
+**Factor reuse.** Production contingency analysis seldom refactorizes. With a chord Newton that reuses the base-case factorization and compensates the outage with a Woodbury update, GENCO saves 21% [20, 21] of triangular solves on IEEE 118; with fast-decoupled XB, only 5% [2, 8], and the GENCO start is worse in 23% of contingencies (TABLE III). On GOC 500 the chord saving is 11% and fast-decoupled loses 7%. So "one Newton iteration" is not a transferable price: it depends on the solver it is paid in (Fig. 3a).
 
 TABLE III. Paired saving of a GENCO start over the pre-contingency start, IEEE 118 paper set, 10⁻⁴ MW.
 
@@ -81,6 +87,9 @@ TABLE III. Paired saving of a GENCO start over the pre-contingency start, IEEE 1
 | Chord + Woodbury compensation | 21% (20–21) | 0.04 |
 | Fast-decoupled XB + compensation | 5% (2–8) | 0.015 |
 
+![Fig. 3](figD_factor_reuse_breakeven.png)
+*Fig. 3. (a) Triangular solves saved by a GENCO start over the pre-contingency start, to 10⁻⁴ MW, IEEE 118 and GOC 500. (b) Break-even inference time per contingency against measured GENCO inference on an Apple M4 (filled: batch 16; open: batch 1). {{GPU row}}*
+
 ## V. Taking the saving safely
 
 The Newton step gives a free error estimate. Near the solution the step ‖dx‖ approximates the error, so a branch loading computed after *k* steps is off by at most c·‖dx‖² for a constant c that we calibrate. The sequential policy (Fig. 1) checks every monitored branch and PQ voltage after each step, accepts the contingency as safe or violated once every element clears its margin, and otherwise continues, falling back to a full solve after three steps. The same policy runs from either start, so the comparison isolates the prior.
@@ -88,7 +97,7 @@ The Newton step gives a free error estimate. Near the solution the step ‖dx‖
 We calibrate c on a separate N-1 set (100 load scenarios) with split-conformal quantiles over load scenarios, and test on everything else: 100-load-scenario N-1, N-2, N-3 and N-5 sets plus the paper set.
 
 - **Misses.** 0 of 18,030 violating elements and 0 of 6,531 violating contingencies are missed, with no false alarms, for every rule and both starts (one-sided Clopper–Pearson upper bound 0.017% and 0.046%).
-- **Cost.** GENCO needs 1.37 / 1.47 / 1.53 / 1.65 factorizations per contingency at N-1/2/3/5, against 2.14 / 2.51 / 2.73 / 2.96 from the pre-contingency start: 35–44% fewer (TABLE IV, Fig. 3).
+- **Cost.** GENCO needs 1.37 / 1.47 / 1.53 / 1.65 factorizations per contingency at N-1/2/3/5, against 2.14 / 2.51 / 2.73 / 2.96 from the pre-contingency start: 35–44% fewer (TABLE IV, Fig. 4).
 - **Calibration.** The bound is exceeded in 1, 7, 2 and 5% of test operating points at nominal 10%. That is consistent with exchangeability under outage-order shift, but it is not a guarantee of it.
 
 An earlier version, calibrated on 29 operating points, exceeded its nominal rate by up to 33% at N-2. That is why the separate calibration set exists.
@@ -103,6 +112,9 @@ TABLE IV. Sequential policy, conformal α = 0.10, calibrated on N-1 (100 load sc
 | N-5 | 1.65 [1.61, 1.69] | 2.96 [2.94, 2.98] | 0 / 6,617 |
 | paper N-1 | 1.37 [1.23, 1.51] | 2.09 | 0 / 484 |
 
+![Fig. 4](figC_equal_cost.png)
+*Fig. 4. Missed violating elements against factorizations per contingency, IEEE 118 Base seed 0, four 100-load-scenario test sets. Lines: GENCO + k and pre-contingency + k Newton steps; stars: sequential policies (conformal α = 0.10, calibrated on a separate N-1 set). Hollow markers are zero-miss cells drawn at their one-sided 95% Clopper–Pearson bound.*
+
 On GOC 2000 both starts also reach zero misses (0/173), but GENCO's predictions never clear the margin after one step, so its policy costs 2.00 factorizations against 2.16. That saving comes from the two-step floor, not from prediction quality.
 
 ## VI. Runtime
@@ -114,9 +126,12 @@ Measured on an Apple M4: GENCO Base takes 8.7 ms per IEEE 118 contingency at the
 If the pre-contingency state is the stronger prior at scale, the obvious extension is to give it to GENCO. We tried two ways, on IEEE 118 with three seeds, a matched control, and checkpoints selected on validation loss only.
 
 - **Plain Δ** fills GENCO's masked inputs with the base-case voltages (and, in one arm, pre-contingency branch flows) and fine-tunes. It ends at about base-case quality (2.85–2.95 iterations to 10⁻⁶ MW against the released model's 2.15), and seed 42 diverged in both arms. The released weights read the filled inputs as a large distribution shift and do not recover reliably.
-- **Residual Δ** keeps the inputs and changes the decoder. Each layer decodes the base case plus the output of a delta head initialised to zero, so at step 0 the model reproduces the base case bit for bit, and training only has to learn the outage's effect. On N-1 it cuts median state error from 0.054 to 0.022 and iterations to 10⁻² MW from 1.74 to 1.33 (Fig. 6). At 10⁻⁶ MW it ties (2.19 vs 2.15), and it gets worse as outage order rises: at N-5 the error is 0.155 against 0.112.
+- **Residual Δ** keeps the inputs and changes the decoder. Each layer decodes the base case plus the output of a delta head initialised to zero, so at step 0 the model reproduces the base case bit for bit, and training only has to learn the outage's effect. On N-1 it cuts median state error from 0.054 to 0.022 and iterations to 10⁻² MW from 1.74 to 1.33 (Fig. 5). At 10⁻⁶ MW it ties (2.19 vs 2.15), and it gets worse as outage order rises: at N-5 the error is 0.155 against 0.112.
 
-The contrast between the two is the useful lesson. The same information is useless or helpful depending on whether the architecture lets the network start from it. The N-5 regression is plausibly a training-distribution effect, since the released data are N-1 only. {{NK: result of residual Δ retrained on a fresh mixed N-1..N-5 set (5,056 scenarios, seed 4001), three seeds; one or two sentences and a row in Fig. 6. Note the confound: different (new) training scenarios.}}
+The contrast between the two is the useful lesson. The same information is useless or helpful depending on whether the architecture lets the network start from it. The N-5 regression is plausibly a training-distribution effect, since the released data are N-1 only. {{NK: result of residual Δ retrained on a fresh mixed N-1..N-5 set (5,056 scenarios, seed 4001), three seeds; one or two sentences and a row in Fig. 5. Note the confound: different (new) training scenarios.}}
+
+![Fig. 5](figF_genco_delta.png)
+*Fig. 5. GENCO-Δ on IEEE 118 Base: (a) median state error and (b) Newton iterations to 10⁻² MW, mean ± SD over init seeds 0/1/42, on the paper set and stress N-1 to N-5. Purple bars: the pre-contingency state itself. Plain Δ seed 42 diverged and is shown as a cross, excluded from the mean.*
 
 ## VIII. What did not work
 
