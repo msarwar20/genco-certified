@@ -133,9 +133,10 @@ def decision_card(s):
     pq = p.pq
     vt = s.vm["true"][pq]
     real = int((s.load["true"] > TAU).sum() + ((vt < p.vmin[pq] - EPS_V) | (vt > p.vmax[pq] + EPS_V)).sum())
-    tier_txt = ("**Tier 1 — certified after one Newton step.** Every decision clears the calibrated error band."
-                if s.tier == 1 else
-                "**Tier 2 — escalated.** At least one decision sits inside the error band, so Newton runs to convergence.")
+    tier_txt = (f"**Accepted after Newton step {s.accepted_step}.** Every decision clears the calibrated error band "
+                f"(c = {E.c_genco:.3g}, rule {E.rule})."
+                if s.accepted_step else
+                "**Escalated.** A decision stays inside the error band for the first 3 Newton steps, so Newton runs to convergence.")
     return (f"### Decision\n{tier_txt}\n\n"
             f"- Outage: {', '.join(s.outages) or 'none'}\n"
             f"- GENCO's own max mismatch: **{s.layer_raw[-1]:.2f} MW**; with the true slack setpoint: **{s.layer_phys[-1]:.1f} MW**\n"
@@ -188,7 +189,7 @@ def batch(order):
     df["recall"] = df["recall"].map(lambda x: f"{x:.3f}")
     df["factorizations / contingency"] = df["factorizations / contingency"].map(lambda x: f"{x:.2f}")
     note = (f"{r['n']} bundled {order} scenarios (includes the 8 hardest by GENCO mismatch, so this sample is harder than average). "
-            f"Tier 1 certified {r['tier1']:.0%}. Full-set results (~660 scenarios per order): see the Findings tab.")
+            f"Accepted after one step: {r['tier1']:.0%}; accepted within 3 steps: {r['accepted']:.0%} (rule {r['rule']}, c = {r['c_genco']:.3g}). Full-set results (~660 scenarios per order): see the Findings tab.")
     return df, note
 
 

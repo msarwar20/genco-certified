@@ -15,7 +15,12 @@ from genco_certified import acpf
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "pf" / "case118_ieee" / "raw"
-need_data = pytest.mark.skipif(not RAW.exists(), reason="run scripts/fetch_data.py first")
+_skip_no_data = pytest.mark.skipif(not RAW.exists(), reason="run scripts/fetch_data.py first")
+
+
+def need_data(fn):
+    """Mark a test as data-dependent (`pytest -m "not data"` deselects it) and skip it when the data is missing."""
+    return pytest.mark.data(_skip_no_data(fn))
 
 _spec = importlib.util.spec_from_file_location("analyze_exp02", ROOT / "scripts" / "analyze_exp02.py")
 an = importlib.util.module_from_spec(_spec)

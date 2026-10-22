@@ -27,8 +27,9 @@ from gridfm_graphkit.io.registries import PHYSICS_DECODER_REGISTRY, TASK_REGISTR
 REPO = Path(__file__).resolve().parents[1]
 GRID = REPO / "data" / "pf" / "case118_ieee"
 STATS = REPO / "checkpoints" / "genco-pf-datakit" / "case118_ieee" / "base" / "seed0" / "normalizer_stats.pt"
-pytestmark = pytest.mark.skipif(not (GRID / "processed").exists() or not STATS.exists(),
-                                reason="needs data/pf/case118_ieee and the released Base normalizer")
+pytestmark = [pytest.mark.data,
+              pytest.mark.skipif(not (GRID / "processed").exists() or not STATS.exists(),
+                                 reason="needs data/pf/case118_ieee and the released Base normalizer")]
 
 EDGE = ("bus", "connects", "bus")
 PROBE = [40, 199, 3000]  # 199 sits in a load scenario whose variants straddle the partition 0/1 boundary

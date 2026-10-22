@@ -1,0 +1,13 @@
+{
+ "source": "results/exp02/big118_policies.csv (scripts/analyze_exp02.py --xcal; calibrated on data/calib/n1, 100 load scenarios)",
+ "date": "2026-10-12",
+ "tau": 1.01,
+ "eps_v": 0.001,
+ "max_steps": 3,
+ "default_rule": "conf0.10",
+ "c": {
+  "genco": {"max": 2.1783875271941735, "conf0.10": 0.235791782658666, "conf0.05": 0.3796815414586852},
+  "base_case": {"max": 39.81159460297254, "conf0.10": 20.92768418226285, "conf0.05": 34.437769088921264}
+ },
+ "note": "base-case constants are measured against our own float64 NR (c_ref = own NR), the stronger baseline; GENCO constants are unaffected by the reference"
+}

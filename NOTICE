@@ -1,0 +1,52 @@
+genco-certified
+Copyright 2026 Muhammad Sarwar
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+It builds on the third-party software, models and data listed below. Their licenses and terms are those of
+their respective owners.
+
+1. gridfm-graphkit (Apache-2.0)
+   https://github.com/gridfm/gridfm-graphkit, pinned commit
+   8a8defbc9ab41caa65b07c75e8e1ee23636877cd (main, 2026-10-01).
+   Used as a library (model definition, data pipeline, normalizers, task and
+   transform registries). Our GENCO-Delta task and residual model plug into its
+   registries from src/genco_certified; no graphkit source file is modified.
+   Copyright the gridfm-graphkit authors (IBM Research and contributors).
+
+2. gridfm-datakit (Apache-2.0)
+   https://github.com/gridfm/gridfm-datakit, pinned commit
+   d8a092dcfdcc05f58f12595e9f7a9fd165d3c2f0 (main, 2026-10-01).
+   Used to generate the stress, calibration and exhaustive N-1 scenario sets
+   (configs/datakit/) and by scripts/gen_exhaustive_gen_outages.py, which
+   imports its generator. It runs Julia PowerModels.jl and Ipopt for the
+   AC power-flow solves; those are separate projects with their own licenses.
+   Copyright the gridfm-datakit authors (IBM Research and contributors).
+
+3. GENCO paper and released artifacts
+   "GENCO: a grid foundation model architecture for power flow, optimal power
+   flow and state estimation", arXiv:2608.09921 (2026), IBM Research,
+   Hydro-Quebec, ETH Zurich and Stony Brook University.
+   - Checkpoints and normalizer statistics: Hugging Face model repos
+     gridfm/genco-pf-datakit and gridfm/genco-opf-datakit (model card:
+     Apache-2.0). Fetched at run time by scripts/fetch_data.py,
+     scripts/reproduce.py, scripts/build_basecase_store.py and
+     src/genco_certified/loading.py. They are not redistributed here.
+   - Datasets: Hugging Face dataset repos gridfm/pf_small_<grid> and
+     gridfm/opf_small_<grid> (datakit-generated scenarios), fetched by
+     scripts/fetch_data.py. Not redistributed here, except a small subset of
+     IEEE 118 scenarios bundled in space/bundle/ for the demo Space. Their terms
+     are those on the dataset cards; check them before redistributing.
+   - Challenge: GridFM GENCO Challenge 2026
+     (https://huggingface.co/spaces/gridfm/genco-challenge).
+
+4. Network cases
+   IEEE 14, 30, 57 and 118-bus systems and the GOC 500 / 2000 / 10000 cases are
+   taken through datakit's PGLib-OPF / MATPOWER case files (PGLib-OPF,
+   IEEE PES Task Force on Benchmarks for Validation of Emerging Power System
+   Algorithms, CC BY 4.0; MATPOWER, BSD-3-Clause). We do not ship the case files
+   themselves; the bundled demo scenarios contain derived data only.
+
+5. Python dependencies
+   PyTorch, PyTorch Geometric, torch-scatter, Lightning, SciPy, NumPy, pandas,
+   PyArrow, scikit-learn, Gradio and others, under their own licenses; the
+   exact versions are in requirements.lock.txt and results/environment.json.

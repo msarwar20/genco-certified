@@ -1,0 +1,36 @@
+{
+ "python": "3.12.12",
+ "platform": "macOS 15.3 arm64",
+ "hardware": "Apple M4, 24 GB",
+ "torch": "2.12.1",
+ "torch_mps_available": true,
+ "torch_geometric": "2.8.0.post1",
+ "torch_scatter": "2.1.2",
+ "lightning": "2.6.6",
+ "numpy": "2.5.3",
+ "scipy": "1.18.1",
+ "pandas": "2.3.3",
+ "pyarrow": "25.0.1",
+ "scikit-learn": "1.9.1",
+ "gradio": "6.29.0",
+ "gridfm_graphkit": {
+  "version": "0.9.0.3",
+  "commit": "8a8defbc9ab41caa65b07c75e8e1ee23636877cd"
+ },
+ "gridfm_datakit": {
+  "version": "1.1.0",
+  "commit": "d8a092dcfdcc05f58f12595e9f7a9fd165d3c2f0"
+ },
+ "julia": {
+  "version": "1.13.1",
+  "juliacall": "0.9.36",
+  "juliapkg": "0.1.27",
+  "packages": {
+   "Ipopt": "1.15.0",
+   "Memento": "1.5.0",
+   "PowerModels": "0.21.6"
+  }
+ },
+ "generated_by": "pip freeze / importlib.metadata in the project .venv; see requirements.lock.txt",
+ "generated_on": "2026-10-22"
+}

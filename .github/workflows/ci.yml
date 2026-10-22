@@ -1,0 +1,53 @@
+name: ci
+
+# Offline checks only: the data-free tests and the artifact checksum/finite-number check.
+# Tests that need downloaded data or released checkpoints carry the `data` marker and are deselected.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      # graphkit imports torch, torch_geometric, torch_scatter, lightning and (through datakit) matpowercaseframes
+      # and juliapkg at import time, so the test modules need them even though no test touches Julia or a GPU.
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch==2.12.1 --index-url https://download.pytorch.org/whl/cpu
+          pip install torch-scatter -f https://data.pyg.org/whl/torch-2.12.0+cpu.html \
+            || pip install --no-build-isolation torch-scatter
+          pip install torch-geometric lightning mlflow networkx opt-einsum plotly pyyaml seaborn nbformat gdown \
+            numpy scipy "pandas>=2.3,<3" pyarrow scikit-learn huggingface_hub \
+            matpowercaseframes juliapkg pytest
+          # pinned toolkit commits (see NOTICE); their own dependency lists are covered above
+          pip install --no-deps \
+            "git+https://github.com/gridfm/gridfm-graphkit@8a8defbc9ab41caa65b07c75e8e1ee23636877cd" \
+            "git+https://github.com/gridfm/gridfm-datakit@d8a092dcfdcc05f58f12595e9f7a9fd165d3c2f0"
+          pip install --no-deps -e .
+
+      - name: Tests (no data, no checkpoints)
+        env:
+          MLFLOW_ALLOW_FILE_STORE: "true"
+        run: python -m pytest -m "not data" -q
+
+      - name: Verify result artifacts (checksums, JSON, finite numbers)
+        run: python scripts/verify_artifacts.py

@@ -1,0 +1,21 @@
+outage count (all elements) histogram: {1: 1860, 2: 1036, 3: 752, 4: 719, 5: 689}
+branch outages: {0: 524, 1: 1922, 2: 1106, 3: 795, 4: 523, 5: 186}  gen outages: {0: 2750, 1: 1733, 2: 496, 3: 66, 4: 10, 5: 1}
+share of total outages that are gens: 0.237
+fractions: {1: 0.368, 2: 0.205, 3: 0.149, 4: 0.142, 5: 0.136}
+violating share overall: 0.582 (2942)
+by k: {1: 0.361, 2: 0.564, 3: 0.698, 4: 0.809, 5: 0.842}
+max load/rate 6.113127452866356
+data/stress/n1 test load scen: 30  min over pairs of max|dPd| (MW): 16.802  exact matches: 0
+data/stress/n2 test load scen: 30  min over pairs of max|dPd| (MW): 14.218  exact matches: 0
+data/stress/n3 test load scen: 30  min over pairs of max|dPd| (MW): 15.929  exact matches: 0
+data/stress/n5 test load scen: 30  min over pairs of max|dPd| (MW): 17.412  exact matches: 0
+data/pf test load scen: 273  min over pairs of max|dPd| (MW): 15.948  exact matches: 0
+data/train_nk/case118_ieee/splits_nk: train 4550 (207 load scenarios), val 506 (23), test = val
+    partition 22/26: 200/230 load scenarios solved (2s)
+    partition 23/26: 209/230 load scenarios solved (2s)
+    partition 24/26: 218/230 load scenarios solved (2s)
+    partition 25/26: 227/230 load scenarios solved (3s)
+    partition 26/26: 230/230 load scenarios solved (3s)
+  built: 5056 scenarios / 230 load scenarios, 0 non-converged (0 needed a retry), 2.6s
+  wrote /Users/msarwar/Desktop/webDev/GridFMChallenge/data/train_nk/case118_ieee/basecase_store.pt (0.3 MB, 3s)
+  probe (200 scenarios): base vs post-contingency label | median of per-scenario max |dVm| at PQ 1.05e-02 p.u., |dVa| 6.58e-02 rad | max |dVm| at PV setpoints 6.0e-08, at REF 5.9e-08

@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite it as below."
+title: "What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state"
+type: software
+authors:
+  - family-names: "Sarwar"
+    given-names: "Muhammad"
+date-released: "2026-10-22"
+year: 2026
+version: "0.1.0"
+license: Apache-2.0
+repository-code: "https://github.com/msarwar20/genco-certified"
+keywords:
+  - power flow
+  - contingency screening
+  - grid foundation model
+  - Newton-Raphson
+  - GENCO
+references:
+  - type: article
+    title: "GENCO: a grid foundation model architecture for power flow, optimal power flow and state estimation"
+    year: 2026
+    notes: "arXiv:2608.09921"
+    url: "https://arxiv.org/abs/2608.09921"

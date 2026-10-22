@@ -1,0 +1,96 @@
+# pytest -v -rs tests   (full suite, data and released checkpoints present; 2026-10-22)
+============================= test session starts ==============================
+platform darwin -- Python 3.12.12, pytest-9.1.1, pluggy-1.6.0 -- <repo>/.venv/bin/python
+rootdir: <repo>
+configfile: pytest.ini
+plugins: platformdirs-4.12.2, anyio-4.15.1
+collecting ... collected 69 items
+
+tests/test_acpf.py::test_ground_truth_satisfies_power_balance PASSED     [  1%]
+tests/test_acpf.py::test_flat_start_newton_recovers_datakit_solution PASSED [  2%]
+tests/test_acpf.py::test_newton_converges_quadratically PASSED           [  4%]
+tests/test_acpf.py::test_jacobian_matches_finite_differences PASSED      [  5%]
+tests/test_acpf.py::test_base_case_warm_start_beats_flat_start PASSED    [  7%]
+tests/test_acpf.py::test_branch_loading_uses_both_directions PASSED      [  8%]
+tests/test_fastpf.py::test_base_case_wrapper_is_identical_to_acpf PASSED [ 10%]
+tests/test_fastpf.py::test_pattern_jacobian_slices_equal_acpf_jacobian PASSED [ 11%]
+tests/test_fastpf.py::test_chord_and_fdlf_converge_to_datakit_solution[True] PASSED [ 13%]
+tests/test_fastpf.py::test_chord_and_fdlf_converge_to_datakit_solution[False] PASSED [ 14%]
+tests/test_fastpf.py::test_genco_like_start_beats_base_start PASSED      [ 15%]
+tests/test_fastpf.py::test_compensation_equals_fresh_factorization_of_outaged_matrices PASSED [ 17%]
+tests/test_fastpf.py::test_compensation_with_generator_outage_pattern_and_extra_branches PASSED [ 18%]
+tests/test_fastpf.py::test_compensated_chord_jacobian_equals_fresh_jacobian_of_outaged_topology PASSED [ 20%]
+tests/test_fastpf.py::test_bordered_generator_outage_equals_refactorized_pattern PASSED [ 21%]
+tests/test_fastpf.py::test_branch_outages_never_create_factorizations_and_gen_outages_count_once_per_pattern PASSED [ 23%]
+tests/test_fastpf.py::test_islanding_outage_is_reported_as_singular_not_crashed PASSED [ 24%]
+tests/test_fastpf.py::test_plain_chord_rate_is_the_dc_self_ptdf_of_the_outaged_branch PASSED [ 26%]
+tests/test_fastpf.py::test_clopper_pearson_known_values PASSED           [ 27%]
+tests/test_fastpf.py::test_cluster_bootstrap_resamples_clusters_not_rows PASSED [ 28%]
+tests/test_fastpf.py::test_cluster_bootstrap_covers_the_mean PASSED      [ 30%]
+tests/test_fastpf.py::test_ci_tags_follow_the_run_naming PASSED          [ 31%]
+tests/test_genco_delta.py::test_task_is_registered_with_pf_task_and_decoder PASSED [ 33%]
+tests/test_genco_delta.py::test_config_errors_are_explicit PASSED        [ 34%]
+tests/test_genco_delta.py::test_masks_identical_to_powerflow[40-vm_va] PASSED [ 36%]
+tests/test_genco_delta.py::test_masks_identical_to_powerflow[40-flows] PASSED [ 37%]
+tests/test_genco_delta.py::test_masks_identical_to_powerflow[199-vm_va] PASSED [ 39%]
+tests/test_genco_delta.py::test_masks_identical_to_powerflow[199-flows] PASSED [ 40%]
+tests/test_genco_delta.py::test_masks_identical_to_powerflow[3000-vm_va] PASSED [ 42%]
+tests/test_genco_delta.py::test_masks_identical_to_powerflow[3000-flows] PASSED [ 43%]
+tests/test_genco_delta.py::test_only_masked_voltage_and_flow_values_change[vm_va] PASSED [ 44%]
+tests/test_genco_delta.py::test_only_masked_voltage_and_flow_values_change[flows] PASSED [ 46%]
+tests/test_genco_delta.py::test_filled_bus_values_equal_the_base_case_in_model_units PASSED [ 47%]
+tests/test_genco_delta.py::test_every_variant_of_a_load_scenario_gets_the_same_base_case PASSED [ 49%]
+tests/test_genco_delta.py::test_edge_flow_formula_reproduces_datakit_flows_in_normalised_units PASSED [ 50%]
+tests/test_genco_delta.py::test_filled_edge_flows_match_acpf_branch_flows_on_the_base_state[40] PASSED [ 52%]
+tests/test_genco_delta.py::test_filled_edge_flows_match_acpf_branch_flows_on_the_base_state[199] PASSED [ 53%]
+tests/test_genco_delta.py::test_filled_edge_flows_match_acpf_branch_flows_on_the_base_state[3000] PASSED [ 55%]
+tests/test_genco_delta.py::test_no_post_contingency_label_reaches_the_inputs PASSED [ 56%]
+tests/test_genco_delta.py::test_store_does_not_depend_on_which_variant_asks PASSED [ 57%]
+tests/test_genco_delta.py::test_store_roundtrip_and_errors PASSED        [ 59%]
+tests/test_genco_delta.py::test_full_store_covers_every_split_id_when_built PASSED [ 60%]
+tests/test_genco_delta.py::test_solve_base_case_equals_acpf_when_the_flat_start_converges PASSED [ 62%]
+tests/test_genco_delta.py::test_retry_recovers_goc2000_load_scenarios_where_the_flat_start_diverges PASSED [ 63%]
+tests/test_genco_delta.py::test_eval_analysis_is_exact_when_the_prediction_is_the_truth PASSED [ 65%]
+tests/test_genco_delta.py::test_cluster_bootstrap_resamples_load_scenarios_together PASSED [ 66%]
+tests/test_genco_residual.py::test_registration_and_state_dict_layout PASSED [ 68%]
+tests/test_genco_residual.py::test_loading_released_weights_zeroes_only_the_last_head_layer PASSED [ 69%]
+tests/test_genco_residual.py::test_at_init_masked_vm_va_equal_the_base_case_exactly PASSED [ 71%]
+tests/test_genco_residual.py::test_at_init_is_the_base_case_for_any_backbone_weights PASSED [ 72%]
+tests/test_genco_residual.py::test_residual_decode_is_base_plus_delta_of_the_last_layer PASSED [ 73%]
+tests/test_genco_residual.py::test_unmasked_entries_are_unchanged_even_with_a_large_head PASSED [ 75%]
+tests/test_genco_residual.py::test_base_is_cleared_after_forward_and_head_needs_a_base PASSED [ 76%]
+tests/test_genco_residual.py::test_gradients_flow_to_the_delta_head PASSED [ 78%]
+tests/test_genco_residual.py::test_finetuned_state_dict_roundtrip_gives_identical_outputs PASSED [ 79%]
+tests/test_genco_residual.py::test_loader_builds_the_residual_model_at_the_base_case PASSED [ 81%]
+tests/test_genco_residual.py::test_loader_reloads_a_finetuned_checkpoint_identically PASSED [ 82%]
+tests/test_screening.py::test_lu_accounting_charges_own_nr_count PASSED  [ 84%]
+tests/test_screening.py::test_lu_accounting_sequential_and_floor PASSED  [ 85%]
+tests/test_screening.py::test_grouped_folds_disjoint_and_balanced PASSED [ 86%]
+tests/test_screening.py::test_kfold_calibration_never_shares_a_load_scenario PASSED [ 88%]
+tests/test_screening.py::test_ratio_scores_and_policy_on_toy_set PASSED  [ 89%]
+tests/test_screening.py::test_conformal_quantile_edge_cases PASSED       [ 91%]
+tests/test_screening.py::test_conformal_coverage_is_at_least_nominal PASSED [ 92%]
+tests/test_screening.py::test_tune_threshold_fbeta_and_recall PASSED     [ 94%]
+tests/test_screening.py::test_dc_loading_merges_parallel_circuits_and_drops_outages PASSED [ 95%]
+tests/test_screening.py::test_dc_loading_from_raw_matches_definition PASSED [ 97%]
+tests/test_screening.py::test_newton_trajectory_matches_newton_pf PASSED [ 98%]
+tests/test_screening.py::test_sequential_policy_accepts_at_the_first_step_that_clears_the_bound PASSED [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488
+.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488
+  <repo>/.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+tests/test_genco_residual.py::test_loader_builds_the_residual_model_at_the_base_case
+tests/test_genco_residual.py::test_loader_reloads_a_finetuned_checkpoint_identically
+  <repo>/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:235: UserWarning: Requested number of scenarios (250000) exceeds dataset size (6000). Using the full dataset instead.
+    warnings.warn(
+
+tests/test_genco_residual.py::test_loader_builds_the_residual_model_at_the_base_case
+tests/test_genco_residual.py::test_loader_reloads_a_finetuned_checkpoint_identically
+  <repo>/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:245: UserWarning: `data.scenarios` is ignored when `split_from_existing_files` is set; train/val/test scenario ids are loaded from the provided split files.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 69 passed, 6 warnings in 16.65s ========================

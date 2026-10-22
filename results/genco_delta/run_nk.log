@@ -1,0 +1,2 @@
+== 2026-10-21 23:12:52 GENCO-Delta N-k: arm=residual_nk_vm_va_flows_lr3e-4 seeds=[0 1 42] epochs=12 lr=3e-4 sets=[paper n1 n2 n3 n5]
+== 2026-10-21 23:12:52 train residual_nk_vm_va_flows_lr3e-4_s0

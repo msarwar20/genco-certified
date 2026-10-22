@@ -33,3 +33,8 @@ dist/
 results/exp08/*_branches.parquet
 results/exp08/*_buses.parquet
 results/exp07/*_starts.npz
+# GENCO-Delta bulk outputs (per-row parquets, per-run logs, lightning CSV logs); summaries and eval JSONs stay tracked
+results/genco_delta/eval/*.parquet
+results/genco_delta/logs/
+results/genco_delta/train_logs/
+results/genco_delta/residual_smoke/

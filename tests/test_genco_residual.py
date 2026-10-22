@@ -24,10 +24,13 @@ REPO = Path(__file__).resolve().parents[1]
 GRID = REPO / "data" / "pf" / "case118_ieee"
 CKPT = REPO / "checkpoints" / "genco-pf-datakit" / "case118_ieee" / "base" / "seed0"
 STATS, WEIGHTS, CFG = CKPT / "normalizer_stats.pt", CKPT / "best_model_state_dict.pt", CKPT / "case118_ieee_base_seed0.yaml"
-pytestmark = pytest.mark.skipif(
-    not ((GRID / "processed").exists() and STATS.exists() and WEIGHTS.exists() and CFG.exists()),
-    reason="needs data/pf/case118_ieee and the released Base seed-0 checkpoint",
-)
+pytestmark = [
+    pytest.mark.data,
+    pytest.mark.skipif(
+        not ((GRID / "processed").exists() and STATS.exists() and WEIGHTS.exists() and CFG.exists()),
+        reason="needs data/pf/case118_ieee and the released Base seed-0 checkpoint",
+    ),
+]
 
 PROBE = [40, 199, 3000]
 BASE_COLS = slice(VM_H, VA_H + 1)

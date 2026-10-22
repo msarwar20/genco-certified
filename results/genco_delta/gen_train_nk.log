@@ -1,0 +1,28 @@
+Generating power flow data from configs/datakit/case118_train_nk.yaml...
+Global random seed set to: 4001
+Finding upper limit u .....
+OPF did not converge for u=1.400. Using u=1.300 for upper limit
+/Users/msarwar/Desktop/webDev/GridFMChallenge/external/gridfm-datakit/gridfm_datakit/utils/param_handler.py:314: UserWarning: The following arguments are not used by the generation generator "cost_permutation": {'sigma': 1.0}
+  warnings.warn(
+min, max of ref_curve: 0.7800000000000001, 1.3000000000000003
+l, u: 0.7800000000000001, 1.3000000000000003
+cutting the load profile (original length: 8760, requested length: 230)
+Skipping plot of scenarios for large networks (number of buses > 100)
+Processing scenarios:   0%|          | 0/230 [00:00<?, ?it/s]Processing scenarios:   0%|          | 0/230 [00:10<?, ?it/s]Processing scenarios:  17%|#6        | 39/230 [00:44<03:35,  1.13s/it]Processing scenarios: 100%|##########| 230/230 [00:45<00:00,  5.02it/s]
+
+Data generation complete!
+Generated files:
+  - tqdm_log: data/train_nk/case118_ieee/raw/tqdm.log
+  - error_log: data/train_nk/case118_ieee/raw/error.log
+  - args_log: data/train_nk/case118_ieee/raw/args.log
+  - config: data/train_nk/case118_ieee/raw/config.yaml
+  - solver_log_dir: None
+  - bus_data: data/train_nk/case118_ieee/raw/bus_data.parquet
+  - branch_data: data/train_nk/case118_ieee/raw/branch_data.parquet
+  - gen_data: data/train_nk/case118_ieee/raw/gen_data.parquet
+  - y_bus_data: data/train_nk/case118_ieee/raw/y_bus_data.parquet
+  - runtime_data: data/train_nk/case118_ieee/raw/runtime_data.parquet
+  - scenarios: data/train_nk/case118_ieee/raw/scenarios_agg_load_profile.parquet
+  - scenarios_plot: data/train_nk/case118_ieee/raw/scenarios_agg_load_profile.html
+  - scenarios_log: data/train_nk/case118_ieee/raw/scenarios_agg_load_profile.log
+gridfm_datakit generate configs/datakit/case118_train_nk.yaml  236.21s user 21.63s system 405% cpu 1:03.54 total

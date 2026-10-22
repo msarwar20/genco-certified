@@ -9,7 +9,7 @@ import pytest
 from genco_certified import acpf
 
 RAW = Path(__file__).resolve().parents[1] / "data" / "pf" / "case118_ieee" / "raw"
-pytestmark = pytest.mark.skipif(not RAW.exists(), reason="run scripts/fetch_data.py first")
+pytestmark = [pytest.mark.data, pytest.mark.skipif(not RAW.exists(), reason="run scripts/fetch_data.py first")]
 
 
 @pytest.fixture(scope="module")
