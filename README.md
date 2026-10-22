@@ -6,11 +6,11 @@ GENCO predicts an AC power-flow state in one forward pass. In contingency analys
 
 ## Results at a glance
 
-1. On IEEE 118, a GENCO prediction is worth 0.73 Newton iterations [0.63, 0.83] to 10⁻⁶ MW over the pre-contingency start, and about one iteration at equal cost for screening: GENCO plus one Newton step misses 32 of 18,030 violating elements, the same as the pre-contingency start plus two steps (33).
-2. A sequential accept-or-escalate rule, calibrated on a separate 100-operating-point set, gave 0 missed violations out of 18,030 (95% upper bound 0.02%) with 35–44% fewer factorizations than the same rule started from the pre-contingency state.
-3. The advantage does not survive scale: it is a tie at 500 buses and the pre-contingency start wins at 2,000 buses (+0.22 iterations). Under industrial factor reuse it shrinks to 5–21% of triangular solves, and pays off in wall-clock time only if inference costs under 0.015–0.6 ms per contingency. GENCO takes 8–24 ms on a laptop.
-4. Audit finding: the PF mask treats the slack-bus voltage magnitude as an unknown although it is a setpoint, so GENCO's reported power balance looks 35–60× better than the physical one on IEEE 14–118.
-5. An extension, GENCO-Δ, conditions GENCO on the pre-contingency state. Feeding the base case into the masked inputs fails (one of three seeds diverged). A residual decoder that starts exactly at the base case cuts N-1 state error 2.5× and Newton iterations at a practical tolerance by about 25%, but regresses at N-5.
+On IEEE 118, starting Newton from GENCO instead of the pre-contingency state saves 0.49 [0.45, 0.53] iterations to 10⁻⁴ MW at N-1 and about one iteration at N-5. A screening rule that verifies each contingency with Newton steps and a calibrated error bound needs 18–44% fewer factorizations from GENCO's start. It missed no overload in 429 held-out operating points (one-sided 95% bound 0.7%). The advantage shrinks with grid size: 0.33 iterations at 500 buses, and at 2,000 buses the pre-contingency start is better by 0.63. On a laptop, inference costs 14× to 580× more than the solver work it saves.
+
+Two further findings. First, GENCO's PF task treats the slack-bus voltage magnitude as an unknown although it is a setpoint, which makes the reported power balance 32–60× better than the physical one on IEEE 14–118. Second, a residual decoder that starts exactly at the pre-contingency state (GENCO-Δ) cuts N-1 state error 2.5×, but saves Newton work only at a loose tolerance and regresses at N-5.
+
+These numbers come from the write-up and are traced to result files in [docs/NUMBERS.md](docs/NUMBERS.md).
 
 ![Newton iterations from each start, and the GENCO minus pre-contingency difference by grid size](results/figures/post/figB_exchange_rate.png)
 

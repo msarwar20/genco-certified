@@ -1,110 +1,101 @@
 <!--
-DRAFT for the Community-tab post. Do not post: the user posts it. Every number is from docs/NUMBERS.md (section in brackets in the source comments).
-Placeholders: {{NK}} N-k retraining (agent N, running), {{GPU}} Colab GPU timing (user, 2026-10-22), {{AFFIL}} affiliation, {{LINKS}} repo/HF links (repo is private until the user says otherwise).
-Figures: results/figures/post/ (agent V). Upload to the discussion or an HF dataset repo before posting.
+DRAFT v2 (2026-10-22) for the Community-tab post. Do not post: the user posts it.
+Numbers: docs/NUMBERS.md; v1 review and its fixes: results/notes/review_post_v1.md.
+Placeholders: {{NK}} N-k retraining (running), {{GPU}} Colab GPU timing (user), {{AFFIL}} affiliation, {{LINKS}} repo/HF links (repo private until the user says otherwise).
+Figures: results/figures/post/ (upload to the discussion before posting; file names below).
 -->
 
 # What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state
 
-**Muhammad Sarwar** ({{AFFIL}}), contact: msarwar@iastate.edu
-Code: {{LINKS}} · Apache-2.0 · every number below regenerates from one script per table
+**Muhammad Sarwar** ({{AFFIL}}) · msarwar@iastate.edu · code, data and checkpoints: {{LINKS}}
 
 ## Summary
 
-GENCO predicts an AC power-flow state in a single forward pass. In contingency analysis, however, an operator rarely solves from scratch: the solved pre-contingency case is already on the screen and is the warm start every production tool uses. So we asked a narrow, practical question: **if GENCO's prediction is handed to a float64 Newton solver, how much solver work does it save compared with that pre-contingency start, and can the saving be taken without missing an overload?**
+In contingency analysis an operator never solves from scratch. The solved pre-contingency case is already there, and production tools start every outage's Newton (or fast-decoupled) solve from it. So we price GENCO's power-flow prediction against that start, in solver work, at equal safety.
 
-The short answer, on the released checkpoints:
+**Answer.** On IEEE 118, starting Newton from GENCO instead of the pre-contingency state saves 0.49 [0.45, 0.53] iterations to 10⁻⁴ MW at N-1 and about one iteration at N-5. A screening rule that verifies each contingency with Newton steps and a calibrated error bound needs 18–44% fewer factorizations from GENCO's start. It missed no overload in 429 held-out operating points (one-sided 95% bound 0.7%). The advantage shrinks with grid size: 0.33 iterations at 500 buses, and at 2,000 buses the pre-contingency start is better by 0.63. On a laptop, inference costs 14× to 580× more than the solver work it saves {{GPU}}.
 
-1. On IEEE 118, a GENCO prediction is worth **0.73 Newton iterations** [0.63, 0.83] to 10⁻⁶ MW over the pre-contingency start, and about **one iteration at equal cost** for screening: GENCO plus one Newton step misses 32 of 18,030 violating elements, the same as the pre-contingency start plus *two* steps (33).
-2. A sequential accept-or-escalate rule, calibrated on a separate 100-operating-point set, gave **0 missed violations out of 18,030** (95% upper bound 0.02%) with **35–44% fewer factorizations** than the same rule started from the pre-contingency state.
-3. The advantage **does not survive scale**: it is a tie at 500 buses and the pre-contingency start wins at 2,000 buses (+0.22 iterations). Under industrial factor reuse it shrinks to 5–21% of triangular solves, and pays off in wall-clock time only if inference costs under **0.015–0.6 ms** per contingency. GENCO takes 8–24 ms on a laptop {{GPU}}.
-4. An audit finding: the PF mask treats the **slack-bus voltage magnitude as an unknown** although it is a setpoint, so GENCO's reported power balance looks **35–60× better** than the physical one on IEEE 14–118.
-5. An extension, **GENCO-Δ**, that conditions GENCO on the pre-contingency state. Feeding the base case into the masked inputs fails (one of three seeds diverged); a residual decoder that starts exactly at the base case cuts N-1 state error **2.5×** and Newton iterations at a practical tolerance by about 25%, but regresses at N-5 {{NK}}.
-
-Negative results are reported in the main table (Table V), not a footnote.
+Two further findings. First, GENCO's PF task treats the slack-bus voltage magnitude as an unknown although it is a setpoint, which makes the reported power balance 32–60× better than the physical one on IEEE 14–118. Second, a residual decoder that starts exactly at the pre-contingency state (GENCO-Δ) cuts N-1 state error 2.5×, but saves Newton work only at a loose tolerance and regresses at N-5 {{NK}}.
 
 ![Fig. 1](figA_workflow.png)
-*Fig. 1. Verified screening. After an outage, either the pre-contingency state or GENCO's prediction starts float64 Newton steps on the exact admittances. A calibrated bound c·‖dx‖² on every monitored branch loading and PQ voltage decides, after each step, whether to accept the screen or take another step; after three steps the case goes to a full Newton solve.*
+*Fig. 1. Verified screening. Either the pre-contingency state or GENCO's prediction starts float64 Newton steps on the exact admittances. After each step a calibrated bound c·‖dx‖² on every monitored branch loading and PQ-bus voltage decides whether to accept the screen; after three steps the case goes to a full solve.*
 
-## I. Why price GENCO in Newton iterations?
+## I. The question
 
-Most learned power-flow work, and GENCO's own paper [1], compares the network against a flat start or a DC approximation. Neither is what a control room uses for contingency analysis. There, the base-case solution is computed once per operating point, and each outage is solved by Newton (or fast-decoupled) iterations started from it, often reusing the base-case factorization. A learned model is only useful in that loop if it beats this start, in solver work, at the same level of safety.
-
-This makes the question complementary to two other entries. "another entry" (#7) checks GENCO with Newton for N-k screening and finds roughly one iteration saved and no speedup on the Texas grid; another entry (#2) audits sensitivities on fixed topologies. We add the pre-contingency baseline, the factor-reuse solvers operators actually run, a scale trend from 118 to 2,000 buses, and an attempt to make GENCO itself use the base case.
+GENCO's paper [1] reports speed and accuracy against PowerModels from a cold start. Two entries go further. another entry [5] audits sensitivities on fixed topologies. "another entry" [5] checks GENCO with Newton for N-k screening on the Texas grid, and finds about one iteration saved and no speedup. Neither measures the baseline an operator actually has: the pre-contingency solution, often with its factorization reused. That is what we measure here. We then follow the answer from 118 to 2,000 buses, and try to make GENCO use the base case itself.
 
 ## II. Setup
 
-**Models and data.** Released GENCO PF checkpoints (Base, Small, Tiny; seeds 0, 1, 42) on IEEE 14–118, GOC 500 and GOC 2000, run through gridfm-graphkit (commit 8a8defb) unchanged. Test sets: the paper's held-out N-1 scenarios (638, 29 load scenarios), plus new gridfm-datakit sets for IEEE 118 with 100 load scenarios each at N-1, N-2, N-3 and N-5 (8,792 scenarios), a separate N-1 calibration set (2,200), an exhaustive N-1 set (every branch and generator, 6,900 contingencies), and 879 held-out GOC 2000 scenarios (40 load scenarios) not seen in training.
+**Models.** We use the released GENCO PF checkpoints (Base, Small, Tiny; seeds 0, 1, 42) through gridfm-graphkit [2], unmodified.
 
-**Solver.** A float64 Newton–Raphson on exactly the admittance graph GENCO sees, with PV/slack setpoints enforced. The pre-contingency start is the solved base case of the same operating point. We count Newton iterations to 10⁻², 10⁻⁴ and 10⁻⁶ MW, sparse LU factorizations, and, for chord and fast-decoupled solvers, triangular solves. Counts are hardware independent; wall-clock times are reported separately.
+**Data.**
+- IEEE 118 is tested on the paper's held-out N-1 scenarios (638, in 29 load scenarios).
+- It is also tested on four new gridfm-datakit sets at N-1, N-2, N-3 and N-5, with 100 load scenarios each (8,792 scenarios).
+- A separate N-1 set (2,200 scenarios) is used only for calibration.
+- GOC 500 uses the paper split; GOC 2000 uses 879 scenarios held out from training.
 
-**Statistics.** Contingencies that share an operating point are correlated, so every interval is a 95% cluster bootstrap over load scenarios, calibration is split by load scenario, and miss rates carry Clopper–Pearson bounds. Base seeds are reported as mean ± SD.
+**Solver.** A float64 Newton–Raphson runs on exactly the admittance graph GENCO sees, with PV and slack setpoints enforced. The pre-contingency start is the solved base case of the same operating point, and is treated as free.
 
-## III. What GENCO is doing
+**Statistics.** Contingencies that share an operating point are correlated. Intervals are therefore 95% cluster bootstraps over load scenarios, and calibration is split by load scenario.
 
-**Layer dynamics.** Tracing the physics decoder after each of the 12 correction layers, GENCO's own mismatch on IEEE 118 falls from 261 MW after layer 1 to 0.054 MW after layer 12, roughly geometrically after layer 2 (about 0.6 per layer). Stopping after layer 9 cuts inference by 26% and costs 0.12 Newton iterations on Base (0.01 on Small and Tiny). Iterations from layer *k* plateau near 3 until layer 7 and then drop, so the last few layers are what make the prediction worth something to Newton.
+## III. The exchange rate
 
-**The slack convention.** `AddPFHeteroMask` masks the slack-bus voltage magnitude, while in the data it is a dispatch setpoint (constant across all outages of an operating point). GENCO therefore predicts it, with a median error of 0.006 p.u. on IEEE 118, and its power balance is computed at that predicted voltage. With the setpoint restored, the largest nodal mismatch rises from 0.29 MW to 17.4 MW (TABLE I). The error is local: the worst bus is adjacent to the slack in 97–99% of scenarios. This may well be intended, but it is undocumented, and it makes reported residuals look far better than the physical state they describe.
+TABLE II. GENCO minus pre-contingency start, mean Newton iterations (paired) [95% CI]. Released Base seed 0, except GOC 2000 (Small).
 
-TABLE I. Largest nodal mismatch, reported (GENCO's own slack Vm) vs physical (setpoint restored); median over scenarios, 95% CI over load scenarios.
-
-| Grid, model | Reported (MW) | Physical (MW) | Ratio |
-|---|---|---|---|
-| IEEE 14 Base | 0.0048 | 0.173 | 36× [31, 46] |
-| IEEE 118 Base | 0.288 | 17.4 | 60× [45, 79] |
-| IEEE 118 Small / Tiny | 0.454 / 0.583 | 16.8 / 20.2 | 37× / 35× |
-| GOC 500 Base | 4.53 | 86.3 | 19× [12, 29] |
-| GOC 2000 Small (879 held-out) | 11.0 | 217 | 20× [16, 26] |
-
-Two zero-shot repairs fail on Base. Feeding the setpoint in as an input multiplies the state error by 17×, and re-anchoring all voltages makes things worse in 95–100% of scenarios. Clamping only the output works on Small and Tiny. A short slack-aware fine-tune fixes the balance (physical mismatch 17.4 → 1.0 MW) but costs about 29% state error against a matched control over three seeds, and saves no Newton iterations.
-
-## IV. The exchange rate
-
-TABLE II. Mean Newton iterations to 10⁻⁶ MW, IEEE 118 Base seed 0, and the paired GENCO − pre-contingency difference with 95% CI.
-
-| Set | Flat | DC | Pre-contingency | GENCO | GENCO − pre-cont. |
+| Grid, set | n (load scen.) | at 10⁻⁴ MW: pre-cont. → GENCO | Δ at 10⁻² MW | Δ at 10⁻⁴ MW | Δ at 10⁻⁶ MW |
 |---|---|---|---|---|---|
-| paper N-1 | 4.00 | 3.97 | 2.88 | 2.15 | −0.73 [−0.83, −0.63] |
-| N-1 (100 load scen.) | 4.00 | | 2.89 | 2.10 | −0.79 [−0.83, −0.75] |
-| N-2 | 4.01 | | 3.10 | 2.17 | −0.93 [−0.97, −0.88] |
-| N-3 | 4.02 | | 3.20 | 2.21 | −0.99 [−1.02, −0.95] |
-| N-5 | 4.03 | | 3.34 | 2.38 | −0.96 [−1.00, −0.92] |
+| IEEE 118, paper N-1 | 638 (29) | 2.49 → 2.01 | −0.32 [−0.45, −0.19] | −0.49 [−0.53, −0.45] | −0.73 [−0.83, −0.63] |
+| IEEE 118, N-1 | 2,200 (100) | 2.51 → 2.00 | −0.37 [−0.43, −0.30] | −0.50 [−0.53, −0.48] | −0.79 [−0.83, −0.75] |
+| IEEE 118, N-5 | 2,194 (100) | 3.08 → 2.07 | −0.65 [−0.69, −0.62] | −1.01 [−1.02, −0.99] | −0.96 [−1.00, −0.92] |
+| GOC 500, paper | 638 (29) | 2.60 → 2.27 | −0.10 [−0.14, −0.07] | −0.33 [−0.46, −0.18] | −0.04 [−0.13, 0.04] |
+| GOC 2000, held-out | 879 (40) | 2.37 → 3.00 | +0.57 [0.40, 0.72] | +0.63 [0.59, 0.67] | +0.22 [0.12, 0.35] |
 
-On IEEE 118 the saving grows with outage order: the further the post-contingency state drifts from the base case, the more GENCO's prediction is worth. It holds over three seeds (2.15 ± 0.09) and for Small (2.22) and Tiny (2.18). At looser tolerances it is smaller (−0.32 at 10⁻² MW), because both starts converge quickly there.
+**IEEE 118.** The saving holds for all three Base seeds, and for Small and Tiny. It also grows with outage order, from 0.5 iterations at N-1 to 1.0 at N-5 (at 10⁻⁴ MW). The further the outage moves the state, the more the prediction is worth.
 
-Fig. 2 shows the scale trend. At 10⁻⁶ MW the difference is −0.73 on IEEE 118, −0.04 [−0.13, 0.04] on GOC 500, and **+0.22 [0.12, 0.35] on GOC 2000**, where the pre-contingency start is the better prior in about 60% of scenarios at 10⁻² and 10⁻⁴ MW. A best-of-two rule (start from whichever has the smaller mismatch, which costs no factorization) is never worse than either start: 2.25 on IEEE 118 and 2.92 on GOC 2000.
+**GOC 2000.** The pre-contingency start wins in about 60% of scenarios at 10⁻² and 10⁻⁴ MW (Fig. 2). We tested three grids with one model each, so this is a trend, not a law.
+
+**Best-of-two.** A rule that starts from whichever of the two has the smaller mismatch, at no extra factorization, comes within 0.1 iteration of the better start on IEEE 118 (2.25 vs 2.15). On GOC 2000 it ties the pre-contingency start (2.92 vs 2.93).
 
 ![Fig. 2](figB_exchange_rate.png)
-*Fig. 2. (a) Newton iterations from flat, DC, pre-contingency and GENCO starts; (b) paired GENCO − pre-contingency difference. 95% cluster-bootstrap CIs over load scenarios. IEEE 118 Base (n = 638, 29 load scenarios; open dots: seeds 1 and 42 on their own splits), GOC 500 Base (n = 638), GOC 2000 Small (held-out, n = 879, 40 load scenarios).*
+*Fig. 2. (a) Newton iterations from flat, DC, pre-contingency and GENCO starts; (b) paired GENCO minus pre-contingency difference, with 95% cluster-bootstrap CIs. Open dots: IEEE 118 seeds 1 and 42 on their own splits.*
 
-**Factor reuse.** Production contingency analysis seldom refactorizes. With a chord Newton that reuses the base-case factorization and compensates the outage with a Woodbury update, GENCO saves 21% [20, 21] of triangular solves on IEEE 118; with fast-decoupled XB, only 5% [2, 8], and the GENCO start is worse in 23% of contingencies (TABLE III). On GOC 500 the chord saving is 11% and fast-decoupled loses 7%. So "one Newton iteration" is not a transferable price: it depends on the solver it is paid in (Fig. 3a).
+## IV. Factor reuse and wall-clock time
 
-TABLE III. Paired saving of a GENCO start over the pre-contingency start, IEEE 118 paper set, 10⁻⁴ MW.
+Production contingency analysis seldom refactorizes. TABLE III repeats the comparison for two solvers that reuse the base-case factorization and compensate the outage with a low-rank Woodbury update: chord Newton, and fast-decoupled XB [3].
 
-| Solver | Triangular-solve saving | Break-even inference (ms/contingency) |
+The saving depends a great deal on the solver:
+- **IEEE 118:** 21% of triangular solves with chord Newton, but 5% with fast-decoupled. With fast-decoupled, the GENCO start is worse than the pre-contingency start in 23% of contingencies.
+- **GOC 500:** 11% with chord Newton, and −7% with fast-decoupled.
+
+TABLE III. Saving of a GENCO start over the pre-contingency start, IEEE 118 paper set, 10⁻⁴ MW. Break-even = solve time saved per contingency, i.e. what GENCO's inference must beat (Python/SciPy, Apple M4, shared machine).
+
+| Solver | Triangular-solve saving [95% CI] | Break-even (ms) |
 |---|---|---|
-| Full Newton | 20% (18–21) | 0.31 (0.63 at N-5) |
-| Chord + Woodbury compensation | 21% (20–21) | 0.04 |
-| Fast-decoupled XB + compensation | 5% (2–8) | 0.015 |
+| Full Newton | 20% [18, 21] | 0.31 (0.63 at N-5) |
+| Chord + compensation | 21% [20, 21] | 0.04 |
+| Fast-decoupled + compensation | 5% [2, 8] | 0.015 |
+
+We measured GENCO Base inference at 8.7 ms per contingency at the best batch size on the M4's GPU (MPS), and 12–24 ms on CPU. That is 14× the largest break-even and 580× the fast-decoupled one.
+
+The cross-solver comparison is starker still. Even with free inference, GENCO plus full Newton (1.25 ms) is slower than fast-decoupled from the pre-contingency state (0.35 ms). Against the cheapest solver an operator already runs, the break-even is negative. {{GPU: T4/A100 inference per contingency from notebooks/colab_gpu_timing.ipynb, and whether any same-solver break-even is crossed.}}
 
 ![Fig. 3](figD_factor_reuse_breakeven.png)
-*Fig. 3. (a) Triangular solves saved by a GENCO start over the pre-contingency start, to 10⁻⁴ MW, IEEE 118 and GOC 500. (b) Break-even inference time per contingency against measured GENCO inference on an Apple M4 (filled: batch 16; open: batch 1). {{GPU row}}*
+*Fig. 3. (a) Triangular solves saved by a GENCO start, IEEE 118 and GOC 500, 10⁻⁴ MW. (b) Break-even time per contingency against measured GENCO inference (filled: batch 16; open: batch 1).*
 
 ## V. Taking the saving safely
 
-The Newton step gives a free error estimate. Near the solution the step ‖dx‖ approximates the error, so a branch loading computed after *k* steps is off by at most c·‖dx‖² for a constant c that we calibrate. The sequential policy (Fig. 1) checks every monitored branch and PQ voltage after each step, accepts the contingency as safe or violated once every element clears its margin, and otherwise continues, falling back to a full solve after three steps. The same policy runs from either start, so the comparison isolates the prior.
+Near the solution, the Newton step dx approximates the error. So a branch loading computed after *k* steps is within c·‖dx‖² of the truth, for a constant c that we calibrate.
 
-We calibrate c on a separate N-1 set (100 load scenarios) with split-conformal quantiles over load scenarios, and test on everything else: 100-load-scenario N-1, N-2, N-3 and N-5 sets plus the paper set.
+The sequential policy (Fig. 1) works as follows:
+- After each Newton step, it checks every monitored element.
+- It stops once every element is clearly above or below its limit.
+- Otherwise it takes another step, and after three steps it falls back to a full solve.
 
-- **Misses.** 0 of 18,030 violating elements and 0 of 6,531 violating contingencies are missed, with no false alarms, for every rule and both starts (one-sided Clopper–Pearson upper bound 0.017% and 0.046%).
-- **Cost.** GENCO needs 1.37 / 1.47 / 1.53 / 1.65 factorizations per contingency at N-1/2/3/5, against 2.14 / 2.51 / 2.73 / 2.96 from the pre-contingency start: 35–44% fewer (TABLE IV, Fig. 4).
-- **Calibration.** The bound is exceeded in 1, 7, 2 and 5% of test operating points at nominal 10%. That is consistent with exchangeability under outage-order shift, but it is not a guarantee of it.
+The same policy runs from either start, so the comparison isolates the prior. c is a split-conformal quantile over the load scenarios of the calibration set [4]. Everything in TABLE IV is held out.
 
-An earlier version, calibrated on 29 operating points, exceeded its nominal rate by up to 33% at N-2. That is why the separate calibration set exists.
+TABLE IV. Sequential policy, conformal α = 0.10. Mean factorizations per contingency [95% CI].
 
-TABLE IV. Sequential policy, conformal α = 0.10, calibrated on N-1 (100 load scenarios). Mean factorizations per contingency [95% CI]; misses are elements.
-
-| Test set | GENCO start | Pre-contingency start | Misses (both) |
+| Test set | GENCO start | Pre-contingency start | Violating elements missed |
 |---|---|---|---|
 | N-1 | 1.37 [1.30, 1.44] | 2.14 [2.10, 2.17] | 0 / 1,624 |
 | N-2 | 1.47 [1.40, 1.53] | 2.51 | 0 / 3,210 |
@@ -112,26 +103,56 @@ TABLE IV. Sequential policy, conformal α = 0.10, calibrated on N-1 (100 load sc
 | N-5 | 1.65 [1.61, 1.69] | 2.96 [2.94, 2.98] | 0 / 6,617 |
 | paper N-1 | 1.37 [1.23, 1.51] | 2.09 | 0 / 484 |
 
+Neither start misses a violation or raises a false alarm, over 16,449 violating elements in 5,785 violating contingencies. Errors are correlated within an operating point, so the operating point is the honest unit for a bound: 0 misses in 429 load scenarios gives a one-sided 95% bound of 0.7%. Three caveats:
+- **The saving depends on the rule.** It is 35–44% with α = 0.10, 33–42% with α = 0.05, and 18–35% with the conservative maximum rule.
+- **The bound is conservative.** It was exceeded in 1, 7, 2 and 5% of test operating points at N-1/2/3/5, against a nominal 10%. In hindsight, the largest constant with zero misses is 27–87× smaller than the calibrated one. The costs above are therefore an upper bound on what this kind of rule needs.
+- **This is empirical, not proven.** Nothing guarantees the bound under outage-order shift. An earlier calibration on only 29 operating points had a 33% exceedance at N-2.
+
+At equal cost the gap is wide. After one factorization, GENCO plus one step misses 32 of 16,449 violating elements, while the pre-contingency start misses 1,250. The pre-contingency start needs a second factorization to match GENCO's 32.
+
+On GOC 2000 both starts reach zero misses. GENCO, however, never clears the bound after one step, so its 2.00 factorizations (against 2.16) come from the two-step floor rather than from prediction quality.
+
 ![Fig. 4](figC_equal_cost.png)
-*Fig. 4. Missed violating elements against factorizations per contingency, IEEE 118 Base seed 0, four 100-load-scenario test sets. Lines: GENCO + k and pre-contingency + k Newton steps; stars: sequential policies (conformal α = 0.10, calibrated on a separate N-1 set). Hollow markers are zero-miss cells drawn at their one-sided 95% Clopper–Pearson bound.*
+*Fig. 4. Missed violating elements against factorizations per contingency, IEEE 118, four 100-load-scenario test sets. Lines: GENCO + k and pre-contingency + k Newton steps; stars: sequential policies. Hollow markers are zero-miss cells drawn at their one-sided 95% Clopper–Pearson bound.*
 
-On GOC 2000 both starts also reach zero misses (0/173), but GENCO's predictions never clear the margin after one step, so its policy costs 2.00 factorizations against 2.16. That saving comes from the two-step floor, not from prediction quality.
+## VI. What GENCO computes
 
-## VI. Runtime
+**The slack convention.** Graphkit's PF mask (`AddPFHeteroMask`) hides the slack-bus voltage magnitude from GENCO and asks it to predict it. In the data, though, that voltage is a dispatch setpoint, constant across all outages of an operating point. GENCO's predicted slack voltage is off by a median 0.006 p.u. on IEEE 118, and its power balance is evaluated at that voltage.
 
-Measured on an Apple M4: GENCO Base takes 8.7 ms per IEEE 118 contingency at the best batch size (MPS) and 24 ms unbatched on CPU; GOC 2000 Small takes 67–108 ms. The break-even values in TABLE III are 12× to 1,600× smaller. On this hardware, GENCO does not pay in wall-clock time under any classical solver we tried, even though it pays in iterations. {{GPU: one sentence with the T4/A100 numbers from notebooks/colab_gpu_timing.ipynb and whether any break-even is crossed.}} Where no base case exists at all (a flat start costs 2.6 ms here), a GENCO start would be worth up to about 1.3 ms.
+Restoring the setpoint raises the largest nodal mismatch by 32–60× (TABLE I). The worst bus is adjacent to the slack in 95–100% of scenarios, while the PQ voltages themselves stay accurate. The convention may be intended, but it is undocumented, and it makes reported residuals look far better than the physical state.
 
-## VII. GENCO-Δ: teaching GENCO to use the base case
+TABLE I. Largest nodal mismatch with GENCO's slack voltage (reported) and with the setpoint (physical). Median over scenarios; CI over load scenarios.
 
-If the pre-contingency state is the stronger prior at scale, the obvious extension is to give it to GENCO. We tried two ways, on IEEE 118 with three seeds, a matched control, and checkpoints selected on validation loss only.
+| Grid, model | Reported (MW) | Physical (MW) | Ratio |
+|---|---|---|---|
+| IEEE 14 / 57 Base | 0.0048 / 0.033 | 0.17 / 1.04 | 36× / 32× |
+| IEEE 118 Base | 0.29 | 17.4 | 60× [45, 79] |
+| IEEE 118 Small / Tiny | 0.45 / 0.58 | 16.8 / 20.2 | 37× / 35× |
+| GOC 500 Base | 4.5 | 86 | 19× [12, 29] |
+| GOC 2000 Small | 11.0 | 217 | 20× [16, 26] |
 
-- **Plain Δ** fills GENCO's masked inputs with the base-case voltages (and, in one arm, pre-contingency branch flows) and fine-tunes. It ends at about base-case quality (2.85–2.95 iterations to 10⁻⁶ MW against the released model's 2.15), and seed 42 diverged in both arms. The released weights read the filled inputs as a large distribution shift and do not recover reliably.
-- **Residual Δ** keeps the inputs and changes the decoder. Each layer decodes the base case plus the output of a delta head initialised to zero, so at step 0 the model reproduces the base case bit for bit, and training only has to learn the outage's effect. On N-1 it cuts median state error from 0.054 to 0.022 and iterations to 10⁻² MW from 1.74 to 1.33 (Fig. 5). At 10⁻⁶ MW it ties (2.19 vs 2.15), and it gets worse as outage order rises: at N-5 the error is 0.155 against 0.112.
+Three repairs, none of them free:
+- **Feeding the setpoint in.** Giving the Base model the setpoint zero-shot multiplies its state error by 17×.
+- **Clamping the output.** Clamping only the output to the setpoint works on Small and Tiny, but degrades Base by 5.7×.
+- **Slack-aware fine-tune.** A short fine-tune brings the physical mismatch from 17.2 to 1.0 MW (three seeds). It costs 29% more state error than a matched control and doesn't change Newton iterations.
 
-The contrast between the two is the useful lesson. The same information is useless or helpful depending on whether the architecture lets the network start from it. The N-5 regression is plausibly a training-distribution effect, since the released data are N-1 only. {{NK: result of residual Δ retrained on a fresh mixed N-1..N-5 set (5,056 scenarios, seed 4001), three seeds; one or two sentences and a row in Fig. 5. Note the confound: different (new) training scenarios.}}
+**Layers.** Tracing the decoder after each of the 12 correction layers, GENCO's mean mismatch on IEEE 118 falls from 261 MW to 0.054 MW. Newton iterations started from intermediate layers stay near 3 until layer 7 and then drop, so the last layers carry the Newton value. Stopping after layer 9 cuts inference by 26% for 0.12 extra iterations.
+
+## VII. Conditioning GENCO on the base case
+
+If the pre-contingency state is the better prior on large grids, GENCO should be given it. We tried two designs on IEEE 118, each with three seeds and a matched control, and selected checkpoints on validation loss only.
+- **Plain Δ** writes the base-case voltages (and optionally branch flows) into GENCO's masked inputs and fine-tunes. The two seeds that trained ended at about base-case quality: 2.85–2.95 iterations to 10⁻⁶ MW, against 2.15 for the released model. The third seed diverged.
+- **Residual Δ** leaves the inputs alone. Each layer decodes the base case plus a delta head initialised to zero, so before training the model reproduces the base case exactly. With learning rate 3e-4 (the best of three residual variants by validation loss):
+  - The paper-split state error falls from 0.054 to 0.022.
+  - Iterations to 10⁻² MW fall from 1.74 to 1.33. At 10⁻⁴ MW there is no gain (2.05 vs 2.01).
+  - At N-5 it is worse than released GENCO (error 0.155 vs 0.112; Fig. 5).
+
+The same information is useless as an input and useful as a starting point. The released training data are N-1 only, so the N-5 regression may be a training-distribution effect. {{NK: residual Δ retrained on 5,056 fresh mixed N-1…N-5 scenarios, three seeds: result in one or two sentences. Caveat: new training scenarios, not only a different outage mix.}}
+
+The base case also carries the true slack voltage. The slack-aware arm alone gains nothing, though, so that is not where the improvement comes from.
 
 ![Fig. 5](figF_genco_delta.png)
-*Fig. 5. GENCO-Δ on IEEE 118 Base: (a) median state error and (b) Newton iterations to 10⁻² MW, mean ± SD over init seeds 0/1/42, on the paper set and stress N-1 to N-5. Purple bars: the pre-contingency state itself. Plain Δ seed 42 diverged and is shown as a cross, excluded from the mean.*
+*Fig. 5. GENCO-Δ on IEEE 118 Base: (a) median state error, (b) Newton iterations to 10⁻² MW; mean ± SD over seeds 0/1/42. Purple bars: the pre-contingency state itself. Crosses: the diverged plain-Δ seed, excluded from the mean.*
 
 ## VIII. What did not work
 
@@ -139,41 +160,35 @@ TABLE V. Negative and null results.
 
 | Idea | Outcome |
 |---|---|
-| GENCO beats the pre-contingency start at scale | Tie at 500 buses, loses at 2,000 (+0.22 iterations) |
-| Wall-clock gain on a laptop | None; inference is 12–1,600× above break-even |
-| Embedding probe ("latents know where GENCO is wrong") | Withdrawn: bus identity alone gives R² 0.55 vs 0.58 for embeddings, random weights 0.52 |
-| Per-bus bias correction | Removes 0.3% of squared error in-sample, nothing out of sample |
-| Slack fix by mask surgery (Base) | Feeding the setpoint in: 17× state error |
-| Slack-aware fine-tune | Honest balance; about 29% worse state error, no iteration gain |
+| GENCO error warnings from its embeddings | A 118-entry bus lookup explains R² 0.55 of the per-bus voltage error, GENCO's embeddings 0.58, a randomly initialised GENCO 0.52 |
+| Per-bus bias correction | 0.3% of squared error in-sample, nothing out of sample |
+| Accepting GENCO with no Newton step | Its own residual never certifies a whole contingency |
+| Convergence rescue | Flat-start Newton converged on every datakit scenario up to N-5 |
 | Plain GENCO-Δ | Base-case quality; one seed diverged |
-| Residual GENCO-Δ at N-5 | Worse than released {{NK}} |
-| Accept GENCO with no Newton step | Its own residual never certifies a whole contingency |
-| Convergence rescue | Flat-start Newton never failed up to N-5, so nothing to rescue |
 
 ## IX. Limitations
 
-- **Empirical safety only.** The zero-miss result is empirical, on datakit scenarios. Calibration and test sets share datakit's daily load trajectory, so the operating-point bounds are optimistic. A Newton–Kantorovich certificate would give a proof, but it does not hold at GENCO's raw output.
-- **Narrow coverage.** Factor-reuse results cover IEEE 118 and GOC 500 at seed 0. GENCO-Δ was run on IEEE 118 only; GOC 2000 is prepared but not run.
-- **Reproduction subset.** The reproduction uses about 3% of each paper test set. Mean metrics agree within about 6% (worst 13%); maxima and RMSE deviate more.
-- **Python timings.** Timings are from Python/SciPy, and a compiled solver would push the break-even lower still.
+- **Empirical safety.** All safety evidence is empirical and comes from datakit scenarios. Calibration and test sets follow the same daily load trajectory, so the operating-point bound is optimistic.
+- **Coverage.** Factor-reuse results cover IEEE 118 and GOC 500 at seed 0 only.
+- **GENCO-Δ scope.** It was run on IEEE 118 only, although its motivation is the large grids. The GOC 2000 run is prepared but not done.
+- **Timings.** They come from Python on a shared laptop. A compiled solver would lower every break-even further.
+- **Reproduction.** Our reproduction of the released metrics uses about 3% of each paper test set. Mean metrics agree within 6% for most runs (worst 13%).
 
 ## X. Open science
 
-{{LINKS}}. The repository contains:
-- the gridfm-graphkit plugins (slack-aware task, GENCO-Δ, residual decoder);
+Everything is at {{LINKS}} under Apache-2.0:
+- the graphkit plugins (slack-aware task, GENCO-Δ, residual decoder);
 - the float64 Newton, chord and fast-decoupled solvers, with tests;
-- the datakit configs for every new set;
-- one script per table;
-- a SHA-256 manifest with a verifier;
-- the fine-tuned checkpoints (Hugging Face);
-- a small operator console that walks one contingency through the policy.
+- the datakit configs for every new set, and one script per table;
+- a SHA-256 manifest with a verifier, and the fine-tuned checkpoints;
+- a small console that walks one contingency through the policy.
 
-`docs/REPRODUCE.md` lists the commands from a fresh clone to every table.
+Iteration and miss counts regenerate exactly. Timings depend on the machine and are given with the hardware. Every number in this post is traced to a result file in `docs/NUMBERS.md`.
 
 ## References
 
 [1] "GENCO: a grid foundation model architecture for power flow, optimal power flow and state estimation," arXiv:2608.09921, 2026. {{author list}}
-[2] gridfm-graphkit and gridfm-datakit, OpenGridFM, commits 8a8defb and d8a092d.
-[3] B. Stott and O. Alsaç, "Fast decoupled load flow," *IEEE Trans. PAS*, vol. 93, no. 3, pp. 859–869, 1974.
+[2] OpenGridFM, gridfm-graphkit (commit 8a8defb) and gridfm-datakit (commit d8a092d).
+[3] B. Stott and O. Alsaç, "Fast decoupled load flow," *IEEE Trans. Power App. Syst.*, vol. PAS-93, no. 3, pp. 859–869, 1974.
 [4] A. N. Angelopoulos and S. Bates, "A gentle introduction to conformal prediction and distribution-free uncertainty quantification," arXiv:2107.07511, 2021.
-[5] Challenge other entries (another entry) and #7 ("another entry"), GENCO Challenge 2026 Community tab.
+[5] GENCO Challenge 2026 other entries (another entry) and #7 ("another entry"), Community tab, huggingface.co/spaces/gridfm/genco-challenge.
