@@ -1,0 +1,194 @@
+{
+ "tag": "control_s42",
+ "args": {
+  "grid": "case118_ieee",
+  "size": "base",
+  "seed": 42,
+  "seed_train": 42,
+  "task_name": "PowerFlow",
+  "data_root": null,
+  "split": "splits_paper_test_seed42",
+  "basecase_store": null,
+  "delta_inputs": "vm_va_flows",
+  "epochs": 12,
+  "lr": 0.0001,
+  "batch_size": 32,
+  "accelerator": "mps",
+  "limit_train_batches": 1.0,
+  "max_time": null,
+  "tag": "control_s42",
+  "run_dir": null,
+  "log_dir": "results/genco_delta/train_logs/control_s42"
+ },
+ "git": "e191ea2",
+ "finished_at": "2026-10-12T04:48:14",
+ "versions": {
+  "python": "3.12.12",
+  "torch": "2.12.1",
+  "lightning": "2.6.6",
+  "platform": "macOS-15.3-arm64-arm-64bit"
+ },
+ "data": {
+  "root": "<repo>/data/pf",
+  "grid": "case118_ieee",
+  "split_dir": "<repo>/data/pf/case118_ieee/splits_paper_test_seed42",
+  "split": {
+   "n_train": 4790,
+   "n_val": 594,
+   "n_test": 616,
+   "sha256": "d93c5708ad9754a2f973ad99a1694036466cd5d93dbdb36d44eee433cbadc820"
+  },
+  "raw": {
+   "n_files": 150,
+   "bytes": 99716143,
+   "sha256": "da277aa1e851ec672369943a86febcf53e0127bff74e4b24c22c95fe235808bd"
+  },
+  "basecase_store": null,
+  "basecase_store_sha256": null,
+  "normalizer_stats_sha256": "ae2b9b7732c24b7e92dcf2e637d627fd2a55cde56b892afa2f2b24f2d7d9e9ec"
+ },
+ "init_weights_sha256": "2706a140330159b357fbf6d355baf5ac5d5a16eeda07920a6452b57945e65a59",
+ "training": {
+  "epochs_requested": 12,
+  "epochs_run": 12,
+  "global_steps": 1800,
+  "limit_train_batches": 1.0,
+  "lr": 0.0001,
+  "batch_size": 32,
+  "accelerator": "mps",
+  "seed_everything": 42,
+  "wall_seconds": 1810.9
+ },
+ "selection": {
+  "metric": "Validation loss (val split only; test split untouched)",
+  "best_epoch": 7,
+  "best_val_loss": 0.0005582247977145016,
+  "checkpoint_epoch_field": 7,
+  "best_model_score": 0.0005582247977145016,
+  "val_curve": [
+   {
+    "epoch": 1,
+    "val_loss": 0.0005745281232520938
+   },
+   {
+    "epoch": 2,
+    "val_loss": 0.0006239379872567952
+   },
+   {
+    "epoch": 3,
+    "val_loss": 0.0005846308777108788
+   },
+   {
+    "epoch": 4,
+    "val_loss": 0.0005839506629854441
+   },
+   {
+    "epoch": 5,
+    "val_loss": 0.000575298152398318
+   },
+   {
+    "epoch": 6,
+    "val_loss": 0.0005989845958538353
+   },
+   {
+    "epoch": 7,
+    "val_loss": 0.0005582247977145016
+   },
+   {
+    "epoch": 8,
+    "val_loss": 0.0005956595996394753
+   },
+   {
+    "epoch": 9,
+    "val_loss": 0.0005720572080463171
+   },
+   {
+    "epoch": 10,
+    "val_loss": 0.0005680298781953752
+   },
+   {
+    "epoch": 11,
+    "val_loss": 0.0006138329626992345
+   },
+   {
+    "epoch": 12,
+    "val_loss": 0.0005797782214358449
+   }
+  ]
+ },
+ "weights": "<repo>/checkpoints/finetuned/control_s42/best_model_state_dict.pt",
+ "config": {
+  "task": {
+   "task_name": "PowerFlow"
+  },
+  "data": {
+   "baseMVA": 100,
+   "mask_value": 0.0,
+   "normalization": "HeteroDataMVANormalizer",
+   "networks": [
+    "case118_ieee"
+   ],
+   "scenarios": [
+    250000
+   ],
+   "test_ratio": 0.1,
+   "val_ratio": 0.1,
+   "workers": 0,
+   "split_by_load_scenario_idx": false,
+   "split_from_existing_files": "<repo>/data/pf/case118_ieee/splits_paper_test_seed42"
+  },
+  "model": {
+   "attention_head": 8,
+   "edge_dim": 10,
+   "hidden_size": 48,
+   "input_bus_dim": 15,
+   "input_gen_dim": 6,
+   "output_bus_dim": 2,
+   "output_gen_dim": 1,
+   "num_layers": 12,
+   "type": "GNS_heterogeneous"
+  },
+  "optimizer": {
+   "type": "AdamW",
+   "learning_rate": 0.0001,
+   "optimizer_params": {
+    "betas": [
+     0.9,
+     0.999
+    ]
+   },
+   "scheduler_type": "ReduceLROnPlateau",
+   "scheduler_params": {
+    "mode": "min",
+    "factor": 0.7,
+    "patience": 5
+   }
+  },
+  "training": {
+   "batch_size": 32,
+   "epochs": 12,
+   "loss_weights": [
+    0.1,
+    0.9
+   ],
+   "losses": [
+    "LayeredWeightedPhysics",
+    "MaskedBusMSE"
+   ],
+   "loss_args": [
+    "NestedNamespace(base_weight=0.5)",
+    "NestedNamespace()"
+   ],
+   "accelerator": "cpu",
+   "devices": "auto",
+   "strategy": "auto"
+  },
+  "seed": 42,
+  "verbose": true,
+  "callbacks": {
+   "patience": 100,
+   "tol": 0
+  },
+  "version": 1
+ }
+}

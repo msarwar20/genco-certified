@@ -35,9 +35,10 @@ import eval_genco_delta as ed  # noqa: E402  scripts/eval_genco_delta.py, unmodi
 from genco_certified import genco_residual as gr  # noqa: E402  registers model / task
 
 ARM_RE = re.compile(r"^(?:smoke_|dry_)?(released|control|slack_aware|delta_vm_va_flows|delta_vm_va|"
-                    r"residual_init|residual_vm_va_flows|residual_vm_va)_s(\d+)$")
+                    r"residual_init|residual_vm_va_flows_lr3e-4|residual_vm_va_flows|residual_vm_va)_s(\d+)$")
 ARM_ORDER = {"released": 0, "control": 1, "slack_aware": 2, "delta_vm_va": 3, "delta_vm_va_flows": 4,
-             "residual_init": 5, "residual_vm_va": 6, "residual_vm_va_flows": 7}
+             "residual_init": 5, "residual_vm_va": 6, "residual_vm_va_flows": 7,
+             "residual_vm_va_flows_lr3e-4": 8}
 
 
 def aggregate(out_dir: Path, prefix: str = "") -> None:

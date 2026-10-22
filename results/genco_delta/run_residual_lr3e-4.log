@@ -1,0 +1,252 @@
+== 2026-10-12 09:33:57 GENCO-Delta residual: arms=[residual_vm_va_flows] seeds=[0 1 42] epochs=12 lr=3e-4 sets=[paper n1 n2 n3 n5] smoke=0
+torch 2.12.1 mps True
+stores and per-seed splits present
+   skip eval released_s0__paper
+   skip eval released_s0__n1
+   skip eval released_s0__n2
+   skip eval released_s0__n3
+   skip eval released_s0__n5
+== 2026-10-12 09:33:57 train residual_vm_va_flows_lr3e-4_s0
+   fit done in 1850s; best val 0.0003637914778664708
+   saved <repo>/checkpoints/finetuned/residual_vm_va_flows_lr3e-4_s0/best_model_state_dict.pt
+   run record <repo>/results/genco_delta/runs/residual_vm_va_flows_lr3e-4_s0.json
+== 2026-10-12 10:04:52 evaluate residual_vm_va_flows_lr3e-4_s0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s0__paper: 638 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s0__paper.json
+     638 scenarios / 29 load scenarios | truth: 484 violating elements in 225 contingencies
+     NR iters to 1e-2 MW: model 1.28 [1.24, 1.31] | base 2.04 [2, 2.07] | flat 3.01 [3, 3.02] | model-base -0.759 [-0.795, -0.723]
+     NR iters to 1e-4 MW: model 2.04 [2.02, 2.05] | base 2.49 [2.45, 2.53] | flat 4 [4, 4] | model-base -0.456 [-0.492, -0.42]
+     NR iters to 1e-6 MW: model 2.15 [2.12, 2.18] | base 2.88 [2.83, 2.93] | flat 4 [4, 4.01] | model-base -0.734 [-0.773, -0.696]
+     state error l2 (median): model 0.013 | base 0.0502 | mean ratio model/base 0.287 [0.257, 0.329]
+     g0: element misses 121 (rate 0.25 [0.204, 0.295]), false alarms 45, contingency misses 27
+     g1: element misses 1 (rate 0.00207 [0, 0.00677]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 33 (rate 0.0682 [0.0468, 0.0915]), false alarms 6, contingency misses 4
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s0__n1: 660 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s0__n1.json
+     660 scenarios / 30 load scenarios | truth: 435 violating elements in 217 contingencies
+     NR iters to 1e-2 MW: model 1.27 [1.22, 1.31] | base 2.03 [1.99, 2.07] | flat 3.01 [3, 3.01] | model-base -0.764 [-0.795, -0.732]
+     NR iters to 1e-4 MW: model 2.04 [2.03, 2.06] | base 2.5 [2.45, 2.55] | flat 4 [4, 4] | model-base -0.458 [-0.511, -0.4]
+     NR iters to 1e-6 MW: model 2.14 [2.11, 2.17] | base 2.88 [2.84, 2.92] | flat 4 [4, 4] | model-base -0.742 [-0.786, -0.703]
+     state error l2 (median): model 0.0145 | base 0.0556 | mean ratio model/base 0.267 [0.237, 0.306]
+     g0: element misses 62 (rate 0.143 [0.107, 0.178]), false alarms 46, contingency misses 15
+     g1: element misses 2 (rate 0.0046 [0, 0.0109]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 21 (rate 0.0483 [0.0256, 0.0768]), false alarms 12, contingency misses 3
+     b2: element misses 1 (rate 0.0023 [0, 0.00737]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s0__n2: 659 scenarios in 17s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s0__n2.json
+     659 scenarios / 30 load scenarios | truth: 714 violating elements in 334 contingencies
+     NR iters to 1e-2 MW: model 1.45 [1.42, 1.49] | base 2.19 [2.16, 2.23] | flat 3.03 [3.01, 3.05] | model-base -0.739 [-0.77, -0.707]
+     NR iters to 1e-4 MW: model 2.08 [2.05, 2.1] | base 2.74 [2.7, 2.79] | flat 4 [4, 4] | model-base -0.666 [-0.708, -0.627]
+     NR iters to 1e-6 MW: model 2.28 [2.25, 2.32] | base 3.08 [3.05, 3.11] | flat 4.01 [4, 4.03] | model-base -0.795 [-0.819, -0.769]
+     state error l2 (median): model 0.0321 | base 0.111 | mean ratio model/base 0.338 [0.286, 0.4]
+     g0: element misses 137 (rate 0.192 [0.153, 0.234]), false alarms 60, contingency misses 24
+     g1: element misses 2 (rate 0.0028 [0, 0.00679]), false alarms 4, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 37 (rate 0.0518 [0.0286, 0.0766]), false alarms 20, contingency misses 3
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 1, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s0__n3: 660 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s0__n3.json
+     660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
+     NR iters to 1e-2 MW: model 1.63 [1.59, 1.67] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base -0.659 [-0.689, -0.627]
+     NR iters to 1e-4 MW: model 2.13 [2.1, 2.15] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base -0.768 [-0.8, -0.738]
+     NR iters to 1e-6 MW: model 2.4 [2.37, 2.43] | base 3.17 [3.14, 3.2] | flat 4.01 [4, 4.01] | model-base -0.776 [-0.802, -0.748]
+     state error l2 (median): model 0.062 | base 0.182 | mean ratio model/base 0.286 [0.26, 0.317]
+     g0: element misses 174 (rate 0.183 [0.152, 0.214]), false alarms 129, contingency misses 34
+     g1: element misses 4 (rate 0.00421 [0.00102, 0.00833]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
+     b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s0__n5: 660 scenarios in 17s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s0__n5.json
+     660 scenarios / 30 load scenarios | truth: 1763 violating elements in 539 contingencies
+     NR iters to 1e-2 MW: model 1.87 [1.82, 1.91] | base 2.49 [2.44, 2.54] | flat 3.08 [3.06, 3.11] | model-base -0.621 [-0.665, -0.579]
+     NR iters to 1e-4 MW: model 2.24 [2.19, 2.28] | base 3.08 [3.04, 3.11] | flat 4.01 [4, 4.02] | model-base -0.838 [-0.865, -0.809]
+     NR iters to 1e-6 MW: model 2.65 [2.62, 2.69] | base 3.32 [3.27, 3.36] | flat 4.03 [4.02, 4.05] | model-base -0.662 [-0.702, -0.62]
+     state error l2 (median): model 0.141 | base 0.38 | mean ratio model/base 0.314 [0.292, 0.336]
+     g0: element misses 393 (rate 0.223 [0.202, 0.243]), false alarms 145, contingency misses 22
+     g1: element misses 17 (rate 0.00964 [0.00303, 0.0178]), false alarms 1, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 129 (rate 0.0732 [0.0562, 0.0913]), false alarms 46, contingency misses 5
+     b2: element misses 6 (rate 0.0034 [0, 0.00855]), false alarms 0, contingency misses 0
+   skip eval released_s1__paper
+   skip eval released_s1__n1
+   skip eval released_s1__n2
+   skip eval released_s1__n3
+   skip eval released_s1__n5
+== 2026-10-12 10:06:26 train residual_vm_va_flows_lr3e-4_s1
+   fit done in 1710s; best val 0.0005584117607213557
+   saved <repo>/checkpoints/finetuned/residual_vm_va_flows_lr3e-4_s1/best_model_state_dict.pt
+   run record <repo>/results/genco_delta/runs/residual_vm_va_flows_lr3e-4_s1.json
+== 2026-10-12 10:35:01 evaluate residual_vm_va_flows_lr3e-4_s1
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s1__paper: 814 scenarios in 19s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s1__paper.json
+     814 scenarios / 37 load scenarios | truth: 680 violating elements in 295 contingencies
+     NR iters to 1e-2 MW: model 1.3 [1.27, 1.33] | base 2.07 [2.03, 2.1] | flat 3.01 [3, 3.02] | model-base -0.769 [-0.808, -0.73]
+     NR iters to 1e-4 MW: model 2.05 [2.03, 2.06] | base 2.51 [2.47, 2.55] | flat 4 [4, 4] | model-base -0.466 [-0.509, -0.424]
+     NR iters to 1e-6 MW: model 2.16 [2.14, 2.19] | base 2.92 [2.88, 2.95] | flat 4 [4, 4.01] | model-base -0.753 [-0.781, -0.721]
+     state error l2 (median): model 0.0218 | base 0.0563 | mean ratio model/base 0.298 [0.269, 0.333]
+     g0: element misses 115 (rate 0.169 [0.14, 0.199]), false alarms 196, contingency misses 22
+     g1: element misses 2 (rate 0.00294 [0, 0.00796]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 49 (rate 0.0721 [0.051, 0.0945]), false alarms 17, contingency misses 6
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s1__n1: 660 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s1__n1.json
+     660 scenarios / 30 load scenarios | truth: 435 violating elements in 217 contingencies
+     NR iters to 1e-2 MW: model 1.25 [1.21, 1.3] | base 2.03 [1.99, 2.07] | flat 3.01 [3, 3.01] | model-base -0.774 [-0.808, -0.738]
+     NR iters to 1e-4 MW: model 2.03 [2.02, 2.05] | base 2.5 [2.45, 2.55] | flat 4 [4, 4] | model-base -0.467 [-0.52, -0.412]
+     NR iters to 1e-6 MW: model 2.13 [2.1, 2.17] | base 2.88 [2.84, 2.92] | flat 4 [4, 4] | model-base -0.752 [-0.795, -0.711]
+     state error l2 (median): model 0.0212 | base 0.0556 | mean ratio model/base 0.283 [0.256, 0.314]
+     g0: element misses 56 (rate 0.129 [0.0971, 0.16]), false alarms 97, contingency misses 15
+     g1: element misses 2 (rate 0.0046 [0, 0.0109]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 21 (rate 0.0483 [0.0256, 0.0768]), false alarms 12, contingency misses 3
+     b2: element misses 1 (rate 0.0023 [0, 0.00737]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s1__n2: 659 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s1__n2.json
+     659 scenarios / 30 load scenarios | truth: 714 violating elements in 334 contingencies
+     NR iters to 1e-2 MW: model 1.47 [1.43, 1.51] | base 2.19 [2.16, 2.23] | flat 3.03 [3.01, 3.05] | model-base -0.724 [-0.758, -0.689]
+     NR iters to 1e-4 MW: model 2.08 [2.06, 2.11] | base 2.74 [2.7, 2.79] | flat 4 [4, 4] | model-base -0.663 [-0.706, -0.623]
+     NR iters to 1e-6 MW: model 2.24 [2.2, 2.28] | base 3.08 [3.05, 3.11] | flat 4.01 [4, 4.03] | model-base -0.838 [-0.865, -0.81]
+     state error l2 (median): model 0.0336 | base 0.111 | mean ratio model/base 0.34 [0.293, 0.398]
+     g0: element misses 113 (rate 0.158 [0.124, 0.194]), false alarms 151, contingency misses 17
+     g1: element misses 2 (rate 0.0028 [0, 0.00679]), false alarms 1, contingency misses 1
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 37 (rate 0.0518 [0.0286, 0.0766]), false alarms 20, contingency misses 3
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 1, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s1__n3: 660 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s1__n3.json
+     660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
+     NR iters to 1e-2 MW: model 1.63 [1.59, 1.68] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base -0.658 [-0.689, -0.621]
+     NR iters to 1e-4 MW: model 2.11 [2.08, 2.14] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base -0.788 [-0.82, -0.756]
+     NR iters to 1e-6 MW: model 2.36 [2.33, 2.39] | base 3.17 [3.14, 3.2] | flat 4.01 [4, 4.01] | model-base -0.812 [-0.842, -0.782]
+     state error l2 (median): model 0.0617 | base 0.182 | mean ratio model/base 0.298 [0.272, 0.326]
+     g0: element misses 144 (rate 0.152 [0.125, 0.178]), false alarms 142, contingency misses 26
+     g1: element misses 5 (rate 0.00526 [0.00191, 0.00996]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
+     b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s1__n5: 660 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s1__n5.json
+     660 scenarios / 30 load scenarios | truth: 1763 violating elements in 539 contingencies
+     NR iters to 1e-2 MW: model 1.84 [1.8, 1.88] | base 2.49 [2.44, 2.54] | flat 3.08 [3.06, 3.11] | model-base -0.648 [-0.686, -0.611]
+     NR iters to 1e-4 MW: model 2.24 [2.2, 2.29] | base 3.08 [3.04, 3.11] | flat 4.01 [4, 4.02] | model-base -0.832 [-0.859, -0.803]
+     NR iters to 1e-6 MW: model 2.63 [2.59, 2.67] | base 3.32 [3.27, 3.36] | flat 4.03 [4.02, 4.05] | model-base -0.686 [-0.727, -0.648]
+     state error l2 (median): model 0.137 | base 0.38 | mean ratio model/base 0.319 [0.297, 0.341]
+     g0: element misses 352 (rate 0.2 [0.178, 0.22]), false alarms 156, contingency misses 18
+     g1: element misses 15 (rate 0.00851 [0.00258, 0.0163]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 129 (rate 0.0732 [0.0562, 0.0913]), false alarms 46, contingency misses 5
+     b2: element misses 6 (rate 0.0034 [0, 0.00855]), false alarms 0, contingency misses 0
+   skip eval released_s42__paper
+   skip eval released_s42__n1
+   skip eval released_s42__n2
+   skip eval released_s42__n3
+   skip eval released_s42__n5
+== 2026-10-12 10:36:37 train residual_vm_va_flows_lr3e-4_s42
+   fit done in 1747s; best val 0.0006098895682953298
+   saved <repo>/checkpoints/finetuned/residual_vm_va_flows_lr3e-4_s42/best_model_state_dict.pt
+   run record <repo>/results/genco_delta/runs/residual_vm_va_flows_lr3e-4_s42.json
+== 2026-10-12 11:05:48 evaluate residual_vm_va_flows_lr3e-4_s42
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s42__paper: 616 scenarios in 15s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s42__paper.json
+     616 scenarios / 28 load scenarios | truth: 536 violating elements in 229 contingencies
+     NR iters to 1e-2 MW: model 1.42 [1.38, 1.46] | base 2.1 [2.07, 2.14] | flat 3.01 [3, 3.02] | model-base -0.685 [-0.734, -0.633]
+     NR iters to 1e-4 MW: model 2.07 [2.05, 2.1] | base 2.54 [2.5, 2.59] | flat 4 [4, 4] | model-base -0.472 [-0.519, -0.427]
+     NR iters to 1e-6 MW: model 2.25 [2.21, 2.29] | base 2.93 [2.9, 2.97] | flat 4 [4, 4] | model-base -0.683 [-0.721, -0.651]
+     state error l2 (median): model 0.0308 | base 0.0639 | mean ratio model/base 0.438 [0.386, 0.502]
+     g0: element misses 134 (rate 0.25 [0.198, 0.303]), false alarms 270, contingency misses 14
+     g1: element misses 2 (rate 0.00373 [0, 0.0114]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 41 (rate 0.0765 [0.0454, 0.111]), false alarms 17, contingency misses 5
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s42__n1: 660 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s42__n1.json
+     660 scenarios / 30 load scenarios | truth: 435 violating elements in 217 contingencies
+     NR iters to 1e-2 MW: model 1.35 [1.3, 1.41] | base 2.03 [1.99, 2.07] | flat 3.01 [3, 3.01] | model-base -0.676 [-0.717, -0.633]
+     NR iters to 1e-4 MW: model 2.07 [2.05, 2.08] | base 2.5 [2.45, 2.55] | flat 4 [4, 4] | model-base -0.435 [-0.488, -0.38]
+     NR iters to 1e-6 MW: model 2.21 [2.17, 2.25] | base 2.88 [2.84, 2.92] | flat 4 [4, 4] | model-base -0.671 [-0.711, -0.633]
+     state error l2 (median): model 0.0289 | base 0.0556 | mean ratio model/base 0.421 [0.382, 0.472]
+     g0: element misses 78 (rate 0.179 [0.135, 0.226]), false alarms 261, contingency misses 18
+     g1: element misses 2 (rate 0.0046 [0, 0.0109]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 21 (rate 0.0483 [0.0256, 0.0768]), false alarms 12, contingency misses 3
+     b2: element misses 1 (rate 0.0023 [0, 0.00737]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s42__n2: 659 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s42__n2.json
+     659 scenarios / 30 load scenarios | truth: 714 violating elements in 334 contingencies
+     NR iters to 1e-2 MW: model 1.6 [1.56, 1.64] | base 2.19 [2.16, 2.23] | flat 3.03 [3.01, 3.05] | model-base -0.595 [-0.634, -0.554]
+     NR iters to 1e-4 MW: model 2.13 [2.11, 2.17] | base 2.74 [2.7, 2.79] | flat 4 [4, 4] | model-base -0.61 [-0.644, -0.575]
+     NR iters to 1e-6 MW: model 2.37 [2.33, 2.42] | base 3.08 [3.05, 3.11] | flat 4.01 [4, 4.03] | model-base -0.707 [-0.736, -0.677]
+     state error l2 (median): model 0.0479 | base 0.111 | mean ratio model/base 0.477 [0.425, 0.537]
+     g0: element misses 166 (rate 0.232 [0.192, 0.276]), false alarms 262, contingency misses 20
+     g1: element misses 3 (rate 0.0042 [0, 0.00897]), false alarms 3, contingency misses 1
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 37 (rate 0.0518 [0.0286, 0.0766]), false alarms 20, contingency misses 3
+     b2: element misses 0 (rate 0 [0, 0]), false alarms 1, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s42__n3: 660 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s42__n3.json
+     660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
+     NR iters to 1e-2 MW: model 1.79 [1.75, 1.82] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base -0.503 [-0.535, -0.47]
+     NR iters to 1e-4 MW: model 2.19 [2.17, 2.22] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base -0.708 [-0.75, -0.667]
+     NR iters to 1e-6 MW: model 2.54 [2.5, 2.58] | base 3.17 [3.14, 3.2] | flat 4.01 [4, 4.01] | model-base -0.632 [-0.665, -0.598]
+     state error l2 (median): model 0.0876 | base 0.182 | mean ratio model/base 0.435 [0.405, 0.467]
+     g0: element misses 227 (rate 0.239 [0.206, 0.269]), false alarms 202, contingency misses 34
+     g1: element misses 6 (rate 0.00632 [0.002, 0.012]), false alarms 0, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
+     b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
+   Restoring normalizer for case118_ieee from saved stats
+   residual_vm_va_flows_lr3e-4_s42__n5: 660 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_vm_va_flows_lr3e-4_s42__n5.json
+     660 scenarios / 30 load scenarios | truth: 1763 violating elements in 539 contingencies
+     NR iters to 1e-2 MW: model 1.95 [1.92, 1.99] | base 2.49 [2.44, 2.54] | flat 3.08 [3.06, 3.11] | model-base -0.536 [-0.583, -0.494]
+     NR iters to 1e-4 MW: model 2.37 [2.32, 2.42] | base 3.08 [3.04, 3.11] | flat 4.01 [4, 4.02] | model-base -0.705 [-0.739, -0.667]
+     NR iters to 1e-6 MW: model 2.78 [2.74, 2.82] | base 3.32 [3.27, 3.36] | flat 4.03 [4.02, 4.05] | model-base -0.535 [-0.576, -0.492]
+     state error l2 (median): model 0.187 | base 0.38 | mean ratio model/base 0.427 [0.407, 0.45]
+     g0: element misses 490 (rate 0.278 [0.253, 0.301]), false alarms 204, contingency misses 25
+     g1: element misses 21 (rate 0.0119 [0.00507, 0.0205]), false alarms 3, contingency misses 0
+     g2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
+     b1: element misses 129 (rate 0.0732 [0.0562, 0.0913]), false alarms 46, contingency misses 5
+     b2: element misses 6 (rate 0.0034 [0, 0.00855]), false alarms 0, contingency misses 0
+| set | arm | seeds | iters_g_e2 | iters_g_e4 | iters_g_e6 | iters_b_e6 | iters_g_minus_b_e6 | err_l2_median_g | g1_el_miss | b1_el_miss | g2_el_miss |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| n1 | released | 3 | 1.79 ± 0.092 | 2 ± 0.007 | 2.15 ± 0.081 | 2.88 ± 0 | -0.728 ± 0.081 | 0.0595 ± 0.007 | 1.33 ± 0.58 | 21 ± 0 | 0 ± 0 |
+| n1 | control | 3 | 1.83 ± 0.079 | 2 ± 0.0066 | 2.2 ± 0.078 | 2.88 ± 0 | -0.678 ± 0.078 | 0.0734 ± 0.019 | 1.67 ± 0.58 | 21 ± 0 | 0 ± 0 |
+| n1 | slack_aware | 3 | 1.81 ± 0.05 | 2.01 ± 0.007 | 2.26 ± 0.034 | 2.88 ± 0 | -0.617 ± 0.034 | 0.101 ± 0.011 | 1.33 ± 0.58 | 21 ± 0 | 0.333 ± 0.58 |
+| n1 | delta_vm_va | 2 | 2.01 ± 0.014 | 2.19 ± 0.13 | 2.88 ± 0.069 | 2.88 ± 0 | -0.00152 ± 0.069 | 0.207 ± 0.047 | 4 ± 1.4 | 21 ± 0 | 0 ± 0 |
+| n1 | delta_vm_va_flows | 3 | 5.58 ± 6.2 | 5.76 ± 6 | 6.12 ± 5.7 | 2.88 ± 0 | 3.24 ± 5.7 | 0.543 ± 0.66 | 29.7 ± 44 | 21 ± 0 | 26.3 ± 46 |
+| n1 | residual_vm_va | 3 | 1.35 ± 0.07 | 2.05 ± 0.024 | 2.2 ± 0.053 | 2.88 ± 0 | -0.68 ± 0.053 | 0.0188 ± 0.0032 | 2.67 ± 0.58 | 21 ± 0 | 0 ± 0 |
+| n1 | residual_vm_va_flows | 3 | 1.37 ± 0.062 | 2.06 ± 0.019 | 2.21 ± 0.046 | 2.88 ± 0 | -0.669 ± 0.046 | 0.0212 ± 0.0035 | 2.33 ± 0.58 | 21 ± 0 | 0 ± 0 |
+| n2 | released | 3 | 1.68 ± 0.12 | 2.02 ± 0.017 | 2.21 ± 0.081 | 3.08 ± 0 | -0.864 ± 0.081 | 0.0573 ± 0.012 | 0.667 ± 1.2 | 37 ± 0 | 0 ± 0 |
+| n2 | control | 3 | 1.72 ± 0.14 | 2.03 ± 0.017 | 2.25 ± 0.11 | 3.08 ± 0 | -0.826 ± 0.11 | 0.0692 ± 0.021 | 0.667 ± 1.2 | 37 ± 0 | 0 ± 0 |
+| n2 | slack_aware | 3 | 1.74 ± 0.15 | 2.03 ± 0.016 | 2.27 ± 0.072 | 3.08 ± 0 | -0.803 ± 0.072 | 0.0868 ± 0.017 | 0.333 ± 0.58 | 37 ± 0 | 0 ± 0 |
+| n2 | delta_vm_va | 2 | 2.03 ± 0.013 | 2.21 ± 0.085 | 2.95 ± 0.058 | 3.08 ± 0 | -0.127 ± 0.058 | 0.204 ± 0.02 | 6 ± 1.4 | 37 ± 0 | 0 ± 0 |
+| n2 | delta_vm_va_flows | 3 | 5.77 ± 6.5 | 5.95 ± 6.3 | 6.38 ± 5.9 | 3.08 ± 0 | 3.3 ± 5.9 | 0.773 ± 1 | 47 ± 71 | 37 ± 0 | 37 ± 64 |
+| n2 | residual_vm_va | 3 | 1.58 ± 0.097 | 2.12 ± 0.033 | 2.36 ± 0.086 | 3.08 ± 0 | -0.718 ± 0.086 | 0.04 ± 0.0061 | 2 ± 0 | 37 ± 0 | 0 ± 0 |
+| n2 | residual_vm_va_flows | 3 | 1.62 ± 0.092 | 2.12 ± 0.036 | 2.39 ± 0.073 | 3.08 ± 0 | -0.685 ± 0.073 | 0.0412 ± 0.0064 | 3.67 ± 1.2 | 37 ± 0 | 0 ± 0 |
+| n3 | released | 3 | 1.81 ± 0.1 | 2.03 ± 0.023 | 2.3 ± 0.14 | 3.17 ± 0 | -0.875 ± 0.14 | 0.0759 ± 0.021 | 1.33 ± 0.58 | 60 ± 0 | 0 ± 0 |
+| n3 | control | 3 | 1.86 ± 0.084 | 2.03 ± 0.029 | 2.36 ± 0.15 | 3.17 ± 0 | -0.809 ± 0.15 | 0.096 ± 0.034 | 1 ± 0 | 60 ± 0 | 0 ± 0 |
+| n3 | slack_aware | 3 | 1.85 ± 0.074 | 2.03 ± 0.018 | 2.36 ± 0.1 | 3.17 ± 0 | -0.808 ± 0.1 | 0.119 ± 0.016 | 1 ± 0 | 60 ± 0 | 0 ± 0 |
+| n3 | delta_vm_va | 2 | 2.03 ± 0.017 | 2.29 ± 0.046 | 2.95 ± 0.058 | 3.17 ± 0 | -0.226 ± 0.058 | 0.24 ± 0.02 | 7 ± 0 | 60 ± 0 | 0 ± 0 |
+| n3 | delta_vm_va_flows | 3 | 5.72 ± 6.4 | 6 ± 6.1 | 6.35 ± 5.8 | 3.17 ± 0 | 3.17 ± 5.8 | 0.601 ± 0.62 | 76.3 ± 1.2e+02 | 60 ± 0 | 49.3 ± 85 |
+| n3 | residual_vm_va | 3 | 1.77 ± 0.11 | 2.18 ± 0.066 | 2.52 ± 0.11 | 3.17 ± 0 | -0.657 ± 0.11 | 0.0754 ± 0.011 | 6.33 ± 2.1 | 60 ± 0 | 0 ± 0 |
+| n3 | residual_vm_va_flows | 3 | 1.81 ± 0.089 | 2.18 ± 0.064 | 2.54 ± 0.1 | 3.17 ± 0 | -0.631 ± 0.1 | 0.0752 ± 0.013 | 7 ± 1.7 | 60 ± 0 | 0 ± 0 |
+| n5 | released | 3 | 1.92 ± 0.064 | 2.11 ± 0.046 | 2.5 ± 0.14 | 3.32 ± 0 | -0.817 ± 0.14 | 0.112 ± 0.024 | 6.33 ± 2.5 | 129 ± 0 | 0 ± 0 |
+| n5 | control | 3 | 1.91 ± 0.057 | 2.11 ± 0.041 | 2.52 ± 0.14 | 3.32 ± 0 | -0.793 ± 0.14 | 0.119 ± 0.028 | 6.67 ± 2.1 | 129 ± 0 | 0 ± 0 |
+| n5 | slack_aware | 3 | 1.88 ± 0.1 | 2.11 ± 0.04 | 2.49 ± 0.14 | 3.32 ± 0 | -0.826 ± 0.14 | 0.133 ± 0.038 | 7 ± 3 | 129 ± 0 | 0 ± 0 |
+| n5 | delta_vm_va | 3 | 5.91 ± 6.6 | 6.12 ± 6.4 | 6.51 ± 6.1 | 3.32 ± 0 | 3.19 ± 6.1 | 0.63 ± 0.62 | 125 ± 1.7e+02 | 129 ± 0 | 97 ± 1.6e+02 |
+| n5 | delta_vm_va_flows | 2 | 2.1 ± 0.0054 | 2.51 ± 0.037 | 3.02 ± 0.031 | 3.32 ± 0 | -0.295 ± 0.031 | 0.282 ± 0.031 | 34.5 ± 12 | 129 ± 0 | 2.5 ± 2.1 |
+| n5 | residual_vm_va | 3 | 1.97 ± 0.066 | 2.34 ± 0.094 | 2.79 ± 0.095 | 3.32 ± 0 | -0.528 ± 0.095 | 0.172 ± 0.026 | 22 ± 6.6 | 129 ± 0 | 0 ± 0 |
+| n5 | residual_vm_va_flows | 3 | 1.98 ± 0.055 | 2.36 ± 0.073 | 2.81 ± 0.074 | 3.32 ± 0 | -0.51 ± 0.074 | 0.168 ± 0.028 | 22.7 ± 4.6 | 129 ± 0 | 0 ± 0 |
+| paper | released | 3 | 1.74 ± 0.14 | 2.01 ± 0.006 | 2.15 ± 0.09 | 2.91 ± 0.026 | -0.756 ± 0.084 | 0.054 ± 0.016 | 1.33 ± 1.5 | 41 ± 8 | 0 ± 0 |
+| paper | control | 3 | 1.76 ± 0.13 | 2.01 ± 0.0062 | 2.19 ± 0.07 | 2.91 ± 0.026 | -0.716 ± 0.063 | 0.0666 ± 0.025 | 1 ± 1 | 41 ± 8 | 0 ± 0 |
+| paper | slack_aware | 3 | 1.74 ± 0.088 | 2 ± 0.004 | 2.19 ± 0.074 | 2.91 ± 0.026 | -0.714 ± 0.062 | 0.0862 ± 0.009 | 1 ± 1.7 | 41 ± 8 | 0 ± 0 |
+| paper | delta_vm_va | 2 | 2 ± 0.019 | 2.2 ± 0.14 | 2.85 ± 0.1 | 2.9 ± 0.024 | -0.0455 ± 0.13 | 0.167 ± 0.03 | 4.5 ± 2.1 | 41 ± 11 | 0 ± 0 |
+| paper | delta_vm_va_flows | 3 | 5.63 ± 6.3 | 5.75 ± 6.2 | 6.18 ± 5.8 | 2.91 ± 0.026 | 3.27 ± 5.8 | 0.534 ± 0.66 | 35.7 ± 54 | 41 ± 8 | 22.7 ± 39 |
+| paper | residual_vm_va | 3 | 1.39 ± 0.079 | 2.07 ± 0.025 | 2.24 ± 0.063 | 2.91 ± 0.026 | -0.674 ± 0.061 | 0.0199 ± 0.0027 | 4.33 ± 2.5 | 41 ± 8 | 0 ± 0 |
+| paper | residual_vm_va_flows | 3 | 1.41 ± 0.072 | 2.08 ± 0.026 | 2.25 ± 0.064 | 2.91 ± 0.026 | -0.662 ± 0.045 | 0.0224 ± 0.0036 | 4 ± 2.6 | 41 ± 8 | 0 ± 0 |
+wrote results/genco_delta/residual_summary_runs.csv, residual_summary_by_arm.csv, residual_summary_by_arm.md
+== 2026-10-12 11:07:23 done

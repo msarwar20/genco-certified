@@ -1,6 +1,6 @@
 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 [config] Converted v0 config -> v1 in memory (file on disk unchanged).
-Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case500_goc/small/seed0/normalizer_stats.pt
+Loaded normalizer stats from <repo>/checkpoints/genco-pf-datakit/case500_goc/small/seed0/normalizer_stats.pt
 split='train' len(split_indices)=4724
 split='val' len(split_indices)=638
 split='test' len(split_indices)=638
@@ -14,4 +14,4 @@ case500_goc_small_seed0: 638 scenarios, 29 load scenarios, 54s
   worst bus adjacent to slack: full 0.959 [0.900, 0.995] | pf 0.969 [0.915, 0.998]
   share of |dS| in 1-hop neighbours (median): full 0.146 [0.126, 0.187] | pf 0.175 [0.150, 0.224] | uniform expectation 0.002
   re-anchoring: physical max mismatch plain 61 | shift 649 | scale 673 | err_l2 plain 0.584 | shift 0.597 | scale 0.597
-wrote /Users/msarwar/Desktop/webDev/GridFMChallenge/results/exp06/summary.csv (9 checkpoints)
+wrote <repo>/results/exp06/summary.csv (9 checkpoints)

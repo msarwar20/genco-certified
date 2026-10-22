@@ -1,20 +1,20 @@
 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 [config] Converted v0 config -> v1 in memory (file on disk unchanged).
-Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
+Loaded normalizer stats from <repo>/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
 split='train' len(split_indices)=2
 split='val' len(split_indices)=2
 split='test' len(split_indices)=2200
 Restoring normalizer for case118_ieee from saved stats
 [fit set calib] 2200 scenarios, 100 load scenarios in 107s
 [config] Converted v0 config -> v1 in memory (file on disk unchanged).
-Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
+Loaded normalizer stats from <repo>/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
 split='train' len(split_indices)=4724
 split='val' len(split_indices)=638
 split='test' len(split_indices)=638
 Restoring normalizer for case118_ieee from saved stats
 [paper_base_seed0] evaluated 638 scenarios in 13s
 [config] Converted v0 config -> v1 in memory (file on disk unchanged).
-Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
+Loaded normalizer stats from <repo>/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
 split='train' len(split_indices)=2
 split='val' len(split_indices)=2
 split='test' len(split_indices)=2194

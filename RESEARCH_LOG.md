@@ -871,6 +871,31 @@ From `results/genco_delta/eval/*_s0__*.json`: NR iterations to 1e-2 / 1e-4 / 1e-
 
 New code: `analyze_exp02.py --xcal`, `scripts/{exp08_bias_correction,summarize_batch3,bench_genco_cpu}.py`, `scripts/run_batch3*.sh`. Logs are in `results/batch3_logs/`.
 
+## 2026-10-21: GENCO-Δ verdict (matrix + residual study, IEEE 118 Base, seeds 0/1/42)
+
+Both studies finished on 2026-10-12. Tables: `results/genco_delta/residual_summary_by_arm.md` (all arms) and `summary_by_arm.md` (matrix only). I fixed the aggregator regex so that the `residual_vm_va_flows_lr3e-4` arm appears.
+
+**Plain Δ (fill masked inputs, no architectural change): negative, and unstable.**
+- Seeds 0/1: about base-case quality (2.85–2.95 iterations to 1e-6 MW vs base 2.88–3.08; released 2.15–2.30).
+- Seed 42 diverged in both plain arms. Validation loss jumped at epoch 4 (`delta_vm_va_s42`) or plateaued 10× above seed 0 (`delta_vm_va_flows_s42`). Newton from those predictions needs ~13 iterations; four of ten evaluations crash with an index error, because the trajectory never forms.
+- Interpretation: replacing zeros with a base-case state the network was never trained to read is a large input-distribution shift, and fine-tuning from the released weights does not recover reliably.
+
+**Residual Δ (decode base + zero-initialised delta head): accurate on N-1, but does not survive the outage-order shift.** Mean ± SD over three init seeds; lr 3e-4 is the better setting.
+
+| Set | Median state error L2, released → residual | Iterations to 1e-2 MW, released → residual | Iterations to 1e-6 MW, released → residual | Misses after one step, released → residual |
+|---|---|---|---|---|
+| paper N-1 | 0.054 → 0.022 (2.5× lower) | 1.74 → 1.33 | 2.15 → 2.19 | 1.3 → 1.7 |
+| stress N-1 | 0.060 → 0.022 | 1.79 → 1.29 | 2.15 → 2.16 | 1.3 → 2.0 |
+| N-2 | 0.057 → 0.038 | 1.68 → 1.51 | 2.21 → 2.30 | 0.7 → 2.3 |
+| N-3 | 0.076 → 0.070 | 1.81 → 1.68 | 2.30 → 2.43 | 1.3 → 5.0 |
+| N-5 | 0.112 → 0.155 (worse) | 1.92 → 1.89 | 2.50 → 2.69 | 6.3 → 17.7 |
+
+- At the operator's tolerance (1e-2 MW), the residual model saves about 0.4 Newton iterations over released GENCO on N-1. That is roughly a 25% cut in iterations at that tolerance. At 1e-6 MW the saving vanishes, because Newton's quadratic phase is insensitive to a 2.5× smaller start error.
+- It was trained on N-1 only (the released data). Its advantage shrinks with outage order and reverses at N-5. The model leans on the base case more than released GENCO does, and that prior is weaker the more elements are out.
+- Plain → residual is the most instructive contrast. The *architecture* of the conditioning matters more than the information content: the same inputs are useless in the plain arm and helpful in the residual arm.
+- Caveat (as planned): Δ arms see the base-case slack Vm, which equals the post-contingency setpoint, so they are implicitly slack-aware. The slack-aware arm alone gains nothing (2.19 vs control 2.19), so the residual gain is not the slack effect.
+- Not done: N-k training mixtures, which would be the obvious fix for the N-5 regression, and GOC 2000 (the Colab notebook is ready but was not run).
+
 ## Open questions / TODO
 
 - [ ] Re-run IEEE 118 exp01/exp02 with the fixed DC start for consistent DC numbers.
