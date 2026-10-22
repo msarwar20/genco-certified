@@ -896,6 +896,18 @@ Both studies finished on 2026-10-12. Tables: `results/genco_delta/residual_summa
 - Caveat (as planned): Δ arms see the base-case slack Vm, which equals the post-contingency setpoint, so they are implicitly slack-aware. The slack-aware arm alone gains nothing (2.19 vs control 2.19), so the residual gain is not the slack effect.
 - Not done: N-k training mixtures, which would be the obvious fix for the N-5 regression, and GOC 2000 (the Colab notebook is ready but was not run).
 
+## 2026-10-22: write-up, review and packaging
+
+- `docs/NUMBERS.md` is the single source for numbers. Its section 12 lists conflicts; the GOC 2000 slack ratio is 20× on 879 scenarios (not 26×).
+- Post v1 was reviewed adversarially (`results/notes/review_post_v1.md`). Corrections adopted in v2:
+  - The safety denominators now exclude the calibration set: 16,449 violating elements, 5,785 violating contingencies, 429 load scenarios. The one-sided bound on load scenarios is 0.70%. Element-level bounds treat elements as independent, so they are secondary.
+  - The saving depends on the rule: 35–44% with conformal 0.10, 33–42% with 0.05, 18–35% with the max rule.
+  - Best-of-two is not "never worse" (2.25 vs 2.15 on IEEE 118).
+  - Equal cost, held out: GENCO + 1 step misses 32 vs 1,250 for base + 1 step; base + 2 steps misses 32.
+  - Cross-solver: GENCO + full NR (1.25 ms) is slower than FDLF from the base case (0.35 ms), even with free inference.
+  - The headline tolerance is now 10⁻⁴ MW for both GENCO and GENCO-Δ.
+- N-k retraining data: `data/train_nk`, seed 4001, 5,056 scenarios, k = 1..5 mixed (`results/notes/ws4_N_nk.md`). The run stalled overnight because the Mac slept on battery; caffeinate is now attached.
+
 ## Open questions / TODO
 
 - [ ] Re-run IEEE 118 exp01/exp02 with the fixed DC start for consistent DC numbers.
