@@ -42,8 +42,13 @@ def pick(set_tag: str, test_ids: list, rng) -> list:
 
 def main():
     rng = np.random.default_rng(0)
+    cal = OUT / "calibration.json"   # hand-maintained policy constants (engine.py reads them); survive a rebuild
+    cal_text = cal.read_text() if cal.exists() else None
     if OUT.exists():
         shutil.rmtree(OUT)
+    if cal_text is not None:
+        OUT.mkdir(parents=True)
+        cal.write_text(cal_text)
     manifest = {}
     for name, (root, split, set_tag) in SETS.items():
         src = ROOT / root / GRID
