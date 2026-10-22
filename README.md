@@ -1,101 +1,87 @@
-# GENCO, Certified
+# What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state
 
-This repository is our entry to the [GridFM GENCO Challenge 2026](https://huggingface.co/spaces/gridfm/genco-challenge). It studies the power-flow (PF) variant of GENCO [1], the GridFM grid foundation model, from two angles:
-- how the model arrives at its answer;
-- when that answer can be trusted for contingency screening.
+Entry to the GridFM GENCO Challenge 2026, by Muhammad Sarwar. Write-up: [docs/POST.md](docs/POST.md). Models and data: {{LINKS}}.
 
-The short version: GENCO's output makes an excellent starting point for a single Newton–Raphson step. That step turns a learned prediction into an AC power flow that can be checked, and it tells you how far off the prediction was.
+GENCO predicts an AC power-flow state in one forward pass. In contingency analysis, though, an operator rarely solves from scratch: the solved pre-contingency case is already on the screen and is the warm start production tools use. This repository asks a narrow question about the released GENCO checkpoints. If the prediction is handed to a float64 Newton solver, how much solver work does it save against the pre-contingency start, and can that saving be taken without missing an overload? Everything here, from the Newton solvers to the figure scripts, is built to answer that and to let you re-check it. Every number in the write-up is traced to a source file in [docs/NUMBERS.md](docs/NUMBERS.md).
 
-By "certified" we mean something specific and modest. Every screening decision we accept has been checked against the AC power-flow equations after a Newton step, using an error bound calibrated on held-out data. It is an empirical guarantee, not a formal proof.
+## Results at a glance
 
-The full write-up is in [docs/report.md](docs/report.md). Every number below, and every assumption behind it, is traced in [RESEARCH_LOG.md](RESEARCH_LOG.md).
+1. On IEEE 118, a GENCO prediction is worth 0.73 Newton iterations [0.63, 0.83] to 10⁻⁶ MW over the pre-contingency start, and about one iteration at equal cost for screening: GENCO plus one Newton step misses 32 of 18,030 violating elements, the same as the pre-contingency start plus two steps (33).
+2. A sequential accept-or-escalate rule, calibrated on a separate 100-operating-point set, gave 0 missed violations out of 18,030 (95% upper bound 0.02%) with 35–44% fewer factorizations than the same rule started from the pre-contingency state.
+3. The advantage does not survive scale: it is a tie at 500 buses and the pre-contingency start wins at 2,000 buses (+0.22 iterations). Under industrial factor reuse it shrinks to 5–21% of triangular solves, and pays off in wall-clock time only if inference costs under 0.015–0.6 ms per contingency. GENCO takes 8–24 ms on a laptop.
+4. Audit finding: the PF mask treats the slack-bus voltage magnitude as an unknown although it is a setpoint, so GENCO's reported power balance looks 35–60× better than the physical one on IEEE 14–118.
+5. An extension, GENCO-Δ, conditions GENCO on the pre-contingency state. Feeding the base case into the masked inputs fails (one of three seeds diverged). A residual decoder that starts exactly at the base case cuts N-1 state error 2.5× and Newton iterations at a practical tolerance by about 25%, but regresses at N-5.
 
-## 1. Main results
+![Newton iterations from each start, and the GENCO minus pre-contingency difference by grid size](results/figures/post/figB_exchange_rate.png)
 
-All results use the released GENCO checkpoints and the OpenGridFM toolkits (gridfm-graphkit, gridfm-datakit [2]). Unless stated otherwise, the grid is IEEE 118 with the Base model.
+*Newton iterations from flat, DC, pre-contingency and GENCO starts (left) and the paired GENCO minus pre-contingency difference (right), with 95% cluster-bootstrap intervals over load scenarios.*
 
-**Reproduction.** We re-evaluated 20 released checkpoints on the authors' own held-out test scenarios. The mean PF metrics agree with the published values to within 6% on most runs, and OPF on IEEE 57/118 to within 8%.
+![Missed violating elements against factorizations per contingency](results/figures/post/figC_equal_cost.png)
 
-**Inside GENCO.**
-- Over its 12 correction layers, GENCO roughly halves its own power mismatch per layer, much like a linearly convergent iterative solver.
-- Stopping after layer 9 saves about a quarter of the inference time and costs less than 0.1 extra Newton iteration downstream.
-- A linear probe on the final-layer embeddings predicts where the voltage-magnitude errors are (R² = 0.63). The local power mismatch alone gives 0.24.
+*Missed violations against factorizations per contingency on IEEE 118 (four 100-load-scenario test sets). Hollow markers are zero-miss cells, drawn at their one-sided 95% Clopper–Pearson bound.*
 
-**A masked setpoint.** The PF mask in gridfm-graphkit asks GENCO to predict the slack-bus voltage magnitude, even though it is a dispatch setpoint the operator already knows.
-- GENCO's power balance holds at its own guess of that value.
-- With the true setpoint imposed, the largest nodal mismatch is 26 to 60 times larger than the reported one.
-- The error is local: the worst bus sits next to the slack bus in 98 to 100% of scenarios, and the rest of the state is accurate.
-- Another entrant (another entry) also treats this voltage as known in its own adapter. Our contribution here is the measurement and the fix attempt.
+The remaining figures (workflow, factor-reuse break-even, slack audit, GENCO-Δ) are in [results/figures/post/](results/figures/post/), with the plotted values next to each one in `data/`.
 
-**Newton-verified contingency screening.** We screen for thermal overloads above 101% of rating and for PQ-bus voltages outside their limits. The escalation rule was calibrated on N-1 contingencies only.
+## What is in this repo
 
-TABLE I. Screening on IEEE 118: violation recall and sparse LU factorizations per contingency
+- `src/genco_certified/`: the installable package.
+  - `acpf.py` is the float64 AC power flow on exactly the admittance graph GENCO sees.
+  - `fastpf.py` holds the chord and fast-decoupled solvers that reuse one factorization per operating point.
+  - `tracing.py` captures GENCO's state after each correction layer.
+  - `graphkit_plugin.py` is the slack-aware PF task for gridfm-graphkit.
+  - `basecase_store.py` and `genco_residual.py` are the pre-contingency store and the residual GENCO-Δ decoder.
+  - `loading.py` builds a task and test dataloader in-process.
+- `scripts/`, one per experiment:
+  - `reproduce.py` and `summarize_repro.py` re-evaluate the released checkpoints.
+  - `exp01_layers_newton.py` (layer dynamics, Newton from each layer) and `exp06_slack_audit.py` (slack convention).
+  - `exp02_screening.py` with `analyze_exp02.py` (exchange rate, sequential policy, calibration, confidence intervals).
+  - `exp05_best_start.py` and `exp07_industrial_baselines.py` (best-of-two start, chord and fast-decoupled baselines, timing).
+  - `exp04_embedding_probe.py` and `exp08_bias_correction.py` (two negative results).
+  - `finetune.py`, `finetune_residual.py` and the `run_genco_delta*.sh` drivers (slack-aware fine-tune, GENCO-Δ).
+  - `make_post_figures.py`, `build_space_bundle.py`, `verify_artifacts.py`, and the `run_batch3*.sh` drivers.
+- `configs/datakit/`: the gridfm-datakit configs for every new scenario set (N-1 to N-5, calibration, exhaustive).
+- `space/`: a small Gradio console that walks one contingency through the policy. It is prepared but not published.
+- `notebooks/`: two Colab notebooks for a GPU timing run and for GENCO-Δ on GOC 2000. See `notebooks/README.md`.
+- `tests/`: unit tests for the solvers, the screening policy and the GENCO-Δ code.
+- `results/`: JSON, CSV and logs for every table, one directory per experiment (`exp01` to `exp08`, `genco_delta`, `repro`, `runtime`), and `figures/post/`. `SHA256SUMS` covers the tracked files.
+- `docs/`: `POST.md` (write-up), `NUMBERS.md` (source of truth for every number), `REPRODUCE.md` (commands), `report.md` (earlier report, see its header).
 
-| Contingencies (count) | DC power flow | Base case + 1 Newton step | GENCO + Newton, calibrated escalation | Newton from base case | Newton from flat start |
-|---|---|---|---|---|---|
-| N-1 (660) | 0.49 | 0.95 | 1.00 at 1.43 LU | 1.00 at 2.88 LU | 1.00 at 4.00 LU |
-| N-2 (659) | 0.49 | 0.95 | 1.00 at 1.50 LU | 1.00 at 3.08 LU | 1.00 at 4.01 LU |
-| N-3 (660) | 0.54 | 0.94 | 1.00 at 1.63 LU | 1.00 at 3.17 LU | 1.00 at 4.01 LU |
-| N-5 (660) | 0.52 | 0.93 | 1.00 at 1.97 LU | 1.00 at 3.32 LU | 1.00 at 4.03 LU |
+## Reproduce
 
-The GENCO-based screen raised no false alarms on any of these sets. It used 40 to 51% fewer factorizations than Newton warm-started from the pre-contingency solution, which is the usual practice in contingency analysis.
-
-<p align="center"><img src="results/figures/fig4_stress.png" width="90%"></p>
-<p align="center"><em>Fig. 1. Calibrated on N-1, tested on N-1 to N-5. Left: violation recall. Right: factorizations per contingency.</em></p>
-
-**What did not work, or did not generalize.**
-- At 2,000 buses (GOC 2000, released Small checkpoint), the pre-contingency base case is a better Newton starting point than GENCO: 2.95 against 3.23 iterations on average. A simple selector compares the power mismatch at both candidates and costs nothing extra. It matches the base case there and keeps most of GENCO's advantage on IEEE 118.
-- We fine-tuned a variant that receives the slack voltage as an input. It removed the hidden mismatch, but it was about 25% less accurate than a matched control at the training budget we could afford on a laptop.
-- On an Apple M4 laptop, a lean sparse Newton solver is faster than GENCO inference at both 118 and 2,000 buses. For that reason, all cost figures here are in factorizations, and the report gives the break-even condition rather than a speedup claim.
-
-## 2. Reproducing the results
-
-Requirements: Python 3.12 (gridfm-graphkit does not support 3.13+), [uv](https://docs.astral.sh/uv/), git, and roughly 6 GB of disk. No GPU is needed. Everything was run on a MacBook Air (M4).
+The reference machine is a MacBook Air M4 with Python 3.12. A full run needs about 25 GB of disk; the core reproduction needs about 8 GB.
 
 ```bash
-./scripts/setup_env.sh                 # pinned gridfm-graphkit 8a8defb, gridfm-datakit d8a092d, .venv
-source .venv/bin/activate
-pip install -e .                       # this package (genco_certified) and its graphkit plugin
-gridfm_datakit setup_pm                # Julia + PowerModels + Ipopt, once (~2 min)
-
-./scripts/run_all.sh                   # data subsets, reproduction, all experiments, figures (~2 h)
-./scripts/run_all.sh --with-finetune   # adds the slack-aware fine-tune and its control (~80 min more)
-python -m pytest -q tests
+./scripts/setup_env.sh && source .venv/bin/activate && pip install -e .
+python scripts/fetch_data.py --task pf --partitions 30
+python scripts/reproduce.py --task pf --sizes base small tiny
+python scripts/exp02_screening.py --grid case118_ieee --size base
+python scripts/analyze_exp02.py --v3 && python scripts/analyze_exp02.py --ci
+python scripts/make_post_figures.py
+python -m pytest -m "not data" -q
+python scripts/verify_artifacts.py
 ```
 
-Three practical notes:
-- The full datakit test sets are large (3 to 170 GB per grid). `scripts/fetch_data.py` downloads only the first few partitions. It then intersects them with the authors' published `scenario_splits.json`, so every evaluation uses the paper's own held-out scenarios.
-- Graphkit's OPF baseline fails under pandas 3, so the environment pins `pandas<3`.
-- The stress sets (N-1 to N-5) are generated with gridfm-datakit from `configs/datakit/`. These configs copy the dataset's original `args.log` and change only the number of outages.
+The last command checks `SHA256SUMS`, that every result JSON parses, and that its numbers are finite; add `--checkpoints` to also match the released weights. Data generation for the stress sets, the GOC runs, fine-tuning and GENCO-Δ are in [docs/REPRODUCE.md](docs/REPRODUCE.md). Counts of iterations and factorizations reproduce to the printed precision on the same platform; timings and the last digits of mismatches will vary by machine.
 
-## 3. Repository layout
+## Negative results
 
-```
-src/genco_certified/   tracing hooks, float64 Newton-Raphson on GENCO's network,
-                       base-case reconstruction from datakit data, graphkit plugin
-scripts/               data fetch, reproduction, experiments 01-05, figures, run_all.sh
-configs/datakit/       stress-test generation configs
-docs/report.md         technical report
-space/                 Gradio operator console (runs GENCO live on a 5 MB scenario bundle)
-results/               logs, summaries and figures (large intermediates are regenerated)
-tests/                 unit tests for the AC power-flow code
-RESEARCH_LOG.md        dated record of findings, assumptions and corrections
-```
+- Convergence rescue: flat-start Newton never failed up to N-5, so there was nothing to rescue.
+- Accepting GENCO with no Newton step: its own residual never certified a whole contingency.
+- The embedding probe ("the latents know where GENCO is wrong") is withdrawn; bus identity alone explains about as much.
+- Per-bus bias correction removes 0.3% of squared error in-sample and nothing out of sample.
+- Slack fix by mask surgery on Base: feeding the setpoint in multiplies state error by 17×; re-anchoring voltages is worse in 95–100% of scenarios.
+- Slack-aware fine-tune: honest power balance, about 29% worse state error than a matched control, no iteration gain.
+- Plain GENCO-Δ reaches base-case quality at best; one seed diverged. Residual GENCO-Δ regresses at N-5.
+- Calibrating the error bound on 29 operating points was not exchangeable across outage order (up to 33% exceedance at N-2). A 100-point calibration fixes it, without making it a guarantee.
+- Plain chord Newton from the base case fails the 50-iteration cap in 20–70% of contingencies, depending on outage order.
+- No wall-clock gain on an M4 laptop: inference is 12–1,600× above break-even.
 
-The `genco_certified` package is small on purpose:
-- `tracing.py` records GENCO's intermediate states with forward hooks instead of re-implementing the model.
-- `acpf.py` rebuilds the admittance matrix from exactly the edge features GENCO consumes. At the ground truth the mismatch is below 4·10⁻³ MW, and a flat-start Newton solve reproduces datakit's solution to 2·10⁻⁷.
-- `graphkit_plugin.py` registers a `PowerFlowSlackAware` task through graphkit's plugin mechanism.
+## Limitations
 
-## 4. Limitations
+The zero-miss result is empirical, on datakit scenarios. Calibration and test sets share datakit's daily load trajectory, so the operating-point bounds are optimistic, and a Newton–Kantorovich certificate that would give a proof does not hold at GENCO's raw output. Factor-reuse results cover IEEE 118 and GOC 500 at seed 0; GENCO-Δ was run on IEEE 118 only. The reproduction of the released checkpoints uses about 3% of each paper test set, with mean metrics within about 6% (worst 13%). Timings come from Python and SciPy, and a compiled solver would push the break-even lower. GPU timings have not been measured yet.
 
-- The escalation bound is calibrated on data, not derived. Zero missed violations holds on about 2,600 IEEE-118 contingencies and is not a guarantee.
-- The GOC 2000 results rest on one released checkpoint and 198 leak-free held-out scenarios.
-- The fine-tuning comparison uses about 2% of the original training data and a single seed per arm.
-- Base-case states are reconstructed from datakit's topology variants. Each element takes its majority status across the variants of a load scenario.
+## License and attribution
 
-## References
+Apache-2.0 ([LICENSE](LICENSE)). [NOTICE](NOTICE) lists the third-party software, models and data this work builds on, with their terms: gridfm-graphkit, gridfm-datakit and the released GENCO checkpoints. To cite, use [CITATION.cff](CITATION.cff).
 
-[1] GENCO, arXiv:2608.09921, 2026.
-[2] gridfm-datakit, arXiv:2512.14658, 2025.
-[3] H. F. Hamann et al., "Foundation models for the electric grid," *Joule*, 2024, arXiv:2407.09434.
+Contact: Muhammad Sarwar, msarwar@iastate.edu
