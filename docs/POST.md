@@ -22,7 +22,7 @@ Two further findings. First, GENCO's PF task treats the slack-bus voltage magnit
 
 ## I. The question
 
-GENCO's paper [1] reports speed and accuracy against PowerModels from a cold start. Two entries go further. another entry [5] audits sensitivities on fixed topologies. "another entry" [5] checks GENCO with Newton for N-k screening on the Texas grid, and finds about one iteration saved and no speedup. Neither measures the baseline an operator actually has: the pre-contingency solution, often with its factorization reused. That is what we measure here. We then follow the answer from 118 to 2,000 buses, and try to make GENCO use the base case itself.
+GENCO's paper [1] reports speed and accuracy against PowerModels from a cold start. A control room does not solve contingencies from a cold start. It has the pre-contingency solution, and it usually reuses that solution's factorization in a chord or fast-decoupled solver. So we price GENCO against that baseline. We then follow the answer from 118 to 2,000 buses, and try to make GENCO use the base case itself.
 
 ## II. Setup
 
@@ -191,4 +191,3 @@ Iteration and miss counts regenerate exactly. Timings depend on the machine and 
 [2] OpenGridFM, gridfm-graphkit (commit 8a8defb) and gridfm-datakit (commit d8a092d).
 [3] B. Stott and O. Alsaç, "Fast decoupled load flow," *IEEE Trans. Power App. Syst.*, vol. PAS-93, no. 3, pp. 859–869, 1974.
 [4] A. N. Angelopoulos and S. Bates, "A gentle introduction to conformal prediction and distribution-free uncertainty quantification," arXiv:2107.07511, 2021.
-[5] GENCO Challenge 2026 other entries (another entry) and #7 ("another entry"), Community tab, huggingface.co/spaces/gridfm/genco-challenge.
