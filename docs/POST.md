@@ -1,7 +1,7 @@
 <!--
 DRAFT v2 (2026-10-22) for the Community-tab post. Do not post: the user posts it.
 Numbers: docs/NUMBERS.md; v1 review and its fixes: results/notes/review_post_v1.md.
-Placeholders: {{NK}} N-k retraining (running), {{GPU}} Colab GPU timing (user), {{AFFIL}} affiliation, {{LINKS}} repo/HF links (repo private until the user says otherwise).
+Placeholders: {{GPU}} Colab GPU timing (user), {{AFFIL}} affiliation, {{LINKS}} repo/HF links (repo private until the user says otherwise).
 Figures: results/figures/post/ (upload to the discussion before posting; file names below).
 -->
 
@@ -15,7 +15,7 @@ In contingency analysis an operator never solves from scratch. The solved pre-co
 
 **Answer.** On IEEE 118, starting Newton from GENCO instead of the pre-contingency state saves 0.49 [0.45, 0.53] iterations to 10⁻⁴ MW at N-1 and about one iteration at N-5. A screening rule that verifies each contingency with Newton steps and a calibrated error bound needs 18–44% fewer factorizations from GENCO's start. It missed no overload in 429 held-out operating points (one-sided 95% bound 0.7%). The advantage shrinks with grid size: 0.33 iterations at 500 buses, and at 2,000 buses the pre-contingency start is better by 0.63. On a laptop, inference costs 14× to 580× more than the solver work it saves {{GPU}}.
 
-Two further findings. First, GENCO's PF task treats the slack-bus voltage magnitude as an unknown although it is a setpoint, which makes the reported power balance 32–60× better than the physical one on IEEE 14–118. Second, a residual decoder that starts exactly at the pre-contingency state (GENCO-Δ) cuts N-1 state error 2.5×, but saves Newton work only at a loose tolerance and regresses at N-5 {{NK}}.
+Two further findings. First, GENCO's PF task treats the slack-bus voltage magnitude as an unknown although it is a setpoint, which makes the reported power balance 32–60× better than the physical one on IEEE 14–118. Second, a residual decoder that starts exactly at the pre-contingency state (GENCO-Δ) cuts N-1 state error 2.5×, but saves Newton work only at a loose tolerance and regresses at N-5. Retraining on mixed outages trades the N-1 gain for the N-5 fix.
 
 ![Fig. 1](figA_workflow.png)
 *Fig. 1. Verified screening. Either the pre-contingency state or GENCO's prediction starts float64 Newton steps on the exact admittances. After each step a calibrated bound c·‖dx‖² on every monitored branch loading and PQ-bus voltage decides whether to accept the screen; after three steps the case goes to a full solve.*
@@ -147,12 +147,12 @@ If the pre-contingency state is the better prior on large grids, GENCO should be
   - Iterations to 10⁻² MW fall from 1.74 to 1.33. At 10⁻⁴ MW there is no gain (2.05 vs 2.01).
   - At N-5 it is worse than released GENCO (error 0.155 vs 0.112; Fig. 5).
 
-The same information is useless as an input and useful as a starting point. The released training data are N-1 only, so the N-5 regression may be a training-distribution effect. {{NK: residual Δ retrained on 5,056 fresh mixed N-1…N-5 scenarios, three seeds: result in one or two sentences. Caveat: new training scenarios, not only a different outage mix.}}
+The same information is useless as an input and useful as a starting point. The released training data are N-1 only, so the N-5 regression may be a training-distribution effect. We tested this by retraining the residual model on 5,056 fresh scenarios with one to five elements out (three seeds). That removes the N-5 regression (error 0.116 vs 0.155; one-step misses 9 vs 18 of 1,763), but it also removes the N-1 gain (0.056 vs 0.022). With this training budget, the model ends at about released-GENCO quality at every outage order. The training scenarios are new as well as differently mixed, so the comparison is not perfectly controlled.
 
 The base case also carries the true slack voltage. The slack-aware arm alone gains nothing, though, so that is not where the improvement comes from.
 
 ![Fig. 5](figF_genco_delta.png)
-*Fig. 5. GENCO-Δ on IEEE 118 Base: (a) median state error, (b) Newton iterations to 10⁻² MW; mean ± SD over seeds 0/1/42. Purple bars: the pre-contingency state itself. Crosses: the diverged plain-Δ seed, excluded from the mean.*
+*Fig. 5. GENCO-Δ on IEEE 118 Base: (a) median state error, (b) Newton iterations to 10⁻² MW; mean ± SD over seeds 0/1/42. Purple bars: the pre-contingency state itself. Stars: residual Δ retrained on mixed N-1…N-5 outages. Crosses: the diverged plain-Δ seed, excluded from the mean.*
 
 ## VIII. What did not work
 

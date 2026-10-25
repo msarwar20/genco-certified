@@ -908,6 +908,15 @@ Both studies finished on 2026-10-12. Tables: `results/genco_delta/residual_summa
   - The headline tolerance is now 10⁻⁴ MW for both GENCO and GENCO-Δ.
 - N-k retraining data: `data/train_nk`, seed 4001, 5,056 scenarios, k = 1..5 mixed (`results/notes/ws4_N_nk.md`). The run stalled overnight because the Mac slept on battery; caffeinate is now attached.
 
+## 2026-10-25: N-k residual GENCO-Δ result
+
+`residual_nk_vm_va_flows_lr3e-4` (seeds 0/1/42; 5,056 mixed N-1..N-5 training scenarios) vs the N-1-trained residual vs released (`results/genco_delta/residual_summary_by_arm.md`):
+- Median state error: paper 0.062 vs 0.022 vs 0.054; N-5 0.116 vs 0.155 vs 0.112.
+- Iterations to 1e-6 MW: paper 2.14 vs 2.19 vs 2.15; N-5 2.57 vs 2.69 vs 2.50.
+- One-step misses at N-5: 9.0 vs 17.7 vs 6.3.
+
+Mixed training removes the N-5 regression and gives up the N-1 gain. The model ends at about released quality everywhere. Confound: the training scenarios are new as well as differently mixed.
+
 ## Open questions / TODO
 
 - [ ] Re-run IEEE 118 exp01/exp02 with the fixed DC start for consistent DC numbers.
