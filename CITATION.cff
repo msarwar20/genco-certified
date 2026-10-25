@@ -18,7 +18,7 @@ keywords:
   - GENCO
 references:
   - type: article
-    title: "GENCO: a grid foundation model architecture for power flow, optimal power flow and state estimation"
+    title: "GENCO: a unified neural solver embedded in a development framework for steady-state grid analysis"
     year: 2026
     notes: "arXiv:2608.09921"
     url: "https://arxiv.org/abs/2608.09921"

@@ -583,7 +583,7 @@ def figA_workflow():
     box("genco", 31, 13, W + 1, 15, "GENCO\nprediction", "12 layers,\none forward pass", edge=C["GENCO"], lw=1.8)
     box("newton", 55, 25, W + 2, 21, "k Newton steps", "float64, exact admittances\nk LU factorizations")
     box("bound", 78, 25, W + 1.5, 21, "Calibrated bound", "c · ‖dx‖² on every\nmonitored element\n(branch loading, PQ |V|)")
-    box("accept", 96, 38.5, 12, 15, "Accept", "verified\nanswer", edge=C["resid"], lw=1.8)
+    box("accept", 96, 38.5, 12, 15, "Accept", "screen\naccepted", edge=C["resid"], lw=1.8)
     box("escalate", 96, 11.5, 12, 15, "Escalate", "full Newton\nto convergence", edge=C["flat"], lw=1.8)
     # arrows
     arrow(18.3, 28, 22.2, 36.5)
@@ -598,9 +598,9 @@ def figA_workflow():
     ax.add_patch(FancyArrowPatch((78, 14.2), (55, 14.2), arrowstyle="-|>", mutation_scale=9, color=INK2, lw=1.0, ls=(0, (3, 2)),
                                  connectionstyle="arc3,rad=0.0", zorder=1))
     ax.text(66.5, 11.2, "margin ≤ bound: take step k+1", fontsize=7.6, color=INK2, ha="center", va="center")
-    ax.text(80, 43.5, "every margin > bound:\nverified screening", fontsize=7.6, color=C["resid"], ha="center", va="center", linespacing=1.2)
+    ax.text(80, 43.5, "every margin > bound:\naccept", fontsize=7.6, color=C["resid"], ha="center", va="center", linespacing=1.2)
     ax.text(77, 3.5, "step limit reached, still inside\nthe bound: full Newton", fontsize=7.6, color=INK2, ha="center", va="center", linespacing=1.2)
-    ax.text(0.5, 49.5, "Prior = pre-contingency state or GENCO; only the cost of reaching a verified answer differs.", fontsize=8, color=INK2, va="top")
+    ax.text(0.5, 49.5, "Prior = pre-contingency state or GENCO; only the cost of reaching an accepted answer differs.", fontsize=8, color=INK2, va="top")
     fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01)
     D = pd.DataFrame(nodes)
     D["source"] = "schematic (no data); Newton/bound design: src/genco_certified/acpf.py, scripts/analyze_exp02.py"

@@ -647,3 +647,7 @@ Headline numbers with partial or missing sources
   - Exceedance: 5 / 6 / 10 / 6%.
   - GENCO − base iterations to 1e-6 MW: −0.83 / −0.98 / −0.95 / −0.94.
 - **N-k residual GENCO-Δ**: see the RESEARCH_LOG entry of 2026-10-25.
+- **Held-out screening denominators** (post v2/v3; computed from `results/exp02/big118_policies.csv` excluding the calib CV row):
+  - 16,449 violating elements, 5,785 violating contingencies and 429 load scenarios, with 0 misses; one-sided CP UB on load scenarios 0.70%.
+  - Equal cost over the five held-out sets: GENCO + 1 misses 32, base + 1 misses 1,250, base + 2 misses 32.
+  - The step-1 zero-miss constants (0.004–0.0126) are 19–59× below the conf0.10 c = 0.2358.

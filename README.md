@@ -6,9 +6,9 @@ GENCO predicts an AC power-flow state in one forward pass. In contingency analys
 
 ## Results at a glance
 
-A learned power-flow model is worth exactly what it saves the solver it feeds. In contingency analysis that solver doesn't start from scratch. It starts from the solved pre-contingency case and usually reuses that case's factorization in a chord or fast-decoupled method. We put GENCO's prediction in front of each of these solvers on three grids and measured what it saves at equal safety.
+In contingency analysis, a power-flow prediction is only as valuable as the solver work it saves, and that solver doesn't start from scratch. It starts from the solved pre-contingency case and usually reuses that case's factorization in a chord or fast-decoupled method. We put the prediction of GENCO [1] in front of each of these solvers on three grids and measured what it saves at equal safety.
 
-The short version is Fig. 1. On IEEE 118 a GENCO start saves a fifth of the work for Newton and a twentieth for fast-decoupled. At 2,000 buses it saves 2% for chord Newton and costs extra for the other two.
+Fig. 1 summarizes the result. On IEEE 118 a GENCO start saves a fifth of the work for Newton and a twentieth for fast-decoupled. At 2,000 buses it saves 2% for chord Newton and costs extra for the other two. The screening savings in Sec. IV are counted in full-Newton factorizations, and Sec. III shows they do not pay back in wall-clock time.
 
 TABLE 0. Results at a glance (IEEE 118, released checkpoints, unless stated).
 
@@ -18,8 +18,8 @@ TABLE 0. Results at a glance (IEEE 118, released checkpoints, unless stated).
 | Work saved under factor reuse | chord: 21% of triangular solves; fast-decoupled: 5%; at 2,000 buses −18% to +2% |
 | Wall-clock break-even | inference must cost under 0.015–0.6 ms per contingency; GENCO takes 8.7 ms on a laptop GPU. Even with free inference, GENCO + Newton is slower than fast-decoupled from the pre-contingency state |
 | Screening with a calibrated Newton check | 0 missed violations in 16,449 held out, and 0 in 17,095 more generated after the rule was frozen, from a different load profile. 37–44% fewer factorizations than the same check from the pre-contingency state |
-| What GENCO reports vs what it computes | its power balance looks 32–60× better than the physical one, because the slack-bus voltage setpoint is masked and predicted |
-| Teaching GENCO the base case | a residual decoder (GENCO-Δ) cuts N-1 state error 2.5× but saves no iterations at 10⁻⁴ MW; mixed N-k training trades the N-1 gain for an N-5 fix |
+| What GENCO reports vs what it computes | its power balance looks 32–60× better than the physical one on IEEE 14–118 (about 20× on GOC 500 and 2000), because the slack-bus voltage setpoint is masked and predicted |
+| Conditioning GENCO on the base case | a residual decoder (GENCO-Δ) cuts N-1 state error 2.5× but saves no iterations at 10⁻⁴ MW; mixed N-k training trades the N-1 gain for an N-5 fix |
 
 ![Triangular solves saved by a GENCO start, by solver and grid size](results/figures/post/figH_hero.png)
 

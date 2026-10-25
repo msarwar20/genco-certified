@@ -23,8 +23,8 @@ their respective owners.
    Copyright the gridfm-datakit authors (IBM Research and contributors).
 
 3. GENCO paper and released artifacts
-   "GENCO: a grid foundation model architecture for power flow, optimal power
-   flow and state estimation", arXiv:2608.09921 (2026), IBM Research,
+   A. Puech et al., "GENCO: a unified neural solver embedded in a development
+   framework for steady-state grid analysis", arXiv:2608.09921 (2026), IBM Research,
    Hydro-Quebec, ETH Zurich and Stony Brook University.
    - Checkpoints and normalizer statistics: Hugging Face model repos
      gridfm/genco-pf-datakit and gridfm/genco-opf-datakit (model card:
