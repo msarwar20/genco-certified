@@ -1,0 +1,248 @@
+# Storyboard for the GENCO challenge demo video (see scripts/video/make_video.py).
+#
+# Numbers in captions and cards are quoted from docs/POST.md (Table 0, II, III, IV, V and the
+# confirmation-run paragraph). The live segments show what the console prints for the bundled
+# scenarios; those numbers are checked against the page at record time (see `expect` below).
+#
+# Caption fields:  text, dur (s), and either `at` (seconds from segment start) or
+#                  `after` (name of a logged live event) + `offset` (seconds, default 0.3).
+# Optional `say` overrides the text handed to the voice synthesizer.
+# Caption `dur` is a minimum reading time: windows grow to the spoken length of the caption, and slide
+# durations grow to fit their captions. Slide segments: `duration` (minimum, s) and `card` (kind: title | text | figure | end).
+# Figure cards take `views`: a list of {at | caption, crop: [x0, y0, x1, y1]} (image pixels); `caption: k`
+# switches to that view when caption k starts.
+
+meta:
+  fps: 30
+  size: [1920, 1080]
+  voice: Samantha
+  voice_rate: 195
+  console_order: N-2
+  console_scenario: "#21 ·"
+  batch_order: N-5
+
+segments:
+  # a) title ------------------------------------------------------------------------------------
+  - id: title
+    type: slide
+    duration: 6
+    card:
+      kind: title
+      title: "What is GENCO worth to a Newton solver?"
+      subtitle: "Pricing a grid foundation model against the pre-contingency state"
+      byline: "GridFM GENCO Challenge 2026  ·  Muhammad Sarwar"
+    captions: []
+
+  # b) the question -------------------------------------------------------------------------------
+  - id: question
+    type: slide
+    duration: 12.5
+    card:
+      kind: text
+      heading: "The question"
+      y0: 250
+      lead: "A prediction is worth the solver work it saves."
+      bullets:
+        - "Baseline: the solved pre-contingency case, treated as free"
+        - "Candidate: GENCO's prediction of the post-outage state"
+        - "Price: Newton iterations, triangular solves, factorizations, at equal safety"
+    captions:
+      - {at: 0.5, dur: 4, text: "Contingency analysis does not start from scratch. It starts from the solved pre-contingency case."}
+      - {at: 6.4, dur: 4, text: "That case's factorization is often reused, so we price GENCO's prediction in solver work saved, at equal safety.", say: "That case's factorization is often reused, so we price GENCO's prediction in solver work saved, at equal safety."}
+
+  # c) Fig. 1 hero ----------------------------------------------------------------------------------
+  - id: fig1
+    type: slide
+    duration: 25
+    card:
+      kind: figure
+      heading: "Fig. 1   What a GENCO start saves, by solver and grid size"
+      image: results/figures/post/figH_hero.png
+      views: [{at: 0}]
+    captions:
+      - {at: 0.5, dur: 4, text: "Triangular solves saved on IEEE 118: 20% for full Newton, 21% for chord, 5% for fast-decoupled."}
+      - {at: 8.6, dur: 4, text: "At 2,000 buses: −26%, +2% and −18%. The saving falls with grid size."}
+      - {at: 16.8, dur: 4, text: "Smallest for fast-decoupled. Plausibly its fixed Jacobian caps the convergence rate.", say: "Smallest for fast-decoupled. Plausibly its fixed Jacobian caps the convergence rate."}
+
+  # d) live console, one IEEE 118 N-2 scenario --------------------------------------------------
+  - id: console
+    type: live
+    # Console state expected on screen; the recorder aborts if the page disagrees.
+    expect:
+      - "Accepted after Newton step 1."
+      - "0.69 MW"
+      - "69.2 MW"
+      - "Factorizations used: 1 vs 3 (base-case start) · 4 (flat start)"
+      - "line 68–74"
+    actions:
+      - {do: wait, s: 1.0}
+      - {do: mark, name: start}
+      - {do: wait, s: 2.2, name: header}
+      - {do: radio, label: "N-2", name: pick_order}
+      - {do: wait, s: 0.8}
+      - {do: scenario, match: "#21 ·", name: pick_scenario}
+      - {do: wait, s: 1.4}
+      - {do: scroll, y: 215, dur: 1.4, name: scroll_map}
+      - {do: highlight, target: grid_map, s: 3.2, name: map}
+      - {do: hover_bus, s: 3.6, name: slack_bus}
+      - {do: highlight, target: convergence, s: 1.2, name: conv_ring}
+      - {do: hover_point, trace: 1, index: 0, s: 2.0, name: layer1}
+      - {do: hover_point, trace: 0, index: 11, s: 2.6, name: layer12}
+      - {do: hover_point, trace: 1, index: 12, s: 3.0, name: newton_step1}
+      - {do: park, x: 1500, y: 400, dur: 1.0}
+      - {do: highlight, target: decision, s: 5.8, name: decision}
+      - {do: scroll, y: 560, dur: 1.6, name: scroll_table}
+      - {do: highlight, target: table, s: 6.6, name: table}
+      - {do: scroll, y: 215, dur: 1.4, name: scroll_back}
+      - {do: highlight, target: decision, s: 8.0, name: slack}
+      - {do: wait, s: 1.0, name: tail}
+    captions:
+      - {after: pick_order, offset: 0.2, dur: 4, text: "Operator console, live. GENCO runs on IEEE 118; we pick an N-2 outage: lines 60–61 and 68–69."}
+      - {after: map, offset: 0.2, dur: 4, text: "Grid map: line shade is true AC loading, red lines are overloaded. Bus colour is GENCO's mismatch."}
+      - {after: layer1, offset: 0.0, dur: 4, text: "GENCO's 12 layers (dotted) cut the mismatch from 2,937 MW to under 1 MW at its own slack voltage."}
+      - {after: newton_step1, offset: 0.0, dur: 4, text: "Then float64 Newton steps (green). To full convergence: 3 steps from GENCO or the pre-contingency state, 4 from flat."}
+      - {after: decision, offset: 0.3, dur: 4, text: "Decision card: accepted after step 1, one factorization. Newton from the pre-contingency start takes 3, from flat 4."}
+      - {after: table, offset: 0.4, dur: 4, text: "Two lines are overloaded in the true AC solution. GENCO alone also flags 68–74 (false alarm); one Newton step clears it."}
+      - {after: slack, offset: 0.3, dur: 4, text: "GENCO reports 0.69 MW of mismatch. At the true slack setpoint the same state is off by 69.2 MW."}
+
+  # e) live batch tab ------------------------------------------------------------------------------
+  - id: batch
+    type: live
+    expect:
+      - "Sequential policy, GENCO prior"
+      - "Sequential policy, base-case prior"
+      - "30 bundled N-5 scenarios"
+    actions:
+      - {do: wait, s: 0.8}
+      - {do: mark, name: start}
+      - {do: tab, label: "Screen a whole set", name: open_tab}
+      - {do: wait, s: 0.8}
+      - {do: radio, label: "N-5", name: pick_order, last: true}
+      - {do: wait, s: 0.6}
+      - {do: button, label: "Run the screening policy on all bundled scenarios", name: run}
+      - {do: wait, s: 0.6}
+      - {do: highlight, target: table, s: 2.6, name: results}
+      - {do: highlight, target: batch_policy_rows, s: 5.2, name: policy_rows}
+      - {do: highlight, target: batch_note, s: 5.4, name: note}
+      - {do: wait, s: 0.8, name: tail}
+    captions:
+      - {after: open_tab, offset: 0.3, dur: 4, text: "Batch tab, N-5: a bundled subset of 30 scenarios, including the 8 hardest for GENCO."}
+      - {after: results, offset: 0.2, dur: 4, text: "Policy from either prior: 0 missed. Mean factorizations: 1.67 from GENCO, 2.90 from the pre-contingency state."}
+      - {after: note, offset: 0.3, dur: 4, text: "Full N-5 set (Table III): 1.65 against 2.96, and 0 of 6,617 violating elements missed."}
+
+  # f) Fig. 2 exchange rate ------------------------------------------------------------------------
+  - id: fig2
+    type: slide
+    duration: 15
+    card:
+      kind: figure
+      heading: "Fig. 2   Newton iterations from each start"
+      image: results/figures/post/figB_exchange_rate.png
+      views:
+        - {at: 0}
+        - {caption: 1, crop: [0, 715, 1600, 1260]}
+    captions:
+      - {at: 0.4, dur: 4, text: "Iterations saved at 10⁻⁴ MW: 0.49 on IEEE 118, 0.33 on GOC 500, −0.63 on GOC 2000.", say: "Iterations saved at ten to the minus four megawatts: 0.49 on IEEE 118, 0.33 on G O C 500, minus 0.63 on G O C 2000."}
+      - {at: 7.4, dur: 4, text: "Paired difference, with 95% intervals: the exchange rate turns against GENCO as the grid grows."}
+
+  # g) Fig. 4 equal cost ---------------------------------------------------------------------------
+  - id: fig4
+    type: slide
+    duration: 19.5
+    card:
+      kind: figure
+      heading: "Fig. 4   Missed violations at equal cost, IEEE 118"
+      image: results/figures/post/figC_equal_cost.png
+      views:
+        - {at: 0}
+        - {caption: 1, crop: [0, 650, 1600, 1240]}
+    captions:
+      - {at: 0.4, dur: 4, text: "Five held-out sets, one factorization: GENCO + 1 step misses 32 violating elements, the pre-contingency start 1,250."}
+      - {at: 7.0, dur: 4, text: "Sequential policies (stars): 1.37–1.65 factorizations from GENCO against 2.14–2.96, with no misses."}
+
+  # h) confirmation run ----------------------------------------------------------------------------
+  - id: confirm
+    type: slide
+    duration: 16.5
+    card:
+      kind: text
+      heading: "Confirmation run"
+      stats:
+        - {big: "0 of 17,095", small: "violating elements missed"}
+        - {big: "37–44%", small: "fewer factorizations"}
+      bullets:
+        - "Protocol written and hashed (SHA-256 027cf172…) before any data was generated"
+        - "Four fresh IEEE 118 sets, N-1 to N-5, 8,796 scenarios, new seeds"
+        - "A different load profile: ERCOT East 2024"
+    captions:
+      - {at: 0.4, dur: 4, text: "We froze the rule and hashed the protocol before generating any data.", say: "We froze the rule and hashed the protocol before generating any data."}
+      - {at: 6.0, dur: 4, text: "Fresh data from a different load profile: 0 of 17,095 violating elements missed."}
+      - {at: 11.4, dur: 4, text: "GENCO's policy needed 37–44% fewer factorizations than the pre-contingency start."}
+
+  # i) slack finding -------------------------------------------------------------------------------
+  - id: slack
+    type: slide
+    duration: 19
+    card:
+      kind: text
+      heading: "What GENCO reports and what it computes"
+      table:
+        title: "Largest nodal mismatch, median"
+        header: ["Grid, model", "Reported (MW)", "Physical (MW)", "Ratio"]
+        rows:
+          - ["IEEE 14 / 57 Base", "0.0048 / 0.033", "0.17 / 1.04", "36× / 32×"]
+          - ["IEEE 118 Base", "0.29", "17.4", "60× [45, 79]"]
+          - ["IEEE 118 Small / Tiny", "0.45 / 0.58", "16.8 / 20.2", "37× / 35×"]
+          - ["GOC 500 Base", "4.5", "86", "19× [12, 29]"]
+          - ["GOC 2000 Small", "11.0", "217", "20× [16, 26]"]
+      footnote: "Reported: at GENCO's predicted slack voltage. Physical: at the dispatch setpoint."
+    captions:
+      - {at: 0.4, dur: 4, text: "The slack-bus voltage is masked and predicted, though in the data it is a fixed setpoint."}
+      - {at: 7.0, dur: 4, text: "At the setpoint, the largest nodal mismatch is 32–60× higher on IEEE 14–118."}
+      - {at: 13.4, dur: 4, text: "IEEE 118 Base: 0.29 MW reported, 17.4 MW physical. PQ voltages stay accurate.", say: "IEEE 118 Base: 0.29 megawatts reported, 17.4 megawatts physical. PQ voltages stay accurate."}
+
+  # j) Fig. 5 GENCO-Delta -------------------------------------------------------------------------
+  - id: fig5
+    type: slide
+    duration: 15
+    card:
+      kind: figure
+      heading: "Fig. 5   GENCO-Δ on IEEE 118: conditioning on the base case"
+      image: results/figures/post/figF_genco_delta.png
+      views:
+        - {at: 0}
+        - {caption: 1, crop: [0, 590, 1600, 1170]}
+    captions:
+      - {at: 0.4, dur: 4, text: "GENCO-Δ conditions the model on the base case. A residual decoder cuts N-1 state error 2.5×.", say: "GENCO delta conditions the model on the base case. A residual decoder cuts N minus 1 state error 2.5 times."}
+      - {at: 7.8, dur: 4, text: "Iterations to 10⁻² MW fall (green), but not to 10⁻⁴ MW. Mixed N-k training trades the N-1 gain for an N-5 fix.", say: "Iterations to ten to the minus two megawatts fall, but not to ten to the minus four. Mixed N minus k training trades the N minus 1 gain for an N minus 5 fix."}
+
+  # k) what did not work -------------------------------------------------------------------------
+  - id: negative
+    type: slide
+    duration: 17.5
+    card:
+      kind: text
+      heading: "What did not work"
+      table:
+        header: ["Idea", "Outcome"]
+        rows:
+          - ["Error warnings from GENCO's embeddings", "A 118-entry bus lookup explains R² 0.55 of per-bus voltage error, the embeddings 0.58"]
+          - ["Per-bus bias correction", "0.3% of squared error in-sample, nothing out of sample"]
+          - ["Accepting GENCO with no Newton step", "Its own residual never certifies a whole contingency"]
+          - ["Wall-clock time", "GENCO takes 8.7 ms per contingency on a laptop GPU; break-even is 0.015–0.6 ms"]
+        wide: true
+    captions:
+      - {at: 0.4, dur: 4, text: "Embedding error warnings: a plain bus lookup explains R² 0.55, the embeddings 0.58.", say: "Embedding error warnings: a plain bus lookup explains R squared 0.55, the embeddings 0.58."}
+      - {at: 6.2, dur: 4, text: "Bias correction gave nothing out of sample; GENCO's own residual never certifies a contingency."}
+      - {at: 12.0, dur: 4, text: "Wall-clock: 8.7 ms per contingency on a laptop GPU, against break-evens of 0.015–0.6 ms."}
+
+  # l) end card -----------------------------------------------------------------------------------
+  - id: end
+    type: slide
+    duration: 8
+    card:
+      kind: end
+      title: "Code, data, checkpoints and demo:"
+      author: "Muhammad Sarwar"
+      contact: "msarwar@iastate.edu"
+    captions: []
