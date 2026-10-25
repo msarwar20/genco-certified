@@ -628,3 +628,22 @@ Headline numbers with partial or missing sources
 21. **Calibration-test independence**: all calibration and test sets share the 100-hour global load trajectory (corr 0.95); the published paper set's trajectory overlap with `calib/n1` was not checked; load-scenario UBs (0.56%) are optimistic. A calibration set from another `agg_profile` was not generated.
 22. **Hidden-layer figures**: `fig1`-`fig4` PNGs were generated before WS0 corrections (`make_figures.py` still calls the legacy table); `results/figures/post/` does not exist yet (agent V). `run_all.sh` does not yet call exp07/`--ci`/`--xcal`/exp06 hooks.
 23. **Dataset realism**: duplicates ~4% of random N-1 rows; hard-to-solve cases dropped by datakit (N-2: 1; N-5: 6) so NR flat-start robustness is conditioned on datakit's AC-feasible scenarios.
+
+---
+
+## 13. Added 2026-10-25
+
+- **GOC 2000 factor reuse** (exp07, Small seed 0, 879 held out; `results/notes/ws1_F2_goc2000_reuse.md`, `results/exp07/*_goc2000.*`). Solve saving at 1e-4 MW:
+  - full NR −26% [−29, −24];
+  - chordC +2% [1, 2];
+  - FDLF −18% [−20, −16];
+  - plain chord +15% on the 745 converged.
+
+  Same-solver break-even: −3.29 / +0.11 / −0.19 ms (NR / chordC / FDLF). Timing is provisional: 220 contingencies, loaded machine.
+- **Frozen-protocol confirmation** (`results/notes/confirm_Z.md`, `results/confirm/`). The protocol sha256 is 027cf172823fdb3e3b0d8eac592d3b80018cbb50b558352b04d0a1803551aa42, written before the data existed.
+  - Data: seeds 5101/5102/5103/5105, 8,796 scenarios, load profile `ercot_load_act_hr_2024_east`, per-index demand correlation −0.44 to −0.50 with calib/stress100.
+  - Misses: 0 in all 36 cells, pooled 0/17,095 elements (one-sided UB 0.018%), 0/5,713 contingencies (0.052%), 0/400 load scenarios (0.75%).
+  - Cost (conf0.10): GENCO seq 1.38 / 1.42 / 1.57 / 1.71 vs base 2.19 / 2.53 / 2.77 / 2.98, i.e. 37–44% fewer.
+  - Exceedance: 5 / 6 / 10 / 6%.
+  - GENCO − base iterations to 1e-6 MW: −0.83 / −0.98 / −0.95 / −0.94.
+- **N-k residual GENCO-Δ**: see the RESEARCH_LOG entry of 2026-10-25.

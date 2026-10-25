@@ -1,0 +1,16 @@
+timing case2000_goc_small_seed0_h879: 220 contingencies / 10 load scenarios (first 10), 3 repeats, loadavg 5.37 -> 4.68 (LOADED: provisional), 118s
+(log reconstructed from timing json after the original was overwritten by a backup restore; commands: see ws1_F2_goc2000_reuse.md)
+  nr|flat|0.0001            29.715 ms  [27.648, 32.074]  iters 5.40
+  nr|base|0.0001            13.020 ms  [12.468, 13.474]  iters 2.40
+  nr|genco|0.0001           16.311 ms  [16.028, 16.567]  iters 3.00
+  chord|base|0.0001          4.472 ms  [4.017, 4.887]  iters 17.39
+  chord|genco|0.0001         4.091 ms  [3.645, 4.508]  iters 16.45
+  chordC|base|0.0001         2.411 ms  [2.294, 2.523]  iters 4.15
+  chordC|genco|0.0001        2.297 ms  [2.185, 2.404]  iters 3.94
+  chordC_bd|base|0.0001      2.222 ms  [2.115, 2.310]  iters 4.15
+  chordC_bd|genco|0.0001     2.172 ms  [2.072, 2.252]  iters 3.94
+  fdlf|base|0.0001           1.497 ms  [1.445, 1.562]  iters 5.02
+  fdlf|genco|0.0001          1.692 ms  [1.647, 1.742]  iters 6.33
+  fdlf_bd|base|0.0001        1.401 ms  [1.360, 1.443]  iters 5.02
+  fdlf_bd|genco|0.0001       1.636 ms  [1.600, 1.672]  iters 6.33
+  base factorization ms per load scenario: {'chord': 5.216, 'chordC': 5.269, 'chordC_bd': 4.985, 'fdlf': 3.992, 'fdlf_bd': 3.842}

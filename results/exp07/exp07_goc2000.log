@@ -1,0 +1,307 @@
+exp07 summary: industry-style solvers (factorization reuse) from base-case vs GENCO starts; cluster bootstrap (2000) over load scenarios
+iters = Newton/chord iterations (FDLF: full P+Q iterations); solves = triangular-solve pairs incl. compensation setup; fact = LU factorizations per contingency
+(NR: one Jacobian factorization and one solve per iteration; reuse methods: the per-load-scenario base factorization is NOT included, it is amortised in the cost table)
+'mean' is over scenarios that reached the tolerance within 50 iterations; failures are counted separately. NaN-iteration scenarios of both starts are dropped in the paired rows.
+
+==============================================================================================================
+case2000_goc_small_seed0_h879: 879 contingencies, 40 load scenarios; with a PV->PQ change: 30; mean outaged branches 0.95
+
+  [all]  iterations / solves / factorizations to tolerance, mean [95% CI]; fail = not reached in 50 iterations
+  tolerance 0.01 MW
+    nr      flat   iters      6.20 [5.88, 6.51]  solves      6.20 [5.88, 6.51]  fact  6.20  fail   1/879
+    nr      base   iters      2.06 [2.04, 2.09]  solves      2.06 [2.04, 2.09]  fact  2.06  fail   0/879
+    nr      genco  iters      2.63 [2.48, 2.77]  solves      2.63 [2.48, 2.77]  fact  2.63  fail   0/879
+    chord   base   iters   12.76 [12.05, 13.52]  solves   12.76 [12.05, 13.52]  fact  0.03  fail  80/879
+    chord   genco  iters    10.62 [9.87, 11.42]  solves    10.62 [9.87, 11.42]  fact  0.03  fail  61/879
+    chordC  base   iters      2.70 [2.61, 2.80]  solves      6.47 [6.34, 6.59]  fact  0.03  fail   0/879
+    chordC  genco  iters      2.94 [2.84, 3.03]  solves      6.70 [6.57, 6.83]  fact  0.03  fail   0/879
+    fdlf    base   iters      3.42 [3.37, 3.46]  solves      9.65 [9.54, 9.75]  fact  0.03  fail   0/879
+    fdlf    genco  iters      4.38 [4.32, 4.44]  solves   11.57 [11.42, 11.73]  fact  0.03  fail   0/879
+  tolerance 0.0001 MW
+    nr      flat   iters      6.55 [6.25, 6.83]  solves      6.55 [6.25, 6.83]  fact  6.55  fail   1/879
+    nr      base   iters      2.37 [2.33, 2.41]  solves      2.37 [2.33, 2.41]  fact  2.37  fail   0/879
+    nr      genco  iters      3.00 [3.00, 3.00]  solves      3.00 [3.00, 3.00]  fact  3.00  fail   0/879
+    chord   base   iters   16.81 [16.05, 17.62]  solves   16.81 [16.05, 17.62]  fact  0.03  fail 132/879
+    chord   genco  iters   15.08 [14.35, 15.84]  solves   15.08 [14.35, 15.84]  fact  0.03  fail 113/879
+    chordC  base   iters      4.04 [3.90, 4.19]  solves      7.81 [7.65, 7.97]  fact  0.03  fail   0/879
+    chordC  genco  iters      3.93 [3.80, 4.05]  solves      7.69 [7.53, 7.85]  fact  0.03  fail   0/879
+    fdlf    base   iters      5.16 [5.10, 5.21]  solves   13.13 [13.01, 13.25]  fact  0.03  fail   0/879
+    fdlf    genco  iters      6.34 [6.26, 6.42]  solves   15.50 [15.32, 15.67]  fact  0.03  fail   0/879
+
+  paired GENCO-start minus base-start (all contingencies), mean difference [95% CI] and relative saving in iterations / solves:
+    nr      tol 0.01  d_iters        0.57 [0.40, 0.72]  saving_iters   -0.27 [-0.35, -0.19]  saving_solves   -0.27 [-0.35, -0.19]  GENCO fewer in 4%, more in 59%  (n=879, excl 0)
+    nr      tol 0.0001  d_iters        0.63 [0.59, 0.67]  saving_iters   -0.26 [-0.29, -0.24]  saving_solves   -0.26 [-0.29, -0.24]  GENCO fewer in 1%, more in 64%  (n=879, excl 0)
+    chord   tol 0.01  d_iters     -2.85 [-3.10, -2.61]  saving_iters      0.22 [0.21, 0.24]  saving_solves      0.22 [0.21, 0.24]  GENCO fewer in 86%, more in 5%  (n=799, excl 80)
+    chord   tol 0.0001  d_iters     -2.52 [-2.71, -2.34]  saving_iters      0.15 [0.14, 0.16]  saving_solves      0.15 [0.14, 0.16]  GENCO fewer in 86%, more in 5%  (n=745, excl 134)
+    chordC  tol 0.01  d_iters        0.23 [0.12, 0.35]  saving_iters   -0.09 [-0.13, -0.04]  saving_solves   -0.04 [-0.05, -0.02]  GENCO fewer in 16%, more in 40%  (n=879, excl 0)
+    chordC  tol 0.0001  d_iters     -0.12 [-0.19, -0.04]  saving_iters      0.03 [0.01, 0.05]  saving_solves      0.02 [0.01, 0.02]  GENCO fewer in 25%, more in 18%  (n=879, excl 0)
+    fdlf    tol 0.01  d_iters        0.96 [0.89, 1.04]  saving_iters   -0.28 [-0.31, -0.26]  saving_solves   -0.20 [-0.22, -0.18]  GENCO fewer in 2%, more in 90%  (n=879, excl 0)
+    fdlf    tol 0.0001  d_iters        1.18 [1.08, 1.28]  saving_iters   -0.23 [-0.25, -0.21]  saving_solves   -0.18 [-0.20, -0.16]  GENCO fewer in 2%, more in 92%  (n=879, excl 0)
+
+==============================================================================================================
+FAILURES (not converged to the tolerance within the iteration cap: 30 for NR, 50 for the reuse solvers)
+                          set method start   n  n_fail  iters_max
+case2000_goc_small_seed0_h879     nr  flat 879       1        9.0
+case2000_goc_small_seed0_h879     nr  base 879       0        4.0
+case2000_goc_small_seed0_h879     nr genco 879       0        4.0
+case2000_goc_small_seed0_h879  chord  base 879     132       50.0
+case2000_goc_small_seed0_h879  chord genco 879     113       50.0
+case2000_goc_small_seed0_h879 chordC  base 879       0       33.0
+case2000_goc_small_seed0_h879 chordC genco 879       0       32.0
+case2000_goc_small_seed0_h879   fdlf  base 879       0        9.5
+case2000_goc_small_seed0_h879   fdlf genco 879       0        8.5
+
+failure reasons:                           set method start reason  count
+case2000_goc_small_seed0_h879  chord  base max_it    132
+case2000_goc_small_seed0_h879  chord genco max_it    113
+
+==============================================================================================================
+END-TO-END COST per contingency, case118_ieee_base_seed0: 638 contingencies, 29 load scenarios, single thread, min of 5 repeats; load average 2.26 -> 2.50 on 10 cores  ** PROVISIONAL: the machine was loaded during the benchmark **
+pure python/scipy implementations. 'measured' = wall-clock of these implementations; 'model' = counts x building-block times with the Jacobian assembly charged at 2 mismatch evaluations (compiled-code-like), which strips python overhead from full Newton and favours the classical baseline.
+base factorization per load scenario, measured (Jacobian derivatives + LU for chord; B', B'' LUs for fdlf): chord 0.655 ms, fdlf 0.477 ms; amortised over 22.0 contingencies per load scenario in this set, or over 240 for an exhaustive N-1 sweep
+building blocks, median ms on one IEEE 118 problem (single thread): mismatch eval 0.0058; Jacobian assembly (acpf.jacobian) 0.5277; LU factorization of J (splu) 0.0530; triangular-solve pair with J factors 0.0050; spsolve(J, -F) (factorize+solve, as in NR) 0.0639; LU factorization of B' (splu) 0.0333; LU factorization of B'' (splu) 0.0138; triangular-solve pair with B' 0.0050; triangular-solve pair with B'' 0.0041; apply_dx (voltage update) 0.0077
+  => one LU of the Jacobian costs 10.6 triangular-solve pairs; assembling the Jacobian in python costs 106; a mismatch evaluation 1.2
+mean cold pattern-creation time per contingency (new B''/Jacobian factorization for PV->PQ changes; already included in the measured solve times below): chord 0.106, chordC 0.097, chordC_bd 0.123, fdlf 0.020, fdlf_bd 0.039 ms
+GENCO inference ms per scenario (results/runtime/case118_ieee_base.json, measured earlier, 4 torch threads): GENCO CPU bs=1 (4 threads) 24.3, GENCO CPU bs=16 12.1, GENCO MPS bs=16 8.7, GENCO MPS bs=128, 9 layers 7.7
+
+  tolerance 0.01 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 240 (exhaustive N-1) | model | iters | not converged
+    nr         flat     1.954 [1.948, 1.960] + 0.000 =   1.954   model     n/a   iters  3.01   not converged 0
+    nr         base     1.273 [1.253, 1.293] + 0.000 =   1.273   model     n/a   iters  2.04   not converged 0
+    nr         genco    1.071 [0.986, 1.153] + 0.000 =   1.071   model     n/a   iters  1.72   not converged 0
+    chord      base     0.531 [0.514, 0.551] + 0.003 =   0.534   model     n/a   iters 14.64   not converged 59
+    chord      genco    0.323 [0.303, 0.345] + 0.003 =   0.326   model     n/a   iters  7.80   not converged 16
+    chordC     base     0.715 [0.698, 0.730] + 0.003 =   0.717   model     n/a   iters  2.74   not converged 0
+    chordC     genco    0.686 [0.669, 0.701] + 0.003 =   0.689   model     n/a   iters  1.93   not converged 0
+    chordC_bd  base     0.738 [0.725, 0.750] + 0.003 =   0.740   model     n/a   iters  2.74   not converged 0
+    chordC_bd  genco    0.711 [0.698, 0.723] + 0.003 =   0.714   model     n/a   iters  1.93   not converged 0
+    fdlf       base     0.282 [0.278, 0.285] + 0.002 =   0.284   model     n/a   iters  3.33   not converged 0
+    fdlf       genco    0.262 [0.256, 0.268] + 0.002 =   0.264   model     n/a   iters  2.95   not converged 0
+    fdlf_bd    base     0.299 [0.295, 0.302] + 0.002 =   0.300   model     n/a   iters  3.33   not converged 0
+    fdlf_bd    genco    0.282 [0.275, 0.288] + 0.002 =   0.283   model     n/a   iters  2.95   not converged 0
+
+  tolerance 0.0001 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 240 (exhaustive N-1) | model | iters | not converged
+    nr         flat     2.547 [2.543, 2.552] + 0.000 =   2.547   model     n/a   iters  4.00   not converged 0
+    nr         base     1.553 [1.527, 1.578] + 0.000 =   1.553   model     n/a   iters  2.49   not converged 0
+    nr         genco    1.247 [1.244, 1.250] + 0.000 =   1.247   model     n/a   iters  2.00   not converged 0
+    chord      base     0.672 [0.653, 0.694] + 0.003 =   0.675   model     n/a   iters 17.77   not converged 126
+    chord      genco    0.517 [0.498, 0.539] + 0.003 =   0.520   model     n/a   iters 14.65   not converged 52
+    chordC     base     0.747 [0.731, 0.763] + 0.003 =   0.750   model     n/a   iters  4.11   not converged 0
+    chordC     genco    0.710 [0.694, 0.726] + 0.003 =   0.713   model     n/a   iters  2.83   not converged 0
+    chordC_bd  base     0.776 [0.763, 0.788] + 0.003 =   0.778   model     n/a   iters  4.11   not converged 0
+    chordC_bd  genco    0.738 [0.725, 0.749] + 0.003 =   0.740   model     n/a   iters  2.83   not converged 0
+    fdlf       base     0.347 [0.342, 0.351] + 0.002 =   0.349   model     n/a   iters  5.21   not converged 0
+    fdlf       genco    0.332 [0.325, 0.339] + 0.002 =   0.334   model     n/a   iters  4.91   not converged 0
+    fdlf_bd    base     0.367 [0.363, 0.371] + 0.002 =   0.368   model     n/a   iters  5.21   not converged 0
+    fdlf_bd    genco    0.354 [0.347, 0.363] + 0.002 =   0.356   model     n/a   iters  4.91   not converged 0
+
+BREAK-EVEN GENCO INFERENCE TIME per contingency (ms) = what the solver saves by starting from GENCO instead of the base case (negative: no saving)
+  'same solver': both starts use the same solver. 'vs cheapest': GENCO start + solver against the cheapest base-start solver the operator could run instead.
+  [measured] tolerance 0.01: cheapest base-start solver = fdlf at 0.284 ms
+      nr         base   1.273 ms, GENCO   1.071 ms -> break-even   0.202 ms (same solver),  -0.787 ms (vs cheapest base-start solver)
+      chord      base   0.534 ms, GENCO   0.326 ms -> break-even   0.208 ms (same solver),  -0.042 ms (vs cheapest base-start solver)
+      chordC     base   0.717 ms, GENCO   0.689 ms -> break-even   0.029 ms (same solver),  -0.405 ms (vs cheapest base-start solver)
+      chordC_bd  base   0.740 ms, GENCO   0.714 ms -> break-even   0.026 ms (same solver),  -0.430 ms (vs cheapest base-start solver)
+      fdlf       base   0.284 ms, GENCO   0.264 ms -> break-even   0.020 ms (same solver),   0.020 ms (vs cheapest base-start solver)
+      fdlf_bd    base   0.300 ms, GENCO   0.283 ms -> break-even   0.017 ms (same solver),   0.001 ms (vs cheapest base-start solver)
+  [measured] tolerance 0.0001: cheapest base-start solver = fdlf at 0.349 ms
+      nr         base   1.553 ms, GENCO   1.247 ms -> break-even   0.306 ms (same solver),  -0.898 ms (vs cheapest base-start solver)
+      chord      base   0.675 ms, GENCO   0.520 ms -> break-even   0.155 ms (same solver),  -0.171 ms (vs cheapest base-start solver)
+      chordC     base   0.750 ms, GENCO   0.713 ms -> break-even   0.037 ms (same solver),  -0.364 ms (vs cheapest base-start solver)
+      chordC_bd  base   0.778 ms, GENCO   0.740 ms -> break-even   0.038 ms (same solver),  -0.391 ms (vs cheapest base-start solver)
+      fdlf       base   0.349 ms, GENCO   0.334 ms -> break-even   0.015 ms (same solver),   0.015 ms (vs cheapest base-start solver)
+      fdlf_bd    base   0.368 ms, GENCO   0.356 ms -> break-even   0.012 ms (same solver),  -0.007 ms (vs cheapest base-start solver)
+
+  largest same-solver break-even over all rows: 0.306 ms; measured GENCO inference is 79x (GENCO CPU bs=1 (4 threads)), 40x (GENCO CPU bs=16), 29x (GENCO MPS bs=16), 25x (GENCO MPS bs=128, 9 layers) of that
+
+==============================================================================================================
+END-TO-END COST per contingency, case2000_goc_small_seed0_h879: 220 contingencies, 10 load scenarios, single thread, min of 3 repeats; load average 5.37 -> 4.68 on 10 cores  ** PROVISIONAL: the machine was loaded during the benchmark **
+pure python/scipy implementations. 'measured' = wall-clock of these implementations; 'model' = counts x building-block times with the Jacobian assembly charged at 2 mismatch evaluations (compiled-code-like), which strips python overhead from full Newton and favours the classical baseline.
+base factorization per load scenario, measured (Jacobian derivatives + LU for chord; B', B'' LUs for fdlf): chord 5.216 ms, fdlf 3.992 ms; amortised over 22.0 contingencies per load scenario in this set, or over 22.0 for an exhaustive N-1 sweep
+building blocks, median ms on one IEEE 118 problem (single thread): mismatch eval 0.0175; Jacobian assembly (acpf.jacobian) 1.4447; LU factorization of J (splu) 3.6423; triangular-solve pair with J factors 0.1152; spsolve(J, -F) (factorize+solve, as in NR) 3.8264; LU factorization of B' (splu) 1.4177; LU factorization of B'' (splu) 1.2249; triangular-solve pair with B' 0.0398; triangular-solve pair with B'' 0.0381; apply_dx (voltage update) 0.0508
+  => one LU of the Jacobian costs 31.6 triangular-solve pairs; assembling the Jacobian in python costs 13; a mismatch evaluation 0.2
+mean cold pattern-creation time per contingency (new B''/Jacobian factorization for PV->PQ changes; already included in the measured solve times below): chord 0.172, chordC 0.162, chordC_bd 0.102, fdlf 0.075, fdlf_bd 0.049 ms
+GENCO inference ms per scenario (results/runtime/case118_ieee_base.json, measured earlier, 4 torch threads): GENCO CPU bs=1 (4 threads) 24.3, GENCO CPU bs=16 12.1, GENCO MPS bs=16 8.7, GENCO MPS bs=128, 9 layers 7.7
+
+  tolerance 0.01 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 22.0 (exhaustive N-1) | model | iters | not converged
+    nr         flat    28.256 [27.374, 29.375] + 0.000 =  28.256   model 24.047   iters  5.10   not converged 0
+    nr         base    11.297 [11.011, 11.539] + 0.000 =  11.297   model  7.989   iters  2.08   not converged 0
+    nr         genco   14.106 [12.482, 15.736] + 0.000 =  14.106   model 10.181   iters  2.60   not converged 0
+    chord      base     3.403 [2.984, 3.823] + 0.237 =   3.640   model  3.274   iters 14.17   not converged 23
+    chord      genco    2.808 [2.422, 3.196] + 0.237 =   3.045   model  2.760   iters 12.19   not converged 14
+    chordC     base     2.110 [2.001, 2.230] + 0.239 =   2.350   model  1.240   iters  2.74   not converged 0
+    chordC     genco    2.082 [1.997, 2.188] + 0.239 =   2.321   model  1.283   iters  2.91   not converged 0
+    chordC_bd  base     1.942 [1.855, 2.015] + 0.227 =   2.168   model     n/a   iters  2.74   not converged 0
+    chordC_bd  genco    1.987 [1.918, 2.052] + 0.227 =   2.214   model     n/a   iters  2.91   not converged 0
+    fdlf       base     1.191 [1.151, 1.244] + 0.181 =   1.372   model  1.022   iters  3.28   not converged 0
+    fdlf       genco    1.345 [1.303, 1.394] + 0.181 =   1.526   model  1.228   iters  4.31   not converged 0
+    fdlf_bd    base     1.096 [1.060, 1.131] + 0.175 =   1.270   model     n/a   iters  3.28   not converged 0
+    fdlf_bd    genco    1.264 [1.227, 1.301] + 0.175 =   1.439   model     n/a   iters  4.31   not converged 0
+
+  tolerance 0.0001 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 22.0 (exhaustive N-1) | model | iters | not converged
+    nr         flat    29.715 [27.648, 32.074] + 0.000 =  29.715   model 25.426   iters  5.40   not converged 0
+    nr         base    13.020 [12.468, 13.474] + 0.000 =  13.020   model  9.184   iters  2.40   not converged 0
+    nr         genco   16.311 [16.028, 16.567] + 0.000 =  16.311   model 11.604   iters  3.00   not converged 0
+    chord      base     4.472 [4.017, 4.887] + 0.237 =   4.709   model  4.308   iters 17.39   not converged 44
+    chord      genco    4.091 [3.645, 4.508] + 0.237 =   4.328   model  3.900   iters 16.45   not converged 34
+    chordC     base     2.411 [2.294, 2.523] + 0.239 =   2.650   model  1.485   iters  4.15   not converged 0
+    chordC     genco    2.297 [2.185, 2.404] + 0.239 =   2.537   model  1.464   iters  3.94   not converged 0
+    chordC_bd  base     2.222 [2.115, 2.310] + 0.227 =   2.448   model     n/a   iters  4.15   not converged 0
+    chordC_bd  genco    2.172 [2.072, 2.252] + 0.227 =   2.399   model     n/a   iters  3.94   not converged 0
+    fdlf       base     1.497 [1.445, 1.562] + 0.181 =   1.679   model  1.396   iters  5.02   not converged 0
+    fdlf       genco    1.692 [1.647, 1.742] + 0.181 =   1.873   model  1.649   iters  6.33   not converged 0
+    fdlf_bd    base     1.401 [1.360, 1.443] + 0.175 =   1.575   model     n/a   iters  5.02   not converged 0
+    fdlf_bd    genco    1.636 [1.600, 1.672] + 0.175 =   1.811   model     n/a   iters  6.33   not converged 0
+
+BREAK-EVEN GENCO INFERENCE TIME per contingency (ms) = what the solver saves by starting from GENCO instead of the base case (negative: no saving)
+  'same solver': both starts use the same solver. 'vs cheapest': GENCO start + solver against the cheapest base-start solver the operator could run instead.
+  [measured] tolerance 0.01: cheapest base-start solver = fdlf_bd at 1.270 ms
+      nr         base  11.297 ms, GENCO  14.106 ms -> break-even  -2.809 ms (same solver), -12.836 ms (vs cheapest base-start solver)
+      chord      base   3.640 ms, GENCO   3.045 ms -> break-even   0.595 ms (same solver),  -1.775 ms (vs cheapest base-start solver)
+      chordC     base   2.350 ms, GENCO   2.321 ms -> break-even   0.028 ms (same solver),  -1.051 ms (vs cheapest base-start solver)
+      chordC_bd  base   2.168 ms, GENCO   2.214 ms -> break-even  -0.045 ms (same solver),  -0.943 ms (vs cheapest base-start solver)
+      fdlf       base   1.372 ms, GENCO   1.526 ms -> break-even  -0.154 ms (same solver),  -0.256 ms (vs cheapest base-start solver)
+      fdlf_bd    base   1.270 ms, GENCO   1.439 ms -> break-even  -0.169 ms (same solver),  -0.169 ms (vs cheapest base-start solver)
+  [measured] tolerance 0.0001: cheapest base-start solver = fdlf_bd at 1.575 ms
+      nr         base  13.020 ms, GENCO  16.311 ms -> break-even  -3.290 ms (same solver), -14.735 ms (vs cheapest base-start solver)
+      chord      base   4.709 ms, GENCO   4.328 ms -> break-even   0.381 ms (same solver),  -2.753 ms (vs cheapest base-start solver)
+      chordC     base   2.650 ms, GENCO   2.537 ms -> break-even   0.113 ms (same solver),  -0.962 ms (vs cheapest base-start solver)
+      chordC_bd  base   2.448 ms, GENCO   2.399 ms -> break-even   0.050 ms (same solver),  -0.823 ms (vs cheapest base-start solver)
+      fdlf       base   1.679 ms, GENCO   1.873 ms -> break-even  -0.194 ms (same solver),  -0.298 ms (vs cheapest base-start solver)
+      fdlf_bd    base   1.575 ms, GENCO   1.811 ms -> break-even  -0.236 ms (same solver),  -0.236 ms (vs cheapest base-start solver)
+  [model] tolerance 0.01: cheapest base-start solver = fdlf at 1.022 ms
+      nr         base   7.989 ms, GENCO  10.181 ms -> break-even  -2.192 ms (same solver),  -9.159 ms (vs cheapest base-start solver)
+      chord      base   3.274 ms, GENCO   2.760 ms -> break-even   0.513 ms (same solver),  -1.739 ms (vs cheapest base-start solver)
+      chordC     base   1.240 ms, GENCO   1.283 ms -> break-even  -0.043 ms (same solver),  -0.261 ms (vs cheapest base-start solver)
+      fdlf       base   1.022 ms, GENCO   1.228 ms -> break-even  -0.207 ms (same solver),  -0.207 ms (vs cheapest base-start solver)
+  [model] tolerance 0.0001: cheapest base-start solver = fdlf at 1.396 ms
+      nr         base   9.184 ms, GENCO  11.604 ms -> break-even  -2.420 ms (same solver), -10.208 ms (vs cheapest base-start solver)
+      chord      base   4.308 ms, GENCO   3.900 ms -> break-even   0.408 ms (same solver),  -2.504 ms (vs cheapest base-start solver)
+      chordC     base   1.485 ms, GENCO   1.464 ms -> break-even   0.021 ms (same solver),  -0.068 ms (vs cheapest base-start solver)
+      fdlf       base   1.396 ms, GENCO   1.649 ms -> break-even  -0.253 ms (same solver),  -0.253 ms (vs cheapest base-start solver)
+
+  largest same-solver break-even over all rows: 0.595 ms; measured GENCO inference is 41x (GENCO CPU bs=1 (4 threads)), 20x (GENCO CPU bs=16), 15x (GENCO MPS bs=16), 13x (GENCO MPS bs=128, 9 layers) of that
+
+==============================================================================================================
+END-TO-END COST per contingency, case500_goc_base_seed0: 176 contingencies, 8 load scenarios, single thread, min of 3 repeats; load average 4.25 -> 2.99 on 10 cores  ** PROVISIONAL: the machine was loaded during the benchmark **
+pure python/scipy implementations. 'measured' = wall-clock of these implementations; 'model' = counts x building-block times with the Jacobian assembly charged at 2 mismatch evaluations (compiled-code-like), which strips python overhead from full Newton and favours the classical baseline.
+base factorization per load scenario, measured (Jacobian derivatives + LU for chord; B', B'' LUs for fdlf): chord 3.613 ms, fdlf 2.654 ms; amortised over 22.0 contingencies per load scenario in this set, or over 22.0 for an exhaustive N-1 sweep
+building blocks, median ms on one IEEE 118 problem (single thread): mismatch eval 0.0180; Jacobian assembly (acpf.jacobian) 1.4277; LU factorization of J (splu) 0.9830; triangular-solve pair with J factors 0.0542; spsolve(J, -F) (factorize+solve, as in NR) 1.0607; LU factorization of B' (splu) 0.3198; LU factorization of B'' (splu) 0.2304; triangular-solve pair with B' 0.0282; triangular-solve pair with B'' 0.0231; apply_dx (voltage update) 0.0383
+  => one LU of the Jacobian costs 18.1 triangular-solve pairs; assembling the Jacobian in python costs 26; a mismatch evaluation 0.3
+mean cold pattern-creation time per contingency (new B''/Jacobian factorization for PV->PQ changes; already included in the measured solve times below): chord 0.276, chordC 0.260, chordC_bd 0.206, fdlf 0.087, fdlf_bd 0.075 ms
+GENCO inference ms per scenario (results/runtime/case118_ieee_base.json, measured earlier, 4 torch threads): GENCO CPU bs=1 (4 threads) 24.3, GENCO CPU bs=16 12.1, GENCO MPS bs=16 8.7, GENCO MPS bs=128, 9 layers 7.7
+
+  tolerance 0.01 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 22.0 (exhaustive N-1) | model | iters | not converged
+    nr         flat    14.284 [14.106, 14.474] + 0.000 =  14.284   model     n/a   iters  4.00   not converged 0
+    nr         base     7.098 [6.836, 7.337] + 0.000 =   7.098   model     n/a   iters  2.09   not converged 0
+    nr         genco    6.821 [6.722, 6.914] + 0.000 =   6.821   model     n/a   iters  2.01   not converged 0
+    chord      base     2.770 [2.576, 2.980] + 0.164 =   2.934   model     n/a   iters 14.75   not converged 23
+    chord      genco    2.110 [1.930, 2.306] + 0.164 =   2.275   model     n/a   iters 12.65   not converged 9
+    chordC     base     2.531 [2.472, 2.585] + 0.159 =   2.690   model     n/a   iters  3.01   not converged 0
+    chordC     genco    2.331 [2.274, 2.388] + 0.159 =   2.490   model     n/a   iters  2.38   not converged 0
+    chordC_bd  base     2.383 [2.323, 2.440] + 0.156 =   2.539   model     n/a   iters  3.01   not converged 0
+    chordC_bd  genco    2.236 [2.182, 2.289] + 0.156 =   2.392   model     n/a   iters  2.38   not converged 0
+    fdlf       base     1.235 [1.216, 1.254] + 0.121 =   1.356   model     n/a   iters  3.40   not converged 0
+    fdlf       genco    1.212 [1.183, 1.248] + 0.121 =   1.333   model     n/a   iters  3.71   not converged 0
+    fdlf_bd    base     1.155 [1.140, 1.171] + 0.105 =   1.260   model     n/a   iters  3.40   not converged 0
+    fdlf_bd    genco    1.171 [1.139, 1.210] + 0.105 =   1.276   model     n/a   iters  3.71   not converged 0
+
+  tolerance 0.0001 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 22.0 (exhaustive N-1) | model | iters | not converged
+    nr         flat    15.106 [14.276, 16.086] + 0.000 =  15.106   model     n/a   iters  4.25   not converged 0
+    nr         base     8.589 [8.386, 8.810] + 0.000 =   8.589   model     n/a   iters  2.53   not converged 0
+    nr         genco    8.674 [7.680, 9.708] + 0.000 =   8.674   model     n/a   iters  2.57   not converged 0
+    chord      base     3.451 [3.286, 3.623] + 0.164 =   3.615   model     n/a   iters 17.00   not converged 41
+    chord      genco    3.034 [2.866, 3.189] + 0.164 =   3.198   model     n/a   iters 15.94   not converged 30
+    chordC     base     2.699 [2.620, 2.773] + 0.159 =   2.858   model     n/a   iters  4.40   not converged 0
+    chordC     genco    2.520 [2.448, 2.581] + 0.159 =   2.679   model     n/a   iters  3.68   not converged 0
+    chordC_bd  base     2.585 [2.521, 2.646] + 0.156 =   2.741   model     n/a   iters  4.40   not converged 0
+    chordC_bd  genco    2.436 [2.354, 2.509] + 0.156 =   2.591   model     n/a   iters  3.68   not converged 0
+    fdlf       base     1.507 [1.486, 1.524] + 0.121 =   1.628   model     n/a   iters  5.15   not converged 0
+    fdlf       genco    1.507 [1.470, 1.550] + 0.121 =   1.628   model     n/a   iters  5.62   not converged 0
+    fdlf_bd    base     1.428 [1.404, 1.449] + 0.105 =   1.533   model     n/a   iters  5.15   not converged 0
+    fdlf_bd    genco    1.478 [1.440, 1.526] + 0.105 =   1.583   model     n/a   iters  5.62   not converged 0
+
+BREAK-EVEN GENCO INFERENCE TIME per contingency (ms) = what the solver saves by starting from GENCO instead of the base case (negative: no saving)
+  'same solver': both starts use the same solver. 'vs cheapest': GENCO start + solver against the cheapest base-start solver the operator could run instead.
+  [measured] tolerance 0.01: cheapest base-start solver = fdlf_bd at 1.260 ms
+      nr         base   7.098 ms, GENCO   6.821 ms -> break-even   0.277 ms (same solver),  -5.561 ms (vs cheapest base-start solver)
+      chord      base   2.934 ms, GENCO   2.275 ms -> break-even   0.659 ms (same solver),  -1.014 ms (vs cheapest base-start solver)
+      chordC     base   2.690 ms, GENCO   2.490 ms -> break-even   0.200 ms (same solver),  -1.230 ms (vs cheapest base-start solver)
+      chordC_bd  base   2.539 ms, GENCO   2.392 ms -> break-even   0.147 ms (same solver),  -1.132 ms (vs cheapest base-start solver)
+      fdlf       base   1.356 ms, GENCO   1.333 ms -> break-even   0.023 ms (same solver),  -0.072 ms (vs cheapest base-start solver)
+      fdlf_bd    base   1.260 ms, GENCO   1.276 ms -> break-even  -0.016 ms (same solver),  -0.016 ms (vs cheapest base-start solver)
+  [measured] tolerance 0.0001: cheapest base-start solver = fdlf_bd at 1.533 ms
+      nr         base   8.589 ms, GENCO   8.674 ms -> break-even  -0.085 ms (same solver),  -7.142 ms (vs cheapest base-start solver)
+      chord      base   3.615 ms, GENCO   3.198 ms -> break-even   0.418 ms (same solver),  -1.665 ms (vs cheapest base-start solver)
+      chordC     base   2.858 ms, GENCO   2.679 ms -> break-even   0.179 ms (same solver),  -1.146 ms (vs cheapest base-start solver)
+      chordC_bd  base   2.741 ms, GENCO   2.591 ms -> break-even   0.149 ms (same solver),  -1.059 ms (vs cheapest base-start solver)
+      fdlf       base   1.628 ms, GENCO   1.628 ms -> break-even   0.000 ms (same solver),  -0.095 ms (vs cheapest base-start solver)
+      fdlf_bd    base   1.533 ms, GENCO   1.583 ms -> break-even  -0.051 ms (same solver),  -0.051 ms (vs cheapest base-start solver)
+
+  largest same-solver break-even over all rows: 0.659 ms; measured GENCO inference is 37x (GENCO CPU bs=1 (4 threads)), 18x (GENCO CPU bs=16), 13x (GENCO MPS bs=16), 12x (GENCO MPS bs=128, 9 layers) of that
+
+==============================================================================================================
+END-TO-END COST per contingency, stress_n5_base: 660 contingencies, 30 load scenarios, single thread, min of 5 repeats; load average 2.50 -> 2.42 on 10 cores  ** PROVISIONAL: the machine was loaded during the benchmark **
+pure python/scipy implementations. 'measured' = wall-clock of these implementations; 'model' = counts x building-block times with the Jacobian assembly charged at 2 mismatch evaluations (compiled-code-like), which strips python overhead from full Newton and favours the classical baseline.
+base factorization per load scenario, measured (Jacobian derivatives + LU for chord; B', B'' LUs for fdlf): chord 0.695 ms, fdlf 0.480 ms; amortised over 22.0 contingencies per load scenario in this set, or over 240 for an exhaustive N-1 sweep
+building blocks, median ms on one IEEE 118 problem (single thread): mismatch eval 0.0058; Jacobian assembly (acpf.jacobian) 0.5384; LU factorization of J (splu) 0.0492; triangular-solve pair with J factors 0.0049; spsolve(J, -F) (factorize+solve, as in NR) 0.0566; LU factorization of B' (splu) 0.0349; LU factorization of B'' (splu) 0.0148; triangular-solve pair with B' 0.0052; triangular-solve pair with B'' 0.0040; apply_dx (voltage update) 0.0078
+  => one LU of the Jacobian costs 10.0 triangular-solve pairs; assembling the Jacobian in python costs 110; a mismatch evaluation 1.2
+mean cold pattern-creation time per contingency (new B''/Jacobian factorization for PV->PQ changes; already included in the measured solve times below): chord 0.304, chordC 0.275, chordC_bd 0.336, fdlf 0.052, fdlf_bd 0.106 ms
+GENCO inference ms per scenario (results/runtime/case118_ieee_base.json, measured earlier, 4 torch threads): GENCO CPU bs=1 (4 threads) 24.3, GENCO CPU bs=16 12.1, GENCO MPS bs=16 8.7, GENCO MPS bs=128, 9 layers 7.7
+
+  tolerance 0.01 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 240 (exhaustive N-1) | model | iters | not converged
+    nr         flat     2.088 [2.071, 2.105] + 0.000 =   2.088   model     n/a   iters  3.08   not converged 0
+    nr         base     1.581 [1.549, 1.611] + 0.000 =   1.581   model     n/a   iters  2.49   not converged 0
+    nr         genco    1.188 [1.160, 1.217] + 0.000 =   1.188   model     n/a   iters  1.88   not converged 0
+    chord      base     1.221 [1.199, 1.243] + 0.003 =   1.224   model     n/a   iters 31.86   not converged 280
+    chord      genco    0.908 [0.880, 0.938] + 0.003 =   0.911   model     n/a   iters 21.55   not converged 102
+    chordC     base     1.170 [1.157, 1.184] + 0.003 =   1.173   model     n/a   iters  4.44   not converged 1
+    chordC     genco    1.111 [1.099, 1.123] + 0.003 =   1.113   model     n/a   iters  2.79   not converged 0
+    chordC_bd  base     1.266 [1.249, 1.284] + 0.003 =   1.269   model     n/a   iters  4.44   not converged 1
+    chordC_bd  genco    1.201 [1.185, 1.217] + 0.003 =   1.204   model     n/a   iters  2.79   not converged 0
+    fdlf       base     0.425 [0.420, 0.431] + 0.002 =   0.427   model     n/a   iters  4.29   not converged 0
+    fdlf       genco    0.384 [0.380, 0.389] + 0.002 =   0.386   model     n/a   iters  3.40   not converged 0
+    fdlf_bd    base     0.496 [0.489, 0.503] + 0.001 =   0.497   model     n/a   iters  4.29   not converged 0
+    fdlf_bd    genco    0.455 [0.449, 0.462] + 0.001 =   0.457   model     n/a   iters  3.40   not converged 0
+
+  tolerance 0.0001 MW; ms per contingency: measured solve [95% CI over load scenarios] + base factorization amortised over 240 (exhaustive N-1) | model | iters | not converged
+    nr         flat     2.620 [2.611, 2.630] + 0.000 =   2.620   model     n/a   iters  4.01   not converged 0
+    nr         base     1.941 [1.919, 1.961] + 0.000 =   1.941   model     n/a   iters  3.08   not converged 0
+    nr         genco    1.311 [1.297, 1.326] + 0.000 =   1.311   model     n/a   iters  2.08   not converged 0
+    chord      base     1.359 [1.342, 1.377] + 0.003 =   1.362   model     n/a   iters 36.15   not converged 459
+    chord      genco    1.234 [1.211, 1.257] + 0.003 =   1.237   model     n/a   iters 32.11   not converged 308
+    chordC     base     1.223 [1.209, 1.237] + 0.003 =   1.225   model     n/a   iters  6.69   not converged 1
+    chordC     genco    1.165 [1.152, 1.179] + 0.003 =   1.168   model     n/a   iters  4.76   not converged 0
+    chordC_bd  base     1.338 [1.319, 1.358] + 0.003 =   1.341   model     n/a   iters  6.69   not converged 1
+    chordC_bd  genco    1.268 [1.250, 1.286] + 0.003 =   1.270   model     n/a   iters  4.76   not converged 0
+    fdlf       base     0.507 [0.500, 0.514] + 0.002 =   0.509   model     n/a   iters  6.54   not converged 0
+    fdlf       genco    0.465 [0.459, 0.473] + 0.002 =   0.467   model     n/a   iters  5.53   not converged 0
+    fdlf_bd    base     0.589 [0.581, 0.598] + 0.001 =   0.591   model     n/a   iters  6.54   not converged 0
+    fdlf_bd    genco    0.545 [0.538, 0.554] + 0.001 =   0.547   model     n/a   iters  5.53   not converged 0
+
+BREAK-EVEN GENCO INFERENCE TIME per contingency (ms) = what the solver saves by starting from GENCO instead of the base case (negative: no saving)
+  'same solver': both starts use the same solver. 'vs cheapest': GENCO start + solver against the cheapest base-start solver the operator could run instead.
+  [measured] tolerance 0.01: cheapest base-start solver = fdlf at 0.427 ms
+      nr         base   1.581 ms, GENCO   1.188 ms -> break-even   0.393 ms (same solver),  -0.761 ms (vs cheapest base-start solver)
+      chord      base   1.224 ms, GENCO   0.911 ms -> break-even   0.313 ms (same solver),  -0.484 ms (vs cheapest base-start solver)
+      chordC     base   1.173 ms, GENCO   1.113 ms -> break-even   0.059 ms (same solver),  -0.686 ms (vs cheapest base-start solver)
+      chordC_bd  base   1.269 ms, GENCO   1.204 ms -> break-even   0.065 ms (same solver),  -0.776 ms (vs cheapest base-start solver)
+      fdlf       base   0.427 ms, GENCO   0.386 ms -> break-even   0.041 ms (same solver),   0.041 ms (vs cheapest base-start solver)
+      fdlf_bd    base   0.497 ms, GENCO   0.457 ms -> break-even   0.040 ms (same solver),  -0.030 ms (vs cheapest base-start solver)
+  [measured] tolerance 0.0001: cheapest base-start solver = fdlf at 0.509 ms
+      nr         base   1.941 ms, GENCO   1.311 ms -> break-even   0.630 ms (same solver),  -0.802 ms (vs cheapest base-start solver)
+      chord      base   1.362 ms, GENCO   1.237 ms -> break-even   0.126 ms (same solver),  -0.728 ms (vs cheapest base-start solver)
+      chordC     base   1.225 ms, GENCO   1.168 ms -> break-even   0.058 ms (same solver),  -0.659 ms (vs cheapest base-start solver)
+      chordC_bd  base   1.341 ms, GENCO   1.270 ms -> break-even   0.070 ms (same solver),  -0.761 ms (vs cheapest base-start solver)
+      fdlf       base   0.509 ms, GENCO   0.467 ms -> break-even   0.041 ms (same solver),   0.041 ms (vs cheapest base-start solver)
+      fdlf_bd    base   0.591 ms, GENCO   0.547 ms -> break-even   0.044 ms (same solver),  -0.038 ms (vs cheapest base-start solver)
+
+  largest same-solver break-even over all rows: 0.630 ms; measured GENCO inference is 39x (GENCO CPU bs=1 (4 threads)), 19x (GENCO CPU bs=16), 14x (GENCO MPS bs=16), 12x (GENCO MPS bs=128, 9 layers) of that
+
+==============================================================================================================
+COUNT-BASED COST MODEL AND BREAK-EVEN ON EVERY SET (counts from the per-scenario tables x building-block times of the primary timing run, Jacobian assembly at 2 mismatch evaluations, base factorization amortised over 240 contingencies per load scenario; failed runs charged the iteration cap)
+break-even = model cost from the base-case start minus from the GENCO start, same solver (ms of GENCO inference at which a GENCO start pays off)
+  tolerance 0.01 MW: break-even ms (same solver) [base-start model ms -> GENCO-start model ms]
+    case2000_goc_small_seed0_h879          n=  879  nr -2.192 [7.989->10.181]   chord 0.513 [3.122->2.609]   chordC -0.043 [1.088->1.131]   fdlf -0.207 [0.912->1.119]
+  tolerance 0.0001 MW: break-even ms (same solver) [base-start model ms -> GENCO-start model ms]
+    case2000_goc_small_seed0_h879          n=  879  nr -2.420 [9.184->11.604]   chord 0.408 [4.156->3.748]   chordC 0.021 [1.334->1.312]   fdlf -0.253 [1.286->1.540]
+  largest model break-even over all sets and solvers: 0.513 ms

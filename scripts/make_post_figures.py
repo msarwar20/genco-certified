@@ -714,6 +714,50 @@ def figG_hero():
     save(fig, "figG_hero", D)
 
 
+# =====================================================================================================
+# figH: hero. GENCO's saving by solver and grid size (10^-4 MW, triangular solves, paired vs pre-contingency start)
+# =====================================================================================================
+HERO = [  # grid, buses, solver, saving %, lo, hi, source
+    ("IEEE 118", 118, "Full Newton", 20, 18, 21, "results/exp07/summary_paired_genco_vs_base.csv (notes/ws1_F_baselines_stats.md s.3)"),
+    ("IEEE 118", 118, "Chord + compensation", 21, 20, 21, "same"),
+    ("IEEE 118", 118, "Fast-decoupled + compensation", 5, 2, 8, "same"),
+    ("GOC 500", 500, "Full Newton", 13, 7, 18, "results/notes/batch3_H.md s.2.3"),
+    ("GOC 500", 500, "Chord + compensation", 11, 10, 12, "same"),
+    ("GOC 500", 500, "Fast-decoupled + compensation", -7, -9, -4, "same"),
+    ("GOC 2000", 2000, "Full Newton", -26, -29, -24, "results/notes/ws1_F2_goc2000_reuse.md (results/exp07/*_goc2000.*)"),
+    ("GOC 2000", 2000, "Chord + compensation", 2, 1, 2, "same"),
+    ("GOC 2000", 2000, "Fast-decoupled + compensation", -18, -20, -16, "same"),
+]
+
+
+@figure
+def figH_hero():
+    df = pd.DataFrame(HERO, columns=["grid", "buses", "solver", "saving_pct", "lo", "hi", "source"])
+    fig, ax = plt.subplots(figsize=(8.0, 4.4))
+    x = {"IEEE 118": 0, "GOC 500": 1, "GOC 2000": 2}
+    style = {"Full Newton": ("o", "-"), "Chord + compensation": ("s", "--"), "Fast-decoupled + compensation": ("D", ":")}
+    off = {"Full Newton": -0.06, "Chord + compensation": 0.0, "Fast-decoupled + compensation": 0.06}
+    ax.axhspan(-35, 0, color=C["base"], alpha=0.06, lw=0)
+    ax.axhline(0, color=INK2, lw=1)
+    for solver, g in df.groupby("solver", sort=False):
+        m, ls = style[solver]
+        xs = np.array([x[k] for k in g.grid]) + off[solver]
+        ax.errorbar(xs, g.saving_pct, yerr=[g.saving_pct - g.lo, g.hi - g.saving_pct], fmt=m + ls, color=C["GENCO"],
+                    ms=7, lw=1.6, capsize=0, elinewidth=1.4, mfc=C["GENCO"] if m == "o" else SURFACE, mew=1.6)
+        last = g.iloc[-1]
+        ax.annotate(solver, (xs[-1], last.saving_pct), xytext=(10, 0), textcoords="offset points", va="center",
+                    fontsize=9, color=INK)
+    ax.set_xticks([0, 1, 2], ["IEEE 118\n118 buses", "GOC 500\n500 buses", "GOC 2000\n2,000 buses"])
+    ax.set_xlim(-0.3, 3.05)
+    ax.set_ylim(-33, 28)
+    ax.set_ylabel("Triangular solves saved by a GENCO start\nvs the pre-contingency start (%)")
+    ax.text(-0.25, 25, "GENCO start cheaper", color=C["GENCO"], fontsize=9, va="top")
+    ax.text(-0.25, -30, "pre-contingency start cheaper", color=C["base"], fontsize=9, va="bottom")
+    ax.set_title("What a GENCO prediction saves, by solver and grid size (to 10⁻⁴ MW, 95% CI)", loc="left")
+    fig.tight_layout()
+    save(fig, "figH_hero", df)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", nargs="*", default=None)

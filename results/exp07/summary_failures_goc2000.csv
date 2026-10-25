@@ -1,0 +1,10 @@
+set,method,start,n,n_fail,iters_max
+case2000_goc_small_seed0_h879,nr,flat,879,1,9.0
+case2000_goc_small_seed0_h879,nr,base,879,0,4.0
+case2000_goc_small_seed0_h879,nr,genco,879,0,4.0
+case2000_goc_small_seed0_h879,chord,base,879,132,50.0
+case2000_goc_small_seed0_h879,chord,genco,879,113,50.0
+case2000_goc_small_seed0_h879,chordC,base,879,0,33.0
+case2000_goc_small_seed0_h879,chordC,genco,879,0,32.0
+case2000_goc_small_seed0_h879,fdlf,base,879,0,9.5
+case2000_goc_small_seed0_h879,fdlf,genco,879,0,8.5

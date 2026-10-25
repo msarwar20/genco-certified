@@ -1,0 +1,30 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Processing...
+[config] Converted v0 config -> v1 in memory (file on disk unchanged).
+Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
+Detected 11 Hive partitions — using streaming mode.
+Streaming 11 partitions...
+Processing partitions:   0%|          | 0/11 [00:00<?, ?it/s]Processing partitions:   9%|▉         | 1/11 [00:00<00:02,  3.48it/s]Processing partitions:  18%|█▊        | 2/11 [00:00<00:02,  3.67it/s]Processing partitions:  27%|██▋       | 3/11 [00:00<00:02,  3.72it/s]Processing partitions:  36%|███▋      | 4/11 [00:01<00:01,  3.74it/s]Processing partitions:  45%|████▌     | 5/11 [00:01<00:01,  3.77it/s]Processing partitions:  55%|█████▍    | 6/11 [00:01<00:01,  3.76it/s]Processing partitions:  64%|██████▎   | 7/11 [00:01<00:01,  3.79it/s]Processing partitions:  73%|███████▎  | 8/11 [00:02<00:00,  3.80it/s]Processing partitions:  82%|████████▏ | 9/11 [00:02<00:00,  3.81it/s]Processing partitions:  91%|█████████ | 10/11 [00:02<00:00,  3.79it/s]Processing partitions: 100%|██████████| 11/11 [00:02<00:00,  3.83it/s]Processing partitions: 100%|██████████| 11/11 [00:02<00:00,  3.78it/s]
+Done!
+/Users/msarwar/Desktop/webDev/GridFMChallenge/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:235: UserWarning: Requested number of scenarios (250000) exceeds dataset size (2196). Using the full dataset instead.
+  warnings.warn(
+/Users/msarwar/Desktop/webDev/GridFMChallenge/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:245: UserWarning: `data.scenarios` is ignored when `split_from_existing_files` is set; train/val/test scenario ids are loaded from the provided split files.
+  warnings.warn(
+split='train' len(split_indices)=2
+split='val' len(split_indices)=2
+split='test' len(split_indices)=2196
+Restoring normalizer for case118_ieee from saved stats
+confirm_n5_base: 2196 scenarios (100 load scenarios), 385271 branch-rows in 68s
+  overloaded branches: 8226 (2.14%); scenarios with >=1 overload: 97.1%
+  recertification max |mismatch| at datakit solution: raw-parquet problem 9.89e-07, graphkit problem 7.33e-03; our NR vs datakit state: 2.82e-06
+  dc       recall 0.5581 precision 0.8317 missed 3635 | loading abs err: median 1.90e-02 p99 2.18e-01 max 2.06e+00
+  dc_ours  recall 0.5379 precision 0.8316 missed 3801 | loading abs err: median 1.90e-02 p99 2.20e-01 max 2.06e+00
+  raw      recall 0.8762 precision 0.9453 missed 1018 | loading abs err: median 1.21e-03 p99 5.55e-02 max 1.99e+01
+  phys     recall 0.8398 precision 0.9429 missed 1318 | loading abs err: median 1.21e-03 p99 5.96e-02 max 1.99e+01
+  g1       recall 0.9863 precision 0.9986 missed  113 | loading abs err: median 1.07e-06 p99 1.03e-03 max 9.95e+00
+  g2       recall 0.9903 precision 0.9909 missed   80 | loading abs err: median 1.18e-07 p99 5.11e-06 max 4.47e-01
+  g3       recall 0.9910 precision 0.9909 missed   74 | loading abs err: median 1.15e-07 p99 2.76e-06 max 1.51e-01
+  b1       recall 0.9229 precision 0.9784 missed  634 | loading abs err: median 2.39e-04 p99 4.91e-02 max 1.91e+00
+  b2       recall 0.9895 precision 0.9909 missed   86 | loading abs err: median 4.89e-07 p99 1.60e-03 max 8.53e-01
+  b3       recall 0.9908 precision 0.9909 missed   76 | loading abs err: median 1.20e-07 p99 5.55e-06 max 3.21e-01
+  mean NR iterations (1e-2 / 1e-4 / 1e-6 MW): flat 3.09/4.01/4.04; base 2.53/3.10/3.36; genco 1.88/2.08/2.42; dc 3.01/3.75/4.00

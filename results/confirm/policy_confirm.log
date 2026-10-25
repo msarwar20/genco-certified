@@ -1,0 +1,157 @@
+xcal analysis 'confirm': tau=1.01 eps_v=0.001; 2000 cluster-bootstrap resamples over load scenarios
+calibration: c from ALL 100 load scenarios of calib_n1_base for every other set (cross-set); 5-fold grouped CV for calib_n1_base itself
+rules: max = largest calibration score; conf<a> = split-conformal over load scenarios. Base-case policies use c measured against our own NR (stronger baseline).
+Bounds: cp_hi = Clopper-Pearson two-sided 95% upper limit, cp_hi1 one-sided; load = fraction of LOAD SCENARIOS with >= 1 miss (cluster level).
+Sets: C N-1 = confirm_n1_base (2200 scen, 100 load scen); C N-2 = confirm_n2_base (2200 scen, 100 load scen); C N-3 = confirm_n3_base (2200 scen, 100 load scen); C N-5 = confirm_n5_base (2196 scen, 100 load scen)
+
+==============================================================================================================
+A. POLICIES: LU per contingency and tier-1 share with 95% cluster CIs; element / contingency misses and false alarms; Clopper-Pearson upper bounds
+
+rule max
+    set                           policy    c                   LU             tier1 el_miss  el_fa el_ub cont_miss  cont_fa cont_ub load_miss load_ub
+  C N-1   GENCO tiered (1 step, then NR) 2.18 1.906 [1.829, 1.985] 0.19 [0.14, 0.25]  0/1775      0 0.21%     0/820        0   0.45%     0/100    3.6%
+  C N-1     GENCO sequential (<=3 steps) 2.18 1.807 [1.751, 1.861] 0.19 [0.14, 0.25]  0/1775      0 0.21%     0/820        0   0.45%     0/100    3.6%
+  C N-1 Base case sequential (<=3 steps) 39.8 2.280 [2.249, 2.310] 0.08 [0.07, 0.09]  0/1775      0 0.21%     0/820        0   0.45%     0/100    3.6%
+  C N-2   GENCO tiered (1 step, then NR) 2.18 1.999 [1.946, 2.060] 0.14 [0.11, 0.18]  0/3269      0 0.11%    0/1311        0   0.28%     0/100    3.6%
+  C N-2     GENCO sequential (<=3 steps) 2.18 1.860 [1.827, 1.892] 0.14 [0.11, 0.18]  0/3269      0 0.11%    0/1311        0   0.28%     0/100    3.6%
+  C N-2 Base case sequential (<=3 steps) 39.8 2.620 [2.590, 2.650] 0.01 [0.00, 0.01]  0/3269      0 0.11%    0/1311        0   0.28%     0/100    3.6%
+  C N-3   GENCO tiered (1 step, then NR) 2.18 2.181 [2.122, 2.241] 0.09 [0.07, 0.11]  0/4860      0 0.08%    0/1640        0   0.22%     0/100    3.6%
+  C N-3     GENCO sequential (<=3 steps) 2.18 1.925 [1.902, 1.945] 0.09 [0.07, 0.11]  0/4860      0 0.08%    0/1640        0   0.22%     0/100    3.6%
+  C N-3 Base case sequential (<=3 steps) 39.8 2.848 [2.823, 2.872] 0.00 [0.00, 0.00]  0/4860      0 0.08%    0/1640        0   0.22%     0/100    3.6%
+  C N-5   GENCO tiered (1 step, then NR) 2.18 2.357 [2.307, 2.410] 0.06 [0.04, 0.08]  0/7191      0 0.05%    0/1942        0   0.19%     0/100    3.6%
+  C N-5     GENCO sequential (<=3 steps) 2.18 1.973 [1.952, 1.995] 0.06 [0.04, 0.08]  0/7191      0 0.05%    0/1942        0   0.19%     0/100    3.6%
+  C N-5 Base case sequential (<=3 steps) 39.8 3.050 [3.030, 3.069] 0.00 [0.00, 0.00]  0/7191      0 0.05%    0/1942        0   0.19%     0/100    3.6%
+
+rule conf0.10
+    set                           policy     c                   LU             tier1 el_miss  el_fa el_ub cont_miss  cont_fa cont_ub load_miss load_ub
+  C N-1   GENCO tiered (1 step, then NR) 0.236 1.470 [1.372, 1.578] 0.62 [0.54, 0.69]  0/1775      0 0.21%     0/820        0   0.45%     0/100    3.6%
+  C N-1     GENCO sequential (<=3 steps) 0.236 1.378 [1.307, 1.455] 0.62 [0.54, 0.69]  0/1775      0 0.21%     0/820        0   0.45%     0/100    3.6%
+  C N-1 Base case sequential (<=3 steps)  20.9 2.187 [2.156, 2.219] 0.12 [0.10, 0.13]  0/1775      0 0.21%     0/820        0   0.45%     0/100    3.6%
+  C N-2   GENCO tiered (1 step, then NR) 0.236 1.558 [1.475, 1.645] 0.58 [0.52, 0.64]  0/3269      0 0.11%    0/1311        0   0.28%     0/100    3.6%
+  C N-2     GENCO sequential (<=3 steps) 0.236 1.424 [1.366, 1.482] 0.58 [0.52, 0.64]  0/3269      0 0.11%    0/1311        0   0.28%     0/100    3.6%
+  C N-2 Base case sequential (<=3 steps)  20.9 2.534 [2.505, 2.564] 0.01 [0.01, 0.02]  0/3269      0 0.11%    0/1311        0   0.28%     0/100    3.6%
+  C N-3   GENCO tiered (1 step, then NR) 0.236 1.818 [1.726, 1.914] 0.44 [0.39, 0.50]  0/4860      0 0.08%    0/1640        0   0.22%     0/100    3.6%
+  C N-3     GENCO sequential (<=3 steps) 0.236 1.565 [1.511, 1.618] 0.44 [0.39, 0.50]  0/4860      0 0.08%    0/1640        0   0.22%     0/100    3.6%
+  C N-3 Base case sequential (<=3 steps)  20.9 2.767 [2.740, 2.793] 0.00 [0.00, 0.00]  0/4860      0 0.08%    0/1640        0   0.22%     0/100    3.6%
+  C N-5   GENCO tiered (1 step, then NR) 0.236 2.092 [2.013, 2.172] 0.31 [0.27, 0.35]  0/7191      0 0.05%    0/1942        0   0.19%     0/100    3.6%
+  C N-5     GENCO sequential (<=3 steps) 0.236 1.706 [1.661, 1.752] 0.31 [0.27, 0.35]  0/7191      0 0.05%    0/1942        0   0.19%     0/100    3.6%
+  C N-5 Base case sequential (<=3 steps)  20.9 2.981 [2.960, 3.003] 0.00 [0.00, 0.00]  0/7191      0 0.05%    0/1942        0   0.19%     0/100    3.6%
+
+rule conf0.05
+    set                           policy    c                   LU             tier1 el_miss  el_fa el_ub cont_miss  cont_fa cont_ub load_miss load_ub
+  C N-1   GENCO tiered (1 step, then NR) 0.38 1.570 [1.470, 1.683] 0.53 [0.45, 0.60]  0/1775      0 0.21%     0/820        0   0.45%     0/100    3.6%
+  C N-1     GENCO sequential (<=3 steps) 0.38 1.472 [1.398, 1.554] 0.53 [0.45, 0.60]  0/1775      0 0.21%     0/820        0   0.45%     0/100    3.6%
+  C N-1 Base case sequential (<=3 steps) 34.4 2.260 [2.229, 2.291] 0.09 [0.08, 0.10]  0/1775      0 0.21%     0/820        0   0.45%     0/100    3.6%
+  C N-2   GENCO tiered (1 step, then NR) 0.38 1.662 [1.580, 1.750] 0.48 [0.42, 0.54]  0/3269      0 0.11%    0/1311        0   0.28%     0/100    3.6%
+  C N-2     GENCO sequential (<=3 steps) 0.38 1.524 [1.465, 1.585] 0.48 [0.42, 0.54]  0/3269      0 0.11%    0/1311        0   0.28%     0/100    3.6%
+  C N-2 Base case sequential (<=3 steps) 34.4 2.602 [2.571, 2.633] 0.01 [0.00, 0.01]  0/3269      0 0.11%    0/1311        0   0.28%     0/100    3.6%
+  C N-3   GENCO tiered (1 step, then NR) 0.38 1.915 [1.825, 2.006] 0.35 [0.30, 0.40]  0/4860      0 0.08%    0/1640        0   0.22%     0/100    3.6%
+  C N-3     GENCO sequential (<=3 steps) 0.38 1.659 [1.610, 1.709] 0.35 [0.30, 0.40]  0/4860      0 0.08%    0/1640        0   0.22%     0/100    3.6%
+  C N-3 Base case sequential (<=3 steps) 34.4 2.832 [2.806, 2.856] 0.00 [0.00, 0.00]  0/4860      0 0.08%    0/1640        0   0.22%     0/100    3.6%
+  C N-5   GENCO tiered (1 step, then NR) 0.38 2.182 [2.109, 2.255] 0.23 [0.19, 0.27]  0/7191      0 0.05%    0/1942        0   0.19%     0/100    3.6%
+  C N-5     GENCO sequential (<=3 steps) 0.38 1.792 [1.750, 1.832] 0.23 [0.19, 0.27]  0/7191      0 0.05%    0/1942        0   0.19%     0/100    3.6%
+  C N-5 Base case sequential (<=3 steps) 34.4 3.036 [3.014, 3.055] 0.00 [0.00, 0.00]  0/7191      0 0.05%    0/1942        0   0.19%     0/100    3.6%
+
+==============================================================================================================
+B. BOUND EXCEEDANCE: fraction of evaluation LOAD scenarios whose step-1 score max |error| / ||dx||^2 exceeds c (95% Clopper-Pearson CI); nominal level alpha for the conformal rules (1/(n+1) for max). Scenario-level fraction in the last column.
+    set     prior     rule      c exceed                 rate  nominal  exc_scen
+  C N-1     GENCO      max  2.178  0/100 0.000 [0.000, 0.036] ~1/(n+1)     0.000
+  C N-1 base case      max  39.81  0/100 0.000 [0.000, 0.036] ~1/(n+1)     0.000
+  C N-1     GENCO conf0.10 0.2358  5/100 0.050 [0.016, 0.113]     0.10     0.003
+  C N-1 base case conf0.10  20.93  5/100 0.050 [0.016, 0.113]     0.10     0.002
+  C N-1     GENCO conf0.05 0.3797  3/100 0.030 [0.006, 0.085]     0.05     0.001
+  C N-1 base case conf0.05  34.44  0/100 0.000 [0.000, 0.036]     0.05     0.000
+  C N-2     GENCO      max  2.178  0/100 0.000 [0.000, 0.036] ~1/(n+1)     0.000
+  C N-2 base case      max  39.81  0/100 0.000 [0.000, 0.036] ~1/(n+1)     0.000
+  C N-2     GENCO conf0.10 0.2358  6/100 0.060 [0.022, 0.126]     0.10     0.004
+  C N-2 base case conf0.10  20.93  0/100 0.000 [0.000, 0.036]     0.10     0.000
+  C N-2     GENCO conf0.05 0.3797  2/100 0.020 [0.002, 0.070]     0.05     0.001
+  C N-2 base case conf0.05  34.44  0/100 0.000 [0.000, 0.036]     0.05     0.000
+  C N-3     GENCO      max  2.178  0/100 0.000 [0.000, 0.036] ~1/(n+1)     0.000
+  C N-3 base case      max  39.81  0/100 0.000 [0.000, 0.036] ~1/(n+1)     0.000
+  C N-3     GENCO conf0.10 0.2358 10/100 0.100 [0.049, 0.176]     0.10     0.005
+  C N-3 base case conf0.10  20.93  0/100 0.000 [0.000, 0.036]     0.10     0.000
+  C N-3     GENCO conf0.05 0.3797  4/100 0.040 [0.011, 0.099]     0.05     0.002
+  C N-3 base case conf0.05  34.44  0/100 0.000 [0.000, 0.036]     0.05     0.000
+  C N-5     GENCO      max  2.178  1/100 0.010 [0.000, 0.054] ~1/(n+1)     0.000
+  C N-5 base case      max  39.81  0/100 0.000 [0.000, 0.036] ~1/(n+1)     0.000
+  C N-5     GENCO conf0.10 0.2358  6/100 0.060 [0.022, 0.126]     0.10     0.003
+  C N-5 base case conf0.10  20.93  0/100 0.000 [0.000, 0.036]     0.10     0.000
+  C N-5     GENCO conf0.05 0.3797  3/100 0.030 [0.006, 0.085]     0.05     0.001
+  C N-5 base case conf0.05  34.44  0/100 0.000 [0.000, 0.036]     0.05     0.000
+
+==============================================================================================================
+C. EQUAL-COST LADDER (no calibration): recall and miss rate with 95% cluster CIs; Clopper-Pearson upper bounds; false alarms
+    set                   method    LU                  recall  el_miss  el_ub  el_fa cont_miss cont_ub  cont_fa load_miss load_ub
+  C N-1       GENCO as published 0.000 0.9392 [0.9211, 0.9565] 108/1775  7.30%    406    31/820   5.32%      217    48/100   58.2%
+  C N-1 GENCO, setpoint enforced 0.000 0.9161 [0.8960, 0.9360] 149/1775  9.78%    549    42/820   6.86%      292    55/100   65.0%
+  C N-1           GENCO + 1 step 1.000 0.9994 [0.9982, 1.0000]   1/1775  0.31%      0     0/820   0.45%        0     1/100    5.4%
+  C N-1          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/1775  0.21%      0     0/820   0.45%        0     0/100    3.6%
+  C N-1       Base case + 1 step 1.000 0.9268 [0.9132, 0.9401] 130/1775  8.64%     50    23/820   4.18%        8    68/100   77.0%
+  C N-1      Base case + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/1775  0.21%      0     0/820   0.45%        0     0/100    3.6%
+  C N-2       GENCO as published 0.000 0.9333 [0.9127, 0.9510] 218/3269  7.58%    298   42/1311   4.31%      123    70/100   78.8%
+  C N-2 GENCO, setpoint enforced 0.000 0.9156 [0.8928, 0.9353] 276/3269  9.45%    398   56/1311   5.51%      173    74/100   82.3%
+  C N-2           GENCO + 1 step 1.000 0.9997 [0.9990, 1.0000]   1/3269  0.17%      0    1/1311   0.42%        0     1/100    5.4%
+  C N-2          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/3269  0.11%      0    0/1311   0.28%        0     0/100    3.6%
+  C N-2       Base case + 1 step 1.000 0.9260 [0.9132, 0.9384] 242/3269  8.35%     72   19/1311   2.25%        3    75/100   83.1%
+  C N-2      Base case + 2 steps 2.000 0.9979 [0.9962, 0.9992]   7/3269  0.44%      0    0/1311   0.28%        0     7/100   13.9%
+  C N-3       GENCO as published 0.000 0.9152 [0.9017, 0.9281] 412/4860  9.30%    422   57/1640   4.48%      106    89/100   94.4%
+  C N-3 GENCO, setpoint enforced 0.000 0.8928 [0.8768, 0.9089] 521/4860 11.62%    493   73/1640   5.56%      134    90/100   95.1%
+  C N-3           GENCO + 1 step 1.000 0.9969 [0.9949, 0.9989]  15/4860  0.51%      2    0/1640   0.22%        2     9/100   16.4%
+  C N-3          GENCO + 2 steps 2.000 1.0000 [1.0000, 1.0000]   0/4860  0.08%      0    0/1640   0.22%        0     0/100    3.6%
+  C N-3       Base case + 1 step 1.000 0.9263 [0.9166, 0.9353] 358/4860  8.14%    108   25/1640   2.24%        9    87/100   92.9%
+  C N-3      Base case + 2 steps 2.000 0.9969 [0.9949, 0.9986]  15/4860  0.51%      1    0/1640   0.22%        0    12/100   20.0%
+  C N-5       GENCO as published 0.000 0.9025 [0.8911, 0.9142] 701/7191 10.46%    334   46/1942   3.15%       49    93/100   97.1%
+  C N-5 GENCO, setpoint enforced 0.000 0.8707 [0.8570, 0.8852] 930/7191 13.73%    343   63/1942   4.13%       56    94/100   97.8%
+  C N-5           GENCO + 1 step 1.000 0.9953 [0.9929, 0.9973]  34/7191  0.66%      8    0/1942   0.19%        0    21/100   30.3%
+  C N-5          GENCO + 2 steps 2.000 0.9990 [0.9976, 1.0000]   7/7191  0.20%      0    0/1942   0.19%        0     3/100    8.5%
+  C N-5       Base case + 1 step 1.000 0.9223 [0.9135, 0.9308] 559/7191  8.42%    192   23/1942   1.77%        3    96/100   98.9%
+  C N-5      Base case + 2 steps 2.000 0.9968 [0.9952, 0.9982]  23/7191  0.48%      2    0/1942   0.19%        0    18/100   26.9%
+
+==============================================================================================================
+D. NR ITERATIONS BY TOLERANCE: mean [95% cluster CI]; paired GENCO - base-case start (iterations) and GENCO/base ratio
+    set  tol              flat                dc              base             genco         genco - base             ratio GENCO fewer/more
+  C N-1 1e-2 3.02 [3.01, 3.02] 3.00 [3.00, 3.00] 2.08 [2.06, 2.10] 1.61 [1.54, 1.69] -0.47 [-0.54, -0.39] 0.78 [0.74, 0.81]           46%/3%
+  C N-1 1e-4 4.00 [4.00, 4.00] 3.81 [3.73, 3.88] 2.54 [2.52, 2.57] 2.00 [2.00, 2.00] -0.54 [-0.57, -0.52] 0.79 [0.78, 0.79]           53%/0%
+  C N-1 1e-6 4.00 [4.00, 4.01] 4.00 [4.00, 4.00] 2.92 [2.91, 2.94] 2.10 [2.06, 2.15] -0.83 [-0.87, -0.78] 0.72 [0.70, 0.73]           78%/1%
+  C N-2 1e-2 3.03 [3.03, 3.04] 3.00 [3.00, 3.00] 2.25 [2.23, 2.27] 1.62 [1.56, 1.68] -0.63 [-0.69, -0.57] 0.72 [0.69, 0.75]           57%/0%
+  C N-2 1e-4 4.00 [4.00, 4.01] 3.80 [3.72, 3.87] 2.80 [2.78, 2.82] 2.01 [2.01, 2.02] -0.79 [-0.81, -0.77] 0.72 [0.71, 0.72]           75%/0%
+  C N-2 1e-6 4.01 [4.00, 4.01] 4.00 [4.00, 4.01] 3.12 [3.10, 3.14] 2.14 [2.11, 2.18] -0.98 [-1.01, -0.94] 0.69 [0.68, 0.70]           89%/0%
+  C N-3 1e-2 3.06 [3.05, 3.07] 3.00 [3.00, 3.01] 2.36 [2.34, 2.38] 1.76 [1.72, 1.81] -0.60 [-0.64, -0.55] 0.75 [0.73, 0.77]           54%/0%
+  C N-3 1e-4 4.00 [4.00, 4.01] 3.82 [3.75, 3.89] 2.97 [2.95, 2.99] 2.03 [2.02, 2.04] -0.94 [-0.96, -0.93] 0.68 [0.68, 0.69]           88%/0%
+  C N-3 1e-6 4.02 [4.02, 4.03] 4.00 [4.00, 4.01] 3.22 [3.20, 3.24] 2.27 [2.22, 2.32] -0.95 [-1.00, -0.90] 0.70 [0.69, 0.72]           83%/0%
+  C N-5 1e-2 3.09 [3.08, 3.10] 3.01 [3.00, 3.01] 2.53 [2.51, 2.55] 1.88 [1.84, 1.91] -0.65 [-0.69, -0.62] 0.74 [0.73, 0.75]           60%/0%
+  C N-5 1e-4 4.01 [4.00, 4.01] 3.75 [3.68, 3.82] 3.10 [3.09, 3.12] 2.08 [2.06, 2.09] -1.03 [-1.05, -1.01] 0.67 [0.66, 0.67]           95%/0%
+  C N-5 1e-6 4.04 [4.03, 4.05] 4.00 [3.99, 4.01] 3.36 [3.34, 3.38] 2.42 [2.38, 2.46] -0.94 [-0.98, -0.90] 0.72 [0.71, 0.73]           81%/0%
+
+==============================================================================================================
+E. POOLED MISS-RATE BOUNDS over all evaluation sets above (one-sided 95% Clopper-Pearson). Caveat: sets generated by datakit share the global load trajectory, so load scenarios of different sets are not independent draws.
+                            policy     rule   c_ref  el_miss  el_truth  el_cp_hi1  cont_miss  cont_truth  cont_cp_hi1  load_miss  n_loads  load_cp_hi1
+    GENCO tiered (1 step, then NR)      max datakit        0     17095     0.0002          0        5713       0.0005          0      400       0.0075
+      GENCO sequential (<=3 steps)      max datakit        0     17095     0.0002          0        5713       0.0005          0      400       0.0075
+  Base case sequential (<=3 steps)      max  own NR        0     17095     0.0002          0        5713       0.0005          0      400       0.0075
+    GENCO tiered (1 step, then NR) conf0.10 datakit        0     17095     0.0002          0        5713       0.0005          0      400       0.0075
+      GENCO sequential (<=3 steps) conf0.10 datakit        0     17095     0.0002          0        5713       0.0005          0      400       0.0075
+  Base case sequential (<=3 steps) conf0.10  own NR        0     17095     0.0002          0        5713       0.0005          0      400       0.0075
+    GENCO tiered (1 step, then NR) conf0.05 datakit        0     17095     0.0002          0        5713       0.0005          0      400       0.0075
+      GENCO sequential (<=3 steps) conf0.05 datakit        0     17095     0.0002          0        5713       0.0005          0      400       0.0075
+  Base case sequential (<=3 steps) conf0.05  own NR        0     17095     0.0002          0        5713       0.0005          0      400       0.0075
+
+                    method  el_miss  el_truth  el_cp_hi1  cont_miss  cont_truth  cont_cp_hi1  load_miss  n_loads  load_cp_hi1
+        GENCO as published     1439     17095     0.0878        176        5713       0.0348        300      400       0.7854
+  GENCO, setpoint enforced     1876     17095     0.1138        234        5713       0.0455        313      400       0.8160
+            GENCO + 1 step       51     17095     0.0038          1        5713       0.0008         32      400       0.1060
+           GENCO + 2 steps        7     17095     0.0008          0        5713       0.0005          3      400       0.0193
+        Base case + 1 step     1289     17095     0.0788         90        5713       0.0187        326      400       0.8464
+       Base case + 2 steps       45     17095     0.0034          0        5713       0.0005         37      400       0.1199
+
+==============================================================================================================
+F. SCORE DISTRIBUTION per load scenario (step-1 ratio vs datakit solution for GENCO / vs own NR for the base case): percentiles per set
+            set  n_load   g_p50  g_p90  g_max  b_p50  b_p90  b_max
+          C N-1     100 0.03995 0.1689 0.7973  6.353  13.52  33.02
+          C N-2     100 0.05693 0.2016   0.63  2.911  6.205  19.29
+          C N-3     100 0.06094 0.2229 0.7058  1.536  2.741  4.569
+          C N-5     100 0.05743 0.2056  2.203 0.7783  1.527  3.222
+  calib_n1_base     100 0.04128 0.2347  2.178  6.803  18.91  39.81
+
+Done.
