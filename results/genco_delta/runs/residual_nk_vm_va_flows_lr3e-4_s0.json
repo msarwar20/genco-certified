@@ -29,9 +29,9 @@
   "platform": "macOS-15.3-arm64-arm-64bit"
  },
  "data": {
-  "root": "/Users/msarwar/Desktop/webDev/GridFMChallenge/data/train_nk",
+  "root": "<repo>/data/train_nk",
   "grid": "case118_ieee",
-  "split_dir": "/Users/msarwar/Desktop/webDev/GridFMChallenge/data/train_nk/case118_ieee/splits_nk",
+  "split_dir": "<repo>/data/train_nk/case118_ieee/splits_nk",
   "split": {
    "n_train": 4550,
    "n_val": 506,
@@ -43,7 +43,7 @@
    "bytes": 77355321,
    "sha256": "22b0283a162a7185d94de7dee1e21a9e570be274c2a7088d0e9943ac364eb90b"
   },
-  "basecase_store": "/Users/msarwar/Desktop/webDev/GridFMChallenge/data/train_nk/case118_ieee/basecase_store.pt",
+  "basecase_store": "<repo>/data/train_nk/case118_ieee/basecase_store.pt",
   "basecase_store_sha256": "d68603b96a93a3a6937d4e851889c54e4eff96abcf734f44f9717058c5c73258",
   "normalizer_stats_sha256": "01c93104fc47fbe4f7492d2926ad60fe7395f10f77f7788b2d71504ff6a68411"
  },
@@ -116,7 +116,7 @@
    }
   ]
  },
- "weights": "/Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/residual_nk_vm_va_flows_lr3e-4_s0/best_model_state_dict.pt",
+ "weights": "<repo>/checkpoints/finetuned/residual_nk_vm_va_flows_lr3e-4_s0/best_model_state_dict.pt",
  "config": {
   "task": {
    "task_name": "PowerFlowContingencyResidual"
@@ -136,9 +136,9 @@
    "val_ratio": 0.1,
    "workers": 0,
    "split_by_load_scenario_idx": false,
-   "basecase_store": "/Users/msarwar/Desktop/webDev/GridFMChallenge/data/train_nk/case118_ieee/basecase_store.pt",
+   "basecase_store": "<repo>/data/train_nk/case118_ieee/basecase_store.pt",
    "delta_inputs": "vm_va_flows",
-   "split_from_existing_files": "/Users/msarwar/Desktop/webDev/GridFMChallenge/data/train_nk/case118_ieee/splits_nk"
+   "split_from_existing_files": "<repo>/data/train_nk/case118_ieee/splits_nk"
   },
   "model": {
    "attention_head": 8,

@@ -1,11 +1,11 @@
 == 2026-10-21 23:12:52 GENCO-Delta N-k: arm=residual_nk_vm_va_flows_lr3e-4 seeds=[0 1 42] epochs=12 lr=3e-4 sets=[paper n1 n2 n3 n5]
 == 2026-10-21 23:12:52 train residual_nk_vm_va_flows_lr3e-4_s0
    fit done in 9679s; best val 0.0007221797131933272
-   saved /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/residual_nk_vm_va_flows_lr3e-4_s0/best_model_state_dict.pt
-   run record /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/runs/residual_nk_vm_va_flows_lr3e-4_s0.json
+   saved <repo>/checkpoints/finetuned/residual_nk_vm_va_flows_lr3e-4_s0/best_model_state_dict.pt
+   run record <repo>/results/genco_delta/runs/residual_nk_vm_va_flows_lr3e-4_s0.json
 == 2026-10-22 01:54:15 evaluate residual_nk_vm_va_flows_lr3e-4_s0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s0__paper: 638 scenarios in 16s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s0__paper.json
+   residual_nk_vm_va_flows_lr3e-4_s0__paper: 638 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s0__paper.json
      638 scenarios / 29 load scenarios | truth: 484 violating elements in 225 contingencies
      NR iters to 1e-2 MW: model 1.92 [1.89, 1.95] | base 2.04 [2, 2.07] | flat 3.01 [3, 3.02] | model-base -0.114 [-0.16, -0.0705]
      NR iters to 1e-4 MW: model 2.03 [2.02, 2.04] | base 2.49 [2.45, 2.53] | flat 4 [4, 4] | model-base -0.464 [-0.5, -0.426]
@@ -17,7 +17,7 @@
      b1: element misses 33 (rate 0.0682 [0.0468, 0.0915]), false alarms 6, contingency misses 4
      b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s0__n1: 660 scenarios in 17s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s0__n1.json
+   residual_nk_vm_va_flows_lr3e-4_s0__n1: 660 scenarios in 17s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s0__n1.json
      660 scenarios / 30 load scenarios | truth: 435 violating elements in 217 contingencies
      NR iters to 1e-2 MW: model 1.82 [1.74, 1.89] | base 2.03 [1.99, 2.07] | flat 3.01 [3, 3.01] | model-base -0.208 [-0.285, -0.136]
      NR iters to 1e-4 MW: model 2.03 [2.02, 2.04] | base 2.5 [2.45, 2.55] | flat 4 [4, 4] | model-base -0.471 [-0.521, -0.42]
@@ -29,7 +29,7 @@
      b1: element misses 21 (rate 0.0483 [0.0256, 0.0768]), false alarms 12, contingency misses 3
      b2: element misses 1 (rate 0.0023 [0, 0.00737]), false alarms 0, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s0__n2: 659 scenarios in 17s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s0__n2.json
+   residual_nk_vm_va_flows_lr3e-4_s0__n2: 659 scenarios in 17s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s0__n2.json
      659 scenarios / 30 load scenarios | truth: 714 violating elements in 334 contingencies
      NR iters to 1e-2 MW: model 1.88 [1.84, 1.92] | base 2.19 [2.16, 2.23] | flat 3.03 [3.01, 3.05] | model-base -0.311 [-0.357, -0.27]
      NR iters to 1e-4 MW: model 2.06 [2.04, 2.08] | base 2.74 [2.7, 2.79] | flat 4 [4, 4] | model-base -0.687 [-0.729, -0.647]
@@ -41,7 +41,7 @@
      b1: element misses 37 (rate 0.0518 [0.0286, 0.0766]), false alarms 20, contingency misses 3
      b2: element misses 0 (rate 0 [0, 0]), false alarms 1, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s0__n3: 660 scenarios in 17s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s0__n3.json
+   residual_nk_vm_va_flows_lr3e-4_s0__n3: 660 scenarios in 17s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s0__n3.json
      660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
      NR iters to 1e-2 MW: model 1.81 [1.77, 1.85] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base -0.482 [-0.53, -0.435]
      NR iters to 1e-4 MW: model 2.1 [2.07, 2.12] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base -0.803 [-0.839, -0.768]
@@ -53,7 +53,7 @@
      b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
      b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s0__n5: 660 scenarios in 17s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s0__n5.json
+   residual_nk_vm_va_flows_lr3e-4_s0__n5: 660 scenarios in 17s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s0__n5.json
      660 scenarios / 30 load scenarios | truth: 1763 violating elements in 539 contingencies
      NR iters to 1e-2 MW: model 1.93 [1.9, 1.97] | base 2.49 [2.44, 2.54] | flat 3.08 [3.06, 3.11] | model-base -0.556 [-0.598, -0.512]
      NR iters to 1e-4 MW: model 2.18 [2.14, 2.21] | base 3.08 [3.04, 3.11] | flat 4.01 [4, 4.02] | model-base -0.898 [-0.924, -0.871]
@@ -66,11 +66,11 @@
      b2: element misses 6 (rate 0.0034 [0, 0.00855]), false alarms 0, contingency misses 0
 == 2026-10-22 01:55:53 train residual_nk_vm_va_flows_lr3e-4_s1
    fit done in 1962s; best val 0.0006335063953883946
-   saved /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/residual_nk_vm_va_flows_lr3e-4_s1/best_model_state_dict.pt
-   run record /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/runs/residual_nk_vm_va_flows_lr3e-4_s1.json
+   saved <repo>/checkpoints/finetuned/residual_nk_vm_va_flows_lr3e-4_s1/best_model_state_dict.pt
+   run record <repo>/results/genco_delta/runs/residual_nk_vm_va_flows_lr3e-4_s1.json
 == 2026-10-22 02:28:40 evaluate residual_nk_vm_va_flows_lr3e-4_s1
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s1__paper: 814 scenarios in 31s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s1__paper.json
+   residual_nk_vm_va_flows_lr3e-4_s1__paper: 814 scenarios in 31s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s1__paper.json
      814 scenarios / 37 load scenarios | truth: 680 violating elements in 295 contingencies
      NR iters to 1e-2 MW: model 1.57 [1.49, 1.65] | base 2.07 [2.03, 2.1] | flat 3.01 [3, 3.02] | model-base -0.496 [-0.571, -0.418]
      NR iters to 1e-4 MW: model 2.03 [2.02, 2.04] | base 2.51 [2.47, 2.55] | flat 4 [4, 4] | model-base -0.482 [-0.523, -0.44]
@@ -82,7 +82,7 @@
      b1: element misses 49 (rate 0.0721 [0.051, 0.0945]), false alarms 17, contingency misses 6
      b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s1__n1: 660 scenarios in 25s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s1__n1.json
+   residual_nk_vm_va_flows_lr3e-4_s1__n1: 660 scenarios in 25s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s1__n1.json
      660 scenarios / 30 load scenarios | truth: 435 violating elements in 217 contingencies
      NR iters to 1e-2 MW: model 1.34 [1.27, 1.43] | base 2.03 [1.99, 2.07] | flat 3.01 [3, 3.01] | model-base -0.688 [-0.762, -0.603]
      NR iters to 1e-4 MW: model 2.03 [2.02, 2.03] | base 2.5 [2.45, 2.55] | flat 4 [4, 4] | model-base -0.474 [-0.524, -0.421]
@@ -94,7 +94,7 @@
      b1: element misses 21 (rate 0.0483 [0.0256, 0.0768]), false alarms 12, contingency misses 3
      b2: element misses 1 (rate 0.0023 [0, 0.00737]), false alarms 0, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s1__n2: 659 scenarios in 25s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s1__n2.json
+   residual_nk_vm_va_flows_lr3e-4_s1__n2: 659 scenarios in 25s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s1__n2.json
      659 scenarios / 30 load scenarios | truth: 714 violating elements in 334 contingencies
      NR iters to 1e-2 MW: model 1.49 [1.43, 1.56] | base 2.19 [2.16, 2.23] | flat 3.03 [3.01, 3.05] | model-base -0.7 [-0.751, -0.645]
      NR iters to 1e-4 MW: model 2.05 [2.03, 2.07] | base 2.74 [2.7, 2.79] | flat 4 [4, 4] | model-base -0.693 [-0.736, -0.653]
@@ -106,7 +106,7 @@
      b1: element misses 37 (rate 0.0518 [0.0286, 0.0766]), false alarms 20, contingency misses 3
      b2: element misses 0 (rate 0 [0, 0]), false alarms 1, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s1__n3: 660 scenarios in 25s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s1__n3.json
+   residual_nk_vm_va_flows_lr3e-4_s1__n3: 660 scenarios in 25s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s1__n3.json
      660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
      NR iters to 1e-2 MW: model 1.62 [1.57, 1.66] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base -0.676 [-0.715, -0.636]
      NR iters to 1e-4 MW: model 2.06 [2.05, 2.08] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base -0.835 [-0.867, -0.802]
@@ -118,7 +118,7 @@
      b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
      b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s1__n5: 660 scenarios in 27369s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s1__n5.json
+   residual_nk_vm_va_flows_lr3e-4_s1__n5: 660 scenarios in 27369s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s1__n5.json
      660 scenarios / 30 load scenarios | truth: 1763 violating elements in 539 contingencies
      NR iters to 1e-2 MW: model 1.79 [1.74, 1.84] | base 2.49 [2.44, 2.54] | flat 3.08 [3.06, 3.11] | model-base -0.697 [-0.747, -0.647]
      NR iters to 1e-4 MW: model 2.14 [2.11, 2.17] | base 3.08 [3.04, 3.11] | flat 4.01 [4, 4.02] | model-base -0.936 [-0.958, -0.917]
@@ -131,11 +131,11 @@
      b2: element misses 6 (rate 0.0034 [0, 0.00855]), false alarms 0, contingency misses 0
 == 2026-10-22 10:06:51 train residual_nk_vm_va_flows_lr3e-4_s42
    fit done in 2510s; best val 0.000944113009609282
-   saved /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/finetuned/residual_nk_vm_va_flows_lr3e-4_s42/best_model_state_dict.pt
-   run record /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/runs/residual_nk_vm_va_flows_lr3e-4_s42.json
+   saved <repo>/checkpoints/finetuned/residual_nk_vm_va_flows_lr3e-4_s42/best_model_state_dict.pt
+   run record <repo>/results/genco_delta/runs/residual_nk_vm_va_flows_lr3e-4_s42.json
 == 2026-10-22 10:48:48 evaluate residual_nk_vm_va_flows_lr3e-4_s42
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s42__paper: 616 scenarios in 16s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s42__paper.json
+   residual_nk_vm_va_flows_lr3e-4_s42__paper: 616 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s42__paper.json
      616 scenarios / 28 load scenarios | truth: 536 violating elements in 229 contingencies
      NR iters to 1e-2 MW: model 1.89 [1.82, 1.94] | base 2.1 [2.07, 2.14] | flat 3.01 [3, 3.02] | model-base -0.213 [-0.278, -0.159]
      NR iters to 1e-4 MW: model 2.04 [2.02, 2.06] | base 2.54 [2.5, 2.59] | flat 4 [4, 4] | model-base -0.505 [-0.554, -0.456]
@@ -147,7 +147,7 @@
      b1: element misses 41 (rate 0.0765 [0.0454, 0.111]), false alarms 17, contingency misses 5
      b2: element misses 0 (rate 0 [0, 0]), false alarms 0, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s42__n1: 660 scenarios in 17s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s42__n1.json
+   residual_nk_vm_va_flows_lr3e-4_s42__n1: 660 scenarios in 17s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s42__n1.json
      660 scenarios / 30 load scenarios | truth: 435 violating elements in 217 contingencies
      NR iters to 1e-2 MW: model 1.7 [1.58, 1.8] | base 2.03 [1.99, 2.07] | flat 3.01 [3, 3.01] | model-base -0.333 [-0.438, -0.227]
      NR iters to 1e-4 MW: model 2.04 [2.03, 2.06] | base 2.5 [2.45, 2.55] | flat 4 [4, 4] | model-base -0.458 [-0.509, -0.405]
@@ -159,7 +159,7 @@
      b1: element misses 21 (rate 0.0483 [0.0256, 0.0768]), false alarms 12, contingency misses 3
      b2: element misses 1 (rate 0.0023 [0, 0.00737]), false alarms 0, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s42__n2: 659 scenarios in 16s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s42__n2.json
+   residual_nk_vm_va_flows_lr3e-4_s42__n2: 659 scenarios in 16s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s42__n2.json
      659 scenarios / 30 load scenarios | truth: 714 violating elements in 334 contingencies
      NR iters to 1e-2 MW: model 1.81 [1.74, 1.87] | base 2.19 [2.16, 2.23] | flat 3.03 [3.01, 3.05] | model-base -0.384 [-0.444, -0.328]
      NR iters to 1e-4 MW: model 2.09 [2.07, 2.12] | base 2.74 [2.7, 2.79] | flat 4 [4, 4] | model-base -0.651 [-0.689, -0.612]
@@ -171,7 +171,7 @@
      b1: element misses 37 (rate 0.0518 [0.0286, 0.0766]), false alarms 20, contingency misses 3
      b2: element misses 0 (rate 0 [0, 0]), false alarms 1, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s42__n3: 660 scenarios in 17s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s42__n3.json
+   residual_nk_vm_va_flows_lr3e-4_s42__n3: 660 scenarios in 17s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s42__n3.json
      660 scenarios / 30 load scenarios | truth: 950 violating elements in 455 contingencies
      NR iters to 1e-2 MW: model 1.8 [1.75, 1.86] | base 2.29 [2.26, 2.32] | flat 3.03 [3.01, 3.04] | model-base -0.488 [-0.539, -0.432]
      NR iters to 1e-4 MW: model 2.13 [2.11, 2.16] | base 2.9 [2.86, 2.93] | flat 4 [4, 4] | model-base -0.767 [-0.803, -0.732]
@@ -183,7 +183,7 @@
      b1: element misses 60 (rate 0.0632 [0.0479, 0.0794]), false alarms 32, contingency misses 6
      b2: element misses 2 (rate 0.00211 [0, 0.00542]), false alarms 0, contingency misses 0
    Restoring normalizer for case118_ieee from saved stats
-   residual_nk_vm_va_flows_lr3e-4_s42__n5: 660 scenarios in 18s -> /Users/msarwar/Desktop/webDev/GridFMChallenge/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s42__n5.json
+   residual_nk_vm_va_flows_lr3e-4_s42__n5: 660 scenarios in 18s -> <repo>/results/genco_delta/eval/residual_nk_vm_va_flows_lr3e-4_s42__n5.json
      660 scenarios / 30 load scenarios | truth: 1763 violating elements in 539 contingencies
      NR iters to 1e-2 MW: model 1.94 [1.9, 1.98] | base 2.49 [2.44, 2.54] | flat 3.08 [3.06, 3.11] | model-base -0.547 [-0.591, -0.503]
      NR iters to 1e-4 MW: model 2.23 [2.19, 2.27] | base 3.08 [3.04, 3.11] | flat 4.01 [4, 4.02] | model-base -0.845 [-0.877, -0.812]

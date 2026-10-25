@@ -25,7 +25,7 @@ def main():
     shutil.copytree(ROOT / "src" / "genco_certified", SPACE / "genco_certified",
                     ignore=shutil.ignore_patterns("__pycache__"))
     (SPACE / "assets").mkdir(exist_ok=True)
-    for f in (ROOT / "results" / "figures").glob("*.png"):
+    for f in (ROOT / "results" / "figures" / "post").glob("fig[ABCFH]_*.png"):  # the post figures the Findings tab shows
         shutil.copy(f, SPACE / "assets" / f.name)
     api = HfApi()
     api.create_repo(args.repo, repo_type="space", space_sdk="gradio", private=args.private, exist_ok=True)

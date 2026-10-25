@@ -1,14 +1,14 @@
 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 Processing...
 [config] Converted v0 config -> v1 in memory (file on disk unchanged).
-Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
+Loaded normalizer stats from <repo>/checkpoints/genco-pf-datakit/case118_ieee/base/seed0/normalizer_stats.pt
 Detected 11 Hive partitions — using streaming mode.
 Streaming 11 partitions...
 Processing partitions:   0%|          | 0/11 [00:00<?, ?it/s]Processing partitions:   9%|▉         | 1/11 [00:00<00:02,  3.48it/s]Processing partitions:  18%|█▊        | 2/11 [00:00<00:02,  3.67it/s]Processing partitions:  27%|██▋       | 3/11 [00:00<00:02,  3.72it/s]Processing partitions:  36%|███▋      | 4/11 [00:01<00:01,  3.74it/s]Processing partitions:  45%|████▌     | 5/11 [00:01<00:01,  3.77it/s]Processing partitions:  55%|█████▍    | 6/11 [00:01<00:01,  3.76it/s]Processing partitions:  64%|██████▎   | 7/11 [00:01<00:01,  3.79it/s]Processing partitions:  73%|███████▎  | 8/11 [00:02<00:00,  3.80it/s]Processing partitions:  82%|████████▏ | 9/11 [00:02<00:00,  3.81it/s]Processing partitions:  91%|█████████ | 10/11 [00:02<00:00,  3.79it/s]Processing partitions: 100%|██████████| 11/11 [00:02<00:00,  3.83it/s]Processing partitions: 100%|██████████| 11/11 [00:02<00:00,  3.78it/s]
 Done!
-/Users/msarwar/Desktop/webDev/GridFMChallenge/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:235: UserWarning: Requested number of scenarios (250000) exceeds dataset size (2196). Using the full dataset instead.
+<repo>/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:235: UserWarning: Requested number of scenarios (250000) exceeds dataset size (2196). Using the full dataset instead.
   warnings.warn(
-/Users/msarwar/Desktop/webDev/GridFMChallenge/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:245: UserWarning: `data.scenarios` is ignored when `split_from_existing_files` is set; train/val/test scenario ids are loaded from the provided split files.
+<repo>/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:245: UserWarning: `data.scenarios` is ignored when `split_from_existing_files` is set; train/val/test scenario ids are loaded from the provided split files.
   warnings.warn(
 split='train' len(split_indices)=2
 split='val' len(split_indices)=2

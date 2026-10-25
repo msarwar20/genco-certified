@@ -2,7 +2,7 @@ Generating power flow data from configs/datakit/case118_train_nk.yaml...
 Global random seed set to: 4001
 Finding upper limit u .....
 OPF did not converge for u=1.400. Using u=1.300 for upper limit
-/Users/msarwar/Desktop/webDev/GridFMChallenge/external/gridfm-datakit/gridfm_datakit/utils/param_handler.py:314: UserWarning: The following arguments are not used by the generation generator "cost_permutation": {'sigma': 1.0}
+<repo>/external/gridfm-datakit/gridfm_datakit/utils/param_handler.py:314: UserWarning: The following arguments are not used by the generation generator "cost_permutation": {'sigma': 1.0}
   warnings.warn(
 min, max of ref_curve: 0.7800000000000001, 1.3000000000000003
 l, u: 0.7800000000000001, 1.3000000000000003

@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Confirmatory pipeline (generation -> splits -> exp02). Resumable via results/confirm/*.done
-cd /Users/msarwar/Desktop/webDev/GridFMChallenge
+cd <repo>
 source .venv/bin/activate
 export MLFLOW_ALLOW_FILE_STORE=true HF_HUB_DISABLE_PROGRESS_BARS=1
 for k in 1 2 3 5; do

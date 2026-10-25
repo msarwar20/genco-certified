@@ -17,5 +17,5 @@ data/train_nk/case118_ieee/splits_nk: train 4550 (207 load scenarios), val 506 (
     partition 25/26: 227/230 load scenarios solved (3s)
     partition 26/26: 230/230 load scenarios solved (3s)
   built: 5056 scenarios / 230 load scenarios, 0 non-converged (0 needed a retry), 2.6s
-  wrote /Users/msarwar/Desktop/webDev/GridFMChallenge/data/train_nk/case118_ieee/basecase_store.pt (0.3 MB, 3s)
+  wrote <repo>/data/train_nk/case118_ieee/basecase_store.pt (0.3 MB, 3s)
   probe (200 scenarios): base vs post-contingency label | median of per-scenario max |dVm| at PQ 1.05e-02 p.u., |dVa| 6.58e-02 rad | max |dVm| at PV setpoints 6.0e-08, at REF 5.9e-08

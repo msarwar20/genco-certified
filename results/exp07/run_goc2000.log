@@ -1,10 +1,10 @@
 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-/Users/msarwar/Desktop/webDev/GridFMChallenge/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:235: UserWarning: Requested number of scenarios (20000) exceeds dataset size (4000). Using the full dataset instead.
+<repo>/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:235: UserWarning: Requested number of scenarios (20000) exceeds dataset size (4000). Using the full dataset instead.
   warnings.warn(
-/Users/msarwar/Desktop/webDev/GridFMChallenge/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:245: UserWarning: `data.scenarios` is ignored when `split_from_existing_files` is set; train/val/test scenario ids are loaded from the provided split files.
+<repo>/external/gridfm-graphkit/gridfm_graphkit/datasets/hetero_powergrid_datamodule.py:245: UserWarning: `data.scenarios` is ignored when `split_from_existing_files` is set; train/val/test scenario ids are loaded from the provided split files.
   warnings.warn(
 [config] Converted v0 config -> v1 in memory (file on disk unchanged).
-Loaded normalizer stats from /Users/msarwar/Desktop/webDev/GridFMChallenge/checkpoints/genco-pf-datakit/case2000_goc/small/seed0/normalizer_stats.pt
+Loaded normalizer stats from <repo>/checkpoints/genco-pf-datakit/case2000_goc/small/seed0/normalizer_stats.pt
 split='train' len(split_indices)=159
 split='val' len(split_indices)=159
 split='test' len(split_indices)=879
