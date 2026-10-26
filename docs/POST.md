@@ -29,6 +29,7 @@ TABLE 0. Results at a glance (IEEE 118, released checkpoints, unless stated).
 | Conditioning GENCO on the base case | a residual decoder (GENCO-Δ) cuts N-1 state error 2.5× but saves no iterations at 10⁻⁴ MW; mixed N-k training trades the N-1 gain for an N-5 fix |
 
 ![Fig. 1](figH_hero.png)
+
 *Fig. 1. Triangular solves saved by starting from GENCO's prediction instead of the pre-contingency state, to 10⁻⁴ MW, paired over contingencies, 95% cluster-bootstrap CIs over load scenarios. Released checkpoints: IEEE 118 Base (638 contingencies), GOC 500 Base (638), GOC 2000 Small (879 held out). Shaded: the pre-contingency start is cheaper.*
 
 ## I. Setup
@@ -60,6 +61,7 @@ TABLE I. GENCO minus pre-contingency start, mean Newton iterations (paired) [95%
 **Best-of-two.** A rule that starts from whichever has the smaller mismatch, at no extra factorization, ends within 0.1 iteration (to 10⁻⁶ MW) of the better start on both grids.
 
 ![Fig. 2](figB_exchange_rate.png)
+
 *Fig. 2. (a) Newton iterations from flat, DC, pre-contingency and GENCO starts; (b) paired GENCO minus pre-contingency difference, 95% CIs. Open dots: IEEE 118 seeds 1 and 42 on their own splits.*
 
 ## III. The price in the solvers operators run
@@ -99,6 +101,7 @@ The sequential policy (Fig. 3) works as follows:
 The rule is identical from either start, with c calibrated separately for each; each Newton step costs one factorization. c is a split-conformal quantile [4] over the load scenarios of the calibration set. Everything in TABLE III is held out.
 
 ![Fig. 3](figA_workflow.png)
+
 *Fig. 3. The sequential policy. Either start feeds float64 Newton steps; after each step a calibrated bound on every monitored element decides accept or continue; after three steps the case goes to a full solve.*
 
 TABLE III. Sequential policy, conformal α = 0.10, IEEE 118. Mean factorizations per contingency [95% CI].
@@ -126,6 +129,7 @@ TABLE III. Sequential policy, conformal α = 0.10, IEEE 118. Mean factorizations
 Nothing was re-tuned, and the run reproduced all six frozen constants. The only deviations from the protocol were operational: a standalone splits script, 4 worker processes instead of 6, and a load profile picked from its summary statistics before any data was generated. Every one of the 36 cells (3 rules × 3 policies × 4 sets) had zero misses and zero false alarms: 0 of 17,095 violating elements, 0 of 5,713 violating contingencies, and 0 of 400 operating points (one-sided 95% bound 0.75%). GENCO's policy needed 1.38 / 1.42 / 1.57 / 1.71 factorizations, against 2.19 / 2.53 / 2.77 / 2.98 from the pre-contingency start, i.e. 37–44% fewer. The bound was exceeded in 5–10% of operating points at the nominal 10%, and the Newton saving to 10⁻⁶ MW replicated at 0.83–0.98 iterations.
 
 ![Fig. 4](figC_equal_cost.png)
+
 *Fig. 4. Missed violating elements against factorizations per contingency, IEEE 118, four 100-load-scenario test sets. Lines: GENCO + k and pre-contingency + k Newton steps; stars: sequential policies. Hollow markers: zero-miss cells at their one-sided 95% Clopper–Pearson bound.*
 
 ## V. What GENCO reports and what it computes
@@ -170,6 +174,7 @@ If the pre-contingency state is the better prior on large grids, GENCO should be
 With this training budget the model ends at about released quality at every outage order (Fig. 5). Fed in as inputs, the base-case voltages gave no gain. Used as a residual starting point, they cut N-1 state error and iterations to 10⁻² MW, but not iterations to 10⁻⁴ MW. The N-k run also changed the training scenarios, so we cannot separate the outage mix from the data. The base case also carries the true slack voltage, but the slack-aware arm alone gains nothing, so that is not the source.
 
 ![Fig. 5](figF_genco_delta.png)
+
 *Fig. 5. GENCO-Δ on IEEE 118 Base: median state error (top) and Newton iterations to 10⁻² MW (bottom); mean ± SD over seeds 0/1/42. Purple bars: the pre-contingency state. Stars: residual Δ retrained on mixed N-1…N-5 outages. Crosses: the diverged plain-Δ seed, excluded from the mean.*
 
 ## VII. What did not work
@@ -207,6 +212,9 @@ Iteration and miss counts are deterministic and should reproduce on the same sof
 ## References
 
 [1] A. Puech, M. Mazzonelli, T. R. Govindasamy *et al.*, "GENCO: a unified neural solver embedded in a development framework for steady-state grid analysis," arXiv:2608.09921, 2026.
+
 [2] OpenGridFM, gridfm-graphkit (commit 8a8defb) and gridfm-datakit (commit d8a092d).
+
 [3] B. Stott and O. Alsaç, "Fast decoupled load flow," *IEEE Trans. Power App. Syst.*, vol. PAS-93, no. 3, pp. 859–869, 1974.
+
 [4] A. N. Angelopoulos and S. Bates, "A gentle introduction to conformal prediction and distribution-free uncertainty quantification," arXiv:2107.07511, 2021.
