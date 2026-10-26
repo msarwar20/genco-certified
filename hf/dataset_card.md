@@ -16,13 +16,13 @@ size_categories:
 
 # GENCO contingency sets for IEEE 118
 
-Raw gridfm-datakit output for the IEEE 118-bus system (pglib case), generated for the post "What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state" (GridFM GENCO Challenge 2026). Each set is a list of AC power-flow solutions: a number of load scenarios (operating points), each with about 22 topology variants in which one to five branches or generators are out of service. Code, configs and numbers: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console).
+This dataset contains raw gridfm-datakit output for the IEEE 118-bus system (pglib case), generated for the post "What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state" (GridFM GENCO Challenge 2026). Each set is a list of AC power-flow solutions covering a number of load scenarios (operating points), each with about 22 topology variants in which one to five branches or generators are out of service. Code, configs and numbers are linked here: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console).
 
-The sets are in the same format as the released `gridfm/pf_small_case118_ieee`, so graphkit and the released GENCO checkpoints read them directly. Only the raw parquet is uploaded. The `processed/` caches that graphkit builds on first use are not (they are 2 to 3 times larger and are rebuilt automatically).
+The sets are in the same format as the released `gridfm/pf_small_case118_ieee`, so graphkit and the released GENCO checkpoints read them directly. Only the raw parquet is uploaded, and the `processed/` caches that graphkit builds on first use are not, since they are 2 to 3 times larger and are rebuilt automatically.
 
 ## Sets
 
-Every set was generated with `gridfm_datakit generate configs/datakit/<config>.yaml` (datakit commit `d8a092d`; Julia PowerModels for the AC power flow). The config is copied into each `raw/config.yaml`. "Violating" = at least one in-service branch with max(|S_f|, |S_t|) / rate_a > 1.01. Counts come from `results/notes/data_D.md`, `ws4_N_nk.md`, `confirm_Z.md` and the `raw/n_scenarios.txt` files.
+Every set was generated with `gridfm_datakit generate configs/datakit/<config>.yaml` (datakit commit `d8a092d`, with Julia PowerModels for the AC power flow), and the config is copied into each `raw/config.yaml`. A scenario counts as violating when at least one in-service branch has max(|S_f|, |S_t|) / rate_a > 1.01. The counts come from `results/notes/data_D.md`, `ws4_N_nk.md`, `confirm_Z.md` and the `raw/n_scenarios.txt` files.
 
 | Directory | Config | Seed | Load scen. | Outages (k) | Scenarios | Violating | Raw parquet | Used in the post for |
 |---|---|---|---|---|---|---|---|---|
@@ -41,10 +41,10 @@ Every set was generated with `gridfm_datakit generate configs/datakit/<config>.y
 | `stress/n1,n2,n3,n5` | `case118_n{1,2,3,5}.yaml` | 2027, 2028, 2029, 2031 | 30 | random, 1/2/3/5 | 660 / 659 / 660 / 660 | 32.9 / 50.7 / 68.9 / 81.7% | 9.2 / 10.2 / 10.6 / 11.1 MB | GENCO-Δ evaluation (Section VI, Fig. 5), the Space bundle |
 
 Notes on the contents:
-- Dropped scenarios. In the random sets a few variants are missing because the AC power flow did not converge (`raw/error.log`), so some load scenarios have 21 variants. Scenario ids are contiguous from 0 in every set, which graphkit's streaming loader requires.
-- `train_nk`. Outage counts k = 1..5 appear as 1,860 / 1,036 / 752 / 719 / 689 scenarios (probabilities 0.35 / 0.20 / 0.15 / 0.15 / 0.15 before the PF failures); 23.7% of the outages are generators. It is disjoint from the test sets: the closest load vectors differ by at least 14 MW at some bus.
-- `exhaustive/n1`. Branches only (datakit's `n_minus_k` does not enumerate generators). The first variant of every load scenario is the intact N-0 topology; 9 branches that island the grid are dropped. `n1_gen` was produced by `data/exhaustive/run_exhaustive_gen.py` (a drop-in topology generator in the code repository), with the same seed and load scenarios, so the two pair by load scenario.
-- `confirm/*`. The load profile is `ercot_load_act_hr_2024_east` instead of datakit's default. Its total demand correlates between -0.44 and -0.50 with the calibration and stress100 sets, per load-scenario index. The configs and the evaluation protocol (SHA-256 `027cf172823fdb3e3b0d8eac592d3b80018cbb50b558352b04d0a1803551aa42`) were written before the data existed.
+- Dropped scenarios: in the random sets a few variants are missing because the AC power flow did not converge (`raw/error.log`), so some load scenarios have 21 variants, but scenario ids are contiguous from 0 in every set, as graphkit's streaming loader requires.
+- `train_nk`: outage counts k = 1..5 appear as 1,860 / 1,036 / 752 / 719 / 689 scenarios (probabilities 0.35 / 0.20 / 0.15 / 0.15 / 0.15 before the PF failures), and 23.7% of the outages are generators. The set is disjoint from the test sets, with the closest load vectors differing by at least 14 MW at some bus.
+- `exhaustive/n1`: branches only, because datakit's `n_minus_k` does not enumerate generators. The first variant of every load scenario is the intact N-0 topology, and 9 branches that island the grid are dropped. `n1_gen` was produced by `data/exhaustive/run_exhaustive_gen.py` (a drop-in topology generator in the code repository) with the same seed and load scenarios, so the two sets pair by load scenario.
+- `confirm/*`: the load profile is `ercot_load_act_hr_2024_east` instead of datakit's default, and its total demand correlates between -0.44 and -0.50 with the calibration and stress100 sets, per load-scenario index. The configs and the evaluation protocol (SHA-256 `027cf172823fdb3e3b0d8eac592d3b80018cbb50b558352b04d0a1803551aa42`) were written before the data existed.
 
 ## Layout
 
@@ -58,7 +58,7 @@ Notes on the contents:
   config.yaml  args.log  error.log  n_scenarios.txt
 ```
 
-Column definitions are those of gridfm-datakit. Outages are identified by `br_status == 0` (branches) and `in_service == 0` (generators).
+Column definitions are those of gridfm-datakit, and outages are identified by `br_status == 0` (branches) and `in_service == 0` (generators).
 
 ## How to use
 
@@ -67,18 +67,18 @@ hf download sarwar21255/genco-contingency-ieee118 --repo-type dataset --local-di
 python scripts/make_splits.py        # writes splits_all/ for every set, asserts contiguous ids
 ```
 
-Then `load_genco(..., data_root="data/stress100/n2", split_dir="data/stress100/n2/case118_ieee/splits_all")` runs a released or fine-tuned checkpoint on the whole set. `docs/REPRODUCE.md` in the code repository lists the script behind each table.
+Then `load_genco(..., data_root="data/stress100/n2", split_dir="data/stress100/n2/case118_ieee/splits_all")` runs a released or fine-tuned checkpoint on the whole set, and `docs/REPRODUCE.md` in the code repository lists the script behind each table.
 
 ## Caveats
 
-- Shared load trajectory. Datakit's `agg_load_profile` takes the first n hours of the aggregate profile, so load scenario i has nearly the same global load level in every set that uses the default profile (correlation 0.95 per index between `calib` and `stress100`). Outages, per-bus noise and dispatch are independent. The `confirm` sets use another profile for this reason.
-- Duplicates. About 4% of the random N-1 rows are exact duplicate (load scenario, outage) draws, because outages are drawn with replacement within a load scenario. N-2 has one, N-3 and N-5 none.
-- Not real operating data. Everything is simulated: perturbed pglib IEEE 118 with datakit load scenarios, and OPF dispatch that is computed once per load scenario and not re-dispatched after the outage.
-- Setpoints. Slack and PV voltage magnitudes are dispatch setpoints that are constant across the outages of a load scenario.
+- Shared load trajectory: datakit's `agg_load_profile` takes the first n hours of the aggregate profile, so load scenario i has nearly the same global load level in every set that uses the default profile (correlation 0.95 per index between `calib` and `stress100`). Outages, per-bus noise and dispatch are independent, and the `confirm` sets use another profile for this reason.
+- Duplicates: about 4% of the random N-1 rows are exact duplicate (load scenario, outage) draws, because outages are drawn with replacement within a load scenario, while N-2 has one duplicate and N-3 and N-5 have none.
+- Not real operating data: everything is simulated from the perturbed pglib IEEE 118 case with datakit load scenarios, and the OPF dispatch is computed once per load scenario and not re-dispatched after the outage.
+- Setpoints: slack and PV voltage magnitudes are dispatch setpoints that are constant across the outages of a load scenario.
 
 ## Sources and license
 
-Generated data, Apache-2.0. The network is the IEEE 118-bus case from PGLib-OPF (IEEE PES Task Force on Benchmarks for Validation of Emerging Power System Algorithms, CC BY 4.0) read through gridfm-datakit (Apache-2.0). The default and `ercot_load_act_hr_2024_east` load profiles ship with gridfm-datakit; the scenarios contain derived load shapes only. Please cite the post and the GENCO paper (arXiv:2608.09921).
+The generated data is licensed Apache-2.0, and the network is the IEEE 118-bus case from PGLib-OPF (IEEE PES Task Force on Benchmarks for Validation of Emerging Power System Algorithms, CC BY 4.0) read through gridfm-datakit (Apache-2.0). The default and `ercot_load_act_hr_2024_east` load profiles ship with gridfm-datakit, and the scenarios contain derived load shapes only. Please cite the post and the GENCO paper (arXiv:2608.09921).
 
 ## Authors
 

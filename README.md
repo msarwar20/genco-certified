@@ -1,14 +1,14 @@
 # What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state
 
-Entry to the GridFM GENCO Challenge 2026, by Muhammad Sarwar (Iowa State University) and Muhammad Rizwan (Pakistan Institute of Engineering & Applied Sciences). Write-up: [docs/POST.md](docs/POST.md). Models and data: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console).
+This is the entry of Muhammad Sarwar (Iowa State University) and Muhammad Rizwan (Pakistan Institute of Engineering & Applied Sciences) to the GridFM GENCO Challenge 2026. The write-up is [docs/POST.md](docs/POST.md), and the models and data are at [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console).
 
-GENCO predicts an AC power-flow state in one forward pass. In contingency analysis, though, an operator rarely solves from scratch: the solved pre-contingency case is already on the screen and is the warm start production tools use. This repository asks a narrow question about the released GENCO checkpoints. If the prediction is handed to a float64 Newton solver, how much solver work does it save against the pre-contingency start, and can that saving be taken without missing an overload? Everything here, from the Newton solvers to the figure scripts, is built to answer that and to let you re-check it. Every number in the write-up is traced to a source file in [docs/NUMBERS.md](docs/NUMBERS.md).
+GENCO predicts an AC power-flow state in one forward pass, but in contingency analysis an operator rarely solves from scratch, because the solved pre-contingency case is already on the screen and is the warm start that production tools use. This repository asks a narrow question about the released GENCO checkpoints: if the prediction is handed to a float64 Newton solver, how much solver work does it save against the pre-contingency start, and can that saving be taken without missing an overload? Everything here, from the Newton solvers to the figure scripts, is built to answer that question and to let you re-check the answer, and every number in the write-up is traced to a source file in [docs/NUMBERS.md](docs/NUMBERS.md).
 
 ## Results at a glance
 
-In contingency analysis, a power-flow prediction is only as valuable as the solver work it saves, and that solver doesn't start from scratch. It starts from the solved pre-contingency case and usually reuses that case's factorization in a chord or fast-decoupled method. We put the prediction of GENCO [1] in front of each of these solvers on three grids and measured what it saves at equal safety.
+In contingency analysis a power-flow prediction is only as valuable as the solver work it saves, and that solver does not start from scratch: it starts from the solved pre-contingency case and usually reuses that case's factorization in a chord or fast-decoupled method. We put the prediction of GENCO [1] in front of each of these solvers on three grids and measured what it saves at equal safety.
 
-Fig. 1 summarizes the result. On IEEE 118 a GENCO start saves a fifth of the work for Newton and a twentieth for fast-decoupled. At 2,000 buses it saves 2% for chord Newton and costs extra for the other two. The screening savings in Sec. IV are counted in full-Newton factorizations, and Sec. III shows they do not pay back in wall-clock time.
+Fig. 1 summarizes the result: on IEEE 118 a GENCO start saves a fifth of the work for Newton and a twentieth for fast-decoupled, while at 2,000 buses it saves 2% for chord Newton and costs extra for the other two. The screening savings in Sec. IV are counted in full-Newton factorizations, and Sec. III shows they do not pay back in wall-clock time.
 
 TABLE 0. Results at a glance (IEEE 118, released checkpoints, unless stated).
 
@@ -39,31 +39,16 @@ The remaining figures (workflow, factor-reuse break-even, slack audit, GENCO-Δ)
 
 ## What is in this repo
 
-- `src/genco_certified/`: the installable package.
-  - `acpf.py` is the float64 AC power flow on exactly the admittance graph GENCO sees.
-  - `fastpf.py` holds the chord and fast-decoupled solvers that reuse one factorization per operating point.
-  - `tracing.py` captures GENCO's state after each correction layer.
-  - `graphkit_plugin.py` is the slack-aware PF task for gridfm-graphkit.
-  - `basecase_store.py` and `genco_residual.py` are the pre-contingency store and the residual GENCO-Δ decoder.
-  - `loading.py` builds a task and test dataloader in-process.
-- `scripts/`, one per experiment:
-  - `reproduce.py` and `summarize_repro.py` re-evaluate the released checkpoints.
-  - `exp01_layers_newton.py` (layer dynamics, Newton from each layer) and `exp06_slack_audit.py` (slack convention).
-  - `exp02_screening.py` with `analyze_exp02.py` (exchange rate, sequential policy, calibration, confidence intervals).
-  - `exp05_best_start.py` and `exp07_industrial_baselines.py` (best-of-two start, chord and fast-decoupled baselines, timing).
-  - `exp04_embedding_probe.py` and `exp08_bias_correction.py` (two negative results).
-  - `finetune.py`, `finetune_residual.py` and the `run_genco_delta*.sh` drivers (slack-aware fine-tune, GENCO-Δ).
-  - `make_post_figures.py`, `build_space_bundle.py`, `verify_artifacts.py`, and the `run_batch3*.sh` drivers.
-- `configs/datakit/`: the gridfm-datakit configs for every new scenario set (N-1 to N-5, calibration, exhaustive).
-- `space/`: a small Gradio console that walks one contingency through the policy. It is prepared but not published.
-- `notebooks/`: two Colab notebooks for a GPU timing run and for GENCO-Δ on GOC 2000. See `notebooks/README.md`.
-- `tests/`: unit tests for the solvers, the screening policy and the GENCO-Δ code.
-- `results/`: JSON, CSV and logs for every table, one directory per experiment (`exp01` to `exp08`, `genco_delta`, `repro`, `runtime`), and `figures/post/`. `SHA256SUMS` covers the tracked files.
-- `docs/`: `POST.md` (write-up), `NUMBERS.md` (source of truth for every number), `REPRODUCE.md` (commands), `report.md` (earlier report, see its header).
+- `src/genco_certified/` is the installable package. It holds `acpf.py`, the float64 AC power flow on exactly the admittance graph GENCO sees, and `fastpf.py`, the chord and fast-decoupled solvers that reuse one factorization per operating point. It also holds `tracing.py`, which captures GENCO's state after each correction layer, `graphkit_plugin.py`, the slack-aware PF task for gridfm-graphkit, `basecase_store.py` and `genco_residual.py`, the pre-contingency store and the residual GENCO-Δ decoder, and `loading.py`, which builds a task and test dataloader in-process.
+- `scripts/` has one script per experiment. `reproduce.py` and `summarize_repro.py` re-evaluate the released checkpoints, `exp01_layers_newton.py` covers layer dynamics (Newton from each layer), and `exp06_slack_audit.py` covers the slack convention. `exp02_screening.py` with `analyze_exp02.py` produces the exchange rate, sequential policy, calibration and confidence intervals, while `exp05_best_start.py` and `exp07_industrial_baselines.py` cover the best-of-two start, the chord and fast-decoupled baselines, and timing. `exp04_embedding_probe.py` and `exp08_bias_correction.py` are the two negative results, `finetune.py`, `finetune_residual.py` and the `run_genco_delta*.sh` drivers run the slack-aware fine-tune and GENCO-Δ, and the rest are `make_post_figures.py`, `build_space_bundle.py`, `verify_artifacts.py` and the `run_batch3*.sh` drivers.
+- `configs/datakit/` holds the gridfm-datakit configs for every new scenario set (N-1 to N-5, calibration, exhaustive), and `tests/` holds unit tests for the solvers, the screening policy and the GENCO-Δ code.
+- `space/` is a small Gradio console that walks one contingency through the policy; it is prepared but not published. `notebooks/` has two Colab notebooks, one for a GPU timing run and one for GENCO-Δ on GOC 2000, described in `notebooks/README.md`.
+- `results/` has the JSON, CSV and logs for every table, one directory per experiment (`exp01` to `exp08`, `genco_delta`, `repro`, `runtime`), plus `figures/post/`, and `SHA256SUMS` covers the tracked files.
+- `docs/` has `POST.md` (write-up), `NUMBERS.md` (source of truth for every number), `REPRODUCE.md` (commands) and `report.md` (earlier report, see its header).
 
 ## Reproduce
 
-The reference machine is a MacBook Air M4 with Python 3.12. A full run needs about 25 GB of disk; the core reproduction needs about 8 GB.
+The reference machine is a MacBook Air M4 with Python 3.12, and a full run needs about 25 GB of disk, of which the core reproduction needs about 8 GB.
 
 ```bash
 ./scripts/setup_env.sh && source .venv/bin/activate && pip install -e .
@@ -76,27 +61,20 @@ python -m pytest -m "not data" -q
 python scripts/verify_artifacts.py
 ```
 
-The last command checks `SHA256SUMS`, that every result JSON parses, and that its numbers are finite; add `--checkpoints` to also match the released weights. Data generation for the stress sets, the GOC runs, fine-tuning and GENCO-Δ are in [docs/REPRODUCE.md](docs/REPRODUCE.md). Counts of iterations and factorizations reproduce to the printed precision on the same platform; timings and the last digits of mismatches will vary by machine.
+The last command checks `SHA256SUMS`, that every result JSON parses, and that its numbers are finite; add `--checkpoints` to also match the released weights. Data generation for the stress sets, the GOC runs, fine-tuning and GENCO-Δ are covered in [docs/REPRODUCE.md](docs/REPRODUCE.md). Counts of iterations and factorizations reproduce to the printed precision on the same platform; timings and the last digits of mismatches will vary by machine.
 
 ## Negative results
 
-- Convergence rescue: flat-start Newton never failed up to N-5, so there was nothing to rescue.
-- Accepting GENCO with no Newton step: its own residual never certified a whole contingency.
-- The embedding probe ("the latents know where GENCO is wrong") is withdrawn; bus identity alone explains about as much.
-- Per-bus bias correction removes 0.3% of squared error in-sample and nothing out of sample.
-- Slack fix by mask surgery on Base: feeding the setpoint in multiplies state error by 17×; re-anchoring voltages is worse in 95–100% of scenarios.
-- Slack-aware fine-tune: honest power balance, about 29% worse state error than a matched control, no iteration gain.
-- Plain GENCO-Δ reaches base-case quality at best; one seed diverged. Residual GENCO-Δ regresses at N-5.
-- Calibrating the error bound on 29 operating points was not exchangeable across outage order (up to 33% exceedance at N-2). A 100-point calibration fixes it, without making it a guarantee.
-- Plain chord Newton from the base case fails the 50-iteration cap in 20–70% of contingencies, depending on outage order.
-- No wall-clock gain on an M4 laptop: inference is 12–1,600× above break-even.
+Several things we tried did not work. Flat-start Newton never failed up to N-5, so there was no convergence to rescue, and accepting GENCO with no Newton step failed because its own residual never certified a whole contingency. The embedding probe ("the latents know where GENCO is wrong") is withdrawn, since bus identity alone explains about as much, and per-bus bias correction removes 0.3% of squared error in-sample and nothing out of sample. A slack fix by mask surgery on Base does not work either: feeding the setpoint in multiplies state error by 17×, and re-anchoring voltages is worse in 95–100% of scenarios. The slack-aware fine-tune gives an honest power balance, but its state error is about 29% worse than a matched control and it brings no iteration gain.
+
+Plain GENCO-Δ reaches base-case quality at best, and one seed diverged, while residual GENCO-Δ regresses at N-5. Calibrating the error bound on 29 operating points was not exchangeable across outage order (up to 33% exceedance at N-2), and a 100-point calibration fixes this without making it a guarantee. Plain chord Newton from the base case fails the 50-iteration cap in 20–70% of contingencies, depending on outage order. Finally, we found no wall-clock gain on an M4 laptop, where inference is 12–1,600× above break-even.
 
 ## Limitations
 
-The zero-miss result is empirical, on datakit scenarios. Calibration and test sets share datakit's daily load trajectory, so the operating-point bounds are optimistic, and a Newton–Kantorovich certificate that would give a proof does not hold at GENCO's raw output. Factor-reuse results cover IEEE 118 and GOC 500 at seed 0; GENCO-Δ was run on IEEE 118 only. The reproduction of the released checkpoints uses about 3% of each paper test set, with mean metrics within about 6% (worst 13%). Timings come from Python and SciPy, and a compiled solver would push the break-even lower. GPU timings have not been measured yet.
+The zero-miss result is empirical, on datakit scenarios. The main calibration and test sets share datakit's daily load trajectory, although the confirmation run uses a different load profile, and a Newton–Kantorovich certificate that would give a proof does not hold at GENCO's raw output. Factor-reuse results cover IEEE 118, GOC 500 and GOC 2000 at seed 0, and GENCO-Δ was run on IEEE 118 only. The reproduction of the released checkpoints uses about 3% of each paper test set, with mean metrics within about 6% (worst 13%). Timings come from Python and SciPy, so a compiled solver would push the break-even lower, and the GPU timings come from a single Colab session on a Tesla T4.
 
 ## License and attribution
 
-Apache-2.0 ([LICENSE](LICENSE)). [NOTICE](NOTICE) lists the third-party software, models and data this work builds on, with their terms: gridfm-graphkit, gridfm-datakit and the released GENCO checkpoints. To cite, use [CITATION.cff](CITATION.cff).
+The code is released under Apache-2.0 ([LICENSE](LICENSE)), and [NOTICE](NOTICE) lists the third-party software, models and data this work builds on, with their terms: gridfm-graphkit, gridfm-datakit and the released GENCO checkpoints. To cite this work, use [CITATION.cff](CITATION.cff).
 
 Contact: Muhammad Sarwar, msarwar@iastate.edu

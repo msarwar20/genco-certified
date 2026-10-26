@@ -1,8 +1,8 @@
 # Reproducing the results
 
-This file lists, in order, the commands that take a fresh clone to every result table and figure. It was assembled from `scripts/run_all.sh`, the `--help` of each script, the batch drivers `scripts/run_batch3*.sh`, `scripts/run_genco_delta*.sh`, and the "Reproduce" sections of `results/notes/*.md`. Where a table could not be tied to one command, that is said explicitly in section 10.
+This file lists, in order, the commands that take a fresh clone to every result table and figure. It was assembled from `scripts/run_all.sh`, the `--help` of each script, the batch drivers `scripts/run_batch3*.sh`, `scripts/run_genco_delta*.sh`, and the "Reproduce" sections of `results/notes/*.md`, and where a table could not be tied to one command, section 10 says so explicitly.
 
-All commands run from the repository root. Reference machine: MacBook Air M4 (24 GB), macOS 15, Python 3.12. The shell is zsh (no `timeout`; use `${var}` rather than `$var[...]`).
+All commands run from the repository root on the reference machine, a MacBook Air M4 (24 GB) with macOS 15 and Python 3.12, using zsh (which has no `timeout`, so use `${var}` rather than `$var[...]`).
 
 ## 0. What you need
 
@@ -18,7 +18,7 @@ All commands run from the repository root. Reference machine: MacBook Air M4 (24
 | `checkpoints/finetuned` (fine-tuned weights, 29 runs plus smoke runs) | 9.9 GB |
 | `results/` after a full run, including git-ignored parquet intermediates | 2.3 GB (2.0 GB is `results/exp02`) |
 
-A complete run needs about 25 GB. The core reproduction (steps 1 to 6, no fine-tuning, no GOC 2000) needs about 8 GB. The tracked part of `results/` is only about 33 MB (JSON, CSV, Markdown, logs, small parquet).
+A complete run needs about 25 GB, and the core reproduction (steps 1 to 6, no fine-tuning, no GOC 2000) needs about 8 GB. The tracked part of `results/` is only about 33 MB (JSON, CSV, Markdown, logs, small parquet).
 
 Network access is needed for steps 1 and 2 (Hugging Face: `gridfm/genco-pf-datakit`, `gridfm/genco-opf-datakit`, `gridfm/pf_small_<grid>`, `gridfm/opf_small_<grid>`) and for the Julia packages that datakit installs on first use (PowerModels 0.21.6, Ipopt 1.15.0, Memento 1.5.0; see `external/gridfm-datakit/gridfm_datakit/juliapkg.json`). Nothing else touches the network.
 
@@ -31,7 +31,7 @@ export MLFLOW_ALLOW_FILE_STORE=true HF_HUB_DISABLE_PROGRESS_BARS=1
 pip install -e .                       # the genco_certified package (setup_env.sh installs the toolkits, not this)
 ```
 
-`requirements.lock.txt` records the exact versions that produced the results and `results/environment.json` the platform and Julia versions. `pandas` must stay below 3 (graphkit's OPF baseline breaks under pandas 3). Time: 10 to 15 minutes, most of it downloads.
+`requirements.lock.txt` records the exact versions that produced the results and `results/environment.json` the platform and Julia versions. `pandas` must stay below 3 because graphkit's OPF baseline breaks under pandas 3. Setup takes 10 to 15 minutes, most of it downloads.
 
 ## 2. Data
 
@@ -58,7 +58,7 @@ python scripts/gen_exhaustive_gen_outages.py configs/datakit/case118_exhaustive_
 python scripts/make_splits.py                  # splits_all for every generated set; GOC 2000 held-out splits
 ```
 
-`configs/datakit/trial.yaml` is a short trial configuration and is not needed. `make_splits.py` takes no arguments and writes into `data/`; run it once after the generation. Datakit renumbers scenarios, and the scripts assert that ids are contiguous 0..N-1 (graphkit's streaming loader needs this).
+`configs/datakit/trial.yaml` is a short trial configuration and is not needed, whereas `make_splits.py` takes no arguments and writes into `data/`, so run it once after the generation. Datakit renumbers scenarios, and the scripts assert that ids are contiguous 0..N-1 (graphkit's streaming loader needs this).
 
 Note (RESEARCH_LOG, `results/notes/data_D.md`): the calibration, stress100 and paper sets share the global load trajectory (datakit takes the first n hours of the aggregate profile), so the conformal exchangeability argument holds only conditionally on it.
 
@@ -70,11 +70,11 @@ python scripts/reproduce.py --task opf --sizes base small
 python scripts/summarize_repro.py                                  # -> results/repro/summary_*.csv and the comparison table
 ```
 
-Runtime: part of the 1.5 to 2 h budget of `run_all.sh`. Output: `results/repro/`.
+This takes part of the 1.5 to 2 h budget of `run_all.sh` and writes to `results/repro/`.
 
 ## 4. Experiments
 
-`scripts/run_all.sh` runs steps 1 to 4 of this section in one go for the original (pre-WS0) experiment set: about 1.5 to 2 hours on the M4 without fine-tuning, about 80 minutes more with `--with-finetune`. It does not call the later experiments (`--ci`, `--xcal`, exp07, exp08, the big sets, GOC 500, the GENCO-Δ matrix). The commands below cover all of them.
+`scripts/run_all.sh` runs steps 1 to 4 of this section in one go for the original (pre-WS0) experiment set: about 1.5 to 2 hours on the M4 without fine-tuning, about 80 minutes more with `--with-finetune`. It does not call the later experiments (`--ci`, `--xcal`, exp07, exp08, the big sets, GOC 500, the GENCO-Δ matrix), which the commands below cover.
 
 ### 4.1 Layer dynamics and one Newton step (exp01), screening runs (exp02), slack audit (exp06), best start (exp05)
 
@@ -97,7 +97,7 @@ python scripts/exp05_best_start.py    --grid case2000_goc --size small --split s
 python scripts/exp06_slack_audit.py   --grid case2000_goc --size small --split splits_heldout --batch_size 8
 ```
 
-Runtime: exp02 takes 20 to 30 s on the 638-scenario paper set and 2 to 4 minutes on a 2,200-scenario set; exp01 on GOC 2000 is the slowest job in the repository (tens of minutes to hours depending on the scenario count; timestamps are in `results/batch3_logs/`). Output: `results/exp01`, `exp02` (git-ignored `*_branches.parquet`, `*_buses.parquet`), `exp05`, `exp06`.
+Runtime: exp02 takes 20 to 30 s on the 638-scenario paper set and 2 to 4 minutes on a 2,200-scenario set. On GOC 2000, exp01 is the slowest job in the repository (tens of minutes to hours depending on the scenario count; timestamps are in `results/batch3_logs/`). Outputs land in `results/exp01`, `exp02` (git-ignored `*_branches.parquet`, `*_buses.parquet`), `exp05` and `exp06`.
 
 Seeds and sizes used by the `--ci` tables:
 
@@ -144,7 +144,7 @@ python scripts/analyze_exp02.py --xcal --cal_tag none --eval_tags case2000_goc_s
 python scripts/summarize_batch3.py --layers      # prints the batch-3 summary tables
 ```
 
-(The `--xcal` commands are copied from `results/notes/batch3_H.md`. The big118 call is complete there; the goc500 and goc2000h calls are shown as in the note.) Output: `results/policy_{big118,goc500,goc2000h}.log`, `results/exp02/{big118,goc500,goc2000h}_*.csv`.
+(The `--xcal` commands are copied from `results/notes/batch3_H.md`, where the big118 call is complete and the goc500 and goc2000h calls are shown as in the note.) The outputs are `results/policy_{big118,goc500,goc2000h}.log` and `results/exp02/{big118,goc500,goc2000h}_*.csv`.
 
 ### 4.4 Factor-reuse baselines and break-even (exp07)
 
@@ -155,7 +155,7 @@ python scripts/exp07_industrial_baselines.py --timing --repeats 5       # idle m
 python scripts/exp07_industrial_baselines.py --summarize                # -> results/exp07/*.csv, exp07.log
 ```
 
-The exhaustive N-1 runs (`exh_n1_base`, `exh_n1gen_base`) are in `results/exp07/run_exhaustive.log`; the invocation is the same with `--data_root data/exhaustive/n1` (or `n1_gen`) `--split splits_all` and that tag. GOC 500 Base is in `scripts/run_batch3.sh`.
+The exhaustive N-1 runs (`exh_n1_base`, `exh_n1gen_base`) are in `results/exp07/run_exhaustive.log`; the invocation is the same with `--data_root data/exhaustive/n1` (or `n1_gen`) `--split splits_all` and that tag, and GOC 500 Base is in `scripts/run_batch3.sh`.
 
 ### 4.5 Embedding probe (exp04), per-bus bias correction (exp08), runtime
 
@@ -192,11 +192,11 @@ nohup ./scripts/run_genco_delta_residual.sh > results/genco_delta/run_residual.l
 ARMS="residual_vm_va_flows" LR=3e-4 SUFFIX="_lr3e-4" ./scripts/run_genco_delta_residual.sh > results/genco_delta/run_residual_lr3e-4.log 2>&1
 ```
 
-`scripts/queue_residual_after_matrix.sh <pid>` chains these. Both drivers build the base-case stores first (`scripts/build_basecase_store.py --all --seed_splits 1 42`), are resumable (finished run records and evaluation JSONs are skipped, `FORCE=1` redoes), and take the knobs documented at the top of each script (`SEEDS`, `ARMS`, `EPOCHS`, `LR`, `SETS`, `SMOKE=1` for a one-epoch dry run, `NICE`). Do not run two evaluations of the same task name at once (they share a generated config file). Do not use the GPU for anything else during a run.
+`scripts/queue_residual_after_matrix.sh <pid>` chains these. Both drivers build the base-case stores first (`scripts/build_basecase_store.py --all --seed_splits 1 42`), are resumable (finished run records and evaluation JSONs are skipped, `FORCE=1` redoes), and take the knobs documented at the top of each script (`SEEDS`, `ARMS`, `EPOCHS`, `LR`, `SETS`, `SMOKE=1` for a one-epoch dry run, `NICE`). Do not run two evaluations of the same task name at once, since they share a generated config file, and do not use the GPU for anything else during a run.
 
-Runtime on an M4: about 3.3 minutes per epoch per run, 12 epochs, so roughly 40 minutes per run. The matrix has 12 runs (about 8 h) and each residual arm 3 runs; evaluations are about 25 s each. Results: `results/genco_delta/{runs,eval,logs,train_logs}` and the tables `summary_by_arm.md`, `residual_summary_by_arm.md` (aggregator: `python scripts/eval_genco_delta.py --aggregate --out_dir results/genco_delta/eval`).
+On an M4 a run takes about 3.3 minutes per epoch for 12 epochs, so roughly 40 minutes per run. The matrix has 12 runs (about 8 h), each residual arm has 3 runs, and evaluations take about 25 s each. Results are in `results/genco_delta/{runs,eval,logs,train_logs}` and the tables `summary_by_arm.md`, `residual_summary_by_arm.md` (aggregator: `python scripts/eval_genco_delta.py --aggregate --out_dir results/genco_delta/eval`).
 
-The mixed N-k study (`data/train_nk`, `scripts/make_splits_nk.py`, `scripts/run_genco_delta_nk.sh`, config `configs/datakit/case118_train_nk.yaml`) was still running when this file was written. Its commands are in the header of `scripts/run_genco_delta_nk.sh` and `results/notes/ws4_N_nk.md`, and are not repeated here.
+The mixed N-k study (`data/train_nk`, `scripts/make_splits_nk.py`, `scripts/run_genco_delta_nk.sh`, config `configs/datakit/case118_train_nk.yaml`) was still running when this file was written; its commands are in the header of `scripts/run_genco_delta_nk.sh` and `results/notes/ws4_N_nk.md`, and are not repeated here.
 
 GOC 2000 GENCO-Δ was prepared for Colab (`notebooks/colab_genco_delta.ipynb`, `scripts/pack_for_colab.sh`, `notebooks/README.md`).
 
@@ -215,7 +215,7 @@ python scripts/make_post_figures.py     # results/figures/post/<name>.{png,svg} 
 python scripts/build_space_bundle.py    # rebuilds space/bundle/ (about 5 MB; deterministic)
 ```
 
-`space/bundle/calibration.json` holds the escalation constant read by `space/engine.py`. It was derived from `results/exp02/big118_policies.csv` (rows `set == "S100 N-1"`, policies `genco_seq` and `base_seq`, rule `conf0.10` by default); regenerate it from that file if the calibration is redone. Publishing the Space (`scripts/publish_space.py`) is outward-facing and is not part of reproduction.
+`space/bundle/calibration.json` holds the escalation constant read by `space/engine.py`, which was derived from `results/exp02/big118_policies.csv` (rows `set == "S100 N-1"`, policies `genco_seq` and `base_seq`, rule `conf0.10` by default); regenerate it from that file if the calibration is redone. Publishing the Space (`scripts/publish_space.py`) is outward-facing and is not part of reproduction.
 
 ## 8. Tests
 
@@ -224,7 +224,7 @@ python -m pytest -m "not data" -q       # offline: no downloads, 14 tests, about
 python -m pytest -q tests               # full suite with data and released checkpoints present: 69 tests, about 20 s
 ```
 
-`results/validation/pytest.log` is the log of a full run. Tests that need `data/pf/case118_ieee` or the released checkpoints carry the `data` marker and skip when the files are missing.
+`results/validation/pytest.log` is the log of a full run, and tests that need `data/pf/case118_ieee` or the released checkpoints carry the `data` marker and skip when the files are missing.
 
 ## 9. Verify the artifacts
 
@@ -234,7 +234,7 @@ python scripts/verify_artifacts.py --checkpoints   # also: released checkpoints 
 python scripts/make_checksums.py                   # regenerate SHA256SUMS after results/ changes (and after `git add` of new result files)
 ```
 
-`SHA256SUMS` covers the git-tracked `results/**/*.{json,csv,md,log}`. Logs written by running jobs change the digest, so regenerate after a job finishes. A few JSON files contain NaN on purpose (a standard deviation over one seed, a GPU timing that was not measured, a precision with no predicted positives); they are listed in `NAN_OK` in `scripts/verify_artifacts.py`. Only the data-free parts were re-run to check this document; on the same platform the screening tables are expected to reproduce to the printed precision, while timings and the last digits of mismatches will vary by machine. Training is seeded but is not expected to be bit-deterministic on MPS.
+`SHA256SUMS` covers the git-tracked `results/**/*.{json,csv,md,log}`, and logs written by running jobs change the digest, so regenerate it after a job finishes. A few JSON files contain NaN on purpose (a standard deviation over one seed, a GPU timing that was not measured, a precision with no predicted positives); they are listed in `NAN_OK` in `scripts/verify_artifacts.py`. Only the data-free parts were re-run to check this document, and on the same platform the screening tables are expected to reproduce to the printed precision, while timings and the last digits of mismatches will vary by machine. Training is seeded but is not expected to be bit-deterministic on MPS.
 
 CI (`.github/workflows/ci.yml`) runs the offline tests and the checksum/finite check on Ubuntu with Python 3.12.
 
@@ -243,7 +243,7 @@ CI (`.github/workflows/ci.yml`) runs the offline tests and the checksum/finite c
 - Report Tables I to VII (`docs/report.md`) predate the revised analysis and are being rewritten. The mapping above is by result file, not by table number.
 - Table II (embedding probe) comes from `exp04_embedding_probe.py`; the exact `--alpha_mode loo --tag _loo_seed0` call that produced `probe_v2_*_loo_seed0.*` is inferred from the file names and the script's options, not from a log.
 - `results/runtime/*.json` (CPU/MPS timings): the three files correspond to `bench_runtime.py` (IEEE 118, GOC 2000) and `bench_genco_cpu.py` (GOC 500 CPU). The thread and batch settings used are inside the JSON, not in a driver.
-- Colab GPU timings and the Colab GOC 2000 GENCO-Δ run depend on the user's notebook outputs and are not in the repository.
+- The Colab GPU timings are stored in `results/colab/` as exported by the notebook; the Colab GOC 2000 GENCO-Δ run was not done.
 - The `--fit`/`--sets` arguments for exp08 Small and Tiny are in `run_batch3b.sh`; the Base call above is abbreviated.
 - Seeds 1 and 42 for exp07 were not run (RESEARCH_LOG, WS1 notes): the GENCO-start columns of the factor-reuse tables are Base seed 0 only.
 - `results/exp02/run_seeds_sizes.log` and `run_v3.log` are logs of runs of the commands in 4.1 and 4.2; the driver that looped over seeds and sizes was not saved as a script, so the loops in 4.1 are reconstructed from `results/notes/ws1_F_baselines_stats.md`, section 9.
