@@ -32,6 +32,7 @@ NAN_OK = {
     "results/exp04/probe_v2_summary_loo_seed0.json": r".*_sd",
     "results/exp07/cost_breakeven.json": r".*/model_(solve|total)_ms",
     "results/exp07/cost_breakeven_stress_n5_base.json": r".*/model_(solve|total)_ms",
+    "results/exp07/cost_breakeven_goc2000.json": r".*/model_(solve|total)_ms",
     "results/genco_delta/residual_smoke/eval/smoke_residual_init_s0__paper.json": r"/g0_el_precision/(value|ci95\[\d\])",
 }
 

@@ -240,7 +240,6 @@ CI (`.github/workflows/ci.yml`) runs the offline tests and the checksum/finite c
 
 ## 10. Tables and files without a single command
 
-- Report Tables I to VII (`docs/report.md`) predate the revised analysis and are being rewritten. The mapping above is by result file, not by table number.
 - Table II (embedding probe) comes from `exp04_embedding_probe.py`; the exact `--alpha_mode loo --tag _loo_seed0` call that produced `probe_v2_*_loo_seed0.*` is inferred from the file names and the script's options, not from a log.
 - `results/runtime/*.json` (CPU/MPS timings): the three files correspond to `bench_runtime.py` (IEEE 118, GOC 2000) and `bench_genco_cpu.py` (GOC 500 CPU). The thread and batch settings used are inside the JSON, not in a driver.
 - The Colab GPU timings are stored in `results/colab/` as exported by the notebook; the Colab GOC 2000 GENCO-Δ run was not done.

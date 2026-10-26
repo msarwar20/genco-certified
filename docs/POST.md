@@ -1,17 +1,17 @@
 <!--
 DRAFT v4 (2026-10-26) for the Community-tab post. Do not post: the user posts it.
 Numbers: docs/NUMBERS.md; moved material: docs/SUPPLEMENT.md.
-Placeholders: {{VIDEO}} (video link, user), title still under discussion.
+Placeholders: none.
 Figures (upload with the post): figH_hero.png, figB_exchange_rate.png, figA_workflow.png, figC_equal_cost.png, figF_genco_delta.png.
 -->
 
-# What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state
+# What Is GENCO Worth to a Newton Solver? Savings, Safety and Break-Even Against the Pre-Contingency Start
 
 **Muhammad Sarwar**, Iowa State University, Ames, IA, USA · **Muhammad Rizwan**, Pakistan Institute of Engineering & Applied Sciences, Islamabad, Pakistan · contact: msarwar@iastate.edu
 
 **Abstract.** We price GENCO's [1] power-flow prediction in the solver work it saves during contingency analysis, measured against the start that operators already have, the solved pre-contingency case, under Newton, chord and fast-decoupled solvers on IEEE 118, GOC 500 and GOC 2000. On IEEE 118 a GENCO start saves 20% of the triangular solves for Newton and 5% for fast-decoupled. A calibrated screening rule built on it needs 37–44% fewer factorizations with no missed overload, which we confirmed once on fresh data generated after the rule was frozen. The saving shrinks with grid size and turns negative at 2,000 buses, and on neither a laptop nor a T4 GPU does inference pay back in wall-clock time against the solvers that operators run.
 
-**Resources.** [Code](https://github.com/msarwar20/genco-certified) · [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes) · [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118) · [interactive demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console) · [video, 3:46]({{VIDEO}}) · [supplement](https://github.com/msarwar20/genco-certified/blob/main/docs/SUPPLEMENT.md). Every number in this post is traced to a result file in [`docs/NUMBERS.md`](https://github.com/msarwar20/genco-certified/blob/main/docs/NUMBERS.md), and the following commands set up the environment and check every stored result against its checksum, with the per-table commands in `docs/REPRODUCE.md`:
+**Resources.** [Code](https://github.com/msarwar20/genco-certified) · [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes) · [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118) · [interactive demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console) · [supplement](https://github.com/msarwar20/genco-certified/blob/main/docs/SUPPLEMENT.md). Every number in this post is traced to a result file in [`docs/NUMBERS.md`](https://github.com/msarwar20/genco-certified/blob/main/docs/NUMBERS.md), and the following commands set up the environment and check every stored result against its checksum, with the per-table commands in `docs/REPRODUCE.md`:
 
 ```bash
 git clone https://github.com/msarwar20/genco-certified && cd genco-certified

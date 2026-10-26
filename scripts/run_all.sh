@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Reproduce every result in docs/report.md on a laptop (~1.5-2 h without fine-tuning, ~+80 min with).
+# Reproduce the core results (docs/NUMBERS.md) on a laptop (~1.5-2 h without fine-tuning, ~+80 min with).
 # Usage: ./scripts/run_all.sh [--with-finetune]
 set -euo pipefail
 cd "$(dirname "$0")/.."

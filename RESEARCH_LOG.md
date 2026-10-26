@@ -528,19 +528,6 @@ Source: `scripts/exp04_embedding_probe.py`, `results/exp04/case118_ieee_base_pro
 - IBM affiliates are ineligible. The jury is not yet named.
 - Not submitted yet (user's instruction).
 
-**Entries so far**
-- #1 [EXAMPLE] by A. Puech (organizer):
-  - Contingency analysis on GOC 500 with GENCO Tiny.
-  - F-β-tuned overload threshold.
-  - Runtime taken from the paper (GENCO ~2× faster than AC-PF).
-  - Conformal abstention listed as next steps.
-  - Our entry is positioned as that next step, done with a Newton step against the base-case baseline.
-- #2 "another entry" by another author (2026-10-09):
-  - AC-PTDF audit plus response-supervised fine-tuning of GENCO Small, with three seeds.
-  - Very thorough open-science package.
-  - Notably, its PF adapter "marks reference voltage magnitude as known". It independently handles the slack-Vm mask, without quantifying it.
-  - Acknowledged in our README/report.
-
 **Repo**
 - Local git (main) and a private GitHub repo: https://github.com/msarwar20/genco-certified
 - 176 files, about 17 MB.
@@ -590,20 +577,6 @@ Source: `scripts/exp04_embedding_probe.py`, `results/exp04/case118_ieee_base_pro
 12. **Reproduction wording.** "Within 6%" holds for mean metrics only. RMSE and PBE-max deviate more (subset effect, untested).
 13. **Unscripted analyses.** Mask surgery, re-anchoring and slack locality have no script.
 14. **Slack-Vm framing.** It may be an intended convention. Frame it as an "undocumented convention with metric consequences".
-
-The reviewer's scores: originality 6, technical 5.5, exploration 7.5, communication 7, open science 6. 
-
-**B. other entries rigor teardown** (another entry v0.1.0)
-- Grouped splits with a test enforcing them.
-- A matched control logged per run, with three seeds.
-- Validation-only checkpoint selection.
-- FD checks with step sweeps.
-- All labels re-certified against an independent solver.
-- `verify_artifacts.py` checks the hash chain.
-- SHA256SUMS release, lockfile, LICENSE/NOTICE/CITATION.
-- Figure contract with source CSVs.
-- Gaps: n = 3 with no CIs; 2 small fixed grids; unrealistic operating points; no downstream task or UI; nothing on the HF Hub; a dense post.
-- No new entries or organizer replies as of 2026-10-11.
 
 ## 2026-10-11: WS0 corrections done (3 subagents). Full tables in results/notes/ws0_{A,B,C}_*.md
 

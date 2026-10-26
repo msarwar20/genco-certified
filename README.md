@@ -1,4 +1,4 @@
-# What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state
+# What Is GENCO Worth to a Newton Solver? Savings, Safety and Break-Even Against the Pre-Contingency Start
 
 This is the entry of Muhammad Sarwar (Iowa State University) and Muhammad Rizwan (Pakistan Institute of Engineering & Applied Sciences) to the GridFM GENCO Challenge 2026. The write-up is [docs/POST.md](docs/POST.md), and the models and data are at [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console).
 
@@ -43,7 +43,7 @@ The remaining figures (workflow, factor-reuse break-even, slack audit, GENCO-Δ)
 - `configs/datakit/` holds the gridfm-datakit configs for every new scenario set (N-1 to N-5, calibration, exhaustive), and `tests/` holds unit tests for the solvers, the screening policy and the GENCO-Δ code.
 - `space/` is a small Gradio console that walks one contingency through the policy; it is prepared but not published. `notebooks/` has two Colab notebooks, one for a GPU timing run and one for GENCO-Δ on GOC 2000, described in `notebooks/README.md`.
 - `results/` has the JSON, CSV and logs for every table, one directory per experiment (`exp01` to `exp08`, `genco_delta`, `repro`, `runtime`), plus `figures/post/`, and `SHA256SUMS` covers the tracked files.
-- `docs/` has `POST.md` (write-up), `NUMBERS.md` (source of truth for every number), `REPRODUCE.md` (commands) and `report.md` (earlier report, see its header).
+- `docs/` has `POST.md` (write-up), `NUMBERS.md` (source of truth for every number), `REPRODUCE.md` (commands) and `SUPPLEMENT.md` (material moved out of the post).
 
 ## Reproduce
 

@@ -148,7 +148,7 @@ grep -rn '/Users[/]' README.md docs hf space/app.py space/engine.py space/README
 git ls-files -z | xargs -0 grep -lI '/Users[/]'                                                              # no output
 ```
 
-Known and fine: `.github/workflows/ci.yml` uses `${{ ... }}` expressions, and `docs/HANDOFF.md`, `docs/PLAN.md` and `results/notes/review_post_*.md` mention placeholder names in prose. They are internal notes; clean them or leave them, they are not part of the post. If the `/Users` grep finds tracked files, run `scripts/sanitize_paths.sh`, then redo step 9. Also check the post for a leftover `TODO`, `TBD` or "draft".
+Known and fine: `.github/workflows/ci.yml` uses `${{ ... }}` expressions, and `results/notes/review_post_*.md` mention placeholder names in prose. They are internal notes; clean them or leave them, they are not part of the post. If the `/Users` grep finds tracked files, run `scripts/sanitize_paths.sh`, then redo step 9. Also check the post for a leftover `TODO`, `TBD` or "draft".
 
 ## 11. Commit, push, make the repos public (15 min)
 

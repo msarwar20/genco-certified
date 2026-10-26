@@ -13,7 +13,7 @@ tags:
 
 # GENCO fine-tunes on IEEE 118 (slack-aware, GENCO-Δ, controls)
 
-This repository holds twelve fine-tuned checkpoints of the released GENCO power-flow model (IEEE 118, Base, `gridfm/genco-pf-datakit`, `case118_ieee/base/seed{0,1,42}`), which are the research artifacts behind the post "What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state" (GridFM GENCO Challenge 2026). Code, data configs and the full numbers are available at these links: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console).
+This repository holds twelve fine-tuned checkpoints of the released GENCO power-flow model (IEEE 118, Base, `gridfm/genco-pf-datakit`, `case118_ieee/base/seed{0,1,42}`), which are the research artifacts behind the post "What Is GENCO Worth to a Newton Solver? Savings, Safety and Break-Even Against the Pre-Contingency Start" (GridFM GENCO Challenge 2026). Code, data configs and the full numbers are available at these links: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console).
 
 These checkpoints are not improved general-purpose power-flow models: two of the four families were trained to test whether giving GENCO the pre-contingency state helps a Newton solver, and the answer in the post is mostly "no". They are meant for reproducing the post or as a starting point for the same experiments.
 
@@ -122,7 +122,7 @@ The repository holds the state dicts only (`best_model_state_dict.pt`, 80,445,20
 ```
 @misc{sarwar2026genco_worth,
   author = {Sarwar, Muhammad and Rizwan, Muhammad},
-  title  = {What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state},
+  title  = {What Is GENCO Worth to a Newton Solver? Savings, Safety and Break-Even Against the Pre-Contingency Start},
   year   = {2026},
   note   = {GridFM GENCO Challenge 2026 submission},
   url    = {https://github.com/msarwar20/genco-certified}

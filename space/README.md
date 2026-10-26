@@ -14,7 +14,7 @@ short_description: Walk one contingency through GENCO and a calibrated Newton ch
 
 # GENCO Operator Console
 
-This Space is the interactive companion to our entry for the GridFM GENCO Challenge 2026, "What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state". The write-up has the full tables, and every number in it traces to `docs/NUMBERS.md` in the code repository.
+This Space is the interactive companion to our entry for the GridFM GENCO Challenge 2026, "What Is GENCO Worth to a Newton Solver? Savings, Safety and Break-Even Against the Pre-Contingency Start". The write-up has the full tables, and every number in it traces to `docs/NUMBERS.md` in the code repository.
 
 The console runs the released GENCO power-flow model (`gridfm/genco-pf-datakit`, IEEE 118, Base, seed 0) on a bundle of 30 contingencies each at N-1, N-2, N-3 and N-5. For a chosen contingency it shows:
 - the post-contingency grid, with true loadings and GENCO's local power mismatch at each bus (evaluated at the true slack-voltage setpoint);

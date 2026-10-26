@@ -39,3 +39,4 @@ results/genco_delta/logs/
 results/genco_delta/train_logs/
 results/genco_delta/residual_smoke/
 /genco_gpu_timing_*.zip
+/private/

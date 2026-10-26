@@ -595,7 +595,6 @@ Setup: IEEE 118 Base, init = released seed s in {0, 1, 42}, each trained and tes
 | Report VIII future work: "per-element bounds from embeddings", "delta learning ... likely to matter on large grids", "slack-aware at full scale" | Embedding bounds unsupported; delta learning tested (plain negative, residual helps N-1 at loose tolerance, fails N-5); GOC 2000 delta untested (Sec. 9) |
 | Report II.A Table I: stress and paper sets only; calibration on paper set | Add `calib/n1`, `stress100`, exhaustive N-1, GOC 500 (Sec. 6.1) |
 | Report/README "almost all uneventful" (Intro) | 33-35% of N-1 and 82-85% of N-5 scenarios contain violations |
-| README "Another entrant (another entry) also treats this voltage as known" | Still true; other entries ("another entry") now overlaps on NR verification (other entries note) |
 | README "pre-contingency states reconstructed" | Unchanged; GOC 2000 majority-status fix (100% silent fallback bug fixed 2026-10-02) |
 
 ---
@@ -613,7 +612,6 @@ Conflicts between sources
 8. **GENCO-Delta "paper N-1" rows** are means over three per-seed paper splits (n = 616-814), not the seed-0 638 set. Released 1.74 / 2.01 / 2.15 matches the 3-seed row; seed 0 alone is 1.72 / 2.00 / 2.15. N-count in plain-Delta rows varies (2 vs 3 seeds), and the log's "four of ten evaluations crash with an index error" is five of ten in the files: the seed-42 plain arms have 5 failed evaluations (`IndexError: list index out of range`, `results/genco_delta/logs/eval_delta_vm_va_s42__{paper,n1,n2,n3}.log` and `eval_delta_vm_va_flows_s42__n5.log`); the other five seed-42 evaluations ran but with diverged predictions.
 9. **IEEE 118 DC start**: exp01 Base/Small/Tiny parquets still use the old DC start (4.13 iterations, 98.4% convergence); the corrected 3.97 exists only in exp02 v3 and the control/slack-aware parquets. Log TODO still unchecked.
 10. **`policy_with_basecase*.log`, `exp02_base_baseline.log`, `policy_big118`-era older pooled numbers**: pre-correction logs remain in `results/` and show superseded LU (1.43-1.97, 2.90 etc.); do not cite.
-11. `results/notes/other entries_2026-10-21.md` says "Clopper-Pearson bounds on 11k contingencies": sources give 6,531 violating contingencies (11,630 scenarios) on the big sets and 1,770 (3,277 scenarios) on stress30+paper; the "11k" is scenarios, not contingencies.
 12. Slack-aware figures differ between the single-seed fine-tune (0.049 / 0.061 / 0.076) and the 3-seed matrix (0.054 / 0.067 / 0.086, per-seed splits); report the 3-seed version as primary, single seed as the first run.
 
 Headline numbers with partial or missing sources
