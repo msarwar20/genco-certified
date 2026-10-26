@@ -1,7 +1,7 @@
 <!--
 DRAFT v3 (2026-10-25) for the Community-tab post. Do not post: the user posts it.
 Numbers: docs/NUMBERS.md, results/notes/ws1_F2_goc2000_reuse.md (GOC 2000 factor reuse), results/notes/confirm_Z.md (confirmation run).
-Placeholders: {{GPU}} Colab GPU timing (user), {{AFFIL}}, {{LINKS}} (repo private until the user says otherwise).
+Placeholders: {{AFFIL}}, {{LINKS}} (repo private until the user says otherwise).
 Figures (upload with the post): figH_hero.png, figB_exchange_rate.png, figA_workflow.png, figC_equal_cost.png, figF_genco_delta.png.
 -->
 
@@ -21,7 +21,7 @@ TABLE 0. Results at a glance (IEEE 118, released checkpoints, unless stated).
 |---|---|
 | Newton iterations saved over the pre-contingency start, to 10⁻⁴ MW | 0.49 [0.45, 0.53] at N-1, 1.0 at N-5; 0.33 on GOC 500; −0.63 on GOC 2000 |
 | Work saved under factor reuse | chord: 21% of triangular solves; fast-decoupled: 5%; at 2,000 buses −18% to +2% |
-| Wall-clock break-even | inference must cost under 0.015–0.6 ms per contingency; GENCO takes 8.7 ms on a laptop GPU {{GPU}}. Even with free inference, GENCO + Newton is slower than fast-decoupled from the pre-contingency state |
+| Wall-clock break-even | inference must cost under 0.015–0.6 ms per contingency; GENCO Base takes 2.5 ms on a T4 GPU and 8.7 ms on a laptop GPU. Only the smallest model in fp16 crosses one threshold (full Newton, N-5). Even with free inference, GENCO + Newton is slower than fast-decoupled from the pre-contingency state |
 | Screening with a calibrated Newton check | 0 missed violations in 16,449 held out, and 0 in 17,095 more generated after the rule was frozen, from a different load profile. 37–44% fewer factorizations than the same check from the pre-contingency state |
 | What GENCO reports vs what it computes | its power balance looks 32–60× better than the physical one on IEEE 14–118 (about 20× on GOC 500 and 2000), because the slack-bus voltage setpoint is masked and predicted |
 | Conditioning GENCO on the base case | a residual decoder (GENCO-Δ) cuts N-1 state error 2.5× but saves no iterations at 10⁻⁴ MW; mixed N-k training trades the N-1 gain for an N-5 fix |
@@ -76,7 +76,14 @@ The saving falls with grid size under every solver, and it is smallest for fast-
 
 **Free inference.** Even if inference cost nothing, GENCO plus full Newton (1.25 ms per contingency) would still be slower than fast-decoupled from the pre-contingency state (0.35 ms).
 
-{{GPU: T4/A100 inference per contingency and whether any same-solver break-even is crossed.}}
+**On a data-centre GPU.** On a Tesla T4 (Colab), GENCO Base needs 2.5 ms per contingency in fp32 at the best batch size, and 1.6 ms in fp16. That is 3.5× faster than the M4, but still 8×, 69× and 168× the full-Newton, chord and fast-decoupled break-evens on the paper set. Unbatched, a single contingency takes 57–63 ms, most of it kernel-launch overhead.
+
+Only one configuration crosses a threshold: GENCO Tiny in fp16 or with early exit, at 0.38–0.51 ms, against the 0.63 ms full-Newton break-even at N-5. That comparison is generous to GENCO, for three reasons:
+- the break-even was measured for Base's saving;
+- it was measured against single-threaded Python Newton;
+- fp16 moves the predicted angles by a median 0.001 rad, and we did not measure what that does to the Newton saving.
+
+No configuration crosses the chord or fast-decoupled break-even. On GOC 2000, Small takes 19.5 ms on the T4 (13.4 ms in fp16), against a largest positive break-even there of 0.11 ms.
 
 ## IV. Taking the saving safely
 

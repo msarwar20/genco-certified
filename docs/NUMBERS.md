@@ -651,3 +651,27 @@ Headline numbers with partial or missing sources
   - 16,449 violating elements, 5,785 violating contingencies and 429 load scenarios, with 0 misses; one-sided CP UB on load scenarios 0.70%.
   - Equal cost over the five held-out sets: GENCO + 1 misses 32, base + 1 misses 1,250, base + 2 misses 32.
   - The step-1 zero-miss constants (0.004–0.0126) are 19–59× below the conf0.10 c = 0.2358.
+
+## 14. GPU timing (Tesla T4, Colab, 2026-10-26; `results/colab/genco_gpu_timing_Tesla_T4/Tesla_T4/{report.md,genco_gpu_timing.csv,genco_precision_check.csv}`)
+
+Setup: forward pass only, data on the device, median of repeats; best = lowest ms/scenario over batch 1–1024.
+
+IEEE 118:
+- Base, 12 layers: fp32 2.52 ms (batch 64), fp16 1.59 (256), bf16 2.83; batch 1 is 56.7–62.5 ms.
+- Base, 9 layers: fp32 1.91, fp16 1.23.
+- Small, 12 layers: fp32 1.30, fp16 0.885.
+- Tiny, 12 layers: fp32 0.649, fp16 0.509. Tiny, 9 layers: fp16 0.381.
+
+Against the M4 break-evens (paper set: 0.306 / 0.0368 / 0.015 ms for NR / chordC / FDLF):
+- Base fp32 is 8.25× / 68.6× / 168×.
+- Nothing crosses on the paper set.
+- At N-5 (0.63 / 0.0577 / 0.0415), only Tiny fp16 12 layers (0.809×), Tiny 9 layers in bf16/fp16/fp32 (0.60–0.76×) cross, and only for full NR. None cross for chordC or FDLF.
+
+Other grids, 12 layers:
+- GOC 500: Base fp32 12.0 ms, fp16 6.7.
+- GOC 2000: Small fp32 19.5, fp16 13.4; Tiny fp32 9.88.
+
+Reference points:
+- T4 host CPU sparse LU is 0.330 ms, against 0.0641 on the M4 (5.15×).
+- The precision check on IEEE 118 Base: fp16 median |dVa| 0.0012 rad (max 0.0065); bf16 0.015 (max 0.073).
+- The effect of fp16 on Newton iterations was not measured.
