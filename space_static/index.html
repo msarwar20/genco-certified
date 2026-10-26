@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GENCO Operator Console</title>
+<meta name="description" content="Precomputed replay of the GENCO Operator Console: GENCO on IEEE 118 contingencies with a calibrated Newton check.">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/4.1.1/plotly.min.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<main class="wrap">
+  <p class="replay-note">This page replays precomputed runs of the GENCO Operator Console for the bundled scenarios; to run GENCO live, see the <a href="https://github.com/msarwar20/genco-certified">GitHub repo</a> (space/app.py).</p>
+
+  <header class="intro">
+    <h1>GENCO Operator Console</h1>
+    <p>This console shows GENCO, the GridFM grid foundation model, on IEEE 118 contingencies. After each Newton step, a calibrated bound on every monitored branch loading and PQ voltage decides whether the screening decision can be accepted. Otherwise the policy takes another step, and after three steps it falls back to a full solve. The same policy runs from the pre-contingency state for comparison. All safety evidence is empirical.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-value">0 missed</div><div>violations in 16,449 held out, and 0 in 17,095 more generated after the rule was frozen, from a different load profile</div></div>
+      <div class="stat"><div class="stat-value">37 to 44% fewer</div><div>factorizations than the same check from the pre-contingency state (IEEE 118, N-1 to N-5)</div></div>
+      <div class="stat"><div class="stat-value">32 to 60x</div><div>gap between GENCO's reported power balance and the balance at the true slack-voltage setpoint (IEEE 14 to 118; about 20x on GOC 500 and 2000)</div></div>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Console sections">
+    <button role="tab" id="tab-inspect" aria-controls="panel-inspect" aria-selected="true">Inspect a contingency</button>
+    <button role="tab" id="tab-screen" aria-controls="panel-screen" aria-selected="false" tabindex="-1">Screen a whole set</button>
+    <button role="tab" id="tab-findings" aria-controls="panel-findings" aria-selected="false" tabindex="-1">Findings</button>
+  </nav>
+
+  <section role="tabpanel" id="panel-inspect" aria-labelledby="tab-inspect" class="panel">
+    <div class="controls">
+      <fieldset class="field radio-field">
+        <legend>Contingency order (GENCO was trained on N-1)</legend>
+        <div class="radios" id="order-inspect"></div>
+      </fieldset>
+      <label class="field select-field">
+        <span class="field-label">Scenario</span>
+        <select id="scenario"></select>
+      </label>
+    </div>
+    <div class="inspect-grid">
+      <div class="block map-block">
+        <div class="block-label">Grid</div>
+        <div id="gridmap" class="plot plot-map"></div>
+      </div>
+      <div class="side">
+        <div class="block card" id="card" aria-live="polite"></div>
+        <div class="block">
+          <div class="block-label">Convergence</div>
+          <div id="convergence" class="plot plot-conv"></div>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label">Violations: true AC vs each screen (<span class="flag-key bad">flagged as violating</span>, <span class="flag-key ok">within limits</span>)</div>
+      <div class="table-scroll"><table id="violations" class="data"></table></div>
+    </div>
+  </section>
+
+  <section role="tabpanel" id="panel-screen" aria-labelledby="tab-screen" class="panel" hidden>
+    <fieldset class="field radio-field">
+      <legend>Contingency order</legend>
+      <div class="radios" id="order-screen"></div>
+    </fieldset>
+    <p class="caption">The sequential screening policy and the comparison screens on all bundled scenarios of the chosen order.</p>
+    <div class="block"><div class="table-scroll"><table id="screen" class="data"></table></div></div>
+    <p id="screen-note" class="note"></p>
+  </section>
+
+  <section role="tabpanel" id="panel-findings" aria-labelledby="tab-findings" class="panel prose" hidden>
+    <div id="findings"></div>
+  </section>
+
+  <footer class="foot">
+    Muhammad Sarwar (Iowa State University) and Muhammad Rizwan (Pakistan Institute of Engineering &amp; Applied Sciences). Contact: <a href="mailto:msarwar@iastate.edu">msarwar@iastate.edu</a>. Code: <a href="https://github.com/msarwar20/genco-certified">github.com/msarwar20/genco-certified</a>.
+  </footer>
+</main>
+</body>
+</html>
