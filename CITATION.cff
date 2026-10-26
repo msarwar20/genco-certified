@@ -5,6 +5,11 @@ type: software
 authors:
   - family-names: "Sarwar"
     given-names: "Muhammad"
+    affiliation: "Iowa State University"
+    email: "msarwar@iastate.edu"
+  - family-names: "Rizwan"
+    given-names: "Muhammad"
+    affiliation: "Pakistan Institute of Engineering & Applied Sciences"
 date-released: "2026-10-22"
 year: 2026
 version: "0.1.0"

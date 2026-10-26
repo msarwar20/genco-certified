@@ -1,13 +1,15 @@
 <!--
 DRAFT v3 (2026-10-25) for the Community-tab post. Do not post: the user posts it.
 Numbers: docs/NUMBERS.md, results/notes/ws1_F2_goc2000_reuse.md (GOC 2000 factor reuse), results/notes/confirm_Z.md (confirmation run).
-Placeholders: {{AFFIL}}, {{LINKS}} (repo private until the user says otherwise).
+Placeholders: {{LINKS}} (repo private until the user says otherwise).
 Figures (upload with the post): figH_hero.png, figB_exchange_rate.png, figA_workflow.png, figC_equal_cost.png, figF_genco_delta.png.
 -->
 
 # What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state
 
-**Muhammad Sarwar** ({{AFFIL}}) · msarwar@iastate.edu · code, data, checkpoints and demo: {{LINKS}}
+**Muhammad Sarwar**, Iowa State University, Ames, IA, USA · **Muhammad Rizwan**, Pakistan Institute of Engineering & Applied Sciences, Islamabad, Pakistan
+
+Contact: msarwar@iastate.edu · code, data, checkpoints and demo: {{LINKS}}
 
 ## Summary
 
