@@ -1,7 +1,7 @@
 <!--
 DRAFT v3 (2026-10-25) for the Community-tab post. Do not post: the user posts it.
 Numbers: docs/NUMBERS.md, results/notes/ws1_F2_goc2000_reuse.md (GOC 2000 factor reuse), results/notes/confirm_Z.md (confirmation run).
-Placeholders: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console) (repo private until the user says otherwise).
+Placeholders: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console) (repo private until the user says otherwise).
 Figures (upload with the post): figH_hero.png, figB_exchange_rate.png, figA_workflow.png, figC_equal_cost.png, figF_genco_delta.png.
 -->
 
@@ -9,7 +9,7 @@ Figures (upload with the post): figH_hero.png, figB_exchange_rate.png, figA_work
 
 **Muhammad Sarwar**, Iowa State University, Ames, IA, USA · **Muhammad Rizwan**, Pakistan Institute of Engineering & Applied Sciences, Islamabad, Pakistan
 
-Contact: msarwar@iastate.edu · code, data, checkpoints and demo: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console)
+Contact: msarwar@iastate.edu · code, data, checkpoints and demo: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console)
 
 ## Summary
 
@@ -193,7 +193,7 @@ TABLE V. Negative and null results.
 
 ## IX. Open science
 
-Everything is at [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console) under Apache-2.0:
+Everything is at [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console) under Apache-2.0:
 - the graphkit plugins (slack-aware task, GENCO-Δ, residual decoder);
 - the float64 Newton, chord and fast-decoupled solvers, with tests;
 - the datakit configs for every new set, scripts and commands for each result (`docs/REPRODUCE.md`), and the figure data as CSV;

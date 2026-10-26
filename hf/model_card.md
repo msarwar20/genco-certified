@@ -13,7 +13,7 @@ tags:
 
 # GENCO fine-tunes on IEEE 118 (slack-aware, GENCO-Δ, controls)
 
-Twelve fine-tuned checkpoints of the released GENCO power-flow model (IEEE 118, Base, `gridfm/genco-pf-datakit`, `case118_ieee/base/seed{0,1,42}`). They are the research artifacts behind the post "What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state" (GridFM GENCO Challenge 2026). Code, data configs and the full numbers: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console).
+Twelve fine-tuned checkpoints of the released GENCO power-flow model (IEEE 118, Base, `gridfm/genco-pf-datakit`, `case118_ieee/base/seed{0,1,42}`). They are the research artifacts behind the post "What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state" (GridFM GENCO Challenge 2026). Code, data configs and the full numbers: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar21255/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar21255/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar21255/genco-operator-console).
 
 These are not improved general-purpose power-flow models. Two of the four families were trained to test whether giving GENCO the pre-contingency state helps a Newton solver, and the answer in the post is mostly "no". Use them to reproduce the post, or as a starting point for the same experiments.
 
@@ -79,7 +79,7 @@ from huggingface_hub import hf_hub_download
 from genco_certified.loading import load_genco
 from genco_certified.genco_residual import load_genco_residual
 
-repo = "sarwar2155/genco-ieee118-finetunes"
+repo = "sarwar21255/genco-ieee118-finetunes"
 data_root = Path("data/pf")  # <data_root>/case118_ieee/raw/*.parquet, from scripts/fetch_data.py
 split = data_root / "case118_ieee" / "splits_paper_test"  # seed 1 and 42: splits_paper_test_seed1 / _seed42
 
