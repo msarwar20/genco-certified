@@ -39,4 +39,8 @@ IEEE 118, released checkpoints, unless stated. The Findings tab has the full tab
 
 - The 30 scenarios per order include the 8 hardest by GENCO mismatch, so the "Screen a whole set" tab looks worse than the full-set results above. N-1 comes from the released model's paper test split; N-2, N-3 and N-5 come from datakit sets generated for this work.
 - The first scenario load downloads the GENCO checkpoint (about 80 MB) from `gridfm/genco-pf-datakit` and runs 30 scenarios on CPU, so the first view of each order takes a few seconds.
-- Code and data: {{LINKS}}
+- Code and data: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console)
+
+## Authors
+
+Muhammad Sarwar (Iowa State University) and Muhammad Rizwan (Pakistan Institute of Engineering & Applied Sciences). Contact: msarwar@iastate.edu.

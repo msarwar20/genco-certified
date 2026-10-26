@@ -3,7 +3,7 @@
 Screen recording by the author, with voice-over. Narration is the italic text; about 315 words at a calm pace (130 words per minute leaves room for clicks). Record at 1080p, browser zoom 110%, light theme. Do the first scenario load before recording: the first view of each contingency order takes a few seconds (GENCO downloads once, then 30 scenarios run on CPU).
 
 Setup before recording:
-- Open the Space (`{{LINKS}}`, the Space tab) and wait for the grid to appear.
+- Open the Space (`[GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console)`, the Space tab) and wait for the grid to appear.
 - In a second tab, have `figH_hero.png` open full-width (or the Findings tab scrolled to Fig. 1).
 - Close other windows. Set the mouse pointer to a large size so clicks are visible.
 

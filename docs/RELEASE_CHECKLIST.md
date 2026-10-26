@@ -62,7 +62,7 @@ done
 du -sh $STAGE            # expect about 921 MiB; 24 files plus README
 ```
 
-Fill `{{LINKS}}` and `{{HF_USER}}` in `$STAGE/README.md` first (step 6 has the commands; run them on the staged copy or on `hf/model_card.md` before copying). Then:
+Fill `[GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console)` and `sarwar2155` in `$STAGE/README.md` first (step 6 has the commands; run them on the staged copy or on `hf/model_card.md` before copying). Then:
 
 ```bash
 hf upload $HF_USER/genco-ieee118-finetunes $STAGE . --type model --commit-message "Fine-tuned GENCO checkpoints for IEEE 118"
@@ -95,18 +95,18 @@ Placeholders and where they are:
 
 | Placeholder | Files |
 |---|---|
-| `{{LINKS}}` | `docs/POST.md` (author line and Section IX), `README.md`, `space/README.md`, `hf/model_card.md` (twice, in prose and BibTeX), `hf/dataset_card.md`, `docs/VIDEO_SCRIPT.md` |
-| `{{HF_USER}}` | `hf/model_card.md`, `hf/dataset_card.md` |
+| `[GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console)` | `docs/POST.md` (author line and Section IX), `README.md`, `space/README.md`, `hf/model_card.md` (twice, in prose and BibTeX), `hf/dataset_card.md`, `docs/VIDEO_SCRIPT.md` |
+| `sarwar2155` | `hf/model_card.md`, `hf/dataset_card.md` |
 | `{{AFFIL}}` | `docs/POST.md` |
 | `{{GPU}}`, `{{GPU: ...}}` | `docs/POST.md` (step 1 above) |
 
-Suggested `{{LINKS}}` text for the post (one line, Markdown): `[GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/$HF_USER/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/$HF_USER/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/$HF_USER/genco-certified)`. In `hf/model_card.md` BibTeX and `CITATION.cff` use the GitHub URL alone.
+Suggested `[GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console)` text for the post (one line, Markdown): `[GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/$HF_USER/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/$HF_USER/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/$HF_USER/genco-certified)`. In `hf/model_card.md` BibTeX and `CITATION.cff` use the GitHub URL alone.
 
 ```bash
 export HF_USER=<name>
 LINKS='[GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/'$HF_USER'/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/'$HF_USER'/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/'$HF_USER'/genco-certified)'
-sed -i '' "s|{{LINKS}}|$LINKS|g; s|{{HF_USER}}|$HF_USER|g" docs/POST.md README.md space/README.md hf/dataset_card.md docs/VIDEO_SCRIPT.md
-sed -i '' "s|{{HF_USER}}|$HF_USER|g; s|url    = {{{LINKS}}}|url    = {https://github.com/msarwar20/genco-certified}|; s|{{LINKS}}|$LINKS|g" hf/model_card.md
+sed -i '' "s|[GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console)|$LINKS|g; s|sarwar2155|$HF_USER|g" docs/POST.md README.md space/README.md hf/dataset_card.md docs/VIDEO_SCRIPT.md
+sed -i '' "s|sarwar2155|$HF_USER|g; s|url    = {https://github.com/msarwar20/genco-certified}|url    = {https://github.com/msarwar20/genco-certified}|; s|[GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console)|$LINKS|g" hf/model_card.md
 ```
 
 Edit `{{AFFIL}}` and the GPU text by hand. The `|` in the sed expression must not appear in the replacement (it does not here). Then delete the draft HTML comment at the top of `docs/POST.md` (it lists the placeholders and says "do not post"), and in `docs/POST.md` check that Table 0 and `space/app.py` Table 0 are still identical after the GPU edit.
@@ -116,7 +116,7 @@ If you stage the model card or dataset card before this step, re-copy them to th
 ## 7. Publish the Space (10 min upload, 5 to 10 min build)
 
 ```bash
-python scripts/publish_space.py --repo $HF_USER/genco-certified --private
+python scripts/publish_space.py --repo $HF_USER/genco-operator-console --private
 ```
 
 It refreshes the vendored `space/genco_certified/` from `src/` and the figures, then uploads `space/` without `checkpoints/`, `results/` and caches. Wait for the build on CPU basic (the install pulls torch CPU, torch-scatter, mlflow and graphkit from GitHub, so the first build is the slow one). Then, in the Space:

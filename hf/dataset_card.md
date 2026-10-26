@@ -16,7 +16,7 @@ size_categories:
 
 # GENCO contingency sets for IEEE 118
 
-Raw gridfm-datakit output for the IEEE 118-bus system (pglib case), generated for the post "What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state" (GridFM GENCO Challenge 2026). Each set is a list of AC power-flow solutions: a number of load scenarios (operating points), each with about 22 topology variants in which one to five branches or generators are out of service. Code, configs and numbers: {{LINKS}}.
+Raw gridfm-datakit output for the IEEE 118-bus system (pglib case), generated for the post "What is GENCO worth to a Newton solver? Pricing a grid foundation model against the pre-contingency state" (GridFM GENCO Challenge 2026). Each set is a list of AC power-flow solutions: a number of load scenarios (operating points), each with about 22 topology variants in which one to five branches or generators are out of service. Code, configs and numbers: [GitHub](https://github.com/msarwar20/genco-certified), [checkpoints](https://huggingface.co/sarwar2155/genco-ieee118-finetunes), [data](https://huggingface.co/datasets/sarwar2155/genco-contingency-ieee118), [demo](https://huggingface.co/spaces/sarwar2155/genco-operator-console).
 
 The sets are in the same format as the released `gridfm/pf_small_case118_ieee`, so graphkit and the released GENCO checkpoints read them directly. Only the raw parquet is uploaded. The `processed/` caches that graphkit builds on first use are not (they are 2 to 3 times larger and are rebuilt automatically).
 
@@ -63,7 +63,7 @@ Column definitions are those of gridfm-datakit. Outages are identified by `br_st
 ## How to use
 
 ```bash
-huggingface-cli download {{HF_USER}}/genco-contingency-ieee118 --repo-type dataset --local-dir data
+hf download sarwar2155/genco-contingency-ieee118 --repo-type dataset --local-dir data
 python scripts/make_splits.py        # writes splits_all/ for every set, asserts contiguous ids
 ```
 
@@ -79,3 +79,7 @@ Then `load_genco(..., data_root="data/stress100/n2", split_dir="data/stress100/n
 ## Sources and license
 
 Generated data, Apache-2.0. The network is the IEEE 118-bus case from PGLib-OPF (IEEE PES Task Force on Benchmarks for Validation of Emerging Power System Algorithms, CC BY 4.0) read through gridfm-datakit (Apache-2.0). The default and `ercot_load_act_hr_2024_east` load profiles ship with gridfm-datakit; the scenarios contain derived load shapes only. Please cite the post and the GENCO paper (arXiv:2608.09921).
+
+## Authors
+
+Muhammad Sarwar (Iowa State University) and Muhammad Rizwan (Pakistan Institute of Engineering & Applied Sciences). Contact: msarwar@iastate.edu.
